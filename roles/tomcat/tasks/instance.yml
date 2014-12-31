@@ -1,2 +1,44 @@
-- name: create instance {{instance}}
-  debug: msg="setting up instance {{instance}}"
+- name: create instance {{ item.key }}
+  command: tomcat6-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  with_dict: tomcat_instances
+
+- name: symlink policy.d dir
+  file:
+    src: /etc/tomcat6/policy.d/
+    dest: "{{ tomcat_basedir }}/{{ item }}/conf/policy.d"
+    state: link
+  with_items: tomcat_instances.keys()
+
+- name: recursively fix dirs ownership
+  file:
+    name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
+    state: directory
+    recurse: yes
+    owner: tomcat6
+  with_nested:
+    - tomcat_instances.keys()
+    - [ logs, temp, conf, work, webapps ]
+
+- name: clone init.d script
+  command: cp /etc/init.d/tomcat6 /etc/init.d/tomcat-{{ item }} # creates="/etc/init.d/tomcat-{{ item }}"
+  with_items: tomcat_instances.keys()
+
+- name: fix Provides line
+  lineinfile:
+    dest: "/etc/init.d/tomcat-{{ item }}"
+    regexp: '^# Provides:.*tomcat6$'
+    line: "# Provides: tomcat-{{ item }}"
+    state: present
+  with_items: tomcat_instances.keys()
+
+- name: fix CATALINA_BASE
+  lineinfile:
+    dest: "/etc/init.d/tomcat-{{ item }}"
+    regexp: '^CATALINA_BASE=/var/lib/\$NAME$'
+    line: "CATALINA_BASE={{ tomcat_basedir }}/{{ item }}"
+    state: present
+  with_items: tomcat_instances.keys()
+
+- name: start instance
+  service: name=tomcat-{{ item }} state=started enabled=yes
+  with_items: tomcat_instances.keys()

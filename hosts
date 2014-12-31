@@ -1,1 +1,1 @@
-test ansible_ssh_host=10.0.0.2
+test ansible_ssh_host=10.0.0.10

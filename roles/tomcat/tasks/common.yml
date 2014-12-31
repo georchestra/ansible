@@ -1,0 +1,8 @@
+- name: installing dependencies
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+  - tomcat6
+  - tomcat6-user #needed for tomcat6-create-instance
+
+- name: disable default instance
+  service: name=tomcat6 state=stopped enabled=no

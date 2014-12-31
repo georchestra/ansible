@@ -6,3 +6,6 @@
 
 - name: disable default instance
   service: name=tomcat6 state=stopped enabled=no
+
+- name: create /srv/tomcat
+  file: name=/srv/tomcat/ state=directory

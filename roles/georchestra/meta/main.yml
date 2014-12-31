@@ -3,7 +3,4 @@ dependencies:
   - { role: openldap }
   - { role: postgresql }
   - { role: tomcat }
-  - { role: tomcat, instance: proxycas }
-  - { role: tomcat, instance: geoserver }
-  - { role: tomcat, instance: georchestra }
   - { role: apache }

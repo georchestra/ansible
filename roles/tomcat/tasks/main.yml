@@ -1,5 +1,2 @@
 - include: common.yml
-  when: instance is not defined
-
 - include: instance.yml
-  when: instance is defined

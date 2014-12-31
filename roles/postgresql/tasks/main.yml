@@ -1,0 +1,25 @@
+- name: installing dependencies
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+  - postgresql-9.1-postgis
+  - postgis
+
+- name: install python-psycopg2 for ansible psql modules
+  apt: name=python-psycopg2 state=installed
+
+- name: create georchestra user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: name={{ georchestra_dbuser }} password={{ georchestra_dbpass }}
+
+- name: create georchestra main database
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name={{ georchestra_dbname }} owner={{ georchestra_dbuser }} template=template0 encoding=UTF8
+
+#- include: geonetwork.yml
+#- include: mapfishapp.yml
+#- include: ldapadmin.yml
+#- include: geofence.yml
+#- include: downloadform.yml
+#- include: ogcstatistics.yml

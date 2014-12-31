@@ -3,3 +3,7 @@
   sudo: yes
   roles:
     - georchestra
+  vars:
+    georchestra_dbname: georchestra
+    georchestra_dbuser: georchestra
+    georchestra_dbpass: georchestra

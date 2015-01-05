@@ -1,19 +1,19 @@
 - name: check if plpgsql is already loaded
   sudo: yes
   sudo_user: postgres
-  command: psql -d georchestra -t -c "\dx"
+  command: psql -d {{ georchestra_dbname }} -t -c "\dx"
   register: loaded_extensions
 
 - name: createlang plpgsql
   sudo: yes
   sudo_user: postgres
-  command: createlang plpgsql {{ georchestra_dbname }}
+  command: psql -d {{ georchestra_dbname }} -t -c "CREATE EXTENSION plpgsql;"
   when: "'plpgsql' not in loaded_extensions.stdout"
 
 - name: check if postgis is already loaded
   sudo: yes
   sudo_user: postgres
-  command: psql -d georchestra -t -c "\dT"
+  command: psql -d {{ georchestra_dbname }} -t -c "\dT"
   register: loaded_types
 
 - name: create postgis extension (cant use CREATE EXTENSION before pg 2.0)
@@ -25,7 +25,7 @@
 - name: check if spatial_ref_sys was already filled
   sudo: yes
   sudo_user: postgres
-  command: psql -d georchestra -t -c "select count(*) from spatial_ref_sys;"
+  command: psql -d {{ georchestra_dbname }} -t -c "select count(*) from spatial_ref_sys;"
   register: loaded_ref_sys
 
 - name: create spatial_ref_sys functions

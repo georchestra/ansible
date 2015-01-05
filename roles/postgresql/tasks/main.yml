@@ -17,7 +17,7 @@
   sudo_user: postgres
   postgresql_db: name={{ georchestra_dbname }} owner={{ georchestra_dbuser }} template=template0 encoding=UTF8
 
-#- include: geonetwork.yml
+- include: geonetwork.yml tags=postgresql_geonetwork
 #- include: mapfishapp.yml
 #- include: ldapadmin.yml
 #- include: geofence.yml

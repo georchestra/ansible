@@ -1,0 +1,19 @@
+- name: create geonetwork user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: name={{ geonetwork_dbuser }} password={{ geonetwork_dbpass }}
+
+- name: create geonetwork schema in georchestra db
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ georchestra_dbname }} -c 'DROP SCHEMA {{ geonetwork_schema }} ; CREATE SCHEMA {{ geonetwork_schema }}'
+
+- name: grant all privileges to geonetwork user on its schema
+  sudo: yes
+  sudo_user: postgres
+  postgresql_privs:
+    database: "{{ georchestra_dbname }}"
+    privs: ALL
+    type: schema
+    roles: "{{ geonetwork_dbuser }}"
+    objs: "{{ geonetwork_schema }}"

@@ -7,3 +7,6 @@
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
+    geonetwork_schema: geonetwork
+    geonetwork_dbuser: geonetwork
+    geonetwork_dbpass: geonetwork

@@ -1,0 +1,55 @@
+- name: fetch db structure
+  get_url:
+    dest: /tmp/{{ item.0 }}.sql
+    url: "{{ item.1 }}"
+  with_together:
+    - other_schemas
+    - other_schemas_urls
+
+- name: check if mapfishapp schema already exists
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ georchestra_dbname }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
+  register: schema_exists
+  with_items: other_schemas
+
+- name: create missing schemas
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ georchestra_dbname }} -f /tmp/{{ item.item }}.sql
+  when: "'{{ item.item }}' not in item.stdout"
+  with_items: schema_exists.results
+
+- name: grant all privileges to georchestra user on schema
+  sudo: yes
+  sudo_user: postgres
+  postgresql_privs:
+    database: "{{ georchestra_dbname }}"
+    privs: ALL
+    type: schema
+    roles: "{{ georchestra_dbuser }}"
+    objs: "{{ other_schemas|join(',') }}"
+
+- name: grant all privileges to georchestra user on sequences in schema
+  sudo: yes
+  sudo_user: postgres
+  postgresql_privs:
+    database: "{{ georchestra_dbname }}"
+    privs: ALL
+    type: sequence
+    schema: "{{ item }}"
+    roles: "{{ georchestra_dbuser }}"
+    objs: ALL_IN_SCHEMA
+  with_items: other_schemas
+
+- name: grant all privileges to georchestra user on tables in schema
+  sudo: yes
+  sudo_user: postgres
+  postgresql_privs:
+    database: "{{ georchestra_dbname }}"
+    privs: ALL
+    type: table
+    schema: "{{ item }}"
+    roles: "{{ georchestra_dbuser }}"
+    objs: ALL_IN_SCHEMA
+  with_items: other_schemas

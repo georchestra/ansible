@@ -4,9 +4,12 @@
   roles:
     - georchestra
   vars:
+    georchestra_url: georchestra.demo.craig.fr
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
     geonetwork_schema: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork
+    geoserver_privileged_user: geoserver_privileged_user
+    geoserver_privileged_pass: geoserver_privileged_pass

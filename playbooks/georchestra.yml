@@ -4,6 +4,8 @@
   roles:
     - georchestra
   vars:
+    openldap_rootdn: cn=admin,dc=georchestra,dc=org
+    openldap_rootpw: secret
     georchestra_url: georchestra.demo.craig.fr
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra

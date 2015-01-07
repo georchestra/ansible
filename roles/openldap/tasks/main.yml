@@ -1,12 +1,13 @@
 - name: installing dependencies
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
+  - git
   - slapd
   - ldap-utils
 
 - name: checkout LDAP files
   tags: git
-  git: repo=git://github.com/georchestra/LDAP.git dest=/tmp/LDAP accept_hostkey=yes version=master
+  git: repo=git://github.com/georchestra/LDAP.git dest=/tmp/LDAP accept_hostkey=yes version=157d31b0de094840fccbaafd31490dec754d1b0
 
 - name: bootstrap the db
   command: sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/LDAP/georchestra-bootstrap.ldif creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif

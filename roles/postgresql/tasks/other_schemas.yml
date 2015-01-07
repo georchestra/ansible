@@ -2,6 +2,7 @@
   get_url:
     dest: /tmp/{{ item.0 }}.sql
     url: "{{ item.1 }}"
+    validate_certs: no
   with_together:
     - other_schemas
     - other_schemas_urls

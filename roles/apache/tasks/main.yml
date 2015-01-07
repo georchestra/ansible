@@ -1,0 +1,46 @@
+- name: installing apache2
+  apt: pkg=apache2 state=installed
+
+- name: enable required modules
+  apache2_module: name={{ item }} state=present
+  with_items: [proxy_ajp, proxy_connect, proxy_http, proxy, ssl, rewrite, headers]
+  notify: reload apache2
+
+- name: disable the default site
+  file: path=/etc/apache2/sites-enabled/{{ item }} state=absent
+  with_items: [000-default, default-ssl]
+  notify: reload apache2
+
+- name: template georchestra vhost
+  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra
+
+- name: enable georchestra vhost
+  file: dest=/etc/apache2/sites-enabled/georchestra src=/etc/apache2/sites-available/georchestra state=link owner=root group=root mode=0644
+  notify: reload apache2
+
+- name: create web directories
+  file: name={{ item }} state=directory
+  with_items:
+    - /var/www/georchestra/
+    - /var/www/georchestra/conf/
+    - /var/www/georchestra/htdocs/
+    - /var/www/georchestra/htdocs/errors/
+    - /var/www/georchestra/ssl/
+
+- name: create logs directories
+  file: name=/var/www/georchestra/logs/ state=directory group=www-data mode=775
+
+- name: fetch 50x.html error page
+  get_url: dest=/var/www/georchestra/htdocs/errors/50x.html url=http://sdi.georchestra.org/errors/50x.html
+
+- name: template proxypass.conf
+  template: src=proxypass.conf.j2 dest=/var/www/georchestra/conf/proxypass.conf
+
+- name: generate self-signed cert
+  command: >
+    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra_fqdn }}"
+      -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
+    creates=/var/www/georchestra/ssl/georchestra.crt
+
+- name: fix perms on certificate
+  file: path=/var/www/georchestra/ssl/georchestra.key mode=0400

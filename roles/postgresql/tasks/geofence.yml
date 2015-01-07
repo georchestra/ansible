@@ -8,7 +8,7 @@
   sudo: yes
   sudo_user: postgres
   command: psql -d {{ georchestra_dbname }} -t -c "CREATE EXTENSION plpgsql;"
-  when: "'plpgsql' not in loaded_extensions.stdout"
+  when: "loaded_extensions.stdout is defined and 'plpgsql' not in loaded_extensions.stdout"
 
 - name: check if postgis is already loaded
   sudo: yes
@@ -20,7 +20,7 @@
   sudo: yes
   sudo_user: postgres
   command: psql -d {{ georchestra_dbname }} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
-  when: "'geometry' not in loaded_types.stdout"
+  when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
 
 - name: check if spatial_ref_sys was already filled
   sudo: yes
@@ -32,7 +32,7 @@
   sudo: yes
   sudo_user: postgres
   command: psql -d {{ georchestra_dbname }} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
-  when: "loaded_ref_sys.stdout == '     0'"
+  when: "loaded_ref_sys.stdout is defined and loaded_ref_sys.stdout == '     0'"
 
 - name: grant SELECT privilege to georchestra user on spatial_ref_sys table
   sudo: yes

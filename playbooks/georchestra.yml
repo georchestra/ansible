@@ -20,3 +20,16 @@
     geowebcache_datadir: /srv/data/geowebcache/
     extractor_datadir: /srv/data/extractor/
     tomcat_keystore_pass: tomcatkstp
+    georchestra_wars: [
+      { name: analytics, url: analytics, tomcat: georchestra },
+      { name: cas, url: cas-server-webapp, tomcat: proxycas },
+      { name: catalogapp, url: catalogapp, tomcat: georchestra },
+      { name: downloadform, url: downloadform, tomcat: georchestra },
+      { name: extractorapp, url: extractorapp, tomcat: georchestra },
+      { name: geonetwork, url: geonetwork/web, tomcat: georchestra },
+      { name: geoserver, url: geoserver/webapp, tomcat: geoserver },
+      { name: geowebcache, url: geowebcache-webapp, tomcat: geoserver },
+      { name: header, url: header, tomcat: georchestra },
+      { name: ldapadmin, url: ldapadmin, tomcat: georchestra },
+      { name: mapfishapp, url: mapfishapp, tomcat: georchestra },
+      { name: security-proxy, url: security-proxy, tomcat: proxycas }]

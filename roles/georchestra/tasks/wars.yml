@@ -1,0 +1,13 @@
+- name: install curl
+  apt: pkg=curl state=installed
+
+- name: fetch WARs
+  tags: wars
+#  get_url:
+#    dest: /tmp/{{item}}.war
+#    validate_certs: no
+#    url: https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item }}/target/{{ item|replace('security-proxy','ROOT') }}-template.war
+  command: >
+    curl -o /tmp/{{ item.name }}.war https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name|replace('security-proxy','ROOT') }}-template.war
+    creates=/tmp/{{ item.name }}.war
+  with_items: georchestra_wars

@@ -34,8 +34,25 @@
 - name: fetch 50x.html error page
   get_url: dest=/var/www/georchestra/htdocs/errors/50x.html url=http://sdi.georchestra.org/errors/50x.html
 
-- name: template proxypass.conf
-  template: src=proxypass.conf.j2 dest=/var/www/georchestra/conf/proxypass.conf
+- name: template config fragments
+  tags: apache_config
+  template: src={{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
+  with_items:
+  - { src: global, dest: global }
+  - { src: common, dest: proxy, port: 8180 }
+  - { src: common, dest: _static, port: 8180 }
+  - { src: common, dest: cas, port: 8180 }
+  - { src: common, dest: analytics, port: 8380 }
+  - { src: common, dest: downloadform, port: 8380 }
+  - { src: common, dest: extractorapp, port: 8380 }
+  - { src: common, dest: geonetwork, port: 8380 }
+  - { src: common, dest: geoserver, port: 8280 }
+  - { src: common, dest: geofence, port: 8280 }
+  - { src: common, dest: geowebcache, port: 8280 }
+  - { src: common, dest: header, port: 8380 }
+  - { src: common, dest: ldapadmin, port: 8380 }
+  - { src: common, dest: mapfishapp, port: 8380 }
+  notify: reload apache2
 
 - name: generate self-signed cert
   command: >

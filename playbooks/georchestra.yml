@@ -13,5 +13,10 @@
     geonetwork_schema: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork
+    geonetwork_datadir: /srv/data/geonetwork/
     geoserver_privileged_user: geoserver_privileged_user
     geoserver_privileged_pass: geoserver_privileged_pass
+    geoserver_datadir: /srv/data/geoserver/
+    geowebcache_datadir: /srv/data/geowebcache/
+    extractor_datadir: /srv/data/extractor/
+    tomcat_keystore_pass: tomcatkstp

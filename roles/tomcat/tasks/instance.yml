@@ -39,6 +39,14 @@
     state: present
   with_items: tomcat_instances.keys()
 
+- name: install instance config in /etc/default
+  template: src=config-{{ item }}.j2 dest=/etc/default/tomcat-{{ item }}
+  with_items: tomcat_instances.keys()
+
+- name: install instance connector
+  template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
+  with_items: tomcat_instances.keys()
+
 - name: start instance
   service: name=tomcat-{{ item }} state=started enabled=yes
   with_items: tomcat_instances.keys()

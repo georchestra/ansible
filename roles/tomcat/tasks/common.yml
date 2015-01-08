@@ -7,5 +7,16 @@
 - name: disable default instance
   service: name=tomcat6 state=stopped enabled=no
 
+- name: create keystore
+  command: >
+    keytool -genkey -alias georchestra_localhost \
+      -keystore /etc/tomcat6/keystore \
+      -storepass {{ tomcat_keystore_pass }} \
+      -keypass {{ tomcat_keystore_pass }} \
+      -keyalg RSA \
+      -keysize 2048 \
+      -dname "CN={{ georchestra_fqdn }}, O=IT, L=Somewhere, C=FR"
+    creates=/etc/tomcat6/keystore
+
 - name: create /srv/tomcat
   file: name=/srv/tomcat/ state=directory

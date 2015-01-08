@@ -1,0 +1,4 @@
+- name: checkout geoserver datadir
+  sudo: yes
+  sudo_user: tomcat6
+  git: repo=https://github.com/georchestra/geoserver_minimal_datadir.git dest={{ geoserver_datadir }}

@@ -1,0 +1,7 @@
+- name: create toplevel datadir
+  tags: wars
+  file: path=/srv/data state=directory owner=tomcat6 group=tomcat6
+
+- include: geoserver.yml tags=geoserver
+- include: geonetwork.yml tags=geonetwork
+- include: wars.yml tags=wars

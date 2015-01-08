@@ -42,6 +42,7 @@
   - { src: common, dest: proxy, port: 8180 }
   - { src: common, dest: _static, port: 8180 }
   - { src: common, dest: cas, port: 8180 }
+  - { src: common, dest: catalogapp, port: 8380 }
   - { src: common, dest: analytics, port: 8380 }
   - { src: common, dest: downloadform, port: 8380 }
   - { src: common, dest: extractorapp, port: 8380 }

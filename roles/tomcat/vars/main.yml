@@ -1,15 +1,15 @@
 tomcat_basedir: /srv/tomcat
 tomcat_instances: {
   proxycas: {
-    port: 9080,
-    control_port: 9005
+    port: 8180,
+    control_port: 8105
   },
   geoserver: {
-    port: 10080,
-    control_port: 10005
+    port: 8280,
+    control_port: 8205
   },
   georchestra: {
-    port: 11080,
-    control_port: 11005
+    port: 8380,
+    control_port: 8305
   },
 }

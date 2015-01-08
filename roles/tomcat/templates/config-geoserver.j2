@@ -1,0 +1,21 @@
+JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
+	-Xms2G \
+	-Xmx2G \
+	-XX:MaxPermSize=256m \
+	-XX:PermSize=256m \
+	-Djavax.net.ssl.trustStore=/etc/tomcat6/keystore \
+	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }} \
+	-DGEOSERVER_DATA_DIR={{ geoserver_datadir }} \
+	-DGEOWEBCACHE_CACHE_DIR={{ geowebcache_datadir }} \
+	-Dfile.encoding=UTF8 \
+	-Djavax.servlet.request.encoding=UTF-8 \
+	-Djavax.servlet.response.encoding=UTF-8 \
+	-server \
+	-XX:+UseParNewGC -XX:ParallelGCThreads=2 \
+	-XX:SoftRefLRUPolicyMSPerMB=36000 \
+	-XX:NewRatio=2 \
+	-XX:+AggressiveOpts"
+
+# Unset LC_ALL to prevent user environment executing the init script from
+# influencing servlet behavior.  See Debian bug #645221
+unset LC_ALL

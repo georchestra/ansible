@@ -2,3 +2,9 @@
   sudo: yes
   sudo_user: tomcat6
   git: repo=https://github.com/georchestra/geoserver_minimal_datadir.git dest={{ geoserver_datadir }}
+
+- name: create geowebcache datadir
+  file: dest={{ geowebcache_datadir }} owner=tomcat6 state=directory
+
+- name: install runtime dependencies
+  apt: pkg=gdal-bin state=installed

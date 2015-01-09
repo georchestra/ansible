@@ -7,20 +7,20 @@
 #    validate_certs: no
 #    url: https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name }}-template.war
   command: >
-    curl -o /tmp/{{ item.name }}.war https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name }}-template.war
-    creates=/tmp/{{ item.name }}.war
-  with_items: georchestra_wars
+    curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
+    creates=/tmp/{{ item.key }}.war
+  with_dict: georchestra_wars
 
 - name: create destdir
-  file: dest=/srv/tomcat/{{item.tomcat}}/webapps/{{ item.name }} owner=tomcat6 state=directory
-  with_items: georchestra_wars
+  file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat6 state=directory
+  with_dict: georchestra_wars
 
 - name: unzip WARs
   sudo: yes
   sudo_user: tomcat6
   unarchive:
-    src: /tmp/{{item.name}}.war
-    dest: /srv/tomcat/{{item.tomcat}}/webapps/{{ item.name }}
+    src: /tmp/{{ item.key }}.war
+    dest: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}
     copy: no
-    creates: /srv/tomcat/{{ item.tomcat }}/webapps/{{ item.name }}/WEB-INF
-  with_items: georchestra_wars
+    creates: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}/WEB-INF
+  with_dict: georchestra_wars

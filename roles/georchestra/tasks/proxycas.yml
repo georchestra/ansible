@@ -1,0 +1,11 @@
+- name: template config files
+  template:
+    src: "{{ item.war }}/{{ item.file }}.j2"
+    dest: /srv/tomcat/{{ georchestra_wars[item.war]['tomcat'] }}/webapps/{{ item.war }}/{{ item.destdir }}/{{ item.file }}
+    backup: yes
+#  debug: var=item
+  with_items:
+  - { file: proxy-servlet.xml, war: ROOT, destdir: 'WEB-INF' }
+  - { file: security-proxy.properties, war: ROOT, destdir: 'WEB-INF' }
+  - { file: log4j.properties, war: ROOT, destdir: 'WEB-INF/classes' }
+  - { file: cas.properties, war: cas, destdir: 'WEB-INF' }

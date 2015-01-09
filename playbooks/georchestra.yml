@@ -32,4 +32,4 @@
       { name: header, url: header, tomcat: georchestra },
       { name: ldapadmin, url: ldapadmin, tomcat: georchestra },
       { name: mapfishapp, url: mapfishapp, tomcat: georchestra },
-      { name: security-proxy, url: security-proxy, tomcat: proxycas }]
+      { name: ROOT, url: security-proxy, tomcat: proxycas }]

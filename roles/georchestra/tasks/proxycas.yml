@@ -9,3 +9,6 @@
   - { file: security-proxy.properties, war: ROOT, destdir: 'WEB-INF' }
   - { file: log4j.properties, war: ROOT, destdir: 'WEB-INF/classes' }
   - { file: cas.properties, war: cas, destdir: 'WEB-INF' }
+  - { file: ldapadmin.properties, war: ldapadmin, destdir: 'WEB-INF/spring' }
+  - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
+  - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }

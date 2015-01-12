@@ -8,4 +8,4 @@
 - include: wars.yml tags=wars
 - include: geoserver.yml tags=geoserver
 - include: geonetwork.yml tags=geonetwork
-- include: proxycas.yml tags=proxycas
+- include: config.yml tags=config

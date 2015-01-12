@@ -160,6 +160,8 @@
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"  
                prefix="localhost_access_log." suffix=".txt" pattern="common" resolveHosts="false"/>
         -->
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="{{ logs_basedir }}"  
+               prefix="access-proxycas." suffix=".txt" pattern="%{X-Forwarded-For}i %l %u %t %r %s %b" resolveHosts="false"/>
 
       </Host>
     </Engine>

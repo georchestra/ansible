@@ -28,8 +28,10 @@ SetEnvIf Referer "^http://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
 {% endif %}
 <Proxy http://localhost:{{ item.port }}/{{ item.dest }}/*>
     Order deny,allow
+{% if item.dest != 'proxy' %}
     Allow from all
-{% if item.dest == 'proxy' %}
+{% else %}
+    Deny from all
     Allow from env=mysdi
 {% endif %}
 </Proxy>

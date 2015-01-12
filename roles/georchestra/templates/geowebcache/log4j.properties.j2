@@ -1,0 +1,13 @@
+# Debugging log settings
+log4j.rootLogger=WARN, R
+# ------------- stdout logging ---------------------
+log4j.appender.R = org.apache.log4j.rolling.RollingFileAppender
+log4j.appender.R.RollingPolicy = org.apache.log4j.rolling.TimeBasedRollingPolicy
+log4j.appender.R.RollingPolicy.FileNamePattern = {{ logs_basedir }}/geowebcache.%d.log.gz
+log4j.appender.R.RollingPolicy.ActiveFileName = {{ logs_basedir }}/geowebcache.log
+log4j.appender.R.Append = true
+log4j.appender.R.layout = org.apache.log4j.PatternLayout
+log4j.appender.R.layout.ConversionPattern = %d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n
+
+log4j.category.org.geowebcache.seed=WARN
+log4j.category.org.geowebcache.diskquota=WARN

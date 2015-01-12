@@ -9,6 +9,13 @@
   - { file: security-proxy.properties, war: ROOT, destdir: 'WEB-INF' }
   - { file: log4j.properties, war: ROOT, destdir: 'WEB-INF/classes' }
   - { file: cas.properties, war: cas, destdir: 'WEB-INF' }
+  - { file: log4j.xml, war: cas, destdir: 'WEB-INF/classes' }
+  - { file: casGenericSuccess.jsp, war: cas, destdir: 'WEB-INF/view/jsp/default/ui' }
   - { file: ldapadmin.properties, war: ldapadmin, destdir: 'WEB-INF/spring' }
+  - { file: log4j.properties, war: ldapadmin, destdir: 'WEB-INF/classes' }
+  - { file: log4j.properties, war: geowebcache, destdir: 'WEB-INF/classes' }
+  - { file: gwc.properties, war: geowebcache, destdir: 'WEB-INF/classes' }
+  - { file: log4j.properties, war: geonetwork, destdir: 'WEB-INF/classes' }
   - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
   - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
+  notify: restart all tomcats

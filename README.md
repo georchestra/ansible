@@ -16,4 +16,5 @@ To deploy all the middleware and components. This has only been tested on Debian
 
 ## warning
 
-THIS IS A WORK IN PROGRESS!
+THIS IS A WORK IN PROGRESS! Right now this will deploy a working georchestra w/ geonetwork/mapfishapp/geoserver/geowebcache/geofence
+with mostly default configs and empty databases/datadirs.

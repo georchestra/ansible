@@ -29,16 +29,17 @@
       georchestra: { port: 8380, control_port: 8305 }
     }
     georchestra_wars: {
-      analytics:{ url: analytics, tomcat: georchestra },
-      cas:{ url: cas-server-webapp, tomcat: proxycas },
-      catalogapp:{ url: catalogapp, tomcat: georchestra },
-      downloadform:{ url: downloadform, tomcat: georchestra },
-      extractorapp:{ url: extractorapp, tomcat: georchestra },
-      geonetwork:{ url: geonetwork/web, tomcat: georchestra },
-      geoserver:{ url: geoserver/webapp, tomcat: geoserver },
-      geowebcache:{ url: geowebcache-webapp, tomcat: geoserver },
-      header:{ url: header, tomcat: georchestra },
-      ldapadmin:{ url: ldapadmin, tomcat: georchestra },
-      mapfishapp:{ url: mapfishapp, tomcat: georchestra },
-      ROOT:{ url: security-proxy, tomcat: proxycas }
+      analytics:{ url: analytics, job: georchestra-template, tomcat: georchestra },
+      cas:{ url: cas-server-webapp, job: georchestra-template, tomcat: proxycas },
+      catalogapp:{ url: catalogapp, job: georchestra-template, tomcat: georchestra },
+      downloadform:{ url: downloadform, job: georchestra-template, tomcat: georchestra },
+      extractorapp:{ url: extractorapp, job: georchestra-template,  tomcat: georchestra },
+      geonetwork:{ url: geonetwork/web, job: georchestra-template,  tomcat: georchestra },
+      geoserver:{ url: geoserver/webapp, job: georchestra-template-geofence, tomcat: geoserver },
+      geowebcache:{ url: geowebcache-webapp, job: georchestra-template, tomcat: georchestra },
+      geofence:{ url: geoserver/geofence-webapp, job: georchestra-template-geofence, tomcat: georchestra },
+      header:{ url: header, job: georchestra-template, tomcat: georchestra },
+      ldapadmin:{ url: ldapadmin, job: georchestra-template, tomcat: georchestra },
+      mapfishapp:{ url: mapfishapp, job: georchestra-template, tomcat: georchestra },
+      ROOT:{ url: security-proxy, job: georchestra-template, tomcat: proxycas }
     }

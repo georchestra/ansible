@@ -7,7 +7,7 @@
 #    validate_certs: no
 #    url: https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name }}-template.war
   command: >
-    curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
+    curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/{{ item.value.job }}/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
     creates=/tmp/{{ item.key }}.war
   with_dict: georchestra_wars
 

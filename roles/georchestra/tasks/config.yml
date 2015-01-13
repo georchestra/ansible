@@ -19,6 +19,3 @@
   - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
   - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
   notify: restart all tomcats
-
-- name: fix broken webmvc-config.xml
-  lineinfile: dest=/srv/tomcat/georchestra/webapps/ldapadmin/WEB-INF/spring/webmvc-config.xml regexp='org.postorg.postgresql.Driver' line='<property name="driverClassName" value="org.postgresql.Driver" />'

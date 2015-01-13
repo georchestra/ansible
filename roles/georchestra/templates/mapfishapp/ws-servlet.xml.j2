@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="homecontroller" 
+          class="org.georchestra.mapfishapp.ws.HomeController"/>
+
+    <!--  url mapping is directly handled with the spring annotations written in the following controllers -->
+    <bean class="org.georchestra.mapfishapp.ws.OGCProxy">
+    </bean>
+
+    <!-- File uploads --> 
+    <bean id="multipartResolver"
+      class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <!--  Note: this value should be the maximum size specified at the bean 
+                  org.georchestra.mapfishapp.ws.UpLoadGeoFileController -->
+            <value>8388608</value>
+        </property>
+        <property name="MaxInMemorySize">
+            <!--  default value 10240 bytes -->
+            <value>10240</value> 
+        </property>
+    </bean>
+
+    <bean class="org.georchestra.mapfishapp.ws.UpLoadGeoFileController">
+        <property name="responseCharset" value="UTF-8"/>
+        <property name="tempDirectory" value="{{ mapfishapp_datadir }}/geoFileUploadsCache"/>
+        <property name="zipSizeLimit" value="8388608"/>
+        <property name="kmlSizeLimit" value="8388608"/>
+        <property name="gpxSizeLimit" value="8388608"/>
+        <property name="gmlSizeLimit" value="8388608"/>
+        <property name="osmSizeLimit" value="8388608"/>
+    </bean>
+
+
+    <bean id="pgpool" class="org.georchestra.mapfishapp.model.ConnectionPool">
+        <constructor-arg value="jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}?user={{ georchestra_dbuser }}&amp;password={{ georchestra_dbpass }}" /> 
+    </bean>
+
+    <!-- Documents controller -->
+    <bean class="org.georchestra.mapfishapp.ws.DocController">
+        <property name="docTempDir" value="{{ mapfishapp_datadir }}"/>
+        <property name="connectionPool" ref="pgpool"/>
+        <property name="credentials">
+            <map><entry key="{{ georchestra_fqdn }}"><bean class="org.apache.commons.httpclient.UsernamePasswordCredentials"><constructor-arg index="0" value="{{ geoserver_privileged_user }}:{{ geoserver_privileged_pass }}" /></bean></entry></map>
+        </property>
+    </bean>
+    
+    <!-- View resolver Required to access jsps in WEB-INF/jsp directory-->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

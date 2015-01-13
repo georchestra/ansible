@@ -20,4 +20,12 @@
   - { file: log4j.properties, war: geonetwork, destdir: 'WEB-INF/classes' }
   - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
   - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
+  - { file: log4j.properties, war: mapfishapp, destdir: 'WEB-INF/classes' }
+  - { file: GEOR_custom.js, war: mapfishapp, destdir: 'app/js' }
+  - { file: ws-servlet.xml, war: mapfishapp, destdir: 'WEB-INF' }
+  - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }
+  - { file: downloadform.properties, war: downloadform, destdir: 'WEB-INF' }
+  - { file: log4j.properties, war: analytics, destdir: 'WEB-INF/classes' }
+  - { file: analytics.properties, war: analytics, destdir: 'WEB-INF' }
+  - { file: config.js, war: analytics, destdir: 'js/app' }
   notify: restart all tomcats

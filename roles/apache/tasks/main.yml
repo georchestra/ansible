@@ -39,20 +39,20 @@
   template: src={{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
   with_items:
   - { src: global, dest: global }
-  - { src: common, dest: proxy, port: 8180 }
-  - { src: common, dest: _static, port: 8180 }
-  - { src: common, dest: cas, port: 8180 }
-  - { src: common, dest: catalogapp, port: 8380 }
-  - { src: common, dest: analytics, port: 8380 }
-  - { src: common, dest: downloadform, port: 8380 }
-  - { src: common, dest: extractorapp, port: 8380 }
-  - { src: common, dest: geonetwork, port: 8380 }
-  - { src: common, dest: geoserver, port: 8280 }
-  - { src: common, dest: geofence, port: 8280 }
-  - { src: common, dest: geowebcache, port: 8280 }
-  - { src: common, dest: header, port: 8380 }
-  - { src: common, dest: ldapadmin, port: 8380 }
-  - { src: common, dest: mapfishapp, port: 8380 }
+  - { src: common, dest: proxy }
+  - { src: common, dest: _static }
+  - { src: common, dest: cas }
+  - { src: common, dest: catalogapp }
+  - { src: common, dest: analytics }
+  - { src: common, dest: downloadform }
+  - { src: common, dest: extractorapp }
+  - { src: common, dest: geonetwork }
+  - { src: common, dest: geoserver }
+  - { src: common, dest: geofence }
+  - { src: common, dest: geowebcache }
+  - { src: common, dest: header }
+  - { src: common, dest: ldapadmin }
+  - { src: common, dest: mapfishapp }
   notify: reload apache2
 
 - name: generate self-signed cert

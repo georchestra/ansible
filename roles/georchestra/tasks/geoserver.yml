@@ -3,6 +3,9 @@
   sudo_user: tomcat6
   git: repo=https://github.com/georchestra/geoserver_minimal_datadir.git dest={{ geoserver_datadir }}
 
+- name: fix geoserver logging path
+  lineinfile: dest={{ geoserver_datadir }}/logging.xml regexp='<location>logs/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
+
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat6 state=directory
 

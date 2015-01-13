@@ -19,6 +19,7 @@
     geoserver_datadir: /srv/data/geoserver/
     geowebcache_datadir: /srv/data/geowebcache/
     extractor_datadir: /srv/data/extractor/
+    mapfishapp_datadir: /srv/data/mapfishapp/
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log

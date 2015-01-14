@@ -30,5 +30,18 @@
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat6 state=directory
 
+- name: enable non-free and contrib for dependencies
+  apt_repository: repo="deb http://ftp.fr.debian.org/debian/ wheezy main non-free contrib"
+
 - name: install runtime dependencies
-  apt: pkg=gdal-bin state=installed
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - gdal-bin
+  - ttf-mscorefonts-installer
+  - libjai-imageio-core-java
+
+- name: symlink jai libs to tomcat libdir
+  file: src=/usr/share/java/{{ item[0] }}.jar dest={{ tomcat_basedir }}/{{ item[1] }}/lib/{{ item[0] }}.jar state=link
+  with_nested:
+  - [jai_imageio, jai_codec, mlibwrapper_jai, jai_core, clibwrapper_jiio]
+  - [ georchestra, geoserver ]

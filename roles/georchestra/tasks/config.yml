@@ -20,6 +20,7 @@
   - { file: log4j.properties, war: geonetwork, destdir: 'WEB-INF/classes' }
   - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
   - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
+  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
   - { file: log4j.properties, war: mapfishapp, destdir: 'WEB-INF/classes' }
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'app/js' }
   - { file: ws-servlet.xml, war: mapfishapp, destdir: 'WEB-INF' }

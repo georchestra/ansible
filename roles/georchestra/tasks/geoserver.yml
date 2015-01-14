@@ -4,7 +4,28 @@
   git: repo=https://github.com/georchestra/geoserver_minimal_datadir.git dest={{ geoserver_datadir }}
 
 - name: fix geoserver logging path
+  sudo: yes
+  sudo_user: tomcat6
   lineinfile: dest={{ geoserver_datadir }}/logging.xml regexp='<location>logs/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
+
+- name: set full geoserver url for getcapabilities docs
+  sudo: yes
+  sudo_user: tomcat6
+  lineinfile: dest={{ geoserver_datadir }}/global.xml insertafter='<onlineResource>http://geoserver.org</onlineResource>' line='    <proxyBaseUrl>http://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
+
+- name: set list of advertised wms srs
+  sudo: yes
+  sudo_user: tomcat6
+  lineinfile: dest={{ geoserver_datadir }}/wms.xml insertafter='</metadata>' line="<srs><string>{{ geoserver_wms_srslist|join('</string><string>') }}</string></srs>"
+
+# alternative could be to checkout the geofence branch of geoserver_minimal_datadir
+- name: enforce geofence auth
+  sudo: yes
+  sudo_user: tomcat6
+  lineinfile:
+    dest: '{{ geoserver_datadir }}/security/auth/default/config.xml'
+    regexp: '  <className>org.geoserver.security.auth.UsernamePasswordAuthenticationProvider</className>'
+    line: '  <className>it.geosolutions.geoserver.authentication.auth.GeofenceAuthenticationProvider</className>'
 
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat6 state=directory

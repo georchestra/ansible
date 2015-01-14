@@ -1,14 +1,14 @@
 #updated by config's GenerateConfig class
 #Tue Jan 13 11:17:13 CET 2015
 geofenceGlobalConfiguration.baseLayerStyle=
-geofenceGlobalConfiguration.baseLayerFormat=image/jpeg
+geofenceGlobalConfiguration.baseLayerFormat=image/png
 geofenceEntityManagerFactory.jpaPropertyMap[hibernate.validator.autoregister_listeners]=false
 geofenceGlobalConfiguration.mapProjection=EPSG\:3857
 geofenceDataSource.url=jdbc\:postgresql\://localhost\:5432/{{ georchestra_dbname }}
 geofenceEntityManagerFactory.jpaPropertyMap[hibernate.hbm2ddl.auto]=update
-geofenceGlobalConfiguration.baseLayerName=unearthedoutdoors\:truemarble
+geofenceGlobalConfiguration.baseLayerName=osm:google
 geofenceDataSource.driverClassName=org.postgresql.Driver
-geofenceGlobalConfiguration.baseLayerTitle=True Marble
+geofenceGlobalConfiguration.baseLayerTitle=OpenStreetMap
 geofenceGlobalConfiguration.mapCenterLon=273950.30933606
 geofenceEntityManagerFactory.jpaPropertyMap[hibernate.default_schema]=geofence
 geofenceDataSource.password={{ georchestra_dbpass }}
@@ -18,6 +18,6 @@ geofenceGlobalConfiguration.mapMaxResolution=156543.03390625
 geofenceGlobalConfiguration.mapZoom=4
 geofenceEntityManagerFactory.jpaPropertyMap[javax.persistence.validation.mode]=none
 geofenceEntityManagerFactory.jpaPropertyMap[hibernate.validator.apply_to_ddl]=false
-geofenceGlobalConfiguration.baseLayerURL=http\://{{ georchestra_fqdn }}/geoserver/wms
+geofenceGlobalConfiguration.baseLayerURL=http://osm.geobretagne.fr/service/wms
 geofenceGlobalConfiguration.mapMaxExtent=-20037508.34,-20037508.34,20037508.34,20037508.34
 geofenceDataSource.username={{ georchestra_dbuser }}

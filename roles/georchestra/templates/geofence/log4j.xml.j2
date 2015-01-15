@@ -25,17 +25,19 @@
         </RollingFile>
     </appenders>
   
+    <!-- 
         <logger name="org.hibernate">
             <level value="debug"/>
             <appender-ref ref="R"/>
         </logger>
+    -->
 
     <loggers>
-        <logger name="it.geosolutions.geofence" level="DEBUG">
-            <appender-ref ref="R"/>
+        <logger name="it.geosolutions.geofence" level="WARN">
+            <!--<appender-ref ref="R"/>-->
         </logger>
 
-        <root level="DEBUG">
+        <root level="WARN">
             <appender-ref ref="R" />
         </root>
     </loggers>

@@ -7,5 +7,6 @@
 
 - include: wars.yml tags=wars
 - include: geoserver.yml tags=geoserver
+- include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
 - include: config.yml tags=config

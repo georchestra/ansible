@@ -5,6 +5,8 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Djavax.net.ssl.trustStore=/etc/tomcat6/keystore \
 	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }} \
 	-Dorg.geotools.referencing.forceXY=true \
+	-Djava.util.prefs.userRoot=/tmp \
+	-Djava.util.prefs.systemRoot=/tmp \
 	-Dextractor.storage.dir={{ extractor_datadir }} \
 	-Dgeonetwork.dir={{ geonetwork_datadir }} \
 	-Dgeonetwork.schema.dir={{ geonetwork_datadir }}/config/schema_plugins \

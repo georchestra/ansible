@@ -25,6 +25,12 @@
   - gdal-bin
   - libgdal-java
 
+- name: fetch libjpeg-turbo deb from sourceforge
+  get_url: dest=/tmp/ url=http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-official_1.4.0_amd64.deb
+
+- name: install libjpeg-turbo deb
+  apt: deb=/tmp/libjpeg-turbo-official_1.4.0_amd64.deb
+
 - name: point georchestra's shared.loader to catalina.base/shared/*.jar
   lineinfile:
     dest: "{{ tomcat_basedir }}/georchestra/conf/catalina.properties"

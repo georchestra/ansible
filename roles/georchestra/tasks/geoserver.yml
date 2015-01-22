@@ -6,12 +6,12 @@
 - name: fix geoserver logging path
   sudo: yes
   sudo_user: tomcat6
-  lineinfile: dest={{ geoserver_datadir }}/logging.xml regexp='<location>logs/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
+  lineinfile: dest={{ geoserver_datadir }}/logging.xml regexp='<location>/tmp/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
 
 - name: set full geoserver url for getcapabilities docs
   sudo: yes
   sudo_user: tomcat6
-  lineinfile: dest={{ geoserver_datadir }}/global.xml insertafter='<onlineResource>http://geoserver.org</onlineResource>' line='    <proxyBaseUrl>http://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
+  lineinfile: dest={{ geoserver_datadir }}/global.xml regexp='<proxyBaseUrl>http://vm-georchestra/geoserver</proxyBaseUrl>' line='    <proxyBaseUrl>http://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
 
 - name: set list of advertised wms srs
   sudo: yes

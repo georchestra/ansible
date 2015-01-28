@@ -1,5 +1,8 @@
-- name: install curl
-  apt: pkg=curl state=installed
+- name: install curl and unzip
+  apt: pkg={{ item }} state=installed
+  with_items:
+  - curl
+  - unzip
 
 - name: fetch WARs
 #  get_url:

@@ -3,7 +3,6 @@
   file: path=/srv/{{ item }} state=directory owner=tomcat6 group=tomcat6
   with_items:
   - data
-  - log
 
 - include: wars.yml tags=wars
 - include: geoserver.yml tags=geoserver

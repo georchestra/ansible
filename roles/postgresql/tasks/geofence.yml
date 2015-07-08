@@ -16,10 +16,10 @@
   command: psql -d {{ georchestra_dbname }} -t -c "\dT"
   register: loaded_types
 
-- name: create postgis extension (cant use CREATE EXTENSION before pg 2.0)
+- name: create postgis extension
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ georchestra_dbname }} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/postgis.sql
+  command: psql -d {{ georchestra_dbname }} -t -c "CREATE EXTENSION postgis;"
   when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
 
 - name: check if spatial_ref_sys was already filled

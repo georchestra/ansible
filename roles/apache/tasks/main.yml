@@ -12,10 +12,10 @@
   notify: reload apache2
 
 - name: template georchestra vhost
-  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra
+  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra.conf
 
 - name: enable georchestra vhost
-  file: dest=/etc/apache2/sites-enabled/georchestra src=/etc/apache2/sites-available/georchestra state=link owner=root group=root mode=0644
+  file: dest=/etc/apache2/sites-enabled/georchestra.conf src=/etc/apache2/sites-available/georchestra.conf state=link owner=root group=root mode=0644
   notify: reload apache2
 
 - name: create web directories

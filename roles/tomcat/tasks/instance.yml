@@ -51,7 +51,7 @@
   lineinfile:
     dest: "/etc/init.d/tomcat-{{ item }}"
     regexp: '^NAME.*$'
-    line: "NAME={{ item }}"
+    line: "NAME=tomcat-{{ item }}"
     state: present
   with_items: tomcat_instances.keys()
 

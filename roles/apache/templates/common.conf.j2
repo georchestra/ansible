@@ -27,12 +27,10 @@ ProxyPassReverse /testPage http://localhost:{{ tomcat_instances['proxycas']['por
 SetEnvIf Referer "^http://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
 {% endif %}
 <Proxy http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/*>
-    Order deny,allow
 {% if item.dest != 'proxy' %}
-    Allow from all
+    Require all granted
 {% else %}
-    Deny from all
-    Allow from env=mysdi
+    Require env mysdi
 {% endif %}
 </Proxy>
 {% if item.dest == 'geoserver' %}

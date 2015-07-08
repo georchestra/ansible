@@ -11,7 +11,7 @@ ssh-with-passphrase root access in ```hosts``` file (ideally, an lxc container, 
 ansible-playbook playbooks/georchestra.yml
 
 ```
-To deploy all the middleware and components. This has only been tested on Debian wheezy (7.0) so far.
+To deploy all the middleware and components. This has only been tested on Debian jessie (8.1) so far.
 
 
 ## warning

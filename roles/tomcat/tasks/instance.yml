@@ -1,10 +1,10 @@
 - name: create instance {{ item.key }}
-  command: tomcat6-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  command: tomcat8-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
   with_dict: tomcat_instances
 
 - name: symlink policy.d dir
   file:
-    src: /etc/tomcat6/policy.d/
+    src: /etc/tomcat8/policy.d/
     dest: "{{ tomcat_basedir }}/{{ item }}/conf/policy.d"
     state: link
   with_items: tomcat_instances.keys()
@@ -14,19 +14,19 @@
     name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
     state: directory
     recurse: yes
-    owner: tomcat6
+    owner: tomcat8
   with_nested:
     - tomcat_instances.keys()
     - [ logs, temp, conf, work, webapps ]
 
 - name: clone init.d script
-  command: cp /etc/init.d/tomcat6 /etc/init.d/tomcat-{{ item }} # creates="/etc/init.d/tomcat-{{ item }}"
+  command: cp /etc/init.d/tomcat8 /etc/init.d/tomcat-{{ item }} # creates="/etc/init.d/tomcat-{{ item }}"
   with_items: tomcat_instances.keys()
 
 - name: fix Provides line
   lineinfile:
     dest: "/etc/init.d/tomcat-{{ item }}"
-    regexp: '^# Provides:.*tomcat6$'
+    regexp: '^# Provides:.*tomcat8$'
     line: "# Provides: tomcat-{{ item }}"
     state: present
   with_items: tomcat_instances.keys()
@@ -36,6 +36,22 @@
     dest: "/etc/init.d/tomcat-{{ item }}"
     regexp: '^CATALINA_BASE=/var/lib/\$NAME$'
     line: "CATALINA_BASE={{ tomcat_basedir }}/{{ item }}"
+    state: present
+  with_items: tomcat_instances.keys()
+
+- name: fix CATALINA_HOME
+  lineinfile:
+    dest: "/etc/init.d/tomcat-{{ item }}"
+    regexp: '^CATALINA_HOME=/usr/share/\$NAME$'
+    line: "CATALINA_HOME=/usr/share/tomcat8"
+    state: present
+  with_items: tomcat_instances.keys()
+
+- name: fix NAME
+  lineinfile:
+    dest: "/etc/init.d/tomcat-{{ item }}"
+    regexp: '^NAME.*$'
+    line: "NAME={{ item }}"
     state: present
   with_items: tomcat_instances.keys()
 

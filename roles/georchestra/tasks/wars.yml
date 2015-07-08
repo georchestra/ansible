@@ -15,12 +15,12 @@
   with_dict: georchestra_wars
 
 - name: create destdir
-  file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat6 state=directory
+  file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat8 state=directory
   with_dict: georchestra_wars
 
 - name: unzip WARs
   sudo: yes
-  sudo_user: tomcat6
+  sudo_user: tomcat8
   unarchive:
     src: /tmp/{{ item.key }}.war
     dest: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}

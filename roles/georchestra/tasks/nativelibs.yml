@@ -8,16 +8,13 @@
   - libjai-imageio-core-java
 
 - name: symlink jai libs to tomcat libdir
-  file: src=/usr/share/java/{{ item[0] }}.jar dest={{ tomcat_basedir }}/{{ item[1] }}/lib/{{ item[0] }}.jar state=link
-  with_nested:
-  - [jai_imageio, jai_codec, mlibwrapper_jai, jai_core, clibwrapper_jiio]
-  - [ georchestra, geoserver ]
-
-#- name: add c2c repo gpg key
-#  apt_key: url=http://pkg.camptocamp.net/packages-c2c-key.gpg
-
-#- name: add c2c repo for gdal/libgdal-java
-#  apt_repository: repo="deb http://pkg.camptocamp.net/apt wheezy/staging sig-georchestra"
+  file: src=/usr/share/java/{{ item }}.jar dest=/usr/share/tomcat8/lib/{{ item }}.jar state=link
+  with_items:
+  - jai_imageio
+  - jai_codec
+  - mlibwrapper_jai
+  - jai_core
+  - clibwrapper_jiio
 
 - name: install runtime dependencies
   apt: pkg={{ item }} state=installed
@@ -34,8 +31,8 @@
 - name: point georchestra's shared.loader to catalina.base/shared/*.jar
   lineinfile:
     dest: "{{ tomcat_basedir }}/georchestra/conf/catalina.properties"
-    regexp: 'shared.loader=${catalina.home}/shared/classes,${catalina.home}/shared/*.jar,/var/lib/tomcat6/shared/classes,/var/lib/tomcat6/shared/*.jar'
-    line: 'shared.loader=${catalina.home}/shared/classes,${catalina.base}/shared/*.jar,/var/lib/tomcat6/shared/classes,/var/lib/tomcat6/shared/*.jar'
+    regexp: 'shared.loader=${catalina.home}/shared/classes,${catalina.home}/shared/*.jar,/var/lib/tomcat8/shared/classes,/var/lib/tomcat8/shared/*.jar'
+    line: 'shared.loader=${catalina.home}/shared/classes,${catalina.base}/shared/*.jar,/var/lib/tomcat8/shared/classes,/var/lib/tomcat8/shared/*.jar'
 
 - name: create tomcat shared dir
   file: dest={{ tomcat_basedir }}/georchestra/shared/ state=directory

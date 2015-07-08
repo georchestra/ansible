@@ -1,6 +1,6 @@
 - name: create toplevel datadirs
   tags: wars
-  file: path=/srv/{{ item }} state=directory owner=tomcat6 group=tomcat6
+  file: path=/srv/{{ item }} state=directory owner=tomcat8 group=tomcat8
   with_items:
   - data
 

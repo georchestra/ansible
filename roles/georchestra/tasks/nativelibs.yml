@@ -13,14 +13,14 @@
   - [jai_imageio, jai_codec, mlibwrapper_jai, jai_core, clibwrapper_jiio]
   - [ georchestra, geoserver ]
 
-- name: add c2c repo gpg key
-  apt_key: url=http://pkg.camptocamp.net/packages-c2c-key.gpg
+#- name: add c2c repo gpg key
+#  apt_key: url=http://pkg.camptocamp.net/packages-c2c-key.gpg
 
-- name: add c2c repo for gdal/libgdal-java
-  apt_repository: repo="deb http://pkg.camptocamp.net/apt wheezy/staging sig-georchestra"
+#- name: add c2c repo for gdal/libgdal-java
+#  apt_repository: repo="deb http://pkg.camptocamp.net/apt wheezy/staging sig-georchestra"
 
 - name: install runtime dependencies
-  apt: pkg={{ item }} state=installed default_release=staging
+  apt: pkg={{ item }} state=installed
   with_items:
   - gdal-bin
   - libgdal-java

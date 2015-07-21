@@ -1,0 +1,99 @@
+- name: create cadastrapp user
+  sudo: yes
+  sudo_user: postgres
+  postgresql_user: name={{ cadastrapp_dbuser }} password={{ cadastrapp_dbpass }}
+
+- name: create cadastrapp main database
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name={{ cadastrapp_dbname }} owner={{ cadastrapp_dbuser }} template=template0 encoding=UTF8
+
+- name: check if cadastrapp schema already exists
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\dn"
+  register: loaded_schemas
+
+- name: create cadastrapp schema in cadastrapp db
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -c 'CREATE SCHEMA {{ cadastrapp_schema }}'
+  when: "loaded_schemas.stdout is defined and '{{ cadastrapp_schema }}' not in loaded_schemas.stdout"
+
+- name: grant all privileges to cadastrapp user on its schema
+  sudo: yes
+  sudo_user: postgres
+  postgresql_privs:
+    database: "{{ cadastrapp_dbname }}"
+    privs: ALL
+    type: schema
+    roles: "{{ cadastrapp_dbuser }}"
+    objs: "{{ cadastrapp_schema }}"
+
+- name: check if dblink is already loaded
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\dx"
+  register: loaded_extensions
+
+- name: create dblink extension
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "CREATE EXTENSION dblink;"
+  when: "loaded_extensions.stdout is defined and 'dblink' not in loaded_extensions.stdout"
+
+- name: list tables
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\dt {{ cadastrapp_schema }}.* "
+  register: tables
+
+# https://github.com/GFI-Informatique/cadastrapp/blob/master/script/user/groupeAutorisation.sql
+- name: create groupe_autorisation table
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "CREATE TABLE {{ cadastrapp_schema }}.groupe_autorisation
+    ( id serial NOT NULL,
+    idgroup character varying(30),
+    ccoinsee character varying(6),
+    ccodep character varying(3),
+    CONSTRAINT groupe_autorisation_pk PRIMARY KEY(id),
+    CONSTRAINT groupe_autorisation_uk UNIQUE (ccoinsee,ccodep,idgroup)) WITH (OIDS=FALSE);"
+  when: "tables.stdout is defined and 'groupe_autorisation' not in tables.stdout"
+
+- name: change groupe_autorisation ownership
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "ALTER TABLE {{ cadastrapp_schema }}.groupe_autorisation OWNER TO {{ cadastrapp_dbuser}};"
+
+- name: list views
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\dv"
+  register: views
+
+- name: get the sql scripts
+  get_url:
+    dest: /tmp/{{ item.script }}.sql
+    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
+#    validate_certs: no
+  with_items: cadastrapp_views
+
+- name: fix the sql scripts
+  replace: dest=/tmp/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
+  with_nested:
+    - [
+    { pat: '#DBHost_qgis', val: "{{ qadastre_dbhost }}" },
+    { pat: '#DBName_qgis', val: "{{ qadastre_dbname }}" },
+    { pat: '#DBUser_qgis', val: "{{ qadastre_dbuser }}" },
+    { pat: '#DBpasswd_qgis', val: "{{ qadastre_dbpass }}" },
+    { pat: '#schema_cadastrapp', val: "{{ cadastrapp_schema }}" },
+    { pat: '#user_cadastrapp', val: "{{ cadastrapp_dbuser }}" }]
+    - cadastrapp_views
+
+- name: create views
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
+  with_items: cadastrapp_views
+  when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"

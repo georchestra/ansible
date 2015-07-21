@@ -5,3 +5,17 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/downloadform/database.sql
   - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
   - https://raw.github.com/georchestra/georchestra/master/ogc-server-statistics/database.sql
+cadastrapp_views : [
+  { script: qgisCommune, view: commune },
+  { script: qgisParcelle, view: parcelle },
+  { script: qgisParcelleSurface, view: v_parcelle_surfc },
+  { script: qgisProprietaire, view: proprietaire },
+  { script: qgisProprietaireParcelle, view: proprietaire_parcelle },
+  { script: qgisProprieteBati, view: proprietebatie },
+  { script: qgisProprieteNonBati, view: proprietenonbatie },
+  { script: qgisSection, view: section } ]
+qadastre_dbhost: 10.0.0.9
+qadastre_dbname: qadastre
+qadastre_dbuser: qadastre
+qadastre_dbpass: qadastre
+qadastre_schema: qadastre

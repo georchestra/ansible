@@ -2,6 +2,7 @@
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
   - postgresql-9.4-postgis-2.1
+  - postgresql-9.4-contrib #for dblink extension
   - postgis
 
 - name: install python-psycopg2 for ansible psql modules
@@ -21,3 +22,4 @@
 - include: geofence.yml tags=postgresql_geofence
 - include: other_schemas.yml tags=postgresql_other_schemas
 - include: geofence_gsinstance.yml tags=postgresql_geofence_gsinstance
+- include: cadastrapp.yml tags=postgresql_cadastrapp,cadastrapp

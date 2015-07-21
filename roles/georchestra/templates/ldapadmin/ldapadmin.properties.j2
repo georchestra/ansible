@@ -12,7 +12,7 @@ publicKey=6LcfjucSAAAAAKtNoK5r7IIXxBT-33znNJUgeYg1
 
 # LDAP related
 ldapUrl=ldap://localhost:389
-baseDN=dc=georchestra,dc=org
+baseDN={{ openldap_basedn }}
 ldapAdminDn={{ openldap_rootdn }}
 ldap.admin.password={{ openldap_rootpw }}
 groupUniqueNumberField=ou

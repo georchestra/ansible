@@ -8,4 +8,5 @@
 - include: geoserver.yml tags=geoserver
 - include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
+- include: cadastrapp.yml tags=cadastrapp
 - include: config.yml tags=config

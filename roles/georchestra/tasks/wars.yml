@@ -13,6 +13,14 @@
     curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/{{ item.value.job }}/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
     creates=/tmp/{{ item.key }}.war
   with_dict: georchestra_wars
+  when: item.job is defined
+
+- name: copy cadastrapp WAR
+  synchronize: >
+    src=/root/src/cadastrapp/cadastrapp/cadastrapp/target/cadastrapp-0.0.1-SNAPSHOT.war
+    dest=/tmp/cadastrapp.war
+    archive=yes
+  delegate_to: web-wheezy
 
 - name: create destdir
   file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat8 state=directory

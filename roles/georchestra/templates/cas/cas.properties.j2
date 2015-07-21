@@ -33,12 +33,12 @@ cas.viewResolver.basename=default_views
 host.name={{ georchestra_fqdn }}
 
 ldap.url=ldap://localhost:389
-ldap.authn.groupSearchBaseDn=ou=groups,dc=georchestra,dc=org
-ldap.authn.userSearchBaseDn=ou=users,dc=georchestra,dc=org
+ldap.authn.groupSearchBaseDn=ou=groups,{{ georchestra_baseDN }}
+ldap.authn.userSearchBaseDn=ou=users,{{ georchestra_baseDN }}
 ldap.authn.searchFilter=(uid={user})
-ldap.admin.username=cn=admin,dc=georchestra,dc=org
+ldap.admin.username=cn=admin,{{ georchestra_baseDN }}
 ldap.admin.password=secret
-ldap.authn.groupSearchFilter=(member=uid={1},ou=users,dc=georchestra,dc=org)
+ldap.authn.groupSearchFilter=(member=uid={1},ou=users,{{ georchestra_baseDN }})
 ldap.authn.groupRoleAttribute=cn
 ldap.authn.pendingGroupName=PENDING_USERS
 

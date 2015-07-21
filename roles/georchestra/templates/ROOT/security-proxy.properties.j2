@@ -18,7 +18,7 @@ casTicketValidation=https://localhost:8443/cas
 proxyCallback=https://{{ georchestra_fqdn }}:443/j_spring_cas_security_check
 # the ldap url
 ldapUrl=ldap://localhost:389
-baseDN=dc=georchestra,dc=org
+baseDN={{ openldap_basedn }}
 # The base DN from where to search for the logged in user.  This mostly to verify the user exists
 userSearchBaseDN=ou=users
 # the second part of looking up the user
@@ -26,7 +26,7 @@ userSearchFilter=(uid={0})
 # The base DN to use for looking up the roles/groups/authorities of the logged in user.  Normally the ldap is configured like:
 # 	ou=groups
 # 		ou=somegroup
-# 			member=uid=username,ou=users,dc=georchestra,dc=org
+# 			member=uid=username,ou=users,{{ openldap_basedn }}
 # 
 # 	ou can be cn, ou, or some other option.  member is often uniquemember as well.  If you don't know what this means you need to
 # 	research LDAP
@@ -35,7 +35,7 @@ authoritiesBaseDN=ou=groups
 groupRoleAttribute=cn
 # the search filter that selects the groups that the user is part of. 
 # If a match is found the containing object is one of the groups the user is part of
-groupSearchFilter=(member=uid={1},ou=users,dc=georchestra,dc=org)
+groupSearchFilter=(member=uid={1},ou=users,{{ openldap_basedn }})
 # the admin user's DN (distinguished name) 
 # 	 Depending on how the LDAP is configured you may be able to comment this and password out and add
 # 	 	<property name="anonymousReadOnly" value="true" />

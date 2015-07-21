@@ -21,7 +21,7 @@
   when: tempdir.stdout is defined
 
 - name: check if the root already exists
-  command: ldapsearch  -x -b {{ openldap_searchbase }}  dc=georchestra
+  command: ldapsearch  -x -b {{ openldap_basedn }} dc=georchestra
   ignore_errors: true
   register: rootdn
 
@@ -30,7 +30,7 @@
   when: "rootdn.stdout is defined and '# numEntries: 1' not in rootdn.stdout"
 
 - name: check if the testadmin user already exists
-  command: ldapsearch  -x -b {{ openldap_searchbase }} uid=testadmin
+  command: ldapsearch  -x -b {{ openldap_basedn }} uid=testadmin
   ignore_errors: true
   register: testadmindn
 

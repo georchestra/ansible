@@ -53,6 +53,7 @@
   - { src: common, dest: header }
   - { src: common, dest: ldapadmin }
   - { src: common, dest: mapfishapp }
+  - { src: common, dest: cadastrapp }
   notify: reload apache2
 
 - name: generate self-signed cert

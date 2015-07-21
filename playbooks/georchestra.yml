@@ -47,5 +47,6 @@
       header: { url: header, job: georchestra-template, tomcat: georchestra },
       ldapadmin: { url: ldapadmin, job: georchestra-template, tomcat: georchestra },
       mapfishapp: { url: mapfishapp, job: georchestra-template, tomcat: georchestra },
+      cadastrapp: { url: cadastrapp, tomcat: georchestra },
       ROOT: { url: security-proxy, job: georchestra-template, tomcat: proxycas }
     }

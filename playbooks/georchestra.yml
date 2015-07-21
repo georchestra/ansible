@@ -10,6 +10,10 @@
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
+    cadastrapp_dbname: cadastrapp_qgis
+    cadastrapp_dbuser: cadastrapp_qgis
+    cadastrapp_dbpass: cadastrapp_qgis
+    cadastrapp_schema: cadastrapp_qgis
     geonetwork_schema: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork

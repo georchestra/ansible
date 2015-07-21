@@ -63,6 +63,19 @@
   template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
   with_items: tomcat_instances.keys()
 
+- name: add the ResourceLink for jdbc/cadastrapp
+  lineinfile:
+    dest: "{{ tomcat_basedir }}/georchestra/conf/context.xml"
+    insertbefore: '</Context>'
+    line: '<ResourceLink name="jdbc/cadastrapp" global="jdbc/cadastrapp" type="javax.sql.DataSource"/>'
+    state: present
+
+- name: symlink postgresql.jar for jdbc/cadastrapp
+  file:
+    src: "{{ tomcat_basedir }}/georchestra/webapps/cadastrapp/WEB-INF/lib/postgresql-9.1-901-1.jdbc4.jar"
+    dest: /usr/share/tomcat8/lib/postgresql-9.1-901-1.jdbc4.jar
+    state: link
+
 - name: enable instance
   service: name=tomcat-{{ item }} enabled=yes
   with_items: tomcat_instances.keys()

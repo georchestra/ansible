@@ -43,6 +43,14 @@
               description="User database that can be updated and saved"
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
               pathname="conf/tomcat-users.xml" />
+    <Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataSource"
+              username="{{ cadastrapp_dbuser }}"
+              password="{{ cadastrapp_dbpass }}"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://127.0.0.1:5432/{{ cadastrapp_dbname }}"
+              maxActive="20"
+              maxIdle="10"
+              validationQuery="select 1" />
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share

@@ -4,9 +4,10 @@
   roles:
     - georchestra
   vars:
-    openldap_rootdn: cn=admin,dc=georchestra,dc=org
+    openldap_basedn: dc=georchestra,dc=univ-fcomte,dc=fr
+    openldap_rootdn: cn=admin,dc=georchestra,dc=univ-fcomte,dc=fr
     openldap_rootpw: secret
-    georchestra_fqdn: georchestra.demo.craig.fr
+    georchestra_fqdn: georchestra-ans.univ-fcomte.fr
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
@@ -24,7 +25,7 @@
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log
-    ldapadmin_adminemail: admin@craig.fr
+    ldapadmin_adminemail: thema-info@univ-fcomte.fr
     tomcat_instances: {
       proxycas: { port: 8180, control_port: 8105 },
       geoserver: { port: 8280, control_port: 8205 },

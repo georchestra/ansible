@@ -1,13 +1,13 @@
 - name: georchestra deployment
-  hosts: test
+  hosts: all
   sudo: yes
   roles:
     - georchestra
   vars:
-    openldap_basedn: dc=georchestra,dc=univ-fcomte,dc=fr
     openldap_rootdn: cn=admin,dc=georchestra,dc=univ-fcomte,dc=fr
+    openldap_searchbase: dc=georchestra,dc=univ-fcomte,dc=fr
     openldap_rootpw: secret
-    georchestra_fqdn: georchestra-ans.univ-fcomte.fr
+    georchestra_fqdn: ansible.univ-fcomte.fr
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra

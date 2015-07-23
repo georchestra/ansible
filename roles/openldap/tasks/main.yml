@@ -1,16 +1,29 @@
 - name: installing dependencies
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:
+  - sudo
   - git
   - slapd
   - ldap-utils
 
+#- name: Update /etc/hosts
+#  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost' owner=root group=root mode=0644
+
 - name: checkout LDAP files
   tags: git
-  git: repo=git://github.com/georchestra/LDAP.git dest=/tmp/LDAP accept_hostkey=yes version=9f61b576e2fd8bc70a79f58fa8a6a0644ed916b5
+  git: repo=git://github.com/georchestra/LDAP.git dest=/tmp/LDAP accept_hostkey=yes version={{ openldap_commit }}
+
+- name: customize bootstrap ldif files
+  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra-bootstrap.ldif
+
+- name: customize root ldif files
+  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra-root.ldif
+
+- name: customize georchestra ldif files
+  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra.ldif
 
 - name: bootstrap the db
-  command: sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/LDAP/georchestra-bootstrap.ldif creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}hdb.ldif
+  command: sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/LDAP/georchestra-bootstrap.ldif creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb.ldif
 
 - name: create temporary directory
   shell: mktemp -d

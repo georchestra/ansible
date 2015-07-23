@@ -1,13 +1,14 @@
 - name: georchestra deployment
-  hosts: all
+  hosts: test
   sudo: yes
   roles:
     - georchestra
   vars:
-    openldap_rootdn: cn=admin,dc=georchestra,dc=univ-fcomte,dc=fr
-    openldap_searchbase: dc=georchestra,dc=univ-fcomte,dc=fr
+    openldap_basedn: dc=georchestra,dc=org
+    openldap_rootdn: cn=admin,dc=georchestra,dc=org
     openldap_rootpw: secret
-    georchestra_fqdn: ansible.univ-fcomte.fr
+    openldap_commit: 8e606269a23ee8605b1d3b686670d7e173a8debd
+    georchestra_fqdn: georchestra.org
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
@@ -25,7 +26,7 @@
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log
-    ldapadmin_adminemail: thema-info@univ-fcomte.fr
+    ldapadmin_adminemail: admin@georchestra.org
     tomcat_instances: {
       proxycas: { port: 8180, control_port: 8105 },
       geoserver: { port: 8280, control_port: 8205 },

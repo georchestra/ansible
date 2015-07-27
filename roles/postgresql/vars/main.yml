@@ -7,13 +7,21 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/ogc-server-statistics/database.sql
 cadastrapp_views : [
   { script: qgisCommune, view: commune },
-  { script: qgisParcelle, view: parcelle },
+  { script: qgisHabitationDetails, view: deschabitation },
   { script: qgisParcelleSurface, view: v_parcelle_surfc },
+  { script: qgisParcelle, view: parcelle }, #parcelleDetails reference v_parcelle_surf
   { script: qgisProprietaire, view: proprietaire },
   { script: qgisProprietaireParcelle, view: proprietaire_parcelle },
   { script: qgisProprieteBati, view: proprietebatie },
   { script: qgisProprieteNonBati, view: proprietenonbatie },
   { script: qgisSection, view: section } ]
+cadastrapp_tables: [
+  { script: prop_ccodem },
+  { script: prop_ccodro },
+  { script: prop_ccoqua },
+  { script: prop_ccogrm },
+  { script: prop_dnatpr },
+  { script: tables_data } ]
 qadastre_dbhost: 10.0.0.9
 qadastre_dbname: qadastre
 qadastre_dbuser: qadastre

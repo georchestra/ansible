@@ -72,12 +72,19 @@
   command: psql -d {{ cadastrapp_dbname }} -t -c "\dv"
   register: views
 
-- name: get the sql scripts
+- name: get the sql scripts for views
   get_url:
     dest: /tmp/{{ item.script }}.sql
     url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
 #    validate_certs: no
   with_items: cadastrapp_views
+
+- name: get the sql scripts for tables
+  get_url:
+    dest: /tmp/{{ item.script }}.sql
+    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/tables/{{ item.script }}.sql
+#    validate_certs: no
+  with_items: cadastrapp_tables
 
 - name: fix the sql scripts
   replace: dest=/tmp/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
@@ -89,7 +96,7 @@
     { pat: '#DBpasswd_qgis', val: "{{ qadastre_dbpass }}" },
     { pat: '#schema_cadastrapp', val: "{{ cadastrapp_schema }}" },
     { pat: '#user_cadastrapp', val: "{{ cadastrapp_dbuser }}" }]
-    - cadastrapp_views
+    - cadastrapp_views + cadastrapp_tables
 
 - name: create views
   sudo: yes
@@ -97,3 +104,10 @@
   command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
   with_items: cadastrapp_views
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
+
+- name: create tables
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
+  with_items: cadastrapp_tables
+  when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"

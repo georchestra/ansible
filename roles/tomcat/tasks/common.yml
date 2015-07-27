@@ -15,7 +15,7 @@
       -keypass {{ tomcat_keystore_pass }}
       -keyalg RSA
       -keysize 2048
-      -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
+      -dname "{{ tomcat_keystore_dbname }}"
     creates=/etc/tomcat8/keystore
 
 - name: create /srv/tomcat

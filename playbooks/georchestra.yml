@@ -24,6 +24,7 @@
     extractor_datadir: /srv/data/extractor/
     mapfishapp_datadir: /srv/data/mapfishapp/
     tomcat_keystore_pass: tomcatkstp
+    tomcat_keystore_dbname: CN=localhost, O=IT, L=Somewhere, C=FR
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log
     ldapadmin_adminemail: admin@georchestra.org

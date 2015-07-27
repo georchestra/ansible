@@ -9,12 +9,12 @@
 
 - name: create keystore
   command: >
-    keytool -genkey -alias localhost \
-      -keystore /etc/tomcat8/keystore \
-      -storepass {{ tomcat_keystore_pass }} \
-      -keypass {{ tomcat_keystore_pass }} \
-      -keyalg RSA \
-      -keysize 2048 \
+    keytool -genkey -alias localhost
+      -keystore /etc/tomcat8/keystore
+      -storepass {{ tomcat_keystore_pass }}
+      -keypass {{ tomcat_keystore_pass }}
+      -keyalg RSA
+      -keysize 2048
       -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
     creates=/etc/tomcat8/keystore
 

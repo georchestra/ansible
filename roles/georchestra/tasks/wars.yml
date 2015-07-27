@@ -15,7 +15,7 @@
   with_dict: georchestra_wars
 
 - name: create destdir
-  file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat8 state=directory
+  file: dest={{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat8 state=directory
   with_dict: georchestra_wars
 
 - name: unzip WARs
@@ -23,7 +23,7 @@
   sudo_user: tomcat8
   unarchive:
     src: /tmp/{{ item.key }}.war
-    dest: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}
+    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}"
     copy: no
-    creates: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}/WEB-INF
+    creates: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}/WEB-INF"
   with_dict: georchestra_wars

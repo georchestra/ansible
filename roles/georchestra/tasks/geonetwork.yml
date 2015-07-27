@@ -1,3 +1,6 @@
+- name: geonetwork_datadir should exist
+  file: path={{ geonetwork_datadir }} state=directory owner=tomcat8 group=tomcat8
+
 - name: checkout geonetwork datadir
   sudo: yes
   sudo_user: tomcat8

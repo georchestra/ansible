@@ -18,8 +18,8 @@
       -dname "{{ tomcat_keystore_dbname }}"
     creates=/etc/tomcat8/keystore
 
-- name: create /srv/tomcat
-  file: name=/srv/tomcat/ state=directory
+- name: create tomcat_basedir
+  file: name={{ tomcat_basedir }} state=directory
 
 - name: create common logdir
   file: path={{ logs_basedir }} state=directory owner=tomcat8 group=tomcat8

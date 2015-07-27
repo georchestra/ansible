@@ -1,3 +1,6 @@
+- name: geoserver_datadir should exist
+  file: path={{ geoserver_datadir }} state=directory owner=tomcat8 group=tomcat8
+
 - name: checkout geoserver datadir
   sudo: yes
   sudo_user: tomcat8

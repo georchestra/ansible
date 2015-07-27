@@ -1,7 +1,7 @@
 - name: template config files
   template:
     src: "{{ item.war }}/{{ item.file }}.j2"
-    dest: /srv/tomcat/{{ georchestra_wars[item.war]['tomcat'] }}/webapps/{{ item.war }}/{{ item.destdir }}/{{ item.file }}
+    dest: "{{ tomcat_basedir }}/{{ georchestra_wars[item.war]['tomcat'] }}/webapps/{{ item.war }}/{{ item.destdir }}/{{ item.file }}"
     backup: yes
 #  debug: var=item
   with_items:

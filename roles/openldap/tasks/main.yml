@@ -14,13 +14,13 @@
   git: repo=git://github.com/georchestra/LDAP.git dest=/tmp/LDAP accept_hostkey=yes version={{ openldap_commit }}
 
 - name: customize bootstrap ldif files
-  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra-bootstrap.ldif
+  replace: dest=/tmp/LDAP/georchestra-bootstrap.ldif regexp='dc=georchestra,dc=org' replace={{ openldap_basedn }}
 
 - name: customize root ldif files
-  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra-root.ldif
+  replace: dest=/tmp/LDAP/georchestra-root.ldif regexp='dc=georchestra,dc=org' replace={{ openldap_basedn }}
 
 - name: customize georchestra ldif files
-  command: perl -p -i -e "s/dc=georchestra,dc=org/{{ openldap_basedn  }}/" /tmp/LDAP/georchestra.ldif
+  replace: dest=/tmp/LDAP/georchestra.ldif regexp='dc=georchestra,dc=org' replace={{ openldap_basedn }}
 
 - name: bootstrap the db
   command: sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /tmp/LDAP/georchestra-bootstrap.ldif creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb.ldif

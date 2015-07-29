@@ -7,6 +7,10 @@
 - name: disable default instance
   service: name=tomcat8 state=stopped enabled=no
 
+- name: /etc/tomcat8/keystore already exists ?
+  stat: path=/etc/tomcat8/keystore
+  register: keystore_stat
+
 - name: create keystore
   command: >
     keytool -genkey -alias localhost
@@ -17,6 +21,7 @@
       -keysize 2048
       -dname "{{ tomcat_keystore_dbname }}"
     creates=/etc/tomcat8/keystore
+  when: not keystore_stat.stat.exists
 
 - name: create tomcat_basedir
   file: name={{ tomcat_basedir }} state=directory

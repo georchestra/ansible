@@ -1,1 +1,2 @@
-test ansible_ssh_host=193.55.67.153
+[my_hosts]
+ansible ansible_ssh_host=193.55.67.153 my_host_alias=ans

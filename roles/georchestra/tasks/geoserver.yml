@@ -33,3 +33,6 @@
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat8 state=directory
 
+- name: create extractordatadir
+  file: dest={{ extractor_datadir }} owner=tomcat8 state=directory
+

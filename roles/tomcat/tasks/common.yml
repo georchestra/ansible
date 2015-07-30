@@ -13,7 +13,7 @@
 
 - name: create keystore
   command: >
-    keytool -genkey -alias localhost
+    keytool -genkey -alias georchestra
       -keystore /etc/tomcat8/keystore
       -storepass {{ tomcat_keystore_pass }}
       -keypass {{ tomcat_keystore_pass }}
@@ -21,6 +21,8 @@
       -keysize 2048
       -dname "{{ tomcat_keystore_dbname }}"
     creates=/etc/tomcat8/keystore
+  tags:
+     - keystore 
   when: not keystore_stat.stat.exists
 
 - name: create tomcat_basedir

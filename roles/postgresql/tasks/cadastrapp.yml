@@ -103,7 +103,7 @@
   sudo_user: postgres
   command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
   with_items: cadastrapp_views
-  when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
+  when: "tables.stdout is defined and '{{ item.view }}' not in tables.stdout"
 
 - name: create tables
   sudo: yes

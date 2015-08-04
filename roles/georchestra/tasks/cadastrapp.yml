@@ -2,5 +2,5 @@
   git: repo=https://github.com/GFI-Informatique/addons dest=/srv/gfi-addons version=dev
 
 - name: copy cadastrapp to mapfishapp/app/addons
-  synchronize: src=/srv/gfi-addons/cadastrapp dest={{ tomcat_basedir }}/georchestra/webapps/mapfishapp/app/addons/
+  synchronize: src=/srv/gfi-addons/cadastrapp dest={{ tomcat_basedir }}/georchestra/webapps/mapfishapp/app/addons/ delete=yes
   delegate_to: test

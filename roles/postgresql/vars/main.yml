@@ -5,23 +5,23 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/downloadform/database.sql
   - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
   - https://raw.github.com/georchestra/georchestra/master/ogc-server-statistics/database.sql
+cadastrapp_tmpdir: /tmp/cadastrappsql
 cadastrapp_views : [
   { script: qgisCommune, view: commune },
   { script: qgisHabitationDetails, view: deschabitation },
-  { script: qgisParcelleSurface, view: v_parcelle_surfc },
-  { script: qgisParcelle, view: parcelle }, #parcelleDetails reference v_parcelle_surf
+  { script: qgisParcelle, view: parcelle },
   { script: qgisProprietaire, view: proprietaire },
   { script: qgisProprietaireParcelle, view: proprietaire_parcelle },
   { script: qgisProprieteBati, view: proprietebatie },
   { script: qgisProprieteNonBati, view: proprietenonbatie },
   { script: qgisSection, view: section } ]
 cadastrapp_tables: [
-  { script: prop_ccodem },
-  { script: prop_ccodro },
-  { script: prop_ccoqua },
-  { script: prop_ccogrm },
-  { script: prop_dnatpr },
-  { script: tables_data } ]
+  { script: groupe_autorisation, path: user },
+  { script: prop_ccodem, path: tables },
+  { script: prop_ccodro, path: tables },
+  { script: prop_ccoqua, path: tables },
+  { script: prop_ccogrm, path: tables },
+  { script: prop_dnatpr, path: tables } ]
 qadastre_dbhost: 10.0.0.9
 qadastre_dbname: qadastre
 qadastre_dbuser: qadastre

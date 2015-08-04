@@ -43,53 +43,51 @@
   when: "loaded_extensions.stdout is defined and 'dblink' not in loaded_extensions.stdout"
 
 - name: list tables
+  tags: runsql
+  always_run: yes
   sudo: yes
   sudo_user: postgres
   command: psql -d {{ cadastrapp_dbname }} -t -c "\dt {{ cadastrapp_schema }}.* "
   register: tables
 
-# https://github.com/GFI-Informatique/cadastrapp/blob/master/script/user/groupeAutorisation.sql
-- name: create groupe_autorisation table
-  sudo: yes
-  sudo_user: postgres
-  command: psql -d {{ cadastrapp_dbname }} -t -c "CREATE TABLE {{ cadastrapp_schema }}.groupe_autorisation
-    ( id serial NOT NULL,
-    idgroup character varying(30),
-    ccoinsee character varying(6),
-    ccodep character varying(3),
-    CONSTRAINT groupe_autorisation_pk PRIMARY KEY(id),
-    CONSTRAINT groupe_autorisation_uk UNIQUE (ccoinsee,ccodep,idgroup)) WITH (OIDS=FALSE);"
-  when: "tables.stdout is defined and 'groupe_autorisation' not in tables.stdout"
-
-- name: change groupe_autorisation ownership
-  sudo: yes
-  sudo_user: postgres
-  command: psql -d {{ cadastrapp_dbname }} -t -c "ALTER TABLE {{ cadastrapp_schema }}.groupe_autorisation OWNER TO {{ cadastrapp_dbuser}};"
-
 - name: list views
+  tags: runsql
+  always_run: yes
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp_dbname }} -t -c "\dv"
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\dm {{ cadastrapp_schema }}.*"
   register: views
 
+- name: remove old sql scripts
+  tags: fetchsql
+  file: path={{ cadastrapp_tmpdir }} state=absent
+
+- name: create temp dir
+  tags: fetchsql
+  file: path={{ cadastrapp_tmpdir }} state=directory
+
 - name: get the sql scripts for views
+  tags: fetchsql
   get_url:
-    dest: /tmp/{{ item.script }}.sql
+    dest: "{{ cadastrapp_tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
 #    validate_certs: no
   with_items: cadastrapp_views
 
 - name: get the sql scripts for tables
+  tags: fetchsql
   get_url:
-    dest: /tmp/{{ item.script }}.sql
-    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/tables/{{ item.script }}.sql
+    dest: "{{ cadastrapp_tmpdir }}/{{ item.script }}.sql"
+    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/{{ item.path }}/{{ item.script }}.sql
 #    validate_certs: no
   with_items: cadastrapp_tables
 
 - name: fix the sql scripts
-  replace: dest=/tmp/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
+  tags: fixsql
+  replace: dest={{ cadastrapp_tmpdir }}/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
   with_nested:
     - [
+    { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
     { pat: '#DBHost_qgis', val: "{{ qadastre_dbhost }}" },
     { pat: '#DBName_qgis', val: "{{ qadastre_dbname }}" },
     { pat: '#DBUser_qgis', val: "{{ qadastre_dbuser }}" },
@@ -98,16 +96,18 @@
     { pat: '#user_cadastrapp', val: "{{ cadastrapp_dbuser }}" }]
     - cadastrapp_views + cadastrapp_tables
 
-- name: create views
-  sudo: yes
-  sudo_user: postgres
-  command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
-  with_items: cadastrapp_views
-  when: "tables.stdout is defined and '{{ item.view }}' not in tables.stdout"
-
 - name: create tables
+  tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp_dbname }} -f /tmp/{{ item.script }}.sql
+  command: psql -d {{ cadastrapp_dbname }} -f {{ cadastrapp_tmpdir }}/{{ item.script }}.sql
   with_items: cadastrapp_tables
   when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
+
+- name: create views
+  tags: runsql
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrapp_tmpdir }}/{{ item.script }}.sql
+  with_items: cadastrapp_views
+  when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"

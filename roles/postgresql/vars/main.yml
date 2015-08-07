@@ -16,12 +16,13 @@ cadastrapp_views : [
   { script: qgisProprieteNonBati, view: proprietenonbatie },
   { script: qgisSection, view: section } ]
 cadastrapp_tables: [
-  { script: groupe_autorisation, path: user },
-  { script: prop_ccodem, path: tables },
-  { script: prop_ccodro, path: tables },
-  { script: prop_ccoqua, path: tables },
-  { script: prop_ccogrm, path: tables },
-  { script: prop_dnatpr, path: tables } ]
+  { script: groupe_autorisation, path: commun/user },
+  { script: uf_parcelle, path: qgis/tables },
+  { script: prop_ccodem, path: commun/tables },
+  { script: prop_ccodro, path: commun/tables },
+  { script: prop_ccoqua, path: commun/tables },
+  { script: prop_ccogrm, path: commun/tables },
+  { script: prop_dnatpr, path: commun/tables } ]
 qadastre_dbhost: 10.0.0.9
 qadastre_dbname: qadastre
 qadastre_dbuser: qadastre

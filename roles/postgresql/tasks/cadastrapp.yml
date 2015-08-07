@@ -78,7 +78,7 @@
   tags: fetchsql
   get_url:
     dest: "{{ cadastrapp_tmpdir }}/{{ item.script }}.sql"
-    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/{{ item.path }}/{{ item.script }}.sql
+    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/{{ item.path }}/{{ item.script }}.sql
 #    validate_certs: no
   with_items: cadastrapp_tables
 

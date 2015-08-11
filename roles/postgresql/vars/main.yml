@@ -12,8 +12,8 @@ cadastrapp_views : [
   { script: qgisParcelle, view: parcelle },
   { script: qgisProprietaire, view: proprietaire },
   { script: qgisProprietaireParcelle, view: proprietaire_parcelle },
-  { script: qgisProprieteBati, view: proprietebatie },
-  { script: qgisProprieteNonBati, view: proprietenonbatie },
+  { script: qgisProprieteBatie, view: proprietebatie },
+  { script: qgisProprieteNonBatie, view: proprietenonbatie },
   { script: qgisSection, view: section } ]
 cadastrapp_tables: [
   { script: groupe_autorisation, path: commun/user },

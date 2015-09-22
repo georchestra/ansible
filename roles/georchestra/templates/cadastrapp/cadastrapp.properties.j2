@@ -1,0 +1,36 @@
+## Configuration file for cadastrapp
+
+schema.name=cadastrapp_qgis
+
+cnil1RoleName=ROLE_EL_CAD_CNIL1
+cnil2RoleName=ROLE_EL_CAD_CNIL2
+
+minNbCharForSearch=3
+
+# PDF generation
+pdf.imageHeight=550
+pdf.imageWidth=550
+pdf.dateValiditeDonnees=01/01/2014
+pdf.organisme=Un service du CRAIG
+
+## Use to create image for pdf on server side (could be use for client configuration as well)
+baseMap.WMS.url=http://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
+baseMap.layer.name=osm:google
+baseMap.format=image/png
+baseMap.SRS=EPSG:3857
+
+cadastre.geoserver.url=http://gd-cms-crai-001.fasgfi.fr/geoserver/
+cadastre.layer.name=qgis:geo_parcelle
+cadastre.format=image/png
+cadastre.SRS=EPSG:3857
+cadastre.layer.idParcelle=geo_parcelle
+
+## used in inner call service to create image for pdf from fo file
+webapp.url.services=http://localhost:8480/cadastrapp/services/
+
+## Temp folder with write acces to create image and temporary files needed for pdf generation
+## This folder should be writtable by tomcat user
+tempFolder=/tmp
+
+
+

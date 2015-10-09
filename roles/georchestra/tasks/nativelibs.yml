@@ -44,4 +44,4 @@
   file: src=/usr/share/java/gdal.jar dest={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/gdal.jar state=hard
 
 - name: remove conflicting imageio-ext-gdal-bindings jar
-  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gda-bindings-1.9.2.jar state=absent
+  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gdal-bindings-1.9.2.jar state=absent

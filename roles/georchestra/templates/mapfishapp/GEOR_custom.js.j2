@@ -107,27 +107,17 @@ GEOR.custom = {
 	"options": { "target": "tbar_12",
 		"webapp":{
 			"url" : "/cadastrapp/",
-			"minCharToSearch" : 3
-		},
-		"CNIL":{
-			"cnil1RoleName" : "ROLE_EL_CAD_CNIL1",
-			"cnil2RoleName" : "ROLE_EL_CAD_CNIL2"
 		},
 		"WMSLayer":{
 			"layerNameInPanel":"geo_parcelle",
-			"url": "/geoserver/qgis/wms",
-			"layerNameGeoserver": "qgis:geo_parcelle",
 			"transparent":true,
 			"format": "image/png"
 		},
 		"WFSLayerSetting": {
-			"wfsUrl":"/geoserver/wfs?",
 			"request" : "getfeature",
 			"version" : "1.0.0",
 			"service" : "wfs",
-			"typename" : "qgis:geo_parcelle",
 			"outputFormat" : "application/json",
-			"nameFieldIdParcelle": "geo_parcelle",
 			"geometryField":"geom"
 		},
 		"defautStyleParcelle" :{
@@ -139,8 +129,9 @@ GEOR.custom = {
 		},
 		"selectedStyle" : {
 			"defautColor":"#AAAAAA",
-			"colorSelected1":"#FFFF00", //selection niveau 1
-			"colorSelected2":"#81BEF7", // selection niveau 2
+			"colorState1":"#FFFF00", //selection niveau 1
+			"colorState2":"#81BEF7", // selection niveau 2
+			"colorState3":"#57D53B", // selection niveau 3
 			"opacity":"0.4",
 			"strokeWidth":"3"
 		},

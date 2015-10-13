@@ -1,13 +1,29 @@
 # {{ ansible_managed }}
+
+{% if item.dest in ['analytics', 'cas', 'catalogapp', 'downloadform', 'extractorapp', 'geonetwork', 'geoserver', 'geofence', 'geowebcache', 'ldapadmin', 'mapfishapp'] %}
+{% if full_https %}
+RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} ^/{{ item.dest }}/?.*$
+RewriteRule ^/(.*)$ https://%{SERVER_NAME}/$1 [R=301,L]
+{% else %}
+RewriteCond %{HTTPS} on
+RewriteCond %{REQUEST_URI} ^/{{ item.dest }}/?.*$ 
+RewriteRule ^/(.*)$ http://%{SERVER_NAME}/$1 [R=301,L]
+{% endif %}
+{% endif %}
+
 {% if item.dest != '_static' %}
 RewriteRule ^/{{ item.dest }}$ /{{ item.dest }}/ [R]
 {% endif %}
+
 {% if item.dest == 'extractorapp' %}
 RewriteRule ^/extractorapp/admin$ /extractorapp/admin/ [R]
 {% endif %}
+
 {% if item.dest == 'ldapadmin' %}
 RewriteRule ^/ldapadmin/privateui$ /ldapadmin/privateui/ [R]
 {% endif %}
+
 {% if item.dest == 'proxy' %}
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
@@ -24,8 +40,13 @@ ProxyPassReverse /gateway http://localhost:{{ tomcat_instances['proxycas']['port
 ProxyPass /testPage http://localhost:{{ tomcat_instances['proxycas']['port'] }}/testPage
 ProxyPassReverse /testPage http://localhost:{{ tomcat_instances['proxycas']['port'] }}/testPage
 
+{% if full_https %}
+SetEnvIf Referer "^https://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
+{% else %}
 SetEnvIf Referer "^http://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
 {% endif %}
+{% endif %}
+
 <Proxy http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/*>
 {% if item.dest != 'proxy' %}
     Require all granted
@@ -33,11 +54,13 @@ SetEnvIf Referer "^http://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
     Require env mysdi
 {% endif %}
 </Proxy>
+
 {% if item.dest == 'geoserver' %}
 <Location /geoserver>
   Header set Access-Control-Allow-Origin "*"
   Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
 </Location>
 {% endif %}
+
 ProxyPass /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/
 ProxyPassReverse /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/

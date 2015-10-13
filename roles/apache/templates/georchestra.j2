@@ -15,8 +15,8 @@
      CustomLog /var/www/georchestra/logs/access.log "combined"
      Include /var/www/georchestra/conf/*.conf
      SSLEngine On
-     SSLCertificateFile /var/www/georchestra/ssl/georchestra.crt
-     SSLCertificateKeyFile /var/www/georchestra/ssl/georchestra.key
+     SSLCertificateFile /var/www/georchestra/ssl/{{ georchestra_fqdn }}.crt
+     SSLCertificateKeyFile /var/www/georchestra/ssl/{{ georchestra_fqdn }}.key
      SSLCACertificateFile /etc/ssl/certs/ca-certificates.crt
      ServerSignature Off
 </VirtualHost>

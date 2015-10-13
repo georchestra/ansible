@@ -24,6 +24,7 @@
   - { file: log4j.properties, war: mapfishapp, destdir: 'WEB-INF/classes' }
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'app/js' }
   - { file: ws-servlet.xml, war: mapfishapp, destdir: 'WEB-INF' }
+  - { file: wms.servers.json, war: mapfishapp, destdir: '.' }
   - { file: log4j.properties, war: extractorapp, destdir: 'WEB-INF/classes' }
   - { file: ws-servlet.xml, war: extractorapp, destdir: 'WEB-INF' }
   - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }

@@ -58,8 +58,8 @@
 - name: generate self-signed cert
   command: >
     openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra_fqdn }}"
-      -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
-    creates=/var/www/georchestra/ssl/georchestra.crt
+      -days 3650 -keyout /var/www/georchestra/ssl/{{ georchestra_fqdn }}.key -out /var/www/georchestra/ssl/{{ georchestra_fqdn }}.crt -extensions v3_ca
+    creates=/var/www/georchestra/ssl/{{ georchestra_fqdn }}.crt
 
 - name: fix perms on certificate
-  file: path=/var/www/georchestra/ssl/georchestra.key mode=0400
+  file: path=/var/www/georchestra/ssl/{{ georchestra_fqdn }}.key mode=0400

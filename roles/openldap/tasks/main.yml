@@ -5,11 +5,12 @@
   - git
   - slapd
   - ldap-utils
+#  notify: restart slapd
 
 - name: Update /etc/hosts
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost' owner=root group=root mode=0644
 
-- name: set hostname in /etc/hosts file"
+- name: set hostname in /etc/hosts file
   lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_default_ipv4.address }} {{ item }}" state=present
   when: hostvars[item].ansible_default_ipv4.address is defined
   with_items: play_hosts
@@ -59,3 +60,8 @@
 - name: recursively purge temp dir
   file: dest={{ tempdir.stdout }} state=absent
   when: tempdir.stdout is defined
+
+- name: set georchestra LDAP
+  template: src=ldap.conf.j2 dest=/etc/ldap/ldap.conf
+#  notify: restart slapd
+

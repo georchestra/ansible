@@ -17,14 +17,14 @@
   sudo_user: tomcat8
   lineinfile: dest={{ geoserver_datadir }}/global.xml regexp='<proxyBaseUrl>http://georchestra.mydomain.org/geoserver</proxyBaseUrl>' 
               line='    <proxyBaseUrl>https://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
-  when: full_https
+  when: apache_fullhttps
 
 - name: set full geoserver url for getcapabilities docs
   sudo: yes
   sudo_user: tomcat8
   lineinfile: dest={{ geoserver_datadir }}/global.xml regexp='<proxyBaseUrl>http://georchestra.mydomain.org/geoserver</proxyBaseUrl>' 
               line='    <proxyBaseUrl>http://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
-  when: not full_https
+  when: not apache_fullhttps
 
 - name: set list of advertised wms srs
   sudo: yes

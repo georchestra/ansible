@@ -12,7 +12,7 @@
   notify: reload apache2
 
 - name: template georchestra vhost
-  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra.conf
+  template: src=apache2/georchestra.conf.j2 dest=/etc/apache2/sites-available/georchestra.conf
 
 - name: enable georchestra vhost
   file: dest=/etc/apache2/sites-enabled/georchestra.conf src=/etc/apache2/sites-available/georchestra.conf state=link owner=root group=root mode=0644
@@ -36,7 +36,7 @@
 
 - name: template config fragments
   tags: apache_config
-  template: src={{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
+  template: src=georchestra/{{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
   with_items:
   - { src: global, dest: global }
   - { src: common, dest: proxy }
@@ -63,3 +63,47 @@
 
 - name: fix perms on certificate
   file: path=/var/www/georchestra/ssl/{{ georchestra_fqdn }}.key mode=0400
+
+- name: create x509 directory
+  file: name=/var/www/georchestra/ssl/x509 state=directory owner=root group=root mode=0755
+  when: apache_certpki
+
+- name: install x509 certs
+  template: src=apache2/{{ item }}.j2 dest=/var/www/georchestra/ssl/x509/{{ item }}
+  with_items:
+  - "{{ georchestra_fqdn }}.key"
+  - "cert-{{ apache_certnumber }}-{{ georchestra_fqdn }}.pem"
+  - "chain-{{ apache_certnumber }}-{{ georchestra_fqdn }}.pem"
+  when: apache_certpki
+
+- name: template georchestra vhost with x509 cert
+  template: src=apache2/georchestra-x509.conf.j2 dest=/etc/apache2/sites-available/georchestra.conf
+  notify: reload apache2
+  when: apache_certpki
+
+- name: update ca-certificates
+  command: update-ca-certificates -f
+  when: apache_certpki
+
+- name: import ca-certificates in keystore
+  command: >
+    keytool 
+      -importkeystore 
+      -srckeystore /etc/ssl/certs/java/cacerts 
+      -destkeystore /etc/tomcat8/keystore 
+      -deststorepass {{ tomcat_keystore_pass }} 
+      -srcstorepass changeit 
+      -noprompt
+  when: apache_certpki
+
+- name: import x509 cert in keystore
+  command: >
+    keytool 
+    -import 
+    -alias georchestra_ssl_cert 
+    -file /var/www/georchestra/ssl/x509/cert-{{ apache_certnumber }}-{{ georchestra_fqdn }}.pem
+    -keystore /etc/tomcat8/keystore 
+    -deststorepass {{ tomcat_keystore_pass }} 
+    -noprompt
+  when: apache_certpki
+

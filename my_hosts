@@ -1,12 +1,17 @@
-georchestra-mshe.univ-fcomte.fr 	ansible_ssh_host=193.55.67.144 	my_host_alias=geo
-georchestra.umrthema.univ-fcomte.fr 	ansible_ssh_host=172.20.74.138 	my_host_alias=gdev
-ansible.umrthema.univ-fcomte.fr 	ansible_ssh_host=172.20.74.143 	my_host_alias=ans
+georchestra-mshe.univ-fcomte.fr 	ansible_ssh_host=193.55.67.144 	my_host_alias=georchestra-mshe
+georchestra.umrthema.univ-fcomte.fr     ansible_ssh_host=172.20.74.138 	my_host_alias=georchestra
+georchestra-dev.umrthema.univ-fcomte.fr ansible_ssh_host=172.20.74.138 	my_host_alias=georchestra-dev
+ansible.umrthema.univ-fcomte.fr 	ansible_ssh_host=172.20.74.143 	my_host_alias=ansible
 
 [prod]
-georchestra-mshe.univ-fcomte.fr
+georchestra-mshe
 
 [dev]
-gdev
+georchestra-dev
+
+[ppd]
+georchestra
 
 [test]
-ans
+ansible
+

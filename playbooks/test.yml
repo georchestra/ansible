@@ -8,6 +8,10 @@
     openldap_rootdn: cn=admin,dc=georchestra,dc=univ-fcomte,dc=fr
     openldap_rootpw: secret
     openldap_commit: 8e606269a23ee8605b1d3b686670d7e173a8debd
+    ad_server: thema-serv3.umrthema.univ-fcomte.fr
+    ad_search_base: cn=users,dc=umrthema,dc=univ-fcomte,dc=fr
+    ad_bind_dn: cn=administrateur,cn=users,dc=umrthema,dc=univ-fcomte,dc=fr
+    ad_password: SeaSex&S1
     georchestra_fqdn: georchestra-mshe.univ-fcomte.fr
     georchestra_dbname: georchestra
     georchestra_dbuser: www-data

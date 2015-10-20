@@ -8,6 +8,10 @@
     openldap_rootdn: cn=admin,dc=georchestra,dc=org
     openldap_rootpw: secret
     openldap_commit: 8e606269a23ee8605b1d3b686670d7e173a8debd
+    ad_server: ad.georchestra.org
+    ad_search_base: cn=users,dc=georchestra,dc=org
+    ad_bind_dn: cn=admin,cn=users,dc=georchestra,dc=org
+    ad_password: ad_secret
     georchestra_fqdn: georchestra.org
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
@@ -28,6 +32,9 @@
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log
     ldapadmin_adminemail: admin@georchestra.org
+    apache_fullhttps: true
+    apache_certpki: false
+    apache_certnumber: 0
     tomcat_instances: {
       proxycas: { port: 8180, control_port: 8105 },
       geoserver: { port: 8280, control_port: 8205 },

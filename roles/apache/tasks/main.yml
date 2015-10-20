@@ -1,5 +1,5 @@
 - name: installing apache2
-  apt: pkg=apache2 state=installed
+  apt: pkg=apache2 state=installed update_cache=yes
 
 - name: enable required modules
   apache2_module: name={{ item }} state=present

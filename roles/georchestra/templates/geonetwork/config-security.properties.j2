@@ -5,7 +5,7 @@ passwordSalt=secret-hash-salt=
 
 # LDAP Connection Settings
 ldap.base.provider.url=ldap://localhost:389
-ldap.base.dn=dc=georchestra,dc=org
+ldap.base.dn={{ openldap_basedn }}
 ldap.security.principal={{ openldap_rootdn }}
 ldap.security.credentials={{ openldap_rootpw }}
 

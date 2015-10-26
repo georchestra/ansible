@@ -5,7 +5,7 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/downloadform/database.sql
   - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
   - https://raw.github.com/georchestra/georchestra/master/ogc-server-statistics/database.sql
-cadastrapp_tmpdir: /tmp/cadastrappsql
+cadastrapp_tmpdir: /tmp/cadastrapp/sql
 cadastrapp_views : [
   { script: qgisCommune, view: commune },
   { script: qgisHabitationDetails, view: deschabitation },

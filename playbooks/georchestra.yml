@@ -15,6 +15,7 @@
     cadastrapp_dbuser: cadastrapp_qgis
     cadastrapp_dbpass: cadastrapp_qgis
     cadastrapp_schema: cadastrapp_qgis
+    cadastrapp_tmpdir: /tmp/cadastrapptmp
     geonetwork_schema: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork

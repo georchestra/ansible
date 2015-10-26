@@ -18,6 +18,7 @@ cadastrapp_views : [
 cadastrapp_tables: [
   { script: groupe_autorisation, path: commun/user },
   { script: uf_parcelle, path: qgis/tables },
+  { script: request_information, path: commun/tables },
   { script: prop_ccodem, path: commun/tables },
   { script: prop_ccodro, path: commun/tables },
   { script: prop_ccoqua, path: commun/tables },

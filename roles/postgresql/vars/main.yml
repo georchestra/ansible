@@ -12,6 +12,7 @@ cadastrapp_views : [
   { script: qgisParcelle, view: parcelle },
   { script: qgisProprietaire, view: proprietaire },
   { script: qgisProprietaireParcelle, view: proprietaire_parcelle },
+  { script: qgisCoProprieteParcelle, view: co_propriete_parcelle },
   { script: qgisProprieteBatie, view: proprietebatie },
   { script: qgisProprieteNonBatie, view: proprietenonbatie },
   { script: qgisSection, view: section } ]
@@ -24,8 +25,9 @@ cadastrapp_tables: [
   { script: prop_ccoqua, path: commun/tables },
   { script: prop_ccogrm, path: commun/tables },
   { script: prop_dnatpr, path: commun/tables } ]
+cadastrapp_indexes: [ { script: index, index: idxcommunelibcom } ]
 qadastre_dbhost: 10.0.0.9
 qadastre_dbname: qadastre
 qadastre_dbuser: qadastre
 qadastre_dbpass: qadastre
-qadastre_schema: qadastre
+qadastre_schema: public

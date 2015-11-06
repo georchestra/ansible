@@ -58,6 +58,14 @@
   command: psql -d {{ cadastrapp_dbname }} -t -c "\dm {{ cadastrapp_schema }}.*"
   register: views
 
+- name: list indexes
+  tags: runsql
+  always_run: yes
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -t -c "\di {{ cadastrapp_schema }}.*"
+  register: indexes
+
 - name: remove old sql scripts
   tags: fetchsql
   file: path={{ cadastrapp_tmpdir }} state=absent
@@ -82,6 +90,13 @@
 #    validate_certs: no
   with_items: cadastrapp_tables
 
+- name: get the sql scripts for indexes
+  tags: fetchsql
+  get_url:
+    dest: "{{ cadastrapp_tmpdir }}/index.sql"
+    url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/{{ item.script }}.sql
+  with_items: cadastrapp_indexes
+
 - name: fix the sql scripts
   tags: fixsql
   replace: dest={{ cadastrapp_tmpdir }}/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
@@ -92,9 +107,10 @@
     { pat: '#DBName_qgis', val: "{{ qadastre_dbname }}" },
     { pat: '#DBUser_qgis', val: "{{ qadastre_dbuser }}" },
     { pat: '#DBpasswd_qgis', val: "{{ qadastre_dbpass }}" },
+    { pat: '#DBSchema_qgis', val: "{{ qadastre_schema }}" },
     { pat: '#schema_cadastrapp', val: "{{ cadastrapp_schema }}" },
     { pat: '#user_cadastrapp', val: "{{ cadastrapp_dbuser }}" }]
-    - cadastrapp_views + cadastrapp_tables
+    - cadastrapp_views + cadastrapp_tables + cadastrapp_indexes
 
 - name: create tables
   tags: runsql
@@ -111,3 +127,11 @@
   command: psql -d {{ cadastrapp_dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrapp_tmpdir }}/{{ item.script }}.sql
   with_items: cadastrapp_views
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
+
+- name: create indexes
+  tags: runsql
+  sudo: yes
+  sudo_user: postgres
+  command: psql -d {{ cadastrapp_dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrapp_tmpdir }}/{{ item.script }}.sql
+  with_items: cadastrapp_indexes
+  when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"

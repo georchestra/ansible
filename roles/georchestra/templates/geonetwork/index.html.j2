@@ -1,0 +1,41 @@
+<!DOCTYPE html SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>GeoNetwork - geOrchestra</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+      <link href="/favicon.ico" rel="shortcut icon"/>
+      <link href="../../srv/en/rss.search?sortBy=changeDate" rel="alternate" type="application/rss+xml" title="GeoNetwork opensource GeoRSS | Recent Changes"/>
+      <link href="../../srv/eng/portal.opensearch" rel="search" type="application/opensearchdescription+xml" title="GeoNetwork"/>
+      <link rel="stylesheet" type="text/css" href="../js/ext/resources/css/ext-all.css"/>
+      <link rel="stylesheet" type="text/css" href="../js/ext/resources/css/xtheme-gray.css"/>
+      <link rel="stylesheet" type="text/css" href="../js/ext-ux/css/ext-ux.css"/>
+      <link rel="stylesheet" type="text/css" href="../js/OpenLayers/theme/default/style.css"/>
+      <link rel="stylesheet" type="text/css" href="../css/geonetwork.css"/>
+      <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  </head>
+  <body>
+    <div id="loading-mask"></div>
+    <div id="loading">
+      <div class="loading-indicator">Loading ...</div>
+    </div>
+
+    <!-- see http://stackoverflow.com/questions/1037839/how-to-force-link-from-iframe-to-be-opened-in-the-parent-window -->
+    <script type="text/javascript" src="/header/js/header.js"></script>
+    <iframe src="/header/?active=geonetwork&lang=fr" style="width:100%;height:90px;border:none;overflow:hidden;" scrolling="no" frameborder="0" onload="_headerOnLoad(this)"></iframe>
+
+    <div id="go_head" style="display:none;">
+      <div id="title" class="mn-main"></div>
+      <div class="logged" id="lang-form"></div>
+      <div class="logged" id="login-form"></div>
+    </div>
+
+    <div id="infoContent"></div>
+    <div id="tag"></div>
+    <div id="shortcut" style="display:none;"></div>
+
+    <script type="text/javascript" src="../js/ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="../js/ext/ext-all.js"></script>
+    <script type="text/javascript" src="js/App-mini.js"></script>
+  </body>
+</html>

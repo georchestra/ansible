@@ -5,3 +5,9 @@
   sudo: yes
   sudo_user: tomcat8
   git: repo=https://github.com/georchestra/geonetwork_minimal_datadir dest={{ geonetwork_datadir }}
+
+# francisation de geonetwork
+- name: update geonetwork/apps/georchestra/js/App-mini.js
+  lineinfile: dest=/var/lib/tomcat/georchestra/webapps/geonetwork/apps/georchestra/js/App-mini.js regexp='GeoNetwork.Util.defaultLocale="eng"' line='GeoNetwork.Util.defaultLocale="fre"' owner=tomcat8 group=tomcat8 mode=0644
+
+

@@ -18,13 +18,17 @@
   - { file: geofence-datasource-ovr.properties, war: geofence, destdir: 'WEB-INF/classes' }
   - { file: log4j.xml, war: geofence, destdir: 'WEB-INF/classes' }
   - { file: log4j.properties, war: geonetwork, destdir: 'WEB-INF/classes' }
+  - { file: index.html, war: geonetwork, destdir: 'apps/georchestra' } # francisation de geonetwork
   - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
   - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
   - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
   - { file: log4j.properties, war: mapfishapp, destdir: 'WEB-INF/classes' }
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'app/js' }
+  - { file: index.jsp, war: mapfishapp, destdir: 'WEB-INF/jsp' } # francisation de mapfishapp
   - { file: ws-servlet.xml, war: mapfishapp, destdir: 'WEB-INF' }
   - { file: wms.servers.json, war: mapfishapp, destdir: '.' }
+  - { file: wmts.servers.json, war: mapfishapp, destdir: '.' }
+  - { file: wfs.servers.json, war: mapfishapp, destdir: '.' }
   - { file: log4j.properties, war: extractorapp, destdir: 'WEB-INF/classes' }
   - { file: ws-servlet.xml, war: extractorapp, destdir: 'WEB-INF' }
   - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }

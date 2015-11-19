@@ -40,6 +40,7 @@
     dest: '{{ geoserver_datadir }}/security/auth/default/config.xml'
     regexp: '  <className>org.geoserver.security.auth.UsernamePasswordAuthenticationProvider</className>'
     line: '  <className>it.geosolutions.geoserver.authentication.auth.GeofenceAuthenticationProvider</className>'
+  when: geofence_auth
 
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat8 state=directory

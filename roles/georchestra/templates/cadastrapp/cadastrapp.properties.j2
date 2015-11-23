@@ -21,8 +21,9 @@ baseMap.format=image/png
 baseMap.SRS=EPSG:3857
 
 cadastre.wfs.url=http://georchestra.demo.craig.fr/geoserver/wfs
+cadastre.wfs.layer.name=qgis:geo_parcelle
 cadastre.wms.url=http://georchestra.demo.craig.fr/geoserver/wms
-cadastre.layer.name=qgis:geo_parcelle
+cadastre.wms.layer.name=qgis:parcelle_bati
 cadastre.format=image/png
 cadastre.SRS=EPSG:3857
 cadastre.layer.idParcelle=geo_parcelle
@@ -33,3 +34,8 @@ webapp.url.services=http://localhost:8380/cadastrapp/services/
 ## Temp folder with write acces to create image and temporary files needed for pdf generation
 ## This folder should be writtable by tomcat user
 tempFolder={{ cadastrapp_workdir }}
+
+# Minimum string length to be tested before trying to launch service
+parcelleId.length=14
+cgoCommune.length=6
+

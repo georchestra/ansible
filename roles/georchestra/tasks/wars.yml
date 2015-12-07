@@ -17,7 +17,7 @@
 
 - name: copy cadastrapp WAR
   synchronize: >
-    src=/root/src/cadastrapp/cadastrapp/cadastrapp/target/cadastrapp-0.0.1-SNAPSHOT.war
+    src=/root/src/cadastrapp/cadastrapp/cadastrapp/target/cadastrapp-1.1-SNAPSHOT.war
     dest=/tmp/cadastrapp.war
     archive=yes
   delegate_to: web-wheezy

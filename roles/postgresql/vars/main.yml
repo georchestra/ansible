@@ -25,6 +25,8 @@ cadastrapp_tables: [
   { script: prop_ccodro, path: commun/tables },
   { script: prop_ccoqua, path: commun/tables },
   { script: prop_ccogrm, path: commun/tables },
+  { script: prop_dmatgm, path: commun/tables },
+  { script: prop_dmatto, path: commun/tables },
   { script: prop_dnatpr, path: commun/tables } ]
 cadastrapp_indexes: [ { script: index, index: idxcommunelibcom } ]
 qadastre_dbhost: 10.0.0.9

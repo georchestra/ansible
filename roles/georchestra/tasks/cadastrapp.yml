@@ -1,5 +1,5 @@
 - name: clone addons repository
-  git: repo=https://github.com/GFI-Informatique/addons dest=/srv/gfi-addons version=dev
+  git: repo=https://github.com/GFI-Informatique/addons dest=/srv/gfi-addons version=master
 
 - name: create temp dir for cadastrapp
   file: name={{ cadastrapp_workdir }} owner=tomcat8 state=directory

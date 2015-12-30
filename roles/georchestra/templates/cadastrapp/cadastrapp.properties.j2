@@ -1,5 +1,13 @@
 ## Configuration file for cadastrapp
 
+## Two modes are available on this addons
+## 0 - All user, even connected user can search in any commune in database 
+##     (result with CNIL authorization > 0 will be filtered)
+## 1 - Connected user can only search and view result on their geographical limitation, 
+##     not connected user can search without geographical limitation (result with CNIL authorization > 0 will be filtered)
+##     (see https://github.com/GFI-Informatique/cadastrapp/blob/master/script/commun/user/README.md)
+user.search.are.filtered=1
+
 schema.name=cadastrapp_qgis
 
 cnil1RoleName=ROLE_EL_CAD_CNIL1
@@ -15,18 +23,24 @@ pdf.dateValiditeDonneesEDIGEO=01/01/2014
 pdf.organisme=Un service du CRAIG
 
 ## Use to create image for pdf on server side (could be use for client configuration as well)
+## if baseMap URL is empty no image will be added in pdf
 baseMap.WMS.url=http://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
 baseMap.layer.name=osm:roads
 baseMap.format=image/png
 baseMap.SRS=EPSG:3857
 
+## information about WMS and WFS service
+# Here you can configure the layer name and with field contains the parcelle Id depending if you are on Qgis or Arcopole model
 cadastre.wfs.url=http://georchestra.demo.craig.fr/geoserver/wfs
 cadastre.wfs.layer.name=qgis:geo_parcelle
+
 cadastre.wms.url=http://georchestra.demo.craig.fr/geoserver/wms
 cadastre.wms.layer.name=qgis:parcelle_bati
+
+## use in the addon to check WFS fieldname to be search
+cadastre.layer.idParcelle=geo_parcelle
 cadastre.format=image/png
 cadastre.SRS=EPSG:3857
-cadastre.layer.idParcelle=geo_parcelle
 
 ## used in inner call service to create image for pdf from fo file
 webapp.url.services=http://localhost:8380/cadastrapp/services/

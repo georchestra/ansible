@@ -45,5 +45,6 @@
   file: dest={{ tempdir.stdout }} state=absent
   when: tempdir.stdout is defined
 
-- include: clean.yml tags=cleanup
+- include: clean.yml
+  tags: [cleanup, openldap_cleanup]
   when: cleanup is defined

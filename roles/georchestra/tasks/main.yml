@@ -9,5 +9,6 @@
 - include: geoserver.yml tags=geoserver
 - include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
-- include: clean.yml tags=cleanup
+- include: clean.yml
+  tags: [cleanup, georchestra_cleanup]
   when: cleanup is defined

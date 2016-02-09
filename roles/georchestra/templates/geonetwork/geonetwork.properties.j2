@@ -1,69 +1,54 @@
-#Core security properties
+# geonetwork datadir subdirs
+geonetwork.dir={{ geonetwork_datadir }}
+geonetwork.config.dir=${geonetwork.dir}/config/
+geonetwork.schema.dir=${geonetwork.config.dir}/schema_plugins/
+geonetwork.lucene.dir=${geonetwork.dir}/index/
+geonetwork.spatial.dir=${geonetwork.lucene.dir}
+geonetwork.thesauri.dir=${geonetwork.config.dir}/codelist/
+geonetwork.data.dir=${geonetwork.dir}/data/metadata_data/
+geonetwork.svn.dir=${geonetwork.dir}/data/metadata_subversion/
+geonetwork.resources.dir=${geonetwork.dir}/data/resources/
+geonetwork.upload.dir=${geonetwork.dir}/data/upload/
+geonetwork.formatter.dir=${geonetwork.dir}/data/formatter/
+geonetwork.htmlcache.dir=${geonetwork.resources.dir}/htmlcache/
 
-logout.success.url=/index.html
-passwordSalt=secret-hash-salt=
+# database configuration
+jdbc.host=localhost
+jdbc.port=5432
+jdbc.database={{ georchestra_database }}
 
-# LDAP Connection Settings
+jdbc.username={{ geonetwork_dbuser }}
+jdbc.password={{ geonetwork_dbpass }}
+
+jdbc.basic.maxActive=33
+jdbc.basic.maxWait=200
+jdbc.basic.maxOpenPreparedStatements=1200
+
+# ldap configuration (config-security/config-security-ldap.xml)
 ldap.base.provider.url=ldap://localhost:389
 ldap.base.dn={{ openldap_basedn }}
 ldap.security.principal={{ openldap_rootdn }}
 ldap.security.credentials={{ openldap_rootpw }}
-
-ldap.base.search.base=ou=users
 ldap.base.dn.pattern=uid={0}
-#ldap.base.dn.pattern=mail={0},${ldap.base.search.base}
 
-# Define if groups and profile information are imported from LDAP. If not, local database is used.
-# When a new user connect first, the default profile is assigned. A user administrator can update
-# privilege information.
-ldap.privilege.import=true
-
-ldap.privilege.create.nonexisting.groups=true
-
-
-# Define the way to extract profiles and privileges from the LDAP
-# 1. Define one attribute for the profile and one for groups in config-security-overrides.properties
-
-# 2. Define one attribute for the privilege and define a custom pattern (use LDAPUserDetailsContextMapperWithPattern in config-security.xml).
-ldap.privilege.pattern=
-#ldap.privilege.pattern=CAT_(.*)_(.*)
-ldap.privilege.pattern.idx.group=1
-ldap.privilege.pattern.idx.profil=2
-
-
-# 3. Define custom location for extracting group and role (no support for group/role combination) (use LDAPUserDetailsContextMapperWithProfileSearch in config-security.xml).
-ldap.privilege.search.group.attribute=cn
-ldap.privilege.search.group.object=ou=groups
-ldap.privilege.search.group.query=(&(objectClass=groupOfNames)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
-ldap.privilege.search.group.pattern=EL_(.*)
-ldap.privilege.search.privilege.attribute=cn
-ldap.privilege.search.privilege.object=ou=groups
-ldap.privilege.search.privilege.query=(&(objectClass=groupOfNames)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=SV_*))
-ldap.privilege.search.privilege.pattern=SV_(.*)
-
-
-
-# Run LDAP sync every day at 23:30
-#ldap.sync.cron=0 30 23 * * ?
-ldap.sync.cron=0 * * * * ?
-#ldap.sync.cron=0 0/1 * 1/1 * ? *
-ldap.sync.startDelay=60000
-ldap.sync.user.search.base=${ldap.base.search.base}
+ldap.sync.user.search.base=ou=users
 ldap.sync.user.search.filter=(&(objectClass=*)(mail=*@*)(givenName=*))
 ldap.sync.user.search.attribute=uid
+ldap.privilege.create.nonexisting.groups=true
+ldap.privilege.create.nonexisting.users=true
 ldap.sync.group.search.base=ou=groups
-ldap.sync.group.search.filter=(&(objectClass=groupOfNames)(cn=EL_*))
+ldap.sync.group.search.filter=(&(objectClass=groupOfMembers)(cn=EL_*))
 ldap.sync.group.search.attribute=cn
 ldap.sync.group.search.pattern=EL_(.*)
 
+ldap.sync.cron=0 * * * * ?
+ldap.sync.startDelay=60000
 
-# CAS properties
-cas.baseURL=https://{{ georchestra_fqdn }}:443/cas
-cas.ticket.validator.url=${cas.baseURL}
-cas.login.url=${cas.baseURL}/login
-cas.logout.url=${cas.baseURL}/logout?url=${geonetwork.https.url}/
+ldap.privilege.import=true
+ldap.privilege.search.group.queryprop=member
+ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
+ldap.privilege.search.group.object=ou=groups
+ldap.base.search.base=ou=users
+ldap.privilege.search.privilege.pattern=SV_(.*)
+ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=SV_*))
 
-# either the hardcoded url to the server
-# or if has the form  it will be replaced with
-# the server details from the server configuration
-geonetwork.https.url=https://{{ georchestra_fqdn }}/geonetwork/

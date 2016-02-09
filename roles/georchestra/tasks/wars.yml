@@ -1,29 +1,20 @@
-- name: install curl and unzip
-  apt: pkg={{ item }} state=installed
-  with_items:
-  - curl
-  - unzip
+- name: install apt-transport-https
+  apt: pkg=apt-transport-https state=installed
 
-- name: fetch WARs
-#  get_url:
-#    dest: /tmp/{{item}}.war
-#    validate_certs: no
-#    url: https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name }}-template.war
-  command: >
-    curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/{{ item.value.job }}/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
-    creates=/tmp/{{ item.key }}.war
+- name: add georchestra repository key
+  apt_key: url=https://build.georchestra.org/debian/build.georchestra.org.asc
+
+- name: add georchestra debian repo
+  apt_repository: repo="deb https://build.georchestra.org/debian jessie main"
+
+- name: install debian packages
+  apt: pkg={{ item.value.pkg }} default_release=jessie update_cache=yes state=latest
   with_dict: georchestra_wars
 
-- name: create destdir
-  file: dest="{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}" owner=tomcat8 state=directory
-  with_dict: georchestra_wars
-
-- name: unzip WARs
-  sudo: yes
-  sudo_user: tomcat8
-  unarchive:
-    src: /tmp/{{ item.key }}.war
-    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}"
-    copy: no
-    creates: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}/WEB-INF"
+- name: symlink webapps in each tomcat instance
+  file:
+    owner: tomcat8
+    src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}-generic.war"
+    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
+    state: link
   with_dict: georchestra_wars

@@ -20,3 +20,5 @@
   - "olcDatabase={2}hdb.ldif" #XX
   - "cn=schema/cn={4}groupofmembers.ldif"
   notify: restart slapd
+
+#XX remove /var/lib/ldap ?

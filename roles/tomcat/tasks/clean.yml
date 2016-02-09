@@ -1,0 +1,23 @@
+- name: stop instances
+  service: name=tomcat-{{ item }} enabled=no state=stopped
+  with_items: tomcat_instances.keys()
+
+- name: remove tomcat directories/config
+  file: name={{ item }} state=absent
+  with_items:
+  - "{{ tomcat_basedir }}"
+  - "{{ logs_basedir }}"
+  - /etc/tomcat8/keystore
+
+#- name: removing pkgs
+#  apt: pkg={{ item }} state=absent purge=yes
+#  with_items:
+#  - tomcat8
+#  - tomcat8-user
+
+- name: remove init scripts & config files
+  file: name={{ item[0] }}-{{ item[1] }} state=absent
+  with_nested:
+  - [ "/etc/init.d/tomcat", "/etc/default/tomcat", "/etc/rc2.d/K01tomcat", "/etc/rc3.d/K01tomcat", "/etc/rc4.d/K01tomcat",
+   "/etc/rc5.d/K01tomcat", "/etc/rc0.d/K01tomcat", "/etc/rc1.d/K01tomcat", "/etc/rc6.d/K01tomcat" ]
+  - tomcat_instances.keys()

@@ -21,3 +21,5 @@
 - include: geofence.yml tags=postgresql_geofence
 - include: other_schemas.yml tags=postgresql_other_schemas
 - include: geofence_gsinstance.yml tags=postgresql_geofence_gsinstance
+- include: clean.yml tags=cleanup
+  when: cleanup is defined

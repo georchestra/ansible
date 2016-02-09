@@ -63,3 +63,6 @@
 
 - name: fix perms on certificate
   file: path=/var/www/georchestra/ssl/georchestra.key mode=0400
+
+- include: clean.yml tags=cleanup
+  when: cleanup is defined

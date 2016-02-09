@@ -44,3 +44,6 @@
 - name: recursively purge temp dir
   file: dest={{ tempdir.stdout }} state=absent
   when: tempdir.stdout is defined
+
+- include: clean.yml tags=cleanup
+  when: cleanup is defined

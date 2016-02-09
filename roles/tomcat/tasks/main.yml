@@ -1,2 +1,4 @@
 - include: common.yml
 - include: instance.yml
+- include: clean.yml tags=cleanup
+  when: cleanup is defined

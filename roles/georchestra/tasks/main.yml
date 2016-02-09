@@ -9,3 +9,5 @@
 - include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
 - include: config.yml tags=config
+- include: clean.yml tags=cleanup
+  when: cleanup is defined

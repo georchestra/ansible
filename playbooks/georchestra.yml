@@ -11,6 +11,7 @@
     georchestra_dbname: georchestra
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
+    georchestra_datadir: /etc/georchestra
     geonetwork_schema: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork

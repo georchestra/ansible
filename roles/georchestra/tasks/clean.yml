@@ -10,6 +10,7 @@
   - "{{ geoserver_datadir }}"
   - "{{ geowebcache_datadir }}"
   - "{{ extractor_datadir }}"
+  - "{{ georchestra_datadir }}"
 
 - name: remove non-free and contrib for dependencies
   apt_repository: repo="deb http://ftp.fr.debian.org/debian/ wheezy main non-free contrib" state=absent

@@ -19,13 +19,13 @@
   lineinfile: dest={{ geoserver_datadir }}/wms.xml insertafter='</metadata>' line="<srs><string>{{ geoserver_wms_srslist|join('</string><string>') }}</string></srs>"
 
 # alternative could be to checkout the geofence branch of geoserver_minimal_datadir
-- name: enforce geofence auth
-  sudo: yes
-  sudo_user: tomcat8
-  lineinfile:
-    dest: '{{ geoserver_datadir }}/security/auth/default/config.xml'
-    regexp: '  <className>org.geoserver.security.auth.UsernamePasswordAuthenticationProvider</className>'
-    line: '  <className>it.geosolutions.geoserver.authentication.auth.GeofenceAuthenticationProvider</className>'
+#- name: enforce geofence auth
+#  sudo: yes
+#  sudo_user: tomcat8
+#  lineinfile:
+#    dest: '{{ geoserver_datadir }}/security/auth/default/config.xml'
+#    regexp: '  <className>org.geoserver.security.auth.UsernamePasswordAuthenticationProvider</className>'
+#    line: '  <className>it.geosolutions.geoserver.authentication.auth.GeofenceAuthenticationProvider</className>'
 
 - name: create geowebcache datadir
   file: dest={{ geowebcache_datadir }} owner=tomcat8 state=directory

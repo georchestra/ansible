@@ -18,6 +18,7 @@ log4j.rootLogger=INFO, R
 
 log4j.logger.org.georchestra.security=INFO
 log4j.logger.org.georchestra.security.statistics=INFO, OGCSTATISTICS
+#log4j.logger.org.georchestra.security.statistics-common=INFO, NETWORKSOCKET
 log4j.logger.org.georchestra.security.healthcheck=WARN
 
 log4j.logger.OGCServiceMessageFormatter=INFO
@@ -32,11 +33,14 @@ log4j.appender.R.Append = true
 log4j.appender.R.layout = org.apache.log4j.PatternLayout
 log4j.appender.R.layout.ConversionPattern = %d{yyyy-MM-dd HH:mm:ss} %c{1} [%p] %m%n
 
+# network socket (Logstash / Elasticsearch)
+#log4j.appender.NETWORKSOCKET=org.apache.log4j.net.SocketAppender
+#log4j.appender.NETWORKSOCKET.Port=4712
+#log4j.appender.NETWORKSOCKET.RemoteHost=localhost
 
 # OGC services statistics
 log4j.appender.OGCSTATISTICS=org.georchestra.ogcservstatistics.log4j.OGCServicesAppender
 log4j.appender.OGCSTATISTICS.activated=true
-
 log4j.appender.OGCSTATISTICS.jdbcURL=jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}
 log4j.appender.OGCSTATISTICS.databaseUser={{ georchestra_dbuser }}
 log4j.appender.OGCSTATISTICS.databasePassword={{ georchestra_dbpass }}

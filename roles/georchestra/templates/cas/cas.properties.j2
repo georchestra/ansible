@@ -20,7 +20,7 @@ ldap.authn.groupSearchBaseDn=ou=groups,{{ openldap_basedn }}
 ldap.authn.userSearchBaseDn=ou=users,{{ openldap_basedn }}
 ldap.authn.searchFilter=(uid={user})
 ldap.admin.username=cn=admin,{{ openldap_basedn }}
-ldap.admin.password=secret
+ldap.admin.password={{ openldap_rootpw }}
 ldap.authn.groupSearchFilter=(member=uid={1},ou=users,{{ openldap_basedn }})
 ldap.authn.groupRoleAttribute=cn
 ldap.authn.pendingGroupName=PENDING

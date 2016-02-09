@@ -1,13 +1,3 @@
-#analytics=http://localhost:8280/analytics/
-#catalogapp=http://localhost:8280/catalogapp/
-#downloadform=http://localhost:8280/downloadform/
-#extractorapp=http://localhost:8280/extractorapp/
-#geonetwork=http://localhost:8280/geonetwork/
-#geoserver=http://localhost:8380/geoserver/
-#geofence=http://localhost:8280/geofence/
-#header=http://localhost:8280/header/
-#ldapadmin=http://localhost:8280/ldapadmin/
-#mapfishapp=http://localhost:8280/mapfishapp/
 {% for f in georchestra_wars %}
 {% if georchestra_wars[f].tomcat != 'proxycas' %}
 {{ f }}=http://localhost:{{ tomcat_instances[georchestra_wars[f].tomcat]['port']}}/{{ f }}/

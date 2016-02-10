@@ -14,6 +14,8 @@
     georchestra_datadir: /etc/georchestra
     georchestra_datadir_gitrepo: https://github.com/georchestra/datadir
     georchestra_datadir_gitversion: master
+    georchestra_debian_repo: "deb https://build.georchestra.org/debian jessie main"
+    georchestra_debian_key: https://build.georchestra.org/debian/build.georchestra.org.asc
     geonetwork_dbname: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork

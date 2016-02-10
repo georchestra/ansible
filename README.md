@@ -25,5 +25,5 @@ Those sub-tasks aren't run by default, you need to specify the `cleanup=true` va
 
 ## warning
 
-THIS IS A WORK IN PROGRESS! Right now this will deploy a working georchestra w/ geonetwork/mapfishapp/geoserver/geowebcache/geofence
+THIS IS A WORK IN PROGRESS! Right now this will deploy a working georchestra from the master branch w/ geonetwork3/mapfishapp/geoserver/geowebcache
 with mostly default configs and empty databases/datadirs.

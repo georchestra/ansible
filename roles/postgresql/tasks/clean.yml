@@ -6,7 +6,10 @@
 - name: delete georchestra main database
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ georchestra_dbname }} state=absent
+  postgresql_db: name={{ item }} state=absent
+  with_items:
+  - "{{ georchestra_dbname }}"
+  - "{{ geonetwork_dbname }}"
 
 - name: delete db users
   sudo: yes

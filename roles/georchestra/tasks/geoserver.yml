@@ -2,32 +2,32 @@
   sudo: yes
   sudo_user: tomcat8
   git:
-    dest: "{{ geoserver_datadir }}"
-    repo: "{{ geoserver_datadir_gitrepo }}"
-    version: "{{ geoserver_datadir_gitversion }}"
+    dest: "{{ geoserver.datadir.path }}"
+    repo: "{{ geoserver.datadir.gitrepo }}"
+    version: "{{ geoserver.datadir.gitversion }}"
     force: yes
 
 - name: fix geoserver logging path
   sudo: yes
   sudo_user: tomcat8
-  lineinfile: dest={{ geoserver_datadir }}/logging.xml regexp='<location>/tmp/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
+  lineinfile: dest={{ geoserver.datadir.path }}/logging.xml regexp='<location>/tmp/geoserver.log</location>' line='  <location>{{ logs_basedir }}/geoserver.log</location>'
 
 - name: set full geoserver url for getcapabilities docs
   sudo: yes
   sudo_user: tomcat8
-  lineinfile: dest={{ geoserver_datadir }}/global.xml regexp='<proxyBaseUrl>https://georchestra.mydomain.org/geoserver</proxyBaseUrl>' line='    <proxyBaseUrl>http://{{ georchestra_fqdn }}/geoserver</proxyBaseUrl>'
+  lineinfile: dest={{ geoserver.datadir.path }}/global.xml regexp='<proxyBaseUrl>https://georchestra.mydomain.org/geoserver</proxyBaseUrl>' line='    <proxyBaseUrl>http://{{ georchestra.fqdn }}/geoserver</proxyBaseUrl>'
 
 - name: set list of advertised wms srs
   sudo: yes
   sudo_user: tomcat8
-  lineinfile: dest={{ geoserver_datadir }}/wms.xml insertafter='</metadata>' line="<srs><string>{{ geoserver_wms_srslist|join('</string><string>') }}</string></srs>"
+  lineinfile: dest={{ geoserver.datadir.path }}/wms.xml insertafter='</metadata>' line="<srs><string>{{ geoserver.wms_srslist|join('</string><string>') }}</string></srs>"
 
 # alternative could be to checkout the geofence branch of geoserver_minimal_datadir
 #- name: enforce geofence auth
 #  sudo: yes
 #  sudo_user: tomcat8
 #  lineinfile:
-#    dest: '{{ geoserver_datadir }}/security/auth/default/config.xml'
+#    dest: '{{ geoserver.datadir.path }}/security/auth/default/config.xml'
 #    regexp: '  <className>org.geoserver.security.auth.UsernamePasswordAuthenticationProvider</className>'
 #    line: '  <className>it.geosolutions.geoserver.authentication.auth.GeofenceAuthenticationProvider</className>'
 

@@ -20,25 +20,25 @@
   register: tempdir
 
 - name: temporarly store cleartext admin rootpw
-  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap_rootpw }} mode=0400
+  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap.rootpw }} mode=0400
   when: tempdir.stdout is defined
 
 - name: check if the root already exists
-  command: ldapsearch  -x -b {{ openldap_basedn }} dc=georchestra
+  command: ldapsearch  -x -b {{ openldap.basedn }} dc=georchestra
   ignore_errors: true
   register: rootdn
 
 - name: create root dn
-  command: ldapadd -D {{ openldap_rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f /tmp/LDAP/georchestra-root.ldif
+  command: ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f /tmp/LDAP/georchestra-root.ldif
   when: "rootdn.stdout is defined and '# numEntries: 1' not in rootdn.stdout"
 
 - name: check if the testadmin user already exists
-  command: ldapsearch  -x -b {{ openldap_basedn }} uid=testadmin
+  command: ldapsearch  -x -b {{ openldap.basedn }} uid=testadmin
   ignore_errors: true
   register: testadmindn
 
 - name: create tree and users
-  command: ldapadd -D {{ openldap_rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f /tmp/LDAP/georchestra.ldif
+  command: ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f /tmp/LDAP/georchestra.ldif
   when: "testadmindn.stdout is defined and '# numEntries: 1' not in testadmindn.stdout"
 
 - name: recursively purge temp dir

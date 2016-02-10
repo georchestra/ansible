@@ -1,14 +1,14 @@
 - name: checkout georchestra datadir
   git:
-    dest: "{{ georchestra_datadir }}"
-    repo: "{{ georchestra_datadir_gitrepo }}"
-    version: "{{ georchestra_datadir_gitversion }}"
+    dest: "{{ georchestra.datadir.path }}"
+    repo: "{{ georchestra.datadir.gitrepo }}"
+    version: "{{ georchestra.datadir.gitversion }}"
     force: yes
 
 - name: template config files
   template:
     src: "{{ item.war }}/{{ item.file }}.j2"
-    dest: "{{ georchestra_datadir }}/{{ item.war }}/{{ item.destdir }}/{{ item.file }}"
+    dest: "{{ georchestra.datadir.path }}/{{ item.war }}/{{ item.destdir }}/{{ item.file }}"
     backup: yes
 #  debug: var=item
   with_items:

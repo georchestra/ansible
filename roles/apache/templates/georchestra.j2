@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-     ServerName {{ georchestra_fqdn }}
+     ServerName {{ georchestra.fqdn }}
      DocumentRoot /var/www/georchestra/htdocs
      LogLevel warn
      ErrorLog /var/www/georchestra/logs/error.log
@@ -8,7 +8,7 @@
      ServerSignature Off
 </VirtualHost>
 <VirtualHost *:443>
-     ServerName {{ georchestra_fqdn }}
+     ServerName {{ georchestra.fqdn }}
      DocumentRoot /var/www/georchestra/htdocs
      LogLevel warn
      ErrorLog /var/www/georchestra/logs/error.log

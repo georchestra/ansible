@@ -24,7 +24,7 @@ ProxyPassReverse /gateway http://localhost:{{ tomcat_instances['proxycas']['port
 ProxyPass /testPage http://localhost:{{ tomcat_instances['proxycas']['port'] }}/testPage
 ProxyPassReverse /testPage http://localhost:{{ tomcat_instances['proxycas']['port'] }}/testPage
 
-SetEnvIf Referer "^http://{{ georchestra_fqdn|replace('.','\.') }}/" mysdi
+SetEnvIf Referer "^http://{{ georchestra.fqdn|replace('.','\.') }}/" mysdi
 {% endif %}
 <Proxy http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/*>
 {% if item.dest != 'proxy' %}

@@ -4,11 +4,11 @@
   register: tempdir
 
 - name: temporarly store cleartext admin rootpw
-  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap_rootpw }} mode=0400
+  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap.rootpw }} mode=0400
 
 - name: purge DIT
   ignore_errors: yes
-  command: ldapdelete -D {{ openldap_rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -r "{{ openldap_basedn }}"
+  command: ldapdelete -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -r "{{ openldap.basedn }}"
 
 - name: recursively purge temp dir
   file: dest={{ tempdir.stdout }} state=absent

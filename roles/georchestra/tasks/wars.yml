@@ -2,10 +2,10 @@
   apt: pkg=apt-transport-https state=installed
 
 - name: add georchestra repository key
-  apt_key: url={{ georchestra_debian_key }}
+  apt_key: url={{ georchestra.debian.key }}
 
 - name: add georchestra debian repo
-  apt_repository: repo={{ georchestra_debian_repo }}
+  apt_repository: repo="{{ georchestra.debian.repo }}"
 
 - name: install debian packages
   apt: pkg={{ item.value.pkg }} default_release=jessie update_cache=yes state=latest

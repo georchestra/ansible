@@ -98,7 +98,7 @@ GEOR.custom = {
      * This is required if and only if the "referentials" module is activated.
      * Defaults to /geoserver/wfs
      */
-    GEOSERVER_WFS_URL: "http://{{ georchestra_fqdn }}/geoserver/wfs",
+    GEOSERVER_WFS_URL: "http://{{ georchestra.fqdn }}/geoserver/wfs",
 
     /**
      * Constant: GEOSERVER_WMS_URL
@@ -114,7 +114,7 @@ GEOR.custom = {
      * Required for CSW Browser module.
      * Defaults to "/geonetwork"
      */
-    GEONETWORK_BASE_URL: "http://{{ georchestra_fqdn }}/geonetwork",
+    GEONETWORK_BASE_URL: "http://{{ georchestra.fqdn }}/geonetwork",
 
     /**
      * Constant: CSW_GETDOMAIN_SORTING
@@ -622,7 +622,7 @@ GEOR.custom = {
      * {RegExp} 
      * PLatform layers only with this config
      */
-    EDITABLE_LAYERS: /.*{{ georchestra_fqdn }}.*/i,
+    EDITABLE_LAYERS: /.*{{ georchestra.fqdn }}.*/i,
 
     /**
      * Constant: FORCE_LOGIN_IN_TOOLBAR

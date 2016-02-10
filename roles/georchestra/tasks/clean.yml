@@ -6,11 +6,11 @@
 - name: remove datadirs
   file: path={{ item }} state=absent
   with_items:
-  - "{{ geonetwork_datadir }}"
-  - "{{ geoserver_datadir }}"
+  - "{{ geonetwork.datadir.path }}"
+  - "{{ geoserver.datadir.path }}"
   - "{{ geowebcache_datadir }}"
   - "{{ extractor_datadir }}"
-  - "{{ georchestra_datadir }}"
+  - "{{ georchestra.datadir.path }}"
 
 - name: remove non-free and contrib for dependencies
   apt_repository: repo="deb http://ftp.fr.debian.org/debian/ wheezy main non-free contrib" state=absent

@@ -2,10 +2,10 @@ instance=georchestra
 language=fr
 
 # The base url of the extractorapp as accessible from outside the intranet
-servletUrl=http://{{ georchestra_fqdn }}/extractorapp
+servletUrl=http://{{ georchestra.fqdn }}/extractorapp
 
 # Hostname of the geoserver that is secured for geOrchestra.
-secureHost={{ georchestra_fqdn }}
+secureHost={{ georchestra.fqdn }}
 
 # Email properties
 smtpHost=localhost
@@ -14,12 +14,12 @@ replyTo={{ ldapadmin_adminemail }}
 from={{ ldapadmin_adminemail }}
 emailHtml=false
 
-privileged_admin_name={{ geoserver_privileged_user }}
-privileged_admin_pass={{ geoserver_privileged_pass }}
+privileged_admin_name={{ geoserver.privileged.user }}
+privileged_admin_pass={{ geoserver.privileged.pass }}
 
 # Downloadform-related parameters: Optional (disabled by default).
 # If activated, make sure that the downloadform module is correctly installed.
-dlformjdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}?user={{ georchestra_dbuser }}&password={{ georchestra_dbpass }}
+dlformjdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
 dlformactivated=false
 
 maxCoverageExtractionSize=99999999

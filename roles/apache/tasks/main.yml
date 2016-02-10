@@ -54,7 +54,7 @@
 
 - name: generate self-signed cert
   command: >
-    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra_fqdn }}"
+    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"
       -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
     creates=/var/www/georchestra/ssl/georchestra.crt
 

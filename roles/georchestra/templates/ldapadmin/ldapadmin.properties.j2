@@ -1,6 +1,6 @@
 # general purposes properties
 publicContextPath=/ldapadmin
-protectedUser.uid1={{ geoserver_privileged_user }}
+protectedUser.uid1={{ geoserver.privileged.user }}
 moderatedSignup=true
 moderatorEmail={{ ldapadmin_adminemail }}
 delayInDays=1
@@ -13,18 +13,18 @@ publicKey=6LcfjucSAAAAAKtNoK5r7IIXxBT-33znNJUgeYg1
 
 # LDAP related
 ldapUrl=ldap://localhost:389
-baseDN={{ openldap_basedn }}
-ldapAdminDn={{ openldap_rootdn }}
-ldap.admin.password={{ openldap_rootpw }}
+baseDN={{ openldap.basedn }}
+ldapAdminDn={{ openldap.rootdn }}
+ldap.admin.password={{ openldap.rootpw }}
 groupUniqueNumberField=ou
 userSearchBaseDN=ou=users
 groupSearchBaseDN=ou=groups
 accountUniqueNumberField=employeeNumber
 
 # PostGreSQL
-psql.url=jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}
-psql.user={{ georchestra_dbuser }}
-psql.pass={{ georchestra_dbpass }}
+psql.url=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}
+psql.user={{ georchestra.db.user }}
+psql.pass={{ georchestra.db.pass }}
 
 # SMTP configuration
 smtpHost=localhost

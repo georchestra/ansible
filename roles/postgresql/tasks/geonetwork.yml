@@ -1,22 +1,22 @@
 - name: create geonetwork user
   sudo: yes
   sudo_user: postgres
-  postgresql_user: name={{ geonetwork_dbuser }} password={{ geonetwork_dbpass }}
+  postgresql_user: name={{ geonetwork.db.user }} password={{ geonetwork.db.pass }}
 
 - name: create geonetwork database
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ geonetwork_dbname }} owner={{ geonetwork_dbuser }} template=template0 encoding=UTF8
+  postgresql_db: name={{ geonetwork.db.name }} owner={{ geonetwork.db.user }} template=template0 encoding=UTF8
 
 - name: check if postgis is already loaded
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ geonetwork_dbname }} -t -c "\dT"
+  command: psql -d {{ geonetwork.db.name }} -t -c "\dT"
   register: loaded_types
 
 - name: create postgis extension for spatialindex
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ geonetwork_dbname }} -t -c "CREATE EXTENSION postgis;"
+  command: psql -d {{ geonetwork.db.name }} -t -c "CREATE EXTENSION postgis;"
   when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
 

@@ -10,12 +10,12 @@
 - name: create georchestra user
   sudo: yes
   sudo_user: postgres
-  postgresql_user: name={{ georchestra_dbuser }} password={{ georchestra_dbpass }}
+  postgresql_user: name={{ georchestra.db.user }} password={{ georchestra.db.pass }}
 
 - name: create georchestra main database
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ georchestra_dbname }} owner={{ georchestra_dbuser }} template=template0 encoding=UTF8
+  postgresql_db: name={{ georchestra.db.name }} owner={{ georchestra.db.user }} template=template0 encoding=UTF8
 
 - include: geonetwork.yml tags=postgresql_geonetwork
 - include: geofence.yml tags=postgresql_geofence

@@ -1,6 +1,11 @@
+- name: create temporary directory
+  shell: mktemp -d
+  always_run: yes
+  register: tempdir
+
 - name: fetch db structure
   get_url:
-    dest: /tmp/{{ item.0 }}.sql
+    dest: "{{ tempdir.stdout }}/{{ item.0 }}.sql"
     url: "{{ item.1 }}"
     validate_certs: no
   with_together:
@@ -17,9 +22,12 @@
 - name: create missing schemas
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ georchestra.db.name }} -f /tmp/{{ item.item }}.sql
+  command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
   when: "item.stdout is defined and '{{ item.item }}' not in item.stdout"
   with_items: schema_exists.results
+
+- name: recursively purge temp dir
+  file: dest={{ tempdir.stdout }} state=absent
 
 - name: grant all privileges to georchestra user on schema
   sudo: yes

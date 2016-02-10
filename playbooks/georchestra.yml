@@ -12,13 +12,19 @@
     georchestra_dbuser: georchestra
     georchestra_dbpass: georchestra
     georchestra_datadir: /etc/georchestra
+    georchestra_datadir_gitrepo: https://github.com/georchestra/datadir
+    georchestra_datadir_gitversion: master
     geonetwork_dbname: geonetwork
     geonetwork_dbuser: geonetwork
     geonetwork_dbpass: geonetwork
     geonetwork_datadir: /srv/data/geonetwork/
+    geonetwork_datadir_gitrepo: https://github.com/georchestra/geonetwork_minimal_datadir
+    geonetwork_datadir_gitversion: master
     geoserver_privileged_user: geoserver_privileged_user
     geoserver_privileged_pass: gerlsSnFd6SmM
     geoserver_datadir: /srv/data/geoserver/
+    geoserver_datadir_gitrepo: https://github.com/georchestra/geoserver_minimal_datadir
+    geoserver_datadir_gitversion: master
     geoserver_wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
     geowebcache_datadir: /srv/data/geowebcache/
     extractor_datadir: /srv/data/extractor/

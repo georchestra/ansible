@@ -1,7 +1,11 @@
 - name: checkout geoserver datadir
   sudo: yes
   sudo_user: tomcat8
-  git: repo=https://github.com/georchestra/geoserver_minimal_datadir.git dest={{ geoserver_datadir }} force=yes
+  git:
+    dest: "{{ geoserver_datadir }}"
+    repo: "{{ geoserver_datadir_gitrepo }}"
+    version: "{{ geoserver_datadir_gitversion }}"
+    force: yes
 
 - name: fix geoserver logging path
   sudo: yes

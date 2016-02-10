@@ -1,4 +1,8 @@
 - name: checkout geonetwork datadir
   sudo: yes
   sudo_user: tomcat8
-  git: repo=https://github.com/georchestra/geonetwork_minimal_datadir dest={{ geonetwork_datadir }} force=yes
+  git:
+    dest: "{{ geonetwork_datadir }}"
+    repo: "{{ geonetwork_datadir_gitrepo }}"
+    version: "{{ geonetwork_datadir_gitversion }}"
+    force: yes

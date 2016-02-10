@@ -1,5 +1,9 @@
 - name: checkout georchestra datadir
-  git: repo=https://github.com/georchestra/datadir dest={{ georchestra_datadir }} force=yes version=master
+  git:
+    dest: "{{ georchestra_datadir }}"
+    repo: "{{ georchestra_datadir_gitrepo }}"
+    version: "{{ georchestra_datadir_gitversion }}"
+    force: yes
 
 - name: template config files
   template:

@@ -45,9 +45,9 @@ brokenUrlPlaceholder: https://sdi.georchestra.org/public/transparent.gif
 security:
   - !basicAuth
     matcher: !dnsMatch
-      host: georchestra.mydomain.org
-    username: geoserver_privileged_user
-    password: gerlsSnFd6SmM
+      host: {{ georchestra.fqdn }}
+    username: {{ geoserver.privileged.user }}
+    password: {{ geoserver.privileged.pass }}
     preemptive: true
 
 #===========================================================================

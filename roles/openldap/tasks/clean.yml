@@ -17,7 +17,6 @@
   file: dest=/etc/ldap/slapd.d/cn=config/{{ item }} state=absent
   with_items:
   - "olcDatabase={2}mdb.ldif"
-  - "olcDatabase={2}hdb.ldif" #XX
   - "cn=schema/cn={4}groupofmembers.ldif"
   notify: restart slapd
 

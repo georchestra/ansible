@@ -5,9 +5,13 @@
     - georchestra
   vars:
     openldap: {
-      basedn: "dc=georchestra,dc=org",
+      topdc: georchestra,
+      basedn: "dc=georchestra,dc=org", # has to be in the form dc={{ topdc }},dc=xx
       rootdn: "cn=admin,dc=georchestra,dc=org",
-      rootpw: secret
+      rootpw: secret,
+      gitrepo: "https://raw.github.com/georchestra/georchestra",
+      ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
+      gitversion: master
     }
     georchestra: {
       fqdn: georchestra.demo.craig.fr,

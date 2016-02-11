@@ -41,4 +41,5 @@
   - { file: analytics.properties, war: analytics, destdir: '' }
   - { file: GEOR_custom.js, war: analytics, destdir: 'js' }
   - { file: cadastrapp.properties, war: cadastrapp, destdir: '' }
+  - { file: logback.xml, war: cadastrapp, destdir: '' }
   notify: restart all tomcats

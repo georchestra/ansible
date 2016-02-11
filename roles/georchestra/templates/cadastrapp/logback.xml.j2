@@ -1,0 +1,37 @@
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.georchestra.cadastrapp" level="INFO" />
+	<logger name="org.springframework" level="INFO" />
+	
+	<!--  database -->
+	<logger name="org.hibernate" level="INFO" />	
+	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
+	
+	<!--  services -->
+	<logger name="org.apache.cxf" level="WARN" />
+	
+	<!--  pdf generation -->
+	<logger name="org.apache.xmlgraphics" level="WARN" />
+	<logger name="org.apache.fop" level="WARN" />
+	
+	<!-- image generation -->
+	<logger name="org.geotools" level="WARN" />
+	<logger name="com.vividsolutions.jts" level="WARN" />
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>{{ logs_basedir }}/cadastrapp.log</file>
+		<encoder>
+			<pattern>%d [%thread] %-5level /%X{uri} - %X{user:-nouser} - %X{roles:-norole} -%logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<root level="DEBUG">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

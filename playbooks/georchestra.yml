@@ -4,11 +4,18 @@
   roles:
     - georchestra
   vars:
-    cadastrapp_dbname: cadastrapp_qgis
-    cadastrapp_dbuser: cadastrapp_qgis
-    cadastrapp_dbpass: cadastrapp_qgis
-    cadastrapp_schema: cadastrapp_qgis
-    cadastrapp_workdir: /tmp/cadastrapp/tmp
+    cadastrapp: {
+      enabled: no,
+      db: {
+        name: cadastrapp_qgis,
+        user: cadastrapp_qgis,
+        schema: cadastrapp_qgis,
+        pass: cadastrapp_qgis
+      },
+      gitrepo: "https://github.com/GFI-Informatique/addons",
+      gitversion: master,
+      workdir: /tmp/cadastrapp/tmp
+    }
     openldap: {
       topdc: georchestra,
       basedn: "dc=georchestra,dc=org", # has to be in the form dc={{ topdc }},dc=xx

@@ -5,8 +5,9 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/downloadform/database.sql
   - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
   - https://raw.github.com/georchestra/georchestra/master/ogc-server-statistics/database.sql
-cadastrapp_tmpdir: /tmp/cadastrapp/sql
-cadastrapp_views : [
+cadastrapp: {
+  tmpdir: /tmp/cadastrapp/sql,
+  views : [
   { script: qgisCommune, view: commune },
   { script: qgisHabitationDetails, view: deschabitation },
   { script: qgisParcelle, view: parcelle },
@@ -16,8 +17,8 @@ cadastrapp_views : [
   { script: qgisProprieteBatie, view: proprietebatie },
   { script: qgisProprieteNonBatie, view: proprietenonbatie },
   { script: qgisProprieteNonBatieSufExo, view: proprietenonbatiesufexo },
-  { script: qgisSection, view: section } ]
-cadastrapp_tables: [
+  { script: qgisSection, view: section } ],
+  tables: [
   { script: groupe_autorisation, path: commun/user },
   { script: uf_parcelle, path: qgis/tables },
   { script: request_information, path: commun/tables },
@@ -27,10 +28,13 @@ cadastrapp_tables: [
   { script: prop_ccogrm, path: commun/tables },
   { script: prop_dmatgm, path: commun/tables },
   { script: prop_dmatto, path: commun/tables },
-  { script: prop_dnatpr, path: commun/tables } ]
-cadastrapp_indexes: [ { script: index, index: idxcommunelibcom } ]
-qadastre_dbhost: 10.0.0.9
-qadastre_dbname: qadastre
-qadastre_dbuser: qadastre
-qadastre_dbpass: qadastre
-qadastre_schema: public
+  { script: prop_dnatpr, path: commun/tables } ],
+  indexes: [ { script: index, index: idxcommunelibcom } ],
+  qadastredb: {
+    host: 10.0.0.9,
+    name: qadastre,
+    user: qadastre,
+    pass: qadastre,
+    schema: public
+  }
+}

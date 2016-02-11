@@ -44,10 +44,10 @@
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
               pathname="conf/tomcat-users.xml" />
     <Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataSource"
-              username="{{ cadastrapp_dbuser }}"
-              password="{{ cadastrapp_dbpass }}"
+              username="{{ cadastrapp.db.user }}"
+              password="{{ cadastrapp.db.pass }}"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://127.0.0.1:5432/{{ cadastrapp_dbname }}"
+              url="jdbc:postgresql://127.0.0.1:5432/{{ cadastrapp.db.name }}"
               maxActive="20"
               maxIdle="10"
               validationQuery="select 1" />

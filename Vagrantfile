@@ -28,6 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision "ansible" do |ansible|
+    ansible.inventory_path = "hosts"
     ansible.playbook = "playbooks/georchestra.yml"
     ansible.verbose = "v"
   end

@@ -1,5 +1,8 @@
+- name: setting locale
+  locale_gen: name=fr_FR.UTF-8 state=present
+
 - name: installing dependencies
-  apt: pkg={{ item }} state=installed update_cache=yes
+  apt: name={{ item }} state=installed update_cache=yes
   with_items:
   - postgresql-9.4-postgis-2.1
   - postgresql-contrib-9.4 #for dblink extension
@@ -7,6 +10,24 @@
 
 - name: install python-psycopg2 for ansible psql modules
   apt: name=python-psycopg2 state=installed
+
+- name: postgresql should listen on all ports
+  sudo: yes
+  sudo_user: postgres
+  lineinfile: dest=/etc/postgresql/9.4/main/postgresql.conf
+              regexp="^listen_addresses"
+              line="listen_addresses = '*'" state=present
+
+- name: postgresql should allow access to host
+  sudo: yes
+  sudo_user: postgres
+  copy:
+    dest: /etc/postgresql/9.4/main/pg_hba.conf
+    content: |
+      local   all   postgres   peer
+      local   all   all        peer
+      host    all   all        0.0.0.0/0   md5
+  notify: restart postgresql
 
 - name: create georchestra user
   sudo: yes

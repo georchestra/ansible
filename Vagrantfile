@@ -22,6 +22,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Bridged networks make the machine appear as another physical device on
   # your network.
   config.vm.network :public_network
+  config.vm.network "forwarded_port", guest: 5432, host: 5432
 
   config.vm.define "mygeorchestra" do |mygeorchestra|
     mygeorchestra.vm.hostname = "georchestra.demo.craig.fr"

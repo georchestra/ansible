@@ -1,5 +1,7 @@
 - include: common.yml
 - include: instance.yml
+- include: cadastrapp.yml
+  when: cadastrapp.enabled
 - include: clean.yml
   tags: [cleanup, tomcat_cleanup]
   when: cleanup is defined

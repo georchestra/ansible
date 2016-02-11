@@ -5,11 +5,14 @@
   - data
 
 - include: config.yml tags=config
+- include: war_cadastrapp.yml tags=cadastrapp_war
+  when: cadastrapp.enabled
 - include: wars.yml tags=wars
 - include: geoserver.yml tags=geoserver
 - include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
 - include: cadastrapp.yml tags=cadastrapp_addon
+  when: cadastrapp.enabled
 - include: clean.yml
   tags: [cleanup, georchestra_cleanup]
   when: cleanup is defined

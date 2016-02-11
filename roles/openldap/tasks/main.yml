@@ -11,6 +11,7 @@
   register: tempdir
 
 - name: fetch LDAP files
+  always_run: yes
   get_url:
     dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
     url: "{{ openldap.gitrepo }}/{{ openldap.gitversion }}/ldap/{{ item }}.ldif"
@@ -74,6 +75,7 @@
   when: "testadmindn.stdout is defined and '# numEntries: 1' not in testadmindn.stdout"
 
 - name: recursively purge temp dir
+  always_run: yes
   file: dest={{ tempdir.stdout }} state=absent
 
 - include: clean.yml

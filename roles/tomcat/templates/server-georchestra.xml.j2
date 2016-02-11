@@ -43,6 +43,7 @@
               description="User database that can be updated and saved"
               factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
               pathname="conf/tomcat-users.xml" />
+{% if cadastrapp.enabled %}
     <Resource name="jdbc/cadastrapp" auth="Container" type="javax.sql.DataSource"
               username="{{ cadastrapp.db.user }}"
               password="{{ cadastrapp.db.pass }}"
@@ -51,6 +52,7 @@
               maxActive="20"
               maxIdle="10"
               validationQuery="select 1" />
+{% endif %}
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share

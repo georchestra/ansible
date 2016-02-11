@@ -4,6 +4,7 @@
   register: tempdir
 
 - name: clone addons repository
+  always_run: yes
   git: repo={{ cadastrapp.gitrepo }} dest={{ tempdir.stdout }} version={{ cadastrapp.gitversion }}
 
 - name: create temp dir for cadastrapp
@@ -17,4 +18,5 @@
   delegate_to: test
 
 - name: recursively purge temp dir
+  always_run: yes
   file: dest={{ tempdir.stdout }} state=absent

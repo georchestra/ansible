@@ -11,10 +11,10 @@
   file: name={{ cadastrapp.workdir }} owner=tomcat8 state=directory
 
 - name: create addons subdir in georchestra datadir
-  file: name="{{ georchestra.datadir }}/mapfishapp/addons/" state=directory
+  file: name={{ georchestra.datadir.path }}/mapfishapp/addons/ state=directory
 
 - name: copy cadastrapp to mapfishapp/app/addons
-  synchronize: src={{ tempdir.stdout }}/cadastrapp dest={{ georchestra.datadir }}/mapfishapp/addons/ delete=yes
+  synchronize: src={{ tempdir.stdout }}/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
   delegate_to: test
 
 - name: recursively purge temp dir

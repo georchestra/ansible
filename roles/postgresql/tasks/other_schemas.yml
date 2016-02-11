@@ -27,6 +27,7 @@
   with_items: schema_exists.results
 
 - name: recursively purge temp dir
+  always_run: yes
   file: dest={{ tempdir.stdout }} state=absent
 
 - name: grant all privileges to georchestra user on schema

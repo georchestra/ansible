@@ -5,6 +5,10 @@
     version: "{{ georchestra.datadir.gitversion }}"
     force: yes
 
+- name: create cadastrapp subdir
+  always_run: yes
+  file: path="{{ georchestra.datadir.path }}/cadastrapp" state=directory
+
 - name: template config files
   template:
     src: "{{ item.war }}/{{ item.file }}.j2"

@@ -1,0 +1,12 @@
+- name: copy cadastrapp deb
+  always_run: yes
+  synchronize:
+    src: "{{ cadastrapp.debsrc.path }}/{{ cadastrapp.debsrc.pkg }}"
+    dest: /tmp/{{ cadastrapp.debsrc.pkg }}
+  delegate_to: "{{ cadastrapp.debsrc.host }}"
+
+- name: install cadastrapp deb
+  apt: deb=/tmp/{{ cadastrapp.debsrc.pkg }} state=installed
+
+- name: remove deb
+  file: path=/tmp/{{ cadastrapp.debsrc.pkg }} state=absent

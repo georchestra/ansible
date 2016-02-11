@@ -14,6 +14,11 @@
       },
       gitrepo: "https://github.com/GFI-Informatique/addons",
       gitversion: master,
+      debsrc: {
+        path: /root/src/cadastrapp/cadastrapp/cadastrapp/target/,
+        pkg: georchestra-cadastrapp_1.2+201601291013-1_all.deb,
+        host: web-wheezy
+      },
       workdir: /tmp/cadastrapp/tmp
     }
     openldap: {

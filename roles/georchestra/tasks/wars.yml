@@ -1,13 +1,6 @@
 - name: install apt-transport-https
   apt: pkg=apt-transport-https state=installed
 
-- name: copy cadastrapp WAR
-  synchronize: >
-    src=/root/src/cadastrapp/cadastrapp/cadastrapp/target/cadastrapp-1.2-SNAPSHOT.war
-    dest=/tmp/cadastrapp.war
-    archive=yes
-  delegate_to: web-wheezy
-
 - name: add georchestra repository key
   apt_key: url={{ georchestra.debian.key }}
 

@@ -1,15 +1,15 @@
 - name: check if there's already a default-gs instance
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ georchestra_dbname }} -t -c "select count(*) from geofence.gf_gsinstance where id=0;"
+  command: psql -d {{ georchestra.db.name }} -t -c "select count(*) from geofence.gf_gsinstance where id=0;"
   register: default_gsinstance
 
 - name: create the default-gs geofence instance
   sudo: yes
   sudo_user: postgres
   command: >
-    psql -d {{ georchestra_dbname }} -t -c
+    psql -d {{ georchestra.db.name }} -t -c
     "INSERT INTO geofence.gf_gsinstance (id, baseURL, dateCreation, description, name, password, username) values
-    (0, 'http://{{ georchestra_fqdn }}/geoserver', 'now', 'locale geoserver', 'default-gs', '{{ geoserver_privileged_pass }}', '{{ geoserver_privileged_user }}');"
+    (0, 'http://{{ georchestra.fqdn }}/geoserver', 'now', 'locale geoserver', 'default-gs', '{{ geoserver.privileged.pass }}', '{{ geoserver.privileged.user }}');"
   when: "default_gsinstance.stdout is defined and default_gsinstance.stdout == '     0'"
 

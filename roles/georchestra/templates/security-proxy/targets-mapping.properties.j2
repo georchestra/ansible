@@ -1,0 +1,5 @@
+{% for f in georchestra_wars %}
+{% if georchestra_wars[f].tomcat != 'proxycas' %}
+{{ f }}=http://localhost:{{ tomcat_instances[georchestra_wars[f].tomcat]['port']}}/{{ f }}/
+{% endif %}
+{% endfor %}

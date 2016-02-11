@@ -4,9 +4,12 @@
   with_items:
   - data
 
+- include: config.yml tags=config
 - include: wars.yml tags=wars
 - include: geoserver.yml tags=geoserver
 - include: nativelibs.yml tags=nativelibs
 - include: geonetwork.yml tags=geonetwork
 - include: cadastrapp.yml tags=cadastrapp_addon
-- include: config.yml tags=config
+- include: clean.yml
+  tags: [cleanup, georchestra_cleanup]
+  when: cleanup is defined

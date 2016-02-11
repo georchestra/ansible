@@ -1,0 +1,16 @@
+- name: remove wars
+  apt: pkg={{ item.value.pkg }} state=absent purge=yes
+  with_dict: georchestra_wars
+# roles/tomcat/tasks/clean.yml already removed the unzipped wars
+
+- name: remove datadirs
+  file: path={{ item }} state=absent
+  with_items:
+  - "{{ geonetwork.datadir.path }}"
+  - "{{ geoserver.datadir.path }}"
+  - "{{ geowebcache_datadir }}"
+  - "{{ extractor_datadir }}"
+  - "{{ georchestra.datadir.path }}"
+
+- name: remove non-free and contrib for dependencies
+  apt_repository: repo="deb http://ftp.fr.debian.org/debian/ wheezy main non-free contrib" state=absent

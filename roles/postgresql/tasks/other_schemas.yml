@@ -1,6 +1,11 @@
+- name: create temporary directory
+  shell: mktemp -d
+  always_run: yes
+  register: tempdir
+
 - name: fetch db structure
   get_url:
-    dest: /tmp/{{ item.0 }}.sql
+    dest: "{{ tempdir.stdout }}/{{ item.0 }}.sql"
     url: "{{ item.1 }}"
     validate_certs: no
   with_together:
@@ -10,36 +15,39 @@
 - name: check if mapfishapp schema already exists
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ georchestra_dbname }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
   register: schema_exists
   with_items: other_schemas
 
 - name: create missing schemas
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ georchestra_dbname }} -f /tmp/{{ item.item }}.sql
+  command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
   when: "item.stdout is defined and '{{ item.item }}' not in item.stdout"
   with_items: schema_exists.results
+
+- name: recursively purge temp dir
+  file: dest={{ tempdir.stdout }} state=absent
 
 - name: grant all privileges to georchestra user on schema
   sudo: yes
   sudo_user: postgres
   postgresql_privs:
-    database: "{{ georchestra_dbname }}"
+    database: "{{ georchestra.db.name }}"
     privs: ALL
     type: schema
-    roles: "{{ georchestra_dbuser }}"
+    roles: "{{ georchestra.db.user }}"
     objs: "{{ other_schemas|join(',') }}"
 
 - name: grant all privileges to georchestra user on sequences in schema
   sudo: yes
   sudo_user: postgres
   postgresql_privs:
-    database: "{{ georchestra_dbname }}"
+    database: "{{ georchestra.db.name }}"
     privs: ALL
     type: sequence
     schema: "{{ item }}"
-    roles: "{{ georchestra_dbuser }}"
+    roles: "{{ georchestra.db.user }}"
     objs: ALL_IN_SCHEMA
   with_items: other_schemas
 
@@ -47,10 +55,10 @@
   sudo: yes
   sudo_user: postgres
   postgresql_privs:
-    database: "{{ georchestra_dbname }}"
+    database: "{{ georchestra.db.name }}"
     privs: ALL
     type: table
     schema: "{{ item }}"
-    roles: "{{ georchestra_dbuser }}"
+    roles: "{{ georchestra.db.user }}"
     objs: ALL_IN_SCHEMA
   with_items: other_schemas

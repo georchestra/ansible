@@ -149,7 +149,7 @@ GEOR.custom = {
      * This is required if and only if the "referentials" module is activated.
      * Defaults to /geoserver/wfs
      */
-    GEOSERVER_WFS_URL: "http://{{ georchestra_fqdn }}/geoserver/wfs",
+    GEOSERVER_WFS_URL: "http://{{ georchestra.fqdn }}/geoserver/wfs",
 
     /**
      * Constant: GEOSERVER_WMS_URL
@@ -165,7 +165,7 @@ GEOR.custom = {
      * Required for CSW Browser module.
      * Defaults to "/geonetwork"
      */
-    GEONETWORK_BASE_URL: "http://{{ georchestra_fqdn }}/geonetwork",
+    GEONETWORK_BASE_URL: "http://{{ georchestra.fqdn }}/geonetwork",
 
     /**
      * Constant: CSW_GETDOMAIN_SORTING
@@ -189,7 +189,7 @@ GEOR.custom = {
      * List of catalogs for freetext search
      */
     CATALOGS: [
-        ['http://sdi.georchestra.org/geonetwork/srv/fre/csw', 'le catalogue geOrchestra démo'],
+        ['https://sdi.georchestra.org/geonetwork/srv/fre/csw', 'le catalogue geOrchestra démo'],
         ['http://geobretagne.fr/geonetwork/srv/fre/csw', 'le catalogue GeoBretagne'],
         ['http://ids.pigma.org/geonetwork/srv/fre/csw', 'le catalogue PIGMA'],
         ['/geonetwork/srv/fre/csw', 'le catalogue local'],
@@ -226,6 +226,14 @@ GEOR.custom = {
      //CSW_FILTER_PROPERTIES: getCustomParameter("CSW_FILTER_PROPERTIES", [
      //'Title', 'AlternateTitle', 'Abstract', 'Subject', 'OrganisationName'
      //]),
+
+    /**
+     * Constant: CSW_FILTER_SPATIAL
+     * An optional extent in latlon to restrict metadata search on a specific extent (latlon)
+     * Defaults to [-180, -90, 180, 90] to cover the world.
+     * If the parameter is set to null, the filter uses the current map extent by default.
+     */
+    //CSW_FILTER_SPATIAL: [-180,-90,180,90],
 
     /**
      * Constant: NO_THUMBNAIL_IMAGE_URL
@@ -665,7 +673,7 @@ GEOR.custom = {
      * {RegExp} 
      * PLatform layers only with this config
      */
-    EDITABLE_LAYERS: /.*{{ georchestra_fqdn }}.*/i,
+    EDITABLE_LAYERS: /.*{{ georchestra.fqdn }}.*/i,
 
     /**
      * Constant: FORCE_LOGIN_IN_TOOLBAR
@@ -690,11 +698,11 @@ GEOR.custom = {
      *
     SEND_MAP_TO: [{
         "name": "Mobile viewer", 
-        "url": "http://sdi.georchestra.org/sviewer/?wmc={context_url}",
+        "url": "https://sdi.georchestra.org/sviewer/?wmc={context_url}",
         "qtip": "Mobile compatible viewer on sdi.georchestra.org"
     }, {
         "name": "Desktop viewer",
-        "url": "http://sdi.georchestra.org/mapfishapp/?wmc={context_url}",
+        "url": "https://sdi.georchestra.org/mapfishapp/?wmc={context_url}",
         "qtip": "Desktop viewer on sdi.georchestra.org"
     }],*/
 
@@ -704,9 +712,9 @@ GEOR.custom = {
      *          (relative to viewer or complete) where the servers are enlisted
      *
     OGC_SERVERS_URL: {
-        "WMS": "wms.servers.json",
-        "WFS": "wfs.servers.json",
-        "WMTS": "wmts.servers.json"
+        "WMS": "ws/wms.servers.json",
+        "WFS": "ws/wfs.servers.json",
+        "WMTS": "ws/wmts.servers.json"
     },*/
 
     /**

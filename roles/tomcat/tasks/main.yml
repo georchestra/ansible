@@ -1,2 +1,5 @@
 - include: common.yml
 - include: instance.yml
+- include: clean.yml
+  tags: [cleanup, tomcat_cleanup]
+  when: cleanup is defined

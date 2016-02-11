@@ -1,0 +1,54 @@
+# geonetwork datadir subdirs
+geonetwork.dir={{ geonetwork.datadir.path }}
+geonetwork.config.dir=${geonetwork.dir}/config/
+geonetwork.schema.dir=${geonetwork.config.dir}/schema_plugins/
+geonetwork.lucene.dir=${geonetwork.dir}/index/
+geonetwork.spatial.dir=${geonetwork.lucene.dir}
+geonetwork.thesauri.dir=${geonetwork.config.dir}/codelist/
+geonetwork.data.dir=${geonetwork.dir}/data/metadata_data/
+geonetwork.svn.dir=${geonetwork.dir}/data/metadata_subversion/
+geonetwork.resources.dir=${geonetwork.dir}/data/resources/
+geonetwork.upload.dir=${geonetwork.dir}/data/upload/
+geonetwork.formatter.dir=${geonetwork.dir}/data/formatter/
+geonetwork.htmlcache.dir=${geonetwork.resources.dir}/htmlcache/
+
+# database configuration
+jdbc.host=localhost
+jdbc.port=5432
+jdbc.database={{ geonetwork.db.name }}
+
+jdbc.username={{ geonetwork.db.user }}
+jdbc.password={{ geonetwork.db.pass }}
+
+jdbc.basic.maxActive=33
+jdbc.basic.maxWait=200
+jdbc.basic.maxOpenPreparedStatements=1200
+
+# ldap configuration (config-security/config-security-ldap.xml)
+ldap.base.provider.url=ldap://localhost:389
+ldap.base.dn={{ openldap.basedn }}
+ldap.security.principal={{ openldap.rootdn }}
+ldap.security.credentials={{ openldap.rootpw }}
+ldap.base.dn.pattern=uid={0}
+
+ldap.sync.user.search.base=ou=users
+ldap.sync.user.search.filter=(&(objectClass=*)(mail=*@*)(givenName=*))
+ldap.sync.user.search.attribute=uid
+ldap.privilege.create.nonexisting.groups=true
+ldap.privilege.create.nonexisting.users=true
+ldap.sync.group.search.base=ou=groups
+ldap.sync.group.search.filter=(&(objectClass=groupOfMembers)(cn=EL_*))
+ldap.sync.group.search.attribute=cn
+ldap.sync.group.search.pattern=EL_(.*)
+
+ldap.sync.cron=0 * * * * ?
+ldap.sync.startDelay=60000
+
+ldap.privilege.import=true
+ldap.privilege.search.group.queryprop=member
+ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
+ldap.privilege.search.group.object=ou=groups
+ldap.base.search.base=ou=users
+ldap.privilege.search.privilege.pattern=SV_(.*)
+ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=SV_*))
+

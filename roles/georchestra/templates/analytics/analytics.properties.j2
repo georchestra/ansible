@@ -1,2 +1,11 @@
-dlJdbcUrlOGC=jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}?user={{ georchestra_dbuser }}&password={{ georchestra_dbpass }}
-dlJdbcUrlDLForm=jdbc:postgresql://localhost:5432/{{ georchestra_dbname }}?user={{ georchestra_dbuser }}&password={{ georchestra_dbpass }}
+# This variable configures the JDBC URL to the database where the statistics
+# gathered by the OGC-server-statistics module are stored
+dlJdbcUrlOGC=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+
+# This variable configures the JDBC URL to the database where the download
+# requests are stored. This is relevant only if the downloadform module is
+# activated).
+dlJdbcUrlDLForm=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+
+language=fr
+instance=geOrchestra

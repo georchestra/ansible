@@ -22,11 +22,11 @@
   - gdal-bin
   - libgdal-java
 
-- name: fetch libjpeg-turbo deb from sourceforge
-  get_url: dest=/tmp/ url=http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-official_1.4.0_amd64.deb
+#- name: fetch libjpeg-turbo deb from sourceforge
+#  get_url: dest=/tmp/ url=http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-official_1.4.0_amd64.deb
 
-- name: install libjpeg-turbo deb
-  apt: deb=/tmp/libjpeg-turbo-official_1.4.0_amd64.deb
+#- name: install libjpeg-turbo deb
+#  apt: deb=/tmp/libjpeg-turbo-official_1.4.0_amd64.deb
 
 - name: point georchestra's shared.loader to catalina.base/shared/*.jar
   lineinfile:
@@ -43,5 +43,5 @@
 - name: hardlink gdal.jar to geoserver libdir
   file: src=/usr/share/java/gdal.jar dest={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/gdal.jar state=hard
 
-- name: remove conflicting imageio-ext-gdal-bindings jar
-  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gdal-bindings-1.9.2.jar state=absent
+#- name: remove conflicting imageio-ext-gdal-bindings jar
+#  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gdal-bindings-1.9.2.jar state=absent

@@ -1,35 +1,40 @@
+- name: checkout georchestra datadir
+  git:
+    dest: "{{ georchestra.datadir.path }}"
+    repo: "{{ georchestra.datadir.gitrepo }}"
+    version: "{{ georchestra.datadir.gitversion }}"
+    force: yes
+
 - name: template config files
   template:
     src: "{{ item.war }}/{{ item.file }}.j2"
-    dest: /srv/tomcat/{{ georchestra_wars[item.war]['tomcat'] }}/webapps/{{ item.war }}/{{ item.destdir }}/{{ item.file }}
+    dest: "{{ georchestra.datadir.path }}/{{ item.war }}/{{ item.destdir }}/{{ item.file }}"
     backup: yes
 #  debug: var=item
   with_items:
-  - { file: proxy-servlet.xml, war: ROOT, destdir: 'WEB-INF' }
-  - { file: security-proxy.properties, war: ROOT, destdir: 'WEB-INF' }
-  - { file: log4j.properties, war: ROOT, destdir: 'WEB-INF/classes' }
-  - { file: cas.properties, war: cas, destdir: 'WEB-INF' }
-  - { file: log4j.xml, war: cas, destdir: 'WEB-INF/classes' }
-  - { file: casGenericSuccess.jsp, war: cas, destdir: 'WEB-INF/view/jsp/default/ui' }
-  - { file: ldapadmin.properties, war: ldapadmin, destdir: 'WEB-INF/spring' }
-  - { file: log4j.properties, war: ldapadmin, destdir: 'WEB-INF/classes' }
-  - { file: log4j.properties, war: geowebcache, destdir: 'WEB-INF/classes' }
-  - { file: gwc.properties, war: geowebcache, destdir: 'WEB-INF/classes' }
-  - { file: geofence-datasource-ovr.properties, war: geofence, destdir: 'WEB-INF/classes' }
-  - { file: log4j.xml, war: geofence, destdir: 'WEB-INF/classes' }
-  - { file: log4j.properties, war: geonetwork, destdir: 'WEB-INF/classes' }
-  - { file: config-security.properties, war: geonetwork, destdir: 'WEB-INF' }
-  - { file: config-overrides-georchestra.xml, war: geonetwork, destdir: 'WEB-INF' }
-  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
-  - { file: log4j.properties, war: mapfishapp, destdir: 'WEB-INF/classes' }
-  - { file: GEOR_custom.js, war: mapfishapp, destdir: 'app/js' }
-  - { file: ws-servlet.xml, war: mapfishapp, destdir: 'WEB-INF' }
-  - { file: cadastrapp.properties, war: cadastrapp, destdir: 'WEB-INF/classes' }
-  - { file: log4j.properties, war: extractorapp, destdir: 'WEB-INF/classes' }
-  - { file: ws-servlet.xml, war: extractorapp, destdir: 'WEB-INF' }
-  - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }
-  - { file: downloadform.properties, war: downloadform, destdir: 'WEB-INF' }
-  - { file: log4j.properties, war: analytics, destdir: 'WEB-INF/classes' }
-  - { file: analytics.properties, war: analytics, destdir: 'WEB-INF' }
-  - { file: config.js, war: analytics, destdir: 'js/app' }
+  - { file: targets-mapping.properties, war: security-proxy, destdir: '' }
+  - { file: security-proxy.properties, war: security-proxy , destdir: '' }
+  - { file: trusted-users.properties, war: security-proxy , destdir: '' }
+  - { file: log4j.properties, war: security-proxy, destdir: 'log4j' }
+  - { file: cas.properties, war: cas, destdir: '' }
+  - { file: log4j.xml, war: cas, destdir: 'log4j' }
+  - { file: ldapadmin.properties, war: ldapadmin, destdir: '' }
+  - { file: log4j.properties, war: ldapadmin, destdir: 'log4j' }
+  - { file: log4j.properties, war: geowebcache, destdir: 'log4j' }
+  - { file: geowebcache.properties, war: geowebcache, destdir: '' }
+  - { file: log4j.xml, war: geonetwork, destdir: 'log4j' }
+  - { file: geonetwork.properties, war: geonetwork, destdir: '' }
+#  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
+  - { file: credentials.properties, war: mapfishapp, destdir: '' }
+  - { file: config.yaml, war: mapfishapp, destdir: 'print' }
+  - { file: log4j.properties, war: mapfishapp, destdir: 'log4j' }
+  - { file: GEOR_custom.js, war: mapfishapp, destdir: 'js' }
+  - { file: log4j.properties, war: extractorapp, destdir: 'log4j' }
+  - { file: extractorapp.properties, war: extractorapp, destdir: '' }
+#  - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }
+#  - { file: downloadform.properties, war: downloadform, destdir: 'WEB-INF' }
+  - { file: log4j.properties, war: analytics, destdir: 'log4j' }
+  - { file: analytics.properties, war: analytics, destdir: '' }
+  - { file: GEOR_custom.js, war: analytics, destdir: 'js' }
+  - { file: cadastrapp.properties, war: cadastrapp, destdir: '' }
   notify: restart all tomcats

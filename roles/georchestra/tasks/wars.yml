@@ -1,19 +1,5 @@
-- name: install curl and unzip
-  apt: pkg={{ item }} state=installed
-  with_items:
-  - curl
-  - unzip
-
-- name: fetch WARs
-#  get_url:
-#    dest: /tmp/{{item}}.war
-#    validate_certs: no
-#    url: https://sdi.georchestra.org/ci/job/georchestra-template/lastSuccessfulBuild/artifact/{{ item.url }}/target/{{ item.name }}-template.war
-  command: >
-    curl -o /tmp/{{ item.key }}.war https://sdi.georchestra.org/ci/job/{{ item.value.job }}/lastSuccessfulBuild/artifact/{{ item.value.url }}/target/{{ item.key }}-template.war
-    creates=/tmp/{{ item.key }}.war
-  with_dict: georchestra_wars
-  when: item.job is defined
+- name: install apt-transport-https
+  apt: pkg=apt-transport-https state=installed
 
 - name: copy cadastrapp WAR
   synchronize: >
@@ -22,16 +8,25 @@
     archive=yes
   delegate_to: web-wheezy
 
-- name: create destdir
-  file: dest=/srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }} owner=tomcat8 state=directory
+- name: add georchestra repository key
+  apt_key: url={{ georchestra.debian.key }}
+
+- name: add georchestra debian repo
+  apt_repository: repo="{{ georchestra.debian.repo }}"
+
+- name: install debian packages
+  apt: pkg={{ item.value.pkg }} default_release=jessie update_cache=yes state=latest
   with_dict: georchestra_wars
 
-- name: unzip WARs
-  sudo: yes
-  sudo_user: tomcat8
-  unarchive:
-    src: /tmp/{{ item.key }}.war
-    dest: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}
-    copy: no
-    creates: /srv/tomcat/{{ item.value.tomcat }}/webapps/{{ item.key }}/WEB-INF
+- name: symlink webapps in each tomcat instance
+  file:
+    owner: tomcat8
+    src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}-generic.war"
+    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
+    state: link
   with_dict: georchestra_wars
+
+# instances need to be started so that webapps are deployed
+- name: start instances
+  service: name=tomcat-{{ item }} state=started
+  with_items: tomcat_instances.keys()

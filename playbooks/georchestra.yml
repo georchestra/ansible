@@ -4,26 +4,61 @@
   roles:
     - georchestra
   vars:
-    openldap_basedn: dc=georchestra,dc=org
-    openldap_rootdn: cn=admin,dc=georchestra,dc=org
-    openldap_rootpw: secret
-    georchestra_fqdn: georchestra.demo.craig.fr
-    georchestra_dbname: georchestra
-    georchestra_dbuser: georchestra
-    georchestra_dbpass: georchestra
     cadastrapp_dbname: cadastrapp_qgis
     cadastrapp_dbuser: cadastrapp_qgis
     cadastrapp_dbpass: cadastrapp_qgis
     cadastrapp_schema: cadastrapp_qgis
     cadastrapp_workdir: /tmp/cadastrapp/tmp
-    geonetwork_schema: geonetwork
-    geonetwork_dbuser: geonetwork
-    geonetwork_dbpass: geonetwork
-    geonetwork_datadir: /srv/data/geonetwork/
-    geoserver_privileged_user: geoserver_privileged_user
-    geoserver_privileged_pass: gerlsSnFd6SmM
-    geoserver_datadir: /srv/data/geoserver/
-    geoserver_wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
+    openldap: {
+      topdc: georchestra,
+      basedn: "dc=georchestra,dc=org", # has to be in the form dc={{ topdc }},dc=xx
+      rootdn: "cn=admin,dc=georchestra,dc=org",
+      rootpw: secret,
+      gitrepo: "https://raw.github.com/georchestra/georchestra",
+      ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
+      gitversion: master
+    }
+    georchestra: {
+      fqdn: georchestra.demo.craig.fr,
+      db: {
+        name: georchestra,
+        user: georchestra,
+        pass: georchestra
+      },
+      datadir: {
+        path: /etc/georchestra,
+        gitrepo: "https://github.com/georchestra/datadir",
+        gitversion: master
+      },
+      debian: {
+        repo: "deb https://build.georchestra.org/debian jessie main",
+        key: "https://build.georchestra.org/debian/build.georchestra.org.asc"
+      }
+    }
+    geonetwork: {
+      db: {
+        name: geonetwork,
+        user: geonetwork,
+        pass: geonetwork
+      },
+      datadir: {
+        path: /srv/data/geonetwork/,
+        gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir",
+        gitversion: master
+      }
+    }
+    geoserver: {
+      privileged: {
+        user: geoserver_privileged_user,
+        pass: gerlsSnFd6SmM
+      },
+      datadir: {
+        path: /srv/data/geoserver/,
+        gitrepo: "https://github.com/georchestra/geoserver_minimal_datadir",
+        gitversion: master
+      },
+      wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
+    }
     geowebcache_datadir: /srv/data/geowebcache/
     extractor_datadir: /srv/data/extractor/
     mapfishapp_datadir: /srv/data/mapfishapp/
@@ -37,18 +72,16 @@
       georchestra: { port: 8380, control_port: 8305 }
     }
     georchestra_wars: {
-      analytics: { url: analytics, job: georchestra-template, tomcat: georchestra },
-      cas: { url: cas-server-webapp, job: georchestra-template, tomcat: proxycas },
-      catalogapp: { url: catalogapp, job: georchestra-template, tomcat: georchestra },
-      downloadform: { url: downloadform, job: georchestra-template, tomcat: georchestra },
-      extractorapp: { url: extractorapp, job: georchestra-template,  tomcat: georchestra },
-      geonetwork: { url: geonetwork/web, job: georchestra-template,  tomcat: georchestra },
-      geoserver: { url: geoserver/webapp, job: georchestra-template-geofence, tomcat: geoserver },
-      geowebcache: { url: geowebcache-webapp, job: georchestra-template, tomcat: georchestra },
-      geofence: { url: geoserver/geofence-webapp, job: georchestra-template-geofence, tomcat: georchestra },
-      header: { url: header, job: georchestra-template, tomcat: georchestra },
-      ldapadmin: { url: ldapadmin, job: georchestra-template, tomcat: georchestra },
-      mapfishapp: { url: mapfishapp, job: georchestra-template, tomcat: georchestra },
-      cadastrapp: { url: cadastrapp, tomcat: georchestra },
-      ROOT: { url: security-proxy, job: georchestra-template, tomcat: proxycas }
+      analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
+      cas: { pkg: georchestra-cas, tomcat: proxycas },
+      catalogapp: { pkg: georchestra-catalogapp, tomcat: georchestra },
+      extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
+      geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
+      geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },
+      geowebcache: { pkg: georchestra-geowebcache, tomcat: georchestra },
+      header: { pkg: georchestra-header, tomcat: georchestra },
+      ldapadmin: { pkg: georchestra-ldapadmin, tomcat: georchestra },
+      mapfishapp: { pkg: georchestra-mapfishapp, tomcat: georchestra },
+      cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
+      ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }
     }

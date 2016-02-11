@@ -40,15 +40,12 @@
   with_items:
   - { src: global, dest: global }
   - { src: common, dest: proxy }
-  - { src: common, dest: _static }
   - { src: common, dest: cas }
   - { src: common, dest: catalogapp }
   - { src: common, dest: analytics }
-  - { src: common, dest: downloadform }
   - { src: common, dest: extractorapp }
   - { src: common, dest: geonetwork }
   - { src: common, dest: geoserver }
-  - { src: common, dest: geofence }
   - { src: common, dest: geowebcache }
   - { src: common, dest: header }
   - { src: common, dest: ldapadmin }
@@ -58,9 +55,13 @@
 
 - name: generate self-signed cert
   command: >
-    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra_fqdn }}"
+    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"
       -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
     creates=/var/www/georchestra/ssl/georchestra.crt
 
 - name: fix perms on certificate
   file: path=/var/www/georchestra/ssl/georchestra.key mode=0400
+
+- include: clean.yml
+  tags: [cleanup, apache_cleanup]
+  when: cleanup is defined

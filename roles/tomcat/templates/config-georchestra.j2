@@ -8,9 +8,8 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Djava.util.prefs.userRoot=/tmp \
 	-Djava.util.prefs.systemRoot=/tmp \
 	-Dextractor.storage.dir={{ extractor_datadir }} \
-	-Dgeonetwork.dir={{ geonetwork_datadir }} \
-	-Dgeonetwork.schema.dir={{ geonetwork_datadir }}/config/schema_plugins \
-	-Dgeonetwork.jeeves.configuration.overrides.file=/srv/tomcat/georchestra/webapps/geonetwork/WEB-INF/config-overrides-georchestra.xml"
+	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
+	-Dgeonetwork.jeeves.configuration.overrides.file={{ georchestra.datadir.path }}/geonetwork/config/config-overrides-georchestra.xml"
 
 # Unset LC_ALL to prevent user environment executing the init script from
 # influencing servlet behavior.  See Debian bug #645221

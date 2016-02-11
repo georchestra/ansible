@@ -6,25 +6,25 @@
 - name: create cadastrapp main database
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ cadastrapp.dbname }} owner={{ cadastrapp.db.user }} template=template0 encoding=UTF8
+  postgresql_db: name={{ cadastrapp.db.name }} owner={{ cadastrapp.db.user }} template=template0 encoding=UTF8
 
 - name: check if cadastrapp schema already exists
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "\dn"
+  command: psql -d {{ cadastrapp.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create cadastrapp schema in cadastrapp db
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -c 'CREATE SCHEMA {{ cadastrapp.db.schema }}'
+  command: psql -d {{ cadastrapp.db.name }} -c 'CREATE SCHEMA {{ cadastrapp.db.schema }}'
   when: "loaded_schemas.stdout is defined and '{{ cadastrapp.db.schema }}' not in loaded_schemas.stdout"
 
 - name: grant all privileges to cadastrapp user on its schema
   sudo: yes
   sudo_user: postgres
   postgresql_privs:
-    database: "{{ cadastrapp.dbname }}"
+    database: "{{ cadastrapp.db.name }}"
     privs: ALL
     type: schema
     roles: "{{ cadastrapp.db.user }}"
@@ -33,13 +33,13 @@
 - name: check if dblink is already loaded
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "\dx"
+  command: psql -d {{ cadastrapp.db.name }} -t -c "\dx"
   register: loaded_extensions
 
 - name: create dblink extension
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "CREATE EXTENSION dblink;"
+  command: psql -d {{ cadastrapp.db.name }} -t -c "CREATE EXTENSION dblink;"
   when: "loaded_extensions.stdout is defined and 'dblink' not in loaded_extensions.stdout"
 
 - name: list tables
@@ -47,7 +47,7 @@
   always_run: yes
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "\dt {{ cadastrapp.db.schema }}.* "
+  command: psql -d {{ cadastrapp.db.name }} -t -c "\dt {{ cadastrapp.db.schema }}.* "
   register: tables
 
 - name: list views
@@ -55,7 +55,7 @@
   always_run: yes
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "\dm {{ cadastrapp.db.schema }}.*"
+  command: psql -d {{ cadastrapp.db.name }} -t -c "\dm {{ cadastrapp.db.schema }}.*"
   register: views
 
 - name: list indexes
@@ -63,75 +63,75 @@
   always_run: yes
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -t -c "\di {{ cadastrapp.db.schema }}.*"
+  command: psql -d {{ cadastrapp.db.name }} -t -c "\di {{ cadastrapp.db.schema }}.*"
   register: indexes
 
 - name: remove old sql scripts
   tags: fetchsql
-  file: path={{ cadastrapp.tmpdir }} state=absent
+  file: path={{ cadastrappsql.tmpdir }} state=absent
 
 - name: create temp dir
   tags: fetchsql
-  file: path={{ cadastrapp.tmpdir }} state=directory
+  file: path={{ cadastrappsql.tmpdir }} state=directory
 
 - name: get the sql scripts for views
   tags: fetchsql
   get_url:
-    dest: "{{ cadastrapp.tmpdir }}/{{ item.script }}.sql"
+    dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
 #    validate_certs: no
-  with_items: cadastrapp.views
+  with_items: cadastrappsql.views
 
 - name: get the sql scripts for tables
   tags: fetchsql
   get_url:
-    dest: "{{ cadastrapp.tmpdir }}/{{ item.script }}.sql"
+    dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/{{ item.path }}/{{ item.script }}.sql
 #    validate_certs: no
-  with_items: cadastrapp.tables
+  with_items: cadastrappsql.tables
 
 - name: get the sql scripts for indexes
   tags: fetchsql
   get_url:
-    dest: "{{ cadastrapp.tmpdir }}/index.sql"
+    dest: "{{ cadastrappsql.tmpdir }}/index.sql"
     url: https://raw.github.com/GFI-informatique/cadastrapp/master/script/commun/{{ item.script }}.sql
-  with_items: cadastrapp.indexes
+  with_items: cadastrappsql.indexes
 
 - name: fix the sql scripts
   tags: fixsql
-  replace: dest={{ cadastrapp.tmpdir }}/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
+  replace: dest={{ cadastrappsql.tmpdir }}/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
   with_nested:
     - [
     { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
-    { pat: '#DBHost_qgis', val: "{{ cadastrapp.qadastredb.host }}" },
-    { pat: '#DBName_qgis', val: "{{ cadastrapp.qadastredb.name }}" },
-    { pat: '#DBUser_qgis', val: "{{ cadastrapp.qadastredb.user }}" },
-    { pat: '#DBpasswd_qgis', val: "{{ cadastrapp.qadastredb.pass }}" },
-    { pat: '#DBSchema_qgis', val: "{{ cadastrapp.qadastredb.schema }}" },
+    { pat: '#DBHost_qgis', val: "{{ cadastrappsql.qadastredb.host }}" },
+    { pat: '#DBName_qgis', val: "{{ cadastrappsql.qadastredb.name }}" },
+    { pat: '#DBUser_qgis', val: "{{ cadastrappsql.qadastredb.user }}" },
+    { pat: '#DBpasswd_qgis', val: "{{ cadastrappsql.qadastredb.pass }}" },
+    { pat: '#DBSchema_qgis', val: "{{ cadastrappsql.qadastredb.schema }}" },
     { pat: '#schema_cadastrapp', val: "{{ cadastrapp.db.schema }}" },
     { pat: '#user_cadastrapp', val: "{{ cadastrapp.db.user }}" }]
-    - cadastrapp.views + cadastrapp.tables + cadastrapp.indexes
+    - cadastrappsql.views + cadastrappsql.tables + cadastrappsql.indexes
 
 - name: create tables
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -f {{ cadastrapp.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrapp.tables
+  command: psql -d {{ cadastrapp.dbname }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  with_items: cadastrappsql.tables
   when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
 
 - name: create views
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrapp.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrapp.views
+  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  with_items: cadastrappsql.views
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
 
 - name: create indexes
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrapp.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrapp.indexes
+  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  with_items: cadastrappsql.indexes
   when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"

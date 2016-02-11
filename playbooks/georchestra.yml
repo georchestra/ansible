@@ -1,5 +1,5 @@
 - name: georchestra deployment
-  hosts: test
+  hosts: mygeorchestra
   sudo: yes
   roles:
     - georchestra

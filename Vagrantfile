@@ -23,9 +23,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # your network.
   config.vm.network :public_network
 
-  config.vm.provision :ansible do |ansible|
+  config.vm.define "mygeorchestra" do |mygeorchestra|
+    mygeorchestra.vm.hostname = "georchestra.demo.craig.fr"
+  end
+
+  config.vm.provision "ansible" do |ansible|
     ansible.playbook = "playbooks/georchestra.yml"
-    #ansible.ask_sudo_pass = false
+    ansible.verbose = "v"
   end
 
 end

@@ -5,7 +5,7 @@
     - georchestra
   vars:
     cadastrapp: {
-      enabled: no,
+      enabled: false,
       db: {
         name: cadastrapp_qgis,
         user: cadastrapp_qgis,

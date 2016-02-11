@@ -73,8 +73,8 @@
     ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f "{{ tempdir.stdout }}/georchestra.ldif"
   when: "testadmindn.stdout is defined and '# numEntries: 1' not in testadmindn.stdout"
 
-#- name: recursively purge temp dir
-#  file: dest={{ tempdir.stdout }} state=absent
+- name: recursively purge temp dir
+  file: dest={{ tempdir.stdout }} state=absent
 
 - include: clean.yml
   tags: [cleanup, openldap_cleanup]

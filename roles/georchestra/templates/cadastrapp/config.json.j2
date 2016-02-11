@@ -1,0 +1,54 @@
+[{
+        "id": "cadastrapp_0",
+        "name": "Cadastrapp",
+        "enabled" :true,
+        "preloaded": true,
+        "title": {
+                "fr": "Cadastrapp",
+                "en": "Cadastrapp",
+                "es": "Cadastrapp",
+                "de": "Cadastrapp"
+        },
+        "description": {
+                "fr": "Une serie d'outils pour exploiter pleinement les donnees cadastrales de la DGFiP",
+                "en": "A series of tools to fully exploit the cadastral data DGFiP",
+                "es": "Una serie de herramientas para aprovechar al maximo los datos catastrales DGFiP",
+                "de": "TODO" },
+        "options": {
+                "target": "tbar_12",
+                "webapp":{
+                        "url" : "/cadastrapp/"
+                },
+                "WMSLayer":{
+                        "layerNameInPanel":"Cadastre",
+                        "transparent":true,
+                        "format": "image/png"
+                },
+               "WFSLayerSetting": {
+                        "request" : "getfeature",
+                        "version" : "1.0.0",
+                        "service" : "wfs",
+                        "outputFormat" : "application/json",
+                        "geometryField":"geom"
+                },
+                "defautStyleParcelle" :{
+                        "strokeColor": "#000000",
+                        "strokeWidth":"0.5",
+                        "pointRadius": 6,
+                        "pointerEvents": "visiblePainted",
+                        "fontSize": "10px"
+                },
+                "selectedStyle" : {
+                        "defautColor":"#AAAAAA",
+                        "opacity":"0.4",
+                        "colorState1":"#FFFF00",
+                        "colorState2":"#81BEF7",
+                        "colorState3":"#57D53B",
+                        "strokeWidth":"3"
+                },
+                "popup" : {
+                        "timeToShow": 2000,
+                        "minZoom":14
+                }
+        }
+}]

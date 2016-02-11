@@ -17,6 +17,9 @@
   synchronize: src={{ tempdir.stdout }}/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
   delegate_to: test
 
+- name: template config.json
+  template: src=cadastrapp/config.json.j2 dest={{ georchestra.datadir.path }}/mapfishapp/addons/cadastrapp/config.json
+
 - name: recursively purge temp dir
   always_run: yes
   file: dest={{ tempdir.stdout }} state=absent

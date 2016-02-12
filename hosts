@@ -1,6 +1,2 @@
-# Default config points to a local VM built with vagrant:
-mygeorchestra ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200 ansible_ssh_user='vagrant'
-
-# To deploy to a remote node, replace the above with, eg:
-#mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
-# (leaving the "mygeorchestra" string as is)
+mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
+# To deploy to a remote node, put your IP above, leaving the "mygeorchestra" string as is

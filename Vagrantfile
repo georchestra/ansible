@@ -22,7 +22,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Bridged networks make the machine appear as another physical device on
   # your network.
   config.vm.network :public_network
-  config.vm.network "forwarded_port", guest: 5432, host: 5432
+  config.vm.network :forwarded_port, guest: 5432, host: 5432
+  config.vm.network :forwarded_port, guest: 22, host: 9999, id: "ssh"
 
   # Give a nice name ("georchestra") to the VM:
   config.vm.define "georchestra" do |georchestra|
@@ -37,6 +38,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.limit = "mygeorchestra"
     # ... as referenced in our "hosts" file:
     ansible.inventory_path = "hosts"
+    # ssh connection parameters for ansible:
+    ansible.extra_vars = { ansible_ssh_host: '127.0.0.1', ansible_ssh_user: 'vagrant', ansible_ssh_port: 9999 }
   end
 
 end

@@ -4,14 +4,16 @@ A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOr
 
 ## setup
 
-You just need to setup variables for your own instance in ```playbooks/georchestra.yml```, point to the IP of a host where you have
-ssh-with-passphrase root access in ```hosts``` file (ideally, an lxc container, or a vm, whatever suits you), and run
-
+In order to deploy all the middleware and components of a geOrchestra instance, you just need to:
+ * setup variables for your own instance in ```playbooks/georchestra.yml```, 
+ * point to the IP of a host where you have ssh-with-passphrase root access in the ```hosts``` file (ideally, an lxc container, or a vm, whatever suits you)
+ 
+... and run:
 ```
 ansible-playbook playbooks/georchestra.yml
-
 ```
-To deploy all the middleware and components. This has only been tested on Debian jessie (8.3) so far.
+
+This has only been tested on Debian jessie (8.3) so far.
 
 ## cleanup
 

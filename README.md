@@ -23,6 +23,20 @@ ansible-playbook -t cleanup -e "cleanup=true" playbooks/georchestra.yml
 ```
 Those sub-tasks aren't run by default, you need to specify the `cleanup=true` variable.
 
+## example setup with vagrant
+
+Install the dependencies with:
+```
+sudo apt-get install vagrant virtualbox ansible
+```
+
+Create a virtual machine and provision it (according to the playbook), with:
+```
+vagrant up
+```
+
+Once the machine is provisioned, you can `vagrant ssh` into it, look around, and one you're done, you may halt the machine (`vagrant halt`) or destroy it (`vagrant destroy`).
+
 ## warning
 
 THIS IS A WORK IN PROGRESS! Right now this will deploy a working georchestra from the master branch w/ geonetwork3/mapfishapp/geoserver/geowebcache

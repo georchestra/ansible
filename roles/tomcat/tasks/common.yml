@@ -7,7 +7,27 @@
 - name: disable default instance
   service: name=tomcat8 state=stopped enabled=no
 
-- name: create keystore
+- name: clone default keystore
+  tags: keystore
+  command: >
+    keytool -importkeystore
+      -srckeystore /etc/ssl/certs/java/cacerts \
+      -srcstorepass changeit \
+      -destkeystore /etc/tomcat8/keystore \
+      -deststorepass {{ tomcat_keystore_pass }}
+    creates=/etc/tomcat8/keystore
+
+- name: check if localhost exists in keystore
+  tags: keystore
+  command: >
+    keytool -list -alias localhost \
+      -keystore /etc/tomcat8/keystore \
+      -storepass {{ tomcat_keystore_pass }}
+  ignore_errors: yes
+  register: localhost_exists
+
+- name: create and self-sign certificate
+  tags: keystore
   command: >
     keytool -genkey -alias localhost \
       -keystore /etc/tomcat8/keystore \
@@ -16,7 +36,7 @@
       -keyalg RSA \
       -keysize 2048 \
       -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
-    creates=/etc/tomcat8/keystore
+  when: localhost_exists|failed
 
 - name: create tomcat_basedir
   file: name={{ tomcat_basedir }} state=directory

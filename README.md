@@ -32,7 +32,12 @@ Install the dependencies with:
 sudo apt-get install vagrant virtualbox ansible
 ```
 
-Create a virtual machine and provision it (according to the playbook), with:
+Optionally, to install the "guest additions", you may run:
+```
+vagrant plugin install vagrant-vbguest
+```
+
+Finally, create a virtual machine and provision it (according to the playbook), with:
 ```
 vagrant up
 ```

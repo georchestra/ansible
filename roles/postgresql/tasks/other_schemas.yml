@@ -1,4 +1,6 @@
 - name: create temporary directory
+  sudo: yes
+  sudo_user: postgres
   shell: mktemp -d
   always_run: yes
   register: tempdir

@@ -25,6 +25,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :forwarded_port, guest: 5432, host: 5432
   config.vm.network :forwarded_port, guest: 22, host: 9999, id: "ssh"
 
+  # We do not care about security here and want to keep using the default insecure key:
+  config.ssh.insert_key = false
+
   # Give a nice name ("georchestra") to the VM:
   config.vm.define "georchestra" do |georchestra|
   end

@@ -21,12 +21,22 @@
   sudo_user: postgres
   postgresql_db: name={{ georchestra.db.name }} owner={{ georchestra.db.user }} template=template0 encoding=UTF8
 
-- include: geonetwork.yml tags=postgresql_geonetwork
-- include: geofence.yml tags=postgresql_geofence
-- include: other_schemas.yml tags=postgresql_other_schemas
-- include: geofence_gsinstance.yml tags=postgresql_geofence_gsinstance
-- include: cadastrapp.yml tags=postgresql_cadastrapp
+- include: geonetwork.yml
+  tags: postgresql_geonetwork
+
+- include: geofence.yml
+  tags: postgresql_geofence
+
+- include: other_schemas.yml
+  tags: postgresql_other_schemas
+
+- include: geofence_gsinstance.yml
+  tags: postgresql_geofence_gsinstance
+
+- include: cadastrapp.yml
+  tags: postgresql_cadastrapp
   when: cadastrapp.enabled
+
 - include: clean.yml
   tags: [cleanup, postgresql_cleanup]
   when: cleanup is defined

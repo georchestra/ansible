@@ -2,5 +2,5 @@
 mygeorchestra ansible_ssh_host=127.0.0.1 ansible_ssh_port=2200 ansible_ssh_user='vagrant'
 
 # To deploy to a remote node, replace the above with, eg:
-mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
+#mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
 # (leaving the "mygeorchestra" string as is)

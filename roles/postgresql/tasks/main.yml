@@ -1,3 +1,11 @@
+- name: set locale.gen content
+  file: dest=/etc/locale.gen content='fr_FR.UTF-8 UTF-8\n'
+
+- name: reconfigure locales
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  command: dpkg-reconfigure locales
+
 - name: installing dependencies
   apt: pkg={{ item }} state=installed update_cache=yes
   with_items:

@@ -1,5 +1,6 @@
 - name: georchestra deployment
-  hosts: test
+  hosts: mygeorchestra
+  # note: above host must match the content of the "hosts" file
   sudo: yes
   roles:
     - georchestra

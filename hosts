@@ -1,1 +1,2 @@
-test ansible_ssh_host=10.0.1.19
+mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
+# To deploy to a remote node, put your IP above, leaving the "mygeorchestra" string as is

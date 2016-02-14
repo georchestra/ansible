@@ -10,6 +10,6 @@
   command: >
     psql -d {{ georchestra.db.name }} -t -c
     "INSERT INTO geofence.gf_gsinstance (id, baseURL, dateCreation, description, name, password, username) values
-    (0, 'http://{{ georchestra.fqdn }}/geoserver', 'now', 'locale geoserver', 'default-gs', '{{ geoserver.privileged.pass }}', '{{ geoserver.privileged.user }}');"
+    (0, 'https://{{ georchestra.fqdn }}/geoserver', 'now', 'locale geoserver', 'default-gs', '{{ geoserver.privileged.pass }}', '{{ geoserver.privileged.user }}');"
   when: "default_gsinstance.stdout is defined and default_gsinstance.stdout == '     0'"
 

@@ -55,7 +55,7 @@
   copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap.rootpw }} mode=0400
 
 - name: check if the root already exists
-  command: "ldapsearch  -x -b {{ openldap.basedn }} {{ openldap.topdc }}"
+  command: "ldapsearch  -x -b {{ openldap.basedn }} dc={{ openldap.topdc }}"
   ignore_errors: true
   register: topdc
 

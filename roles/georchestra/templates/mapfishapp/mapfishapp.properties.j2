@@ -3,6 +3,6 @@ instance=mapfishapp
 language=fr
 
 
-jdbcUrl=jdbc:postgresql://localhost:5432/georchestra?user=www-data&password=www-data
+jdbcUrl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
 
 docTempDir=/tmp

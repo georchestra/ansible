@@ -1,8 +1,11 @@
-- name: create toplevel datadirs
+- name: create datadirs
   tags: wars
-  file: path=/srv/{{ item }} state=directory owner=tomcat8 group=tomcat8
+  file: path={{ item }} state=directory owner=tomcat8 group=tomcat8
   with_items:
-  - data
+  - "{{ geonetwork.datadir.path }}"
+  - "{{ geoserver.datadir.path }}"
+  - "{{ geowebcache_datadir }}"
+  - "{{ extractor_datadir }}"
 
 - include: config.yml
   tags: config

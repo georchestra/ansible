@@ -15,7 +15,7 @@
 
 - name: copy cadastrapp to mapfishapp/app/addons
   synchronize: src={{ tempdir.stdout }}/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
-  delegate_to: test
+  delegate_to: mygeorchestra
 
 - name: template config.json
   template: src=cadastrapp/config.json.j2 dest={{ georchestra.datadir.path }}/mapfishapp/addons/cadastrapp/config.json

@@ -42,7 +42,13 @@ Finally, create a virtual machine and provision it (according to the playbook), 
 vagrant up
 ```
 
-Once the machine is provisioned, you can `vagrant ssh` into it, look around, and one you're done, you may halt the machine (`vagrant halt`) or destroy it (`vagrant destroy`).
+When the machine is provisioned, you can `vagrant ssh` into it, look around, and once you're done, you may halt the machine (`vagrant halt`) or destroy it (`vagrant destroy`).
+
+To browse your SDI, just drop a line in your ```/etc/hosts``` file, registering the IP of the VM with the FQDN you declared in the playbook, eg:
+```
+192.168.0.19 georchestra.demo.craig.fr
+```
+... and open https://georchestra.demo.craig.fr/geonetwork/ in your browser.
 
 ## warning
 

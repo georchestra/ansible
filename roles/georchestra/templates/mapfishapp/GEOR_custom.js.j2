@@ -98,7 +98,7 @@ GEOR.custom = {
      * This is required if and only if the "referentials" module is activated.
      * Defaults to /geoserver/wfs
      */
-    GEOSERVER_WFS_URL: "http://{{ georchestra.fqdn }}/geoserver/wfs",
+    GEOSERVER_WFS_URL: "https://{{ georchestra.fqdn }}/geoserver/wfs",
 
     /**
      * Constant: GEOSERVER_WMS_URL
@@ -114,7 +114,7 @@ GEOR.custom = {
      * Required for CSW Browser module.
      * Defaults to "/geonetwork"
      */
-    GEONETWORK_BASE_URL: "http://{{ georchestra.fqdn }}/geonetwork",
+    GEONETWORK_BASE_URL: "https://{{ georchestra.fqdn }}/geonetwork",
 
     /**
      * Constant: CSW_GETDOMAIN_SORTING
@@ -141,7 +141,7 @@ GEOR.custom = {
         ['https://sdi.georchestra.org/geonetwork/srv/fre/csw', 'le catalogue geOrchestra démo'],
         ['http://geobretagne.fr/geonetwork/srv/fre/csw', 'le catalogue GeoBretagne'],
         ['http://ids.pigma.org/geonetwork/srv/fre/csw', 'le catalogue PIGMA'],
-        ['/geonetwork/srv/fre/csw', 'le catalogue local'],
+        ['https://{{ georchestra.fqdn }}/geonetwork/srv/fre/csw', 'le catalogue local'],
         ['http://sandre.eaufrance.fr/geonetwork_CSW/srv/fre/csw', 'le catalogue du Sandre'],
         ['http://geocatalog.webservice-energy.org/geonetwork/srv/fre/csw', 'le catalogue de webservice-energy'],
         ['http://www.ifremer.fr/geonetwork/srv/fre/csw', "le catalogue de l'Ifremer"]
@@ -152,7 +152,7 @@ GEOR.custom = {
      * CSW URL which should be used by default for freetext search
      * Note: must be one of the URLs in the above CATALOGS config option
      */
-    DEFAULT_CSW_URL: '/geonetwork/srv/fre/csw',
+    DEFAULT_CSW_URL: 'https://{{ georchestra.fqdn }}/geonetwork/srv/fre/csw',
 
     /**
      * Constant: MAX_CSW_RECORDS

@@ -15,7 +15,7 @@
 - name: set full geoserver url for getcapabilities docs
   sudo: yes
   sudo_user: tomcat8
-  lineinfile: dest={{ geoserver.datadir.path }}/global.xml regexp='<proxyBaseUrl>https://georchestra.mydomain.org/geoserver</proxyBaseUrl>' line='    <proxyBaseUrl>http://{{ georchestra.fqdn }}/geoserver</proxyBaseUrl>'
+  lineinfile: dest={{ geoserver.datadir.path }}/global.xml regexp='<proxyBaseUrl>https://georchestra.mydomain.org/geoserver</proxyBaseUrl>' line='    <proxyBaseUrl>https://{{ georchestra.fqdn }}/geoserver</proxyBaseUrl>'
 
 - name: set list of advertised wms srs
   sudo: yes

@@ -6,6 +6,8 @@
      CustomLog /var/www/georchestra/logs/access.log "combined"
      Include /var/www/georchestra/conf/*.conf
      ServerSignature Off
+     RewriteCond %{HTTPS} off
+     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </VirtualHost>
 <VirtualHost *:443>
      ServerName {{ georchestra.fqdn }}

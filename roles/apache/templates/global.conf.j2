@@ -7,7 +7,7 @@
 
 RewriteEngine On
 
-SetEnv no-gzip on
+AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml text/css text/javascript application/javascript
 
 ProxyRequests Off
 ProxyTimeout 999999999

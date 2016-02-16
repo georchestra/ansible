@@ -3,7 +3,7 @@
 
 - name: enable required modules
   apache2_module: name={{ item }} state=present
-  with_items: [proxy_http, proxy, ssl, rewrite, headers]
+  with_items: [proxy_http, proxy, ssl, rewrite, headers, deflate]
   notify: reload apache2
 
 - name: disable the default site

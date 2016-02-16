@@ -116,7 +116,7 @@
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  command: psql -d {{ cadastrapp.db.name }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.tables
   when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
 
@@ -124,7 +124,7 @@
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.views
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
 
@@ -132,6 +132,6 @@
   tags: runsql
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ cadastrapp.dbname }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
+  command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.indexes
   when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"

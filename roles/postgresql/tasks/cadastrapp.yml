@@ -103,11 +103,11 @@
   with_nested:
     - [
     { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
-    { pat: '#DBHost_qgis', val: "{{ cadastrappsql.qadastredb.host }}" },
-    { pat: '#DBName_qgis', val: "{{ cadastrappsql.qadastredb.name }}" },
-    { pat: '#DBUser_qgis', val: "{{ cadastrappsql.qadastredb.user }}" },
-    { pat: '#DBpasswd_qgis', val: "{{ cadastrappsql.qadastredb.pass }}" },
-    { pat: '#DBSchema_qgis', val: "{{ cadastrappsql.qadastredb.schema }}" },
+    { pat: '#DBHost_qgis', val: "{{ cadastrapp.qgisdb.host }}" },
+    { pat: '#DBName_qgis', val: "{{ cadastrapp.qgisdb.name }}" },
+    { pat: '#DBUser_qgis', val: "{{ cadastrapp.qgisdb.user }}" },
+    { pat: '#DBpasswd_qgis', val: "{{ cadastrapp.qgisdb.pass }}" },
+    { pat: '#DBSchema_qgis', val: "{{ cadastrapp.qgisdb.schema }}" },
     { pat: '#schema_cadastrapp', val: "{{ cadastrapp.db.schema }}" },
     { pat: '#user_cadastrapp', val: "{{ cadastrapp.db.user }}" }]
     - cadastrappsql.views + cadastrappsql.tables + cadastrappsql.indexes

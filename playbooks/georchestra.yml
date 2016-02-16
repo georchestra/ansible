@@ -13,6 +13,13 @@
         schema: cadastrapp_qgis,
         pass: cadastrapp_qgis
       },
+      qgisdb: {
+        host: 10.0.0.9,
+        name: qadastre,
+        user: qadastre,
+        pass: qadastre,
+        schema: public
+      },
       gitrepo: "https://github.com/GFI-Informatique/addons",
       gitversion: master,
       debsrc: {

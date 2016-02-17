@@ -14,17 +14,17 @@
   tags: cadastrapp_war
   when: cadastrapp.enabled
 
-- include: wars.yml
-  tags: wars
-
 - include: geoserver.yml
   tags: geoserver
 
-- include: nativelibs.yml
-  tags: nativelibs
-
 - include: geonetwork.yml
   tags: geonetwork
+
+- include: wars.yml
+  tags: wars
+
+- include: nativelibs.yml
+  tags: nativelibs
 
 - include: cadastrapp.yml
   tags: cadastrapp_addon

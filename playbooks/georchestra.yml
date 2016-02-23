@@ -57,7 +57,7 @@
     }
     geonetwork: {
       db: {
-        name: geonetwork,
+        schema: geonetwork,
         user: geonetwork,
         pass: geonetwork
       },

@@ -3,20 +3,14 @@
   sudo_user: postgres
   postgresql_user: name={{ geonetwork.db.user }} password={{ geonetwork.db.pass }}
 
-- name: create geonetwork database
+- name: check if geonetwork schema already exists
   sudo: yes
   sudo_user: postgres
-  postgresql_db: name={{ geonetwork.db.name }} owner={{ geonetwork.db.user }} template=template0 encoding=UTF8
+  command: psql -d {{ georchestra.db.name }} -t -c "\dn"
+  register: loaded_schemas
 
-- name: check if postgis is already loaded
+- name: create geonetwork schema in georchestra db
   sudo: yes
   sudo_user: postgres
-  command: psql -d {{ geonetwork.db.name }} -t -c "\dT"
-  register: loaded_types
-
-- name: create postgis extension for spatialindex
-  sudo: yes
-  sudo_user: postgres
-  command: psql -d {{ geonetwork.db.name }} -t -c "CREATE EXTENSION postgis;"
-  when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
-
+  command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA {{ geonetwork.db.schema }} AUTHORIZATION {{ geonetwork.db.user }}'
+  when: "loaded_schemas.stdout is defined and '{{ geonetwork.db.schema }}' not in loaded_schemas.stdout"

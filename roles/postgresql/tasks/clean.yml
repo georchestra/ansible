@@ -9,7 +9,6 @@
   postgresql_db: name={{ item }} state=absent
   with_items:
   - "{{ georchestra.db.name }}"
-  - "{{ geonetwork.db.name }}"
 
 - name: delete db users
   sudo: yes

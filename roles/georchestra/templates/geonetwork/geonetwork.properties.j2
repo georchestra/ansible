@@ -15,8 +15,9 @@ geonetwork.htmlcache.dir=${geonetwork.resources.dir}/htmlcache/
 # database configuration
 jdbc.host=localhost
 jdbc.port=5432
-jdbc.database={{ geonetwork.db.name }}
 
+jdbc.database={{ georchestra.db.name }}
+jdbc.schema={{ geonetwork.db.schema }}
 jdbc.username={{ geonetwork.db.user }}
 jdbc.password={{ geonetwork.db.pass }}
 

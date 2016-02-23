@@ -84,6 +84,7 @@
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     logs_basedir: /srv/log
+    force_https: true
     ldapadmin_adminemail: admin@craig.fr
     tomcat_instances: {
       proxycas: { port: 8180, control_port: 8105 },

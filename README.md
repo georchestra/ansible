@@ -2,6 +2,8 @@
 
 A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOrchestra](http://www.georchestra.org/) SDI instance.
 
+Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
+
 ## setup
 
 In order to deploy all the middleware and components of a geOrchestra instance, you just need to:
@@ -49,8 +51,3 @@ To browse your SDI, just drop a line in your ```/etc/hosts``` file, registering 
 192.168.0.19 georchestra.demo.craig.fr
 ```
 ... and open https://georchestra.demo.craig.fr/geonetwork/ in your browser.
-
-## warning
-
-THIS IS A WORK IN PROGRESS! Right now this will deploy a working georchestra from the master branch w/ geonetwork3/mapfishapp/geoserver/geowebcache
-with mostly default configs and empty databases/datadirs.

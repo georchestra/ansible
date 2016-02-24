@@ -1,5 +1,5 @@
 - name: setting locale
-  locale_gen: name=fr_FR.UTF-8 state=present
+  locale_gen: name={{ system_locale }} state=present
 
 - name: installing dependencies
   apt: name={{ item }} state=installed update_cache=yes

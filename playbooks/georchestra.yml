@@ -83,6 +83,7 @@
     extractor_datadir: /srv/data/extractor/
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
+    tomcat_lang: en_US.UTF-8
     logs_basedir: /srv/log
     force_https: true
     ldapadmin_adminemail: admin@craig.fr

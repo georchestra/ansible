@@ -48,6 +48,6 @@ When the machine is provisioned, you can `vagrant ssh` into it, look around, and
 
 To browse your SDI, just drop a line in your ```/etc/hosts``` file, registering the IP of the VM with the FQDN you declared in the playbook, eg:
 ```
-192.168.0.19 georchestra.demo.craig.fr
+192.168.0.19 georchestra.example.org
 ```
-... and open https://georchestra.demo.craig.fr/geonetwork/ in your browser.
+... and open https://georchestra.example.org/geonetwork/ in your browser.

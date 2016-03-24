@@ -64,7 +64,7 @@
       datadir: {
         path: /srv/data/geonetwork/,
         gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir",
-        gitversion: master
+        gitversion: gn3.0.x
       }
     }
     geoserver: {

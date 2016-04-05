@@ -22,6 +22,22 @@
   sudo_user: tomcat8
   lineinfile: dest={{ geoserver.datadir.path }}/wms.xml insertafter='</metadata>' line="<srs><string>{{ geoserver.wms_srslist|join('</string><string>') }}</string></srs>"
 
+- name: fix my_ldap config for usergroup/roles
+  tags: fixgsldap
+  replace:
+    dest: "{{ geoserver.datadir.path }}/security/{{ item.1 }}/my_ldap/config.xml"
+    regexp: "{{ item.0.pat }}"
+    replace: "{{ item.0.val }}"
+    backup: yes
+  with_nested:
+    - [
+    { pat: "<user>.*</user>", val: "<user>{{ openldap.rootdn }}</user>" },
+    { pat: "<password>.*</password>", val: "<password>{{ openldap.rootpw }}</password>" },
+    { pat: "<groupSearchBase>.*</groupSearchBase>", val: "<groupSearchBase>ou=groups,{{ openldap.basedn }}</groupSearchBase>" },
+    { pat: "<groupSearchFilter>.*</groupSearchFilter>", val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>" },
+    { pat: "<userSearchBase>.*</userSearchBase>", val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>" }]
+    - [ role, usergroup ]
+
 # alternative could be to checkout the geofence branch of geoserver_minimal_datadir
 #- name: enforce geofence auth
 #  sudo: yes

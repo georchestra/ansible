@@ -1,0 +1,18 @@
+<org.geoserver.security.ldap.config.LDAPUserGroupServiceConfig>
+  <id>52684add:153ae61eaf4:-7ff0</id>
+  <name>my_ldap</name>
+  <className>org.geoserver.security.ldap.LDAPUserGroupService</className>
+  <serverURL>ldap://localhost:389</serverURL>
+  <groupSearchBase>ou=groups,dc=georchestra,dc=org</groupSearchBase>
+  <groupFilter>cn={0}</groupFilter>
+  <allGroupsSearchFilter>objectClass=groupOfMembers</allGroupsSearchFilter>
+  <groupSearchFilter>member=uid={0},ou=users,dc=georchestra,dc=org</groupSearchFilter>
+  <userSearchBase>ou=users,dc=georchestra,dc=org</userSearchBase>
+  <userNameAttribute>uid</userNameAttribute>
+  <useTLS>false</useTLS>
+  <bindBeforeGroupSearch>true</bindBeforeGroupSearch>
+  <user>cn=admin,dc=georchestra,dc=org</user>
+  <password>secret</password>
+  <passwordEncoderName>emptyPasswordEncoder</passwordEncoderName>
+  <passwordPolicyName>default</passwordPolicyName>
+</org.geoserver.security.ldap.config.LDAPUserGroupServiceConfig>

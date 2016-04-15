@@ -24,7 +24,7 @@
 	<logger name="com.vividsolutions.jts" level="WARN" />
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/srv/log/cadastrapp.log</file>
+		<file>{{ logs_basedir }}/cadastrapp.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>{{ logs_basedir }}/cadastrapp.%d.log.gz</fileNamePattern>
 		</rollingPolicy>

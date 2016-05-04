@@ -3,7 +3,7 @@
   shell: mktemp -d
   register: tempdir
 
-- name: clone addons repository
+- name: clone cadastrapp repository
   always_run: yes
   git: repo={{ cadastrapp.gitrepo }} dest={{ tempdir.stdout }} version={{ cadastrapp.gitversion }}
 
@@ -14,7 +14,7 @@
   file: name={{ georchestra.datadir.path }}/mapfishapp/addons/ state=directory
 
 - name: copy cadastrapp to mapfishapp/app/addons
-  synchronize: src={{ tempdir.stdout }}/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
+  synchronize: src={{ tempdir.stdout }}/addons/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
   delegate_to: mygeorchestra
 
 - name: template config.json

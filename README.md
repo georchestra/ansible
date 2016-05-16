@@ -2,7 +2,7 @@
 
 A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOrchestra](http://www.georchestra.org/) SDI instance.
 
-Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
+By default, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
 
 ## setup
 
@@ -15,7 +15,13 @@ In order to deploy all the middleware and components of a geOrchestra instance, 
 ansible-playbook playbooks/georchestra.yml
 ```
 
-This has only been tested on Debian jessie (8.3) so far.
+This has only been tested on Debian Jessie (8.4) so far.
+
+Note: to deploy 15.12, you should modify the playbook to fetch packages from our experimental build server:
+```
+repo: "deb http://193.55.222.230/debian 15.12 main",
+key: "http://193.55.222.230/debian/build.georchestra.org.asc"
+```
 
 ## cleanup
 

@@ -4,7 +4,7 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/postgresql/04-ldapadmin.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/03-downloadform.sql
   - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/05-ogc-server-statistics.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/06-ogc-server-statistics.sql
 cadastrappsql: {
   tmpdir: /tmp/cadastrapp/sql,
   views : [

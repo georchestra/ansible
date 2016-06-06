@@ -1,6 +1,6 @@
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
-	-Xms256m \
-	-Xmx512m \
+	-Xms{{ tomcat_instances.proxycas.xms }} \
+	-Xmx{{ tomcat_instances.proxycas.xmx }} \
 	-XX:MaxPermSize=128m \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-Djavax.net.ssl.trustStore=/etc/tomcat8/keystore \

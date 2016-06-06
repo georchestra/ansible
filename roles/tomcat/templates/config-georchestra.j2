@@ -1,6 +1,6 @@
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
-	-Xms1G \
-	-Xmx2G \
+	-Xms{{ tomcat_instances.georchestra.xms }} \
+	-Xmx{{ tomcat_instances.georchestra.xmx }} \
 	-XX:MaxPermSize=512m \
 	-Djavax.net.ssl.trustStore=/etc/tomcat8/keystore \
 	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }} \

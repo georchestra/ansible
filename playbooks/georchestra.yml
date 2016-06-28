@@ -20,11 +20,11 @@
         pass: qadastre,
         schema: public
       },
-      gitrepo: "https://github.com/GFI-Informatique/cadastrapp",
+      gitrepo: "https://github.com/georchestra/cadastrapp",
       gitversion: master,
       debsrc: {
         path: /root/src/cadastrapp/cadastrapp/cadastrapp/target/,
-        pkg: georchestra-cadastrapp_1.3+201605031614-1_all.deb,
+        pkg: georchestra-cadastrapp_1.3+201606281215-1_all.deb,
         host: web-wheezy
       },
       workdir: /tmp/cadastrapp/tmp

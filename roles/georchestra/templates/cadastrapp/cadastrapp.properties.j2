@@ -26,25 +26,39 @@ minNbCharForSearch=5
 # PDF generation
 pdf.imageHeight=550
 pdf.imageWidth=550
-pdf.dateValiditeDonneesMajic=01/01/2014
-pdf.dateValiditeDonneesEDIGEO=01/01/2014
+pdf.dateValiditeDonneesMajic=01/01/2016
+pdf.dateValiditeDonneesEDIGEO=01/01/2016
 pdf.organisme=Un service du CRAIG
 
 ## Use to create image for pdf on server side (could be use for client configuration as well)
 ## if baseMap URL is empty no image will be added in pdf
-#baseMap.WMS.url=http://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
-baseMap.WMS.url=
+#baseMap.wms.url=http://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
+baseMap.wms.url=
 baseMap.layer.name=osm:roads
 baseMap.format=image/png
 baseMap.SRS=EPSG:3857
+# only used when wms service need authentification
+# if empty no authentification is used
+baseMap.wms.username=
+baseMap.wms.password=
 
 ## information about WMS and WFS service
 # Here you can configure the layer name and with field contains the parcelle Id depending if you are on Qgis or Arcopole model
 cadastre.wms.url=https://{{ georchestra.fqdn }}/geoserver/wms
 cadastre.wms.layer.name=qgis:parcelle_bati
+# only used when wms service need authentification
+# if empty no authentification is used
+cadastre.wms.username=
+cadastre.wms.password=
 
 cadastre.wfs.url=https://{{ georchestra.fqdn }}/geoserver/wfs
 cadastre.wfs.layer.name=qgis:geo_parcelle
+# only used when wfs service need authentification
+# if empty no authentification is used
+# if authentification is used make sure to use https service with certificate declared in tomcat
+cadastre.wfs.username=
+cadastre.wfs.password=
+
 
 ## use in the addon to check WFS fieldname to be search
 cadastre.layer.idParcelle=geo_parcelle
@@ -52,7 +66,8 @@ cadastre.format=image/png
 cadastre.SRS=EPSG:3857
 
 ## used in inner call service to create image for pdf from fo file
-webapp.url.services=http://localhost:{{ tomcat_instances[georchestra_wars['cadastrapp'].tomcat]['port'] }}/cadastrapp/services/
+# This service does need to go throw the security proxy
+webapp.url.services=http://localhost:{{ tomcat_instances[georchestra_wars['ROOT'].tomcat]['port'] }}/cadastrapp/services/
 
 ## Temp folder with write acces to create image and temporary files needed for pdf generation
 ## This folder should be writtable by tomcat user

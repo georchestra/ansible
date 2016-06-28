@@ -17,6 +17,7 @@ cadastrappsql: {
     { script: qgisProprieteBatie, view: proprietebatie },
     { script: qgisProprieteNonBatie, view: proprietenonbatie },
     { script: qgisProprieteNonBatieSufExo, view: proprietenonbatiesufexo },
+    { script: qgisLot, view: lot },
     { script: qgisSection, view: section } ],
   tables: [
     { script: groupe_autorisation, path: commun/user },

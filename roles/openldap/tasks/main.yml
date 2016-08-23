@@ -74,6 +74,15 @@
     ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f "{{ tempdir.stdout }}/georchestra.ldif"
   when: "testadmindn.stdout is defined and '# numEntries: 1' not in testadmindn.stdout"
 
+- name: check if ou=groups exists
+  command: ldapsearch  -x -b {{ openldap.basedn }} ou=groups
+  ignore_errors: true
+  always_run: true
+  register: groupsou
+
+- include: migrate_groups.yml
+  when: "'# numEntries: 1' in groupsou.stdout"
+
 - name: recursively purge temp dir
   always_run: yes
   file: dest={{ tempdir.stdout }} state=absent

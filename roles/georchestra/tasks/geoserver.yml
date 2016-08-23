@@ -24,6 +24,8 @@
 
 - name: fix my_ldap config for usergroup/roles
   tags: fixgsldap
+  sudo: yes
+  sudo_user: tomcat8
   replace:
     dest: "{{ geoserver.datadir.path }}/security/{{ item.1 }}/my_ldap/config.xml"
     regexp: "{{ item.0.pat }}"

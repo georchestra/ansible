@@ -33,7 +33,7 @@
     - [
     { pat: "<user>.*</user>", val: "<user>{{ openldap.rootdn }}</user>" },
     { pat: "<password>.*</password>", val: "<password>{{ openldap.rootpw }}</password>" },
-    { pat: "<groupSearchBase>.*</groupSearchBase>", val: "<groupSearchBase>ou=groups,{{ openldap.basedn }}</groupSearchBase>" },
+    { pat: "<groupSearchBase>.*</groupSearchBase>", val: "<groupSearchBase>ou=roles,{{ openldap.basedn }}</groupSearchBase>" },
     { pat: "<groupSearchFilter>.*</groupSearchFilter>", val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>" },
     { pat: "<userSearchBase>.*</userSearchBase>", val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>" }]
     - [ role, usergroup ]

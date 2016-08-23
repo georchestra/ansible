@@ -37,7 +37,7 @@ ldap.sync.user.search.filter=(&(objectClass=*)(mail=*@*)(givenName=*))
 ldap.sync.user.search.attribute=uid
 ldap.privilege.create.nonexisting.groups=true
 ldap.privilege.create.nonexisting.users=true
-ldap.sync.group.search.base=ou=groups
+ldap.sync.group.search.base=ou=roles
 ldap.sync.group.search.filter=(&(objectClass=groupOfMembers)(cn=EL_*))
 ldap.sync.group.search.attribute=cn
 ldap.sync.group.search.pattern=EL_(.*)
@@ -48,7 +48,7 @@ ldap.sync.startDelay=60000
 ldap.privilege.import=true
 ldap.privilege.search.group.queryprop=member
 ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
-ldap.privilege.search.group.object=ou=groups
+ldap.privilege.search.group.object=ou=roles
 ldap.base.search.base=ou=users
 ldap.privilege.search.privilege.pattern=SV_(.*)
 ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=SV_*))

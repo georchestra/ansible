@@ -16,7 +16,7 @@ cas.viewResolver.basename=default_views
 host.name={{ georchestra.fqdn }}
 
 ldap.url=ldap://localhost:389
-ldap.authn.groupSearchBaseDn=ou=groups,{{ openldap.basedn }}
+ldap.authn.groupSearchBaseDn=ou=roles,{{ openldap.basedn }}
 ldap.authn.userSearchBaseDn=ou=users,{{ openldap.basedn }}
 ldap.authn.searchFilter=(uid={user})
 ldap.admin.username=cn=admin,{{ openldap.basedn }}

@@ -13,7 +13,7 @@ casTicketValidation=https://localhost:8443/cas
 # After going to the cas login cas forwards to this URL where the authorities and permissions are checked
 proxyCallback=https://{{ georchestra.fqdn }}:443/j_spring_cas_security_check
 # the ldap url
-ldapUrl=ldap://localhost:389
+ldapUrl=ldap://localhost
 baseDN={{ openldap.basedn }}
 # The base DN from where to search for the logged in user.  This mostly to verify the user exists
 userSearchBaseDN=ou=users

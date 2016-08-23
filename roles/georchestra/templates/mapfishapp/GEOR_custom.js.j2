@@ -17,7 +17,17 @@ GEOR.custom = {
      */
     HEADER_HEIGHT: 90,
 
-    /***** Beginning of config options which can be set in this file *****/
+    /**
+     * Constant: DEFAULT_WMC
+     * The relative path to the default context.
+     *
+     * Must be one of those, either copied to the datadir
+     * or contained in the webapp.
+     *
+     * Defaults to the first one got by mapfishapp's ContextController.java,
+     * probably something like "context/default.wmc"
+     */
+    DEFAULT_WMC: "context/default.wmc",
 
     /**
      * Constant: GEOSERVER_WFS_URL

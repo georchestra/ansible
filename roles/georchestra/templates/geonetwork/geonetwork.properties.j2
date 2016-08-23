@@ -50,6 +50,5 @@ ldap.privilege.search.group.queryprop=member
 ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
 ldap.privilege.search.group.object=ou=roles
 ldap.base.search.base=ou=users
-ldap.privilege.search.privilege.pattern=SV_(.*)
-ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=SV_*))
-
+ldap.privilege.search.privilege.pattern=GN_(.*)
+ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=GN_*))

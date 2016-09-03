@@ -4,7 +4,6 @@ A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOr
 
 Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
 
-Very recently, in June 2016, developments (which happen in geOrchestra's master branch for the 16.12 release) led to breaking changes in the LDAP data model, which, to date, have not been ported to this repository. **There's currently no guarantee that the security system works if you deploy a geOrchestra SDI with this ansible recipe for the moment**.
 
 ## setup
 

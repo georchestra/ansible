@@ -12,13 +12,13 @@
   apt: name=python-psycopg2 state=installed
 
 - name: create georchestra user
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: name={{ georchestra.db.user }} password={{ georchestra.db.pass }}
 
 - name: create georchestra main database
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_db: name={{ georchestra.db.name }} owner={{ georchestra.db.user }} template=template0 encoding=UTF8
 
 - include: geonetwork.yml

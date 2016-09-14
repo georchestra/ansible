@@ -1,42 +1,42 @@
 - name: check if plpgsql is already loaded
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "\dx"
   register: loaded_extensions
 
 - name: createlang plpgsql
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "CREATE EXTENSION plpgsql;"
   when: "loaded_extensions.stdout is defined and 'plpgsql' not in loaded_extensions.stdout"
 
 - name: check if postgis is already loaded
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "\dT"
   register: loaded_types
 
 - name: create postgis extension
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "CREATE EXTENSION postgis;"
   when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
 
 - name: check if spatial_ref_sys was already filled
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "select count(*) from spatial_ref_sys;"
   register: loaded_ref_sys
 
 - name: create spatial_ref_sys functions
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
   when: "loaded_ref_sys.stdout is defined and loaded_ref_sys.stdout == '     0'"
 
 - name: grant SELECT privilege to georchestra user on spatial_ref_sys table
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
     privs: SELECT
@@ -45,8 +45,8 @@
     objs: spatial_ref_sys
 
 - name: grant SELECT|INSERT|DELETE privileges to georchestra user on geometry_columns
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
     privs: SELECT,INSERT,DELETE

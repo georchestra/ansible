@@ -1,28 +1,28 @@
 - name: create cadastrapp user
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: name={{ cadastrapp.db.user }} password={{ cadastrapp.db.pass }}
 
 - name: create cadastrapp main database
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_db: name={{ cadastrapp.db.name }} owner={{ cadastrapp.db.user }} template=template0 encoding=UTF8
 
 - name: check if cadastrapp schema already exists
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create cadastrapp schema in cadastrapp db
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -c 'CREATE SCHEMA {{ cadastrapp.db.schema }}'
   when: "loaded_schemas.stdout is defined and '{{ cadastrapp.db.schema }}' not in loaded_schemas.stdout"
 
 - name: grant all privileges to cadastrapp user on its schema
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ cadastrapp.db.name }}"
     privs: ALL
@@ -31,38 +31,38 @@
     objs: "{{ cadastrapp.db.schema }}"
 
 - name: check if dblink is already loaded
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dx"
   register: loaded_extensions
 
 - name: create dblink extension
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "CREATE EXTENSION dblink;"
   when: "loaded_extensions.stdout is defined and 'dblink' not in loaded_extensions.stdout"
 
 - name: list tables
   tags: runsql
   always_run: yes
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dt {{ cadastrapp.db.schema }}.* "
   register: tables
 
 - name: list views
   tags: runsql
   always_run: yes
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dm {{ cadastrapp.db.schema }}.*"
   register: views
 
 - name: list indexes
   tags: runsql
   always_run: yes
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\di {{ cadastrapp.db.schema }}.*"
   register: indexes
 
@@ -114,24 +114,24 @@
 
 - name: create tables
   tags: runsql
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.tables
   when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
 
 - name: create views
   tags: runsql
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.views
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
 
 - name: create indexes
   tags: runsql
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: cadastrappsql.indexes
   when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"

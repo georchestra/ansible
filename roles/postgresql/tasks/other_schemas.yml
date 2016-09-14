@@ -1,6 +1,6 @@
 - name: create temporary directory
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   shell: mktemp -d
   always_run: yes
   register: tempdir
@@ -15,15 +15,15 @@
     - other_schemas_urls
 
 - name: check if mapfishapp schema already exists
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
   register: schema_exists
   with_items: other_schemas
 
 - name: create missing schemas
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
   when: "item.stdout is defined and '{{ item.item }}' not in item.stdout"
   with_items: schema_exists.results
@@ -33,8 +33,8 @@
   file: dest={{ tempdir.stdout }} state=absent
 
 - name: grant all privileges to georchestra user on schema
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
     privs: ALL
@@ -43,8 +43,8 @@
     objs: "{{ other_schemas|join(',') }}"
 
 - name: grant all privileges to georchestra user on sequences in schema
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
     privs: ALL
@@ -55,8 +55,8 @@
   with_items: other_schemas
 
 - name: grant all privileges to georchestra user on tables in schema
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
     privs: ALL

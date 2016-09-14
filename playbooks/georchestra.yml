@@ -1,7 +1,7 @@
 - name: georchestra deployment
   hosts: mygeorchestra
   # note: above host must match the content of the "hosts" file
-  sudo: yes
+  become: yes
   roles:
     - georchestra
   vars:

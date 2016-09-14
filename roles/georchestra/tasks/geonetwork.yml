@@ -1,6 +1,6 @@
 - name: checkout geonetwork datadir
-  sudo: yes
-  sudo_user: tomcat8
+  become: yes
+  become_user: tomcat8
   git:
     dest: "{{ geonetwork.datadir.path }}"
     repo: "{{ geonetwork.datadir.gitrepo }}"

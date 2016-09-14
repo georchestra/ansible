@@ -4,15 +4,15 @@
   with_items: tomcat_instances.keys()
 
 - name: delete georchestra main database
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_db: name={{ item }} state=absent
   with_items:
   - "{{ georchestra.db.name }}"
 
 - name: delete db users
-  sudo: yes
-  sudo_user: postgres
+  become: yes
+  become_user: postgres
   postgresql_user: name={{ item }} state=absent
   with_items:
   - "{{ georchestra.db.user }}"

@@ -75,7 +75,7 @@ geoserver: {
 geowebcache_datadir: /srv/data/geowebcache/
 extractor_datadir: /srv/data/extractor/
 tomcat_keystore_pass: tomcatkstp
-tomcat_basedir: /srv/tomcat
+jetty_basedir: /srv/jetty
 system_locale: en_US.UTF-8
 logs_basedir: /srv/log
 force_https: true

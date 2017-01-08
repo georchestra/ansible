@@ -1,0 +1,4 @@
+---
+- name: configure nginx as frontend webserver
+  hosts: frontend
+  roles: [ nginx ]

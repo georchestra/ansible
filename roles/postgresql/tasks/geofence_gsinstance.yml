@@ -1,12 +1,8 @@
 - name: check if there's already a default-gs instance
-  become: yes
-  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "select count(*) from geofence.gf_gsinstance where id=0;"
   register: default_gsinstance
 
 - name: create the default-gs geofence instance
-  become: yes
-  become_user: postgres
   command: >
     psql -d {{ georchestra.db.name }} -t -c
     "INSERT INTO geofence.gf_gsinstance (id, baseURL, dateCreation, description, name, password, username) values

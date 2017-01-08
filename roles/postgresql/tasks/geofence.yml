@@ -1,6 +1,4 @@
 - name: check if plpgsql is already loaded
-  become: yes
-  become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "\dx"
   register: loaded_extensions
 

@@ -13,24 +13,38 @@
 
 - name: create georchestra user
   become: yes
+  become_method: su
   become_user: postgres
   postgresql_user: name={{ georchestra.db.user }} password={{ georchestra.db.pass }}
 
 - name: create georchestra main database
+  become_method: su
   become: yes
   become_user: postgres
   postgresql_db: name={{ georchestra.db.name }} owner={{ georchestra.db.user }} template=template0 encoding=UTF8
 
 - include: geonetwork.yml
+  become: yes
+  become_method: su
+  become_user: postgres
   tags: postgresql_geonetwork
 
 - include: geofence.yml
+  become: yes
+  become_method: su
+  become_user: postgres
   tags: postgresql_geofence
 
 - include: other_schemas.yml
+  become: yes
+  become_method: su
+  become_user: postgres
   tags: postgresql_other_schemas
 
 - include: geofence_gsinstance.yml
+  become: yes
+  become_method: su
+  become_user: postgres
   tags: postgresql_geofence_gsinstance
 
 - include: cadastrapp.yml

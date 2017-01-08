@@ -1,0 +1,41 @@
+- name: gather facts from needed servers
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: True
+  with_items: 
+    - "{{ groups['security-proxy'] }}"
+    - "{{ groups['cas'] }}"
+
+- name: installing required packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - nginx
+    - git
+
+- name: disable the default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  notify: reload nginx
+
+- name: template georchestra vhost
+  template: src=georchestra.conf.j2 dest=/etc/nginx/sites-available/georchestra.conf
+
+- name: template georchestra proxy params
+  template: src=georchestra-proxy-params dest=/etc/nginx/snippets/georchestra-proxy-params
+
+- name: create web directories
+  file: name=/var/www/georchestra/htdocs state=directory
+
+- name: create logs directories
+  file: name=/var/www/georchestra/logs state=directory group=www-data mode=775
+
+
+- name: enable georchestra vhost
+  file: dest=/etc/nginx/sites-enabled/georchestra.conf src=/etc/nginx/sites-available/georchestra.conf state=link owner=root group=root mode=0644
+  notify: reload nginx
+
+- name: clone htdocs dir
+  git: repo=git://github.com/georchestra/htdocs.git dest=/var/www/georchestra/htdocs/ version=master accept_hostkey=yes
+
+- include: clean.yml
+  tags: [cleanup, nginx_cleanup]
+  when: cleanup is defined

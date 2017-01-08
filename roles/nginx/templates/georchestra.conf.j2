@@ -1,0 +1,28 @@
+server {
+
+	listen 80;
+	listen [::]:80;
+
+	server_name {{ georchestra.fqdn }};
+	root /var/www/georchestra/htdocs;
+
+	index index.html;
+
+        location / {
+        	try_files $uri $uri/ @security-proxy;
+	}
+
+	location @security-proxy {
+		proxy_pass http://{{ hostvars[georchestra_wars.ROOT.host].ansible_default_ipv4.address }}:{{ georchestra_wars.ROOT.port }}/;
+		include snippets/georchestra-proxy-params;
+	}
+
+	location /cas {
+		proxy_pass http://{{ hostvars[georchestra_wars.cas.host].ansible_default_ipv4.address }}:{{ georchestra_wars.cas.port }}/;
+		include snippets/georchestra-proxy-params;
+	}
+
+        access_log /var/www/georchestra/logs/access.log;
+        error_log /var/www/georchestra/logs/error.log;
+}
+

@@ -1,0 +1,8 @@
+- name: remove nginx directories/config
+  file: name={{ item }} state=absent
+  with_items:
+  - /etc/nginx/sites-enabled/georchestra.conf
+  - /etc/nginx/sites-available/georchestra.conf
+  - /etc/nginx/snippets/georchestra-proxy-params
+  - /var/www/georchestra/
+  notify: reload nginx

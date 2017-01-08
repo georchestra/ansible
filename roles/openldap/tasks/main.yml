@@ -16,7 +16,7 @@
     dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
     url: "{{ openldap.gitrepo }}/{{ openldap.gitversion }}/ldap/{{ item }}.ldif"
     validate_certs: no
-  with_items: openldap.ldifs
+  with_items: "{{ openldap.ldifs }}"
 
 - name: fix ldif to match our layout/rootdn/basedn
   replace:
@@ -33,7 +33,7 @@
     { pat: 'olcRootPW: secret', val: "olcRootPW: {{ openldap.rootpw }}" },
     { pat: 'geoserver_privileged_user', val: "{{ geoserver.privileged.user }}" },
     { pat: 'userPassword:: e1NIQX1XMlY4d2UrOFdNanpma28rMUtZVDFZcWZFVDQ9', val: "userPassword: {{ geoserver.privileged.pass }}" }]
-    - openldap.ldifs
+    - "{{ openldap.ldifs }}"
 
 - name: bootstrap the db
   command: >

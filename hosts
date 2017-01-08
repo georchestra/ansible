@@ -1,2 +1,54 @@
-mygeorchestra ansible_ssh_host=IP_OF_YOUR_MACHINE
-# To deploy to a remote node, put your IP above, leaving the "mygeorchestra" string as is
+# Frontend: webserver (nginx)
+[frontend]
+frontend-gwc ansible_connection=lxc
+
+# other necessary containers
+[openldap]
+ldap ansible_connection=lxc
+
+[postgresql]
+postgresql ansible_connection=lxc
+
+# geOrchestra-specific
+[security-proxy]
+proxycas ansible_connection=lxc
+
+[cas]
+proxycas ansible_connection=lxc
+
+[mapfishapp]
+georchestra ansible_connection=lxc
+
+[extractorapp]
+georchestra ansible_connection=lxc
+
+[header]
+georchestra ansible_connection=lxc
+
+[ldapadmin]
+georchestra ansible_connection=lxc
+
+[analytics]
+georchestra ansible_connection=lxc
+
+[catalogapp]
+georchestra ansible_connection=lxc
+
+[downloadform]
+georchestra ansible_connection=lxc
+
+[geonetwork]
+geonetwork ansible_connection=lxc
+
+[geoserver]
+geoserver ansible_connection=lxc
+
+[geowebcache]
+frontend-gwc ansible_connection=lxc
+
+[jetty]
+proxycas
+georchestra
+geonetwork
+geoserver
+frontend-gwc

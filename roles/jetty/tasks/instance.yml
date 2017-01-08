@@ -3,6 +3,7 @@
     initscript: "/etc/init.d/jetty-{{ item.key }}"
     instance_name: "jetty-{{ item.key }}"
     instance_config: "{{ item.value }}"
+    instance_logdir: "{{ logs_basedir }}/jetty/{{ item.key }}"
 
 - name: copy initscript
   command: "cp /etc/init.d/jetty8 {{ initscript }}"
@@ -35,6 +36,36 @@
     path: "{{ jetty_basedir }}/{{ item.key }}"
     owner: jetty
     state: directory
+
+- name: create logdir
+  file:
+    path: "{{ instance_logdir }}"
+    owner: jetty
+    state: directory
+
+- name: symlink start.jar
+  file:
+    src: /usr/share/jetty8/start.jar
+    dest: "{{ jetty_basedir }}/{{ item.key }}/start.jar"
+    state: link
+
+- name: symlink start.ini
+  file:
+    src: /usr/share/jetty8/start.ini
+    dest: "{{ jetty_basedir }}/{{ item.key }}/start.ini"
+    state: link
+
+- name: symlink lib
+  file:
+    src: /usr/share/jetty8/lib
+    dest: "{{ jetty_basedir }}/{{ item.key }}/lib"
+    state: link
+
+- name: symlink etc
+  file:
+    src: /usr/share/jetty8/etc
+    dest: "{{ jetty_basedir }}/{{ item.key }}/etc"
+    state: link
 
 - name: install instance config in /etc/default
   template: src=jetty-config.j2 dest=/etc/default/{{ instance_name }}

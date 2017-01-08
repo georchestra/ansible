@@ -1,5 +1,7 @@
 NO_START=0
 JETTY_PORT={{ instance_config.port }}
+LOGDIR={{ instance_logdir }}
+JVM_TMP=/var/cache/jetty8/tmp
 {% for l in instance_config.javaopts %}
 JAVA_OPTIONS="$JAVA_OPTIONS {{ l }}"
 {% endfor %}

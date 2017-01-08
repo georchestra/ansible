@@ -81,16 +81,88 @@ logs_basedir: /srv/log
 force_https: true
 ldapadmin_adminemail: admin@example.org
 georchestra_wars: {
-  analytics: { pkg: georchestra-analytics, host: georchestra, port: 10001, javaopts:[] },
-  cas: { pkg: georchestra-cas, host: proxycas, port: 10002, javaopts:[] },
-  catalogapp: { pkg: georchestra-catalogapp, host: georchestra, port: 10003, javaopts:[] },
-  extractorapp: { pkg: georchestra-extractorapp, host: georchestra, port: 10004, javaopts:[] },
-  geonetwork: { pkg: georchestra-geonetwork3, host: geonetwork, port: 10005, javaopts:[] },
-  geoserver: { pkg: georchestra-geoserver, host: geoserver, port: 10006, javaopts:[] },
-  geowebcache: { pkg: georchestra-geowebcache, host: frontend-gwc, port: 10007, javaopts:[] },
-  header: { pkg: georchestra-header, host: georchestra, port: 10008, javaopts:[] },
-  ldapadmin: { pkg: georchestra-ldapadmin, host: georchestra, port: 10009, javaopts:[] },
-  mapfishapp: { pkg: georchestra-mapfishapp, host: georchestra, port: 10010, javaopts:[] },
-  cadastrapp: { pkg: georchestra-cadastrapp, host: georchestra, port: 10011, javaopts:[] },
-  ROOT: { pkg: georchestra-security-proxy, host: proxycas, port: 10012, javaopts:[] }
+  analytics: {
+    pkg: georchestra-analytics,
+    host: georchestra,
+    port: 10001,
+    javaopts:[
+    ]
+  },
+  cas: {
+    pkg: georchestra-cas,
+    host: proxycas,
+    port: 10002,
+    javaopts:[
+    ]
+  },
+  catalogapp: {
+    pkg: georchestra-catalogapp,
+    host: georchestra,
+    port: 10003,
+    javaopts:[
+    ]
+  },
+  extractorapp: {
+    pkg: georchestra-extractorapp,
+    host: georchestra,
+    port: 10004,
+    javaopts:[
+    ]
+  },
+  geonetwork: {
+    pkg: georchestra-geonetwork3,
+    host: geonetwork,
+    port: 10005,
+    javaopts:[
+    ]
+  },
+  geoserver: {
+    pkg: georchestra-geoserver,
+    host: geoserver,
+    port: 10006,
+    javaopts:[
+    ]
+  },
+  geowebcache: {
+    pkg: georchestra-geowebcache,
+    host: frontend-gwc,
+    port: 10007,
+    javaopts:[
+    ]
+  },
+  header: {
+    pkg: georchestra-header,
+    host: georchestra,
+    port: 10008,
+   javaopts:[
+   ]
+  },
+  ldapadmin: {
+    pkg: georchestra-ldapadmin,
+    host: georchestra,
+    port: 10009,
+   javaopts:[
+   ]
+  },
+  mapfishapp: {
+    pkg: georchestra-mapfishapp,
+    host: georchestra,
+    port: 10010,
+    javaopts:[
+    ]
+  },
+  cadastrapp: {
+    pkg: georchestra-cadastrapp,
+    host: georchestra,
+    port: 10011,
+    javaopts:[
+    ]
+  },
+  ROOT: {
+    pkg: georchestra-security-proxy,
+    host: proxycas,
+    port: 10012,
+   javaopts:[
+   ]
+  }
 }

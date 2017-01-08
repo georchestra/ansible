@@ -1,0 +1,4 @@
+---
+- name: configure openldap instances
+  hosts: openldap
+  roles: [ openldap ]

@@ -1,0 +1,4 @@
+- name: copy initscript
+  command: cp /etc/init.d/jetty8 /etc/init.d/jetty-{{ item.key }}
+    creates="/etc/init.d/jetty-{{ item.key }}"
+

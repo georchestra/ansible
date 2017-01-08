@@ -1,4 +1,49 @@
-- name: copy initscript
-  command: cp /etc/init.d/jetty8 /etc/init.d/jetty-{{ item.key }}
-    creates="/etc/init.d/jetty-{{ item.key }}"
+- name: set a bunch of vars
+  set_fact:
+    initscript: "/etc/init.d/jetty-{{ item.key }}"
+    instance_name: "jetty-{{ item.key }}"
+    instance_config: "{{ item.value }}"
 
+- name: copy initscript
+  command: "cp /etc/init.d/jetty8 {{ initscript }}"
+  args:
+    creates: "{{ initscript }}"
+
+- name: fixup Provides
+  lineinfile:
+    dest: "{{ initscript }}"
+    regexp: '^# Provides:.*jetty8$'
+    line: "# Provides: {{ instance_name }}"
+    state: present
+
+- name: fixup NAME
+  lineinfile:
+    dest: "{{ initscript }}"
+    regexp: '^NAME.*$'
+    line: "NAME={{ instance_name }}"
+    state: present
+
+- name: fixup JETTY_HOME
+  lineinfile:
+    dest: "{{ initscript }}"
+    regexp: '^JETTY_HOME.*$'
+    line: "JETTY_HOME={{ jetty_basedir }}/{{ item.key }}"
+    state: present
+
+- name: create JETTY_HOME
+  file:
+    path: "{{ jetty_basedir }}/{{ item.key }}"
+    owner: jetty
+    state: directory
+
+- name: install instance config in /etc/default
+  template: src=jetty-config.j2 dest=/etc/default/{{ instance_name }}
+
+#- name: install instance connector
+#  template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
+
+- name: enable instance
+  service:
+    name: "{{ instance_name }}"
+    enabled: yes
+    state: started

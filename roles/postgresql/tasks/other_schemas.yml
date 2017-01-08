@@ -11,22 +11,22 @@
     url: "{{ item.1 }}"
     validate_certs: no
   with_together:
-    - other_schemas
-    - other_schemas_urls
+    - "{{ other_schemas }}"
+    - "{{ other_schemas_urls }}"
 
 - name: check if mapfishapp schema already exists
   become: yes
   become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
   register: schema_exists
-  with_items: other_schemas
+  with_items: "{{ other_schemas }}"
 
 - name: create missing schemas
   become: yes
   become_user: postgres
   command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
   when: "item.stdout is defined and '{{ item.item }}' not in item.stdout"
-  with_items: schema_exists.results
+  with_items: "{{ schema_exists.results }}"
 
 - name: recursively purge temp dir
   always_run: yes
@@ -52,7 +52,7 @@
     schema: "{{ item }}"
     roles: "{{ georchestra.db.user }}"
     objs: ALL_IN_SCHEMA
-  with_items: other_schemas
+  with_items: "{{ other_schemas }}"
 
 - name: grant all privileges to georchestra user on tables in schema
   become: yes
@@ -64,4 +64,4 @@
     schema: "{{ item }}"
     roles: "{{ georchestra.db.user }}"
     objs: ALL_IN_SCHEMA
-  with_items: other_schemas
+  with_items: "{{ other_schemas }}"

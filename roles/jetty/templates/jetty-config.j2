@@ -1,0 +1,5 @@
+NO_START=0
+JETTY_PORT={{ instance_config.port }}
+{% for l in instance_config.javaopts %}
+JAVA_OPTIONS="$JAVA_OPTIONS {{ l }}"
+{% endfor %}

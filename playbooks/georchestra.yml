@@ -1,6 +1,17 @@
-- name: georchestra deployment
-  hosts: mygeorchestra
-  # note: above host must match the content of the "hosts" file
-  become: yes
-  roles:
-    - georchestra
+---
+- include: jetty.yml
+- include: openldap.yml
+- include: postgresql.yml
+- include: frontend.yml
+- include: security-proxy.yml
+- include: cas.yml
+- include: geoserver.yml
+- include: mapfishapp.yml
+- include: extractorapp.yml
+- include: header.yml
+- include: ldapadmin.yml
+- include: analytics.yml
+- include: catalogapp.yml
+- include: downloadform.yml
+- include: geonetwork.yml
+- include: geoserver.yml

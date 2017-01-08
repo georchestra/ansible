@@ -1,0 +1,4 @@
+---
+- name: configure postgresql instances
+  hosts: postgresql
+  roles: [ postgresql ]

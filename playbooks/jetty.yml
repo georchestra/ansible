@@ -1,0 +1,4 @@
+---
+- name: configure jetty instances
+  hosts: jetty
+  roles: [ jetty ]

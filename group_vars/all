@@ -80,22 +80,17 @@ system_locale: en_US.UTF-8
 logs_basedir: /srv/log
 force_https: true
 ldapadmin_adminemail: admin@example.org
-tomcat_instances: {
-  proxycas: { port: 8180, control_port: 8105 },
-  georchestra: { port: 8280, control_port: 8205 },
-  geoserver: { port: 8380, control_port: 8305 }
-}
 georchestra_wars: {
-  analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
-  cas: { pkg: georchestra-cas, tomcat: proxycas },
-  catalogapp: { pkg: georchestra-catalogapp, tomcat: georchestra },
-  extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
-  geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
-  geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },
-  geowebcache: { pkg: georchestra-geowebcache, tomcat: georchestra },
-  header: { pkg: georchestra-header, tomcat: georchestra },
-  ldapadmin: { pkg: georchestra-ldapadmin, tomcat: georchestra },
-  mapfishapp: { pkg: georchestra-mapfishapp, tomcat: georchestra },
-  cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
-  ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }
+  analytics: { pkg: georchestra-analytics, host: georchestra, port: 10001 },
+  cas: { pkg: georchestra-cas, host: proxycas, port: 10002 },
+  catalogapp: { pkg: georchestra-catalogapp, host: georchestra, port: 10003 },
+  extractorapp: { pkg: georchestra-extractorapp, host: georchestra, port: 10004 },
+  geonetwork: { pkg: georchestra-geonetwork3, host: geonetwork, port: 10005 },
+  geoserver: { pkg: georchestra-geoserver, host: geoserver, port: 10006 },
+  geowebcache: { pkg: georchestra-geowebcache, host: frontend-gwc, port: 10007 },
+  header: { pkg: georchestra-header, host: georchestra, port: 10008 },
+  ldapadmin: { pkg: georchestra-ldapadmin, host: georchestra, port: 10009 },
+  mapfishapp: { pkg: georchestra-mapfishapp, host: georchestra, port: 10010 },
+  cadastrapp: { pkg: georchestra-cadastrapp, host: georchestra, port: 10011 },
+  ROOT: { pkg: georchestra-security-proxy, host: proxycas, port: 10012 }
 }

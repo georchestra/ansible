@@ -12,7 +12,7 @@
 - name: fixup Provides
   lineinfile:
     dest: "{{ initscript }}"
-    regexp: '^# Provides:.*jetty8$'
+    regexp: '^# Provides:.*jetty$'
     line: "# Provides: {{ instance_name }}"
     state: present
 

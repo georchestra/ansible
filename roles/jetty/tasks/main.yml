@@ -1,6 +1,9 @@
 - name: install jetty
   apt: name=jetty8 state=installed
 
+# loop_control needs ansible 2.1
 - include: instance.yml
-  when: 'item.value.host == inventory_hostname'
+  when: 'war.value.host == inventory_hostname'
   with_dict: "{{ georchestra_wars }}"
+  loop_control:
+    loop_var: war

@@ -1,71 +1,42 @@
 - name: set a bunch of vars
   set_fact:
-    initscript: "/etc/init.d/jetty-{{ item.key }}"
-    instance_name: "jetty-{{ item.key }}"
-    instance_config: "{{ item.value }}"
-    instance_logdir: "{{ logs_basedir }}/jetty/{{ item.key }}"
+    initscript: "/etc/init.d/jetty-{{ war.key }}"
+    instance_name: "jetty-{{ war.key }}"
+    instance_home: "{{ jetty_basedir }}/{{ war.key }}"
+    instance_config: "{{ war.value }}"
+    instance_logdir: "{{ logs_basedir }}/jetty/{{ war.key }}"
 
 - name: copy initscript
   command: "cp /etc/init.d/jetty8 {{ initscript }}"
   args:
     creates: "{{ initscript }}"
 
-- name: fixup Provides
+- name: fixup initscript
   lineinfile:
     dest: "{{ initscript }}"
-    regexp: '^# Provides:.*jetty.*$'
-    line: "# Provides: {{ instance_name }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
     state: present
+  with_items:
+  - { regexp: '^# Provides:.*jetty.*$', line: '# Provides: {{ instance_name }}' }
+  - { regexp: '^NAME.*$', line: 'NAME={{ instance_name }}' }
+  - { regexp: '^JETTY_HOME.*$', line: 'JETTY_HOME={{ instance_home }}' }
 
-- name: fixup NAME
-  lineinfile:
-    dest: "{{ initscript }}"
-    regexp: '^NAME.*$'
-    line: "NAME={{ instance_name }}"
-    state: present
-
-- name: fixup JETTY_HOME
-  lineinfile:
-    dest: "{{ initscript }}"
-    regexp: '^JETTY_HOME.*$'
-    line: "JETTY_HOME={{ jetty_basedir }}/{{ item.key }}"
-    state: present
-
-- name: create JETTY_HOME
+- name: create dirs
   file:
-    path: "{{ jetty_basedir }}/{{ item.key }}"
+    path: "{{ item }}"
     owner: jetty
     state: directory
+  with_items:
+  - "{{ instance_home }}"
+  - "{{ instance_logdir }}"
 
-- name: create logdir
+- name: symlink stuff
   file:
-    path: "{{ instance_logdir }}"
-    owner: jetty
-    state: directory
-
-- name: symlink start.jar
-  file:
-    src: /usr/share/jetty8/start.jar
-    dest: "{{ jetty_basedir }}/{{ item.key }}/start.jar"
+    src: "/usr/share/jetty8/{{ item }}"
+    dest: "{{instance_home}}/{{ item }}"
     state: link
-
-- name: symlink start.ini
-  file:
-    src: /usr/share/jetty8/start.ini
-    dest: "{{ jetty_basedir }}/{{ item.key }}/start.ini"
-    state: link
-
-- name: symlink lib
-  file:
-    src: /usr/share/jetty8/lib
-    dest: "{{ jetty_basedir }}/{{ item.key }}/lib"
-    state: link
-
-- name: symlink etc
-  file:
-    src: /usr/share/jetty8/etc
-    dest: "{{ jetty_basedir }}/{{ item.key }}/etc"
-    state: link
+  with_items: [ start.jar, start.ini, lib, etc ]
 
 - name: install instance config in /etc/default
   template: src=jetty-config.j2 dest=/etc/default/{{ instance_name }}

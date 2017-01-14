@@ -42,6 +42,11 @@
 - name: install instance config in /etc/default
   template: src=jetty-config.j2 dest=/etc/default/{{ instance_name }}
 
+- name: install webapp package
+  apt:
+    name: "{{ instance_config.pkg }}"
+    state: installed
+
 #- name: install instance connector
 #  template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
 

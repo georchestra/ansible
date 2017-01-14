@@ -29,6 +29,7 @@
     state: directory
   with_items:
   - "{{ instance_home }}"
+  - "{{ instance_home }}/webapps"
   - "{{ instance_logdir }}"
 
 - name: symlink stuff

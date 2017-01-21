@@ -41,15 +41,6 @@ ldapAdminDn={{ openldap.rootdn }}
 # The password for binding to the admin user in the ldap
 ldap.admin.password={{ openldap.rootpw }}
 
-# health check properties
-checkHealth=false
-psql.host=localhost
-psql.port=5432
-psql.db={{ georchestra.db.name }}
-psql.user={{ georchestra.db.user }}
-psql.pass={{ georchestra.db.pass }}
-max.database.connections=10
-
 realmName=georchestra
 
 # If set, the security-proxy will 302 redirect / to the defaultTarget value

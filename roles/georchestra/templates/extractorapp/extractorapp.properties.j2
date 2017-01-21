@@ -17,6 +17,9 @@ emailHtml=false
 privileged_admin_name={{ geoserver.privileged.user }}
 privileged_admin_pass={{ geoserver.privileged.pass }}
 
+# Link to DB to store extraction statistics in 'extractorapp' schema
+jdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+
 # Downloadform-related parameters: Optional (disabled by default).
 # If activated, make sure that the downloadform module is correctly installed.
 dlformjdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}

@@ -86,6 +86,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10001,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   cas: {
@@ -93,6 +94,7 @@ georchestra_wars: {
     host: proxycas,
     port: 10002,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   catalogapp: {
@@ -100,6 +102,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10003,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   extractorapp: {
@@ -107,6 +110,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10004,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   geonetwork: {
@@ -114,6 +118,7 @@ georchestra_wars: {
     host: geonetwork,
     port: 10005,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   geoserver: {
@@ -121,6 +126,7 @@ georchestra_wars: {
     host: geoserver,
     port: 10006,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   geowebcache: {
@@ -128,6 +134,7 @@ georchestra_wars: {
     host: frontend-gwc,
     port: 10007,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   header: {
@@ -135,6 +142,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10008,
    javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
    ]
   },
   ldapadmin: {
@@ -142,6 +150,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10009,
    javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
    ]
   },
   mapfishapp: {
@@ -149,6 +158,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10010,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   cadastrapp: {
@@ -156,6 +166,7 @@ georchestra_wars: {
     host: georchestra,
     port: 10011,
     javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
     ]
   },
   ROOT: {
@@ -163,6 +174,7 @@ georchestra_wars: {
     host: proxycas,
     port: 10012,
    javaopts:[
+	-Dgeorchestra.datadir=/etc/georchestra
    ]
   }
 }

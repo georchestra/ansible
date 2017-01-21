@@ -1,6 +1,5 @@
 - name: checkout geonetwork datadir
   become: yes
-  become_method: su
   become_user: tomcat8
   git:
     dest: "{{ geonetwork.datadir.path }}"

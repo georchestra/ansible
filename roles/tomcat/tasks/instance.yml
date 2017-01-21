@@ -63,6 +63,9 @@
   template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
   with_items: "{{ tomcat_instances.keys() }}"
 
+- name: reload systemd so that it finds the new unit
+  command: systemctl daemon-reload
+
 - name: enable instance
   service: name=tomcat-{{ item }} enabled=yes
   with_items: "{{ tomcat_instances.keys() }}"

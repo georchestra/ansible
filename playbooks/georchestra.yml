@@ -51,8 +51,8 @@
         gitversion: master
       },
       debian: {
-        repo: "deb https://build.georchestra.org/debian jessie main",
-        key: "https://build.georchestra.org/debian/build.georchestra.org.asc"
+        repo: "deb https://packages.georchestra.org/debian master main",
+        key: "https://packages.georchestra.org/debian/key.asc"
       }
     }
     geonetwork: {

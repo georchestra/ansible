@@ -1,6 +1,6 @@
 - name: remove wars
   apt: pkg={{ item.value.pkg }} state=absent purge=yes
-  with_dict: georchestra_wars
+  with_dict: "{{ georchestra_wars }}"
 # roles/tomcat/tasks/clean.yml already removed the unzipped wars
 
 - name: remove datadirs

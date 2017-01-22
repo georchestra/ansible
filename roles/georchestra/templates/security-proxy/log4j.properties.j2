@@ -1,25 +1,8 @@
-#------------------------------------------------------------------------------
-#
-#  The following properties set the logging levels and log appender.  The
-#  log4j.rootLogger variable defines the default log level and one or more
-#  appenders.  For the console, use 'S'.  For the daily rolling file, use 'R'.
-#  For an HTML formatted log, use 'H'.
-#
-#  To override the default (rootLogger) log level, define a property of the
-#  form (see below for available values):
-#
-#        log4j.logger. =
-#
-#    Possible Log Levels:
-#      FATAL, ERROR, WARN, INFO, DEBUG
-#
-#------------------------------------------------------------------------------
 log4j.rootLogger=INFO, R
 
 log4j.logger.org.georchestra.security=INFO
 log4j.logger.org.georchestra.security.statistics=INFO, OGCSTATISTICS
 #log4j.logger.org.georchestra.security.statistics-common=INFO, NETWORKSOCKET
-log4j.logger.org.georchestra.security.healthcheck=WARN
 
 log4j.logger.OGCServiceMessageFormatter=INFO
 log4j.logger.org.springframework=WARN

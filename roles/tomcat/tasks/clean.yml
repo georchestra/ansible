@@ -1,6 +1,6 @@
 - name: stop instances
   service: name=tomcat-{{ item }} enabled=no state=stopped
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: remove tomcat directories/config
   file: name={{ item }} state=absent
@@ -20,4 +20,4 @@
   with_nested:
   - [ "/etc/init.d/tomcat", "/etc/default/tomcat", "/etc/rc2.d/K01tomcat", "/etc/rc3.d/K01tomcat", "/etc/rc4.d/K01tomcat",
    "/etc/rc5.d/K01tomcat", "/etc/rc0.d/K01tomcat", "/etc/rc1.d/K01tomcat", "/etc/rc6.d/K01tomcat" ]
-  - tomcat_instances.keys()
+  - "{{ tomcat_instances.keys() }}"

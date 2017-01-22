@@ -1,13 +1,13 @@
 - name: create instance {{ item.key }}
   command: tomcat8-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
-  with_dict: tomcat_instances
+  with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
     src: /etc/tomcat8/policy.d/
     dest: "{{ tomcat_basedir }}/{{ item }}/conf/policy.d"
     state: link
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: recursively fix dirs ownership
   file:
@@ -16,12 +16,12 @@
     recurse: yes
     owner: tomcat8
   with_nested:
-    - tomcat_instances.keys()
+    - "{{ tomcat_instances.keys() }}"
     - [ logs, temp, conf, work, webapps ]
 
 - name: clone init.d script
   command: cp /etc/init.d/tomcat8 /etc/init.d/tomcat-{{ item }} # creates="/etc/init.d/tomcat-{{ item }}"
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: fix Provides line
   lineinfile:
@@ -29,7 +29,7 @@
     regexp: '^# Provides:.*tomcat8$'
     line: "# Provides: tomcat-{{ item }}"
     state: present
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: fix CATALINA_BASE
   lineinfile:
@@ -37,7 +37,7 @@
     regexp: '^CATALINA_BASE=/var/lib/\$NAME$'
     line: "CATALINA_BASE={{ tomcat_basedir }}/{{ item }}"
     state: present
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: fix CATALINA_HOME
   lineinfile:
@@ -45,7 +45,7 @@
     regexp: '^CATALINA_HOME=/usr/share/\$NAME$'
     line: "CATALINA_HOME=/usr/share/tomcat8"
     state: present
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: fix NAME
   lineinfile:
@@ -53,16 +53,19 @@
     regexp: '^NAME.*$'
     line: "NAME=tomcat-{{ item }}"
     state: present
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: install instance config in /etc/default
   template: src=config-{{ item }}.j2 dest=/etc/default/tomcat-{{ item }}
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: install instance connector
   template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"
+
+- name: reload systemd so that it finds the new unit
+  command: systemctl daemon-reload
 
 - name: enable instance
   service: name=tomcat-{{ item }} enabled=yes
-  with_items: tomcat_instances.keys()
+  with_items: "{{ tomcat_instances.keys() }}"

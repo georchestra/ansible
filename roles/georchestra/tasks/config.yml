@@ -36,8 +36,6 @@
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'js' }
   - { file: log4j.properties, war: extractorapp, destdir: 'log4j' }
   - { file: extractorapp.properties, war: extractorapp, destdir: '' }
-#  - { file: log4j.properties, war: downloadform, destdir: 'WEB-INF/classes' }
-#  - { file: downloadform.properties, war: downloadform, destdir: 'WEB-INF' }
   - { file: log4j.properties, war: analytics, destdir: 'log4j' }
   - { file: analytics.properties, war: analytics, destdir: '' }
   - { file: GEOR_custom.js, war: analytics, destdir: 'js' }

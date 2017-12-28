@@ -4,13 +4,19 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+$script = <<SCRIPT
+echo configuring ssh in guest...
+sudo sed -i '/AcceptEnv/d' /etc/ssh/sshd_config
+sudo /etc/init.d/ssh restart
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/stretch64"
 
   # set CPU and RAM
   config.vm.provider "virtualbox" do |vb|
@@ -30,6 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Give a nice name ("georchestra") to the VM:
   config.vm.define "georchestra" do |georchestra|
   end
+
+  config.vm.provision "shell", inline: $script
 
   config.vm.provision "ansible" do |ansible|
     # execute this playbook for vm provisioning:

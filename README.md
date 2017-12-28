@@ -8,15 +8,15 @@ Right now, this will deploy a working geOrchestra from the **master** branch wit
 ## setup
 
 In order to deploy all the middleware and components of a geOrchestra instance, you just need to:
- * setup variables for your own instance in ```playbooks/georchestra.yml```, 
+ * setup variables for your own instance in ```playbooks/georchestra.yml```,
  * point to the IP of a host where you have ssh-with-passphrase root access in the ```hosts``` file (ideally, an lxc container, or a vm, whatever suits you)
- 
+
 ... and run:
 ```
 ansible-playbook playbooks/georchestra.yml
 ```
 
-This has only been tested on Debian jessie (8.3) so far.
+This is meant to work on a Debian Stretch (9.x) VM.
 
 ## cleanup
 

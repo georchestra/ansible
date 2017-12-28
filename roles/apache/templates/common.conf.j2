@@ -6,7 +6,7 @@ RewriteRule ^/{{ item.dest }}$ /{{ item.dest }}/ [R]
 RewriteRule ^/extractorapp/admin$ /extractorapp/admin/ [R]
 {% endif %}
 {% if item.dest == 'ldapadmin' %}
-RewriteRule ^/ldapadmin/privateui$ /ldapadmin/privateui/ [R]
+RewriteRule ^/ldapadmin/console$ /ldapadmin/console/ [R]
 {% endif %}
 {% if item.dest == 'proxy' %}
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp

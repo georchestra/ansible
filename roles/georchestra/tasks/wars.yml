@@ -8,7 +8,7 @@
   apt_repository: repo="{{ georchestra.debian.repo }}"
 
 - name: install debian packages
-  apt: pkg={{ item.value.pkg }} default_release=jessie update_cache=yes state=latest
+  apt: pkg={{ item.value.pkg }} default_release=stretch update_cache=yes state=latest
   with_dict: "{{ georchestra_wars }}"
   when: item.key != 'cadastrapp'
 

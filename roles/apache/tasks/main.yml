@@ -41,7 +41,6 @@
   - { src: global, dest: global }
   - { src: common, dest: proxy }
   - { src: common, dest: cas }
-  - { src: common, dest: catalogapp }
   - { src: common, dest: analytics }
   - { src: common, dest: extractorapp }
   - { src: common, dest: geonetwork }

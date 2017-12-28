@@ -20,11 +20,6 @@ privileged_admin_pass={{ geoserver.privileged.pass }}
 # Link to DB to store extraction statistics in 'extractorapp' schema
 jdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
 
-# Downloadform-related parameters: Optional (disabled by default).
-# If activated, make sure that the downloadform module is correctly installed.
-dlformjdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
-dlformactivated=false
-
 # max extraction size in pixels
 maxCoverageExtractionSize=99999999
 maxExtractions=100

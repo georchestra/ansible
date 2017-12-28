@@ -95,7 +95,6 @@
     georchestra_wars: {
       analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
       cas: { pkg: georchestra-cas, tomcat: proxycas },
-      catalogapp: { pkg: georchestra-catalogapp, tomcat: georchestra },
       extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
       geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
       geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },

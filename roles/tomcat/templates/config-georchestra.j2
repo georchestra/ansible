@@ -7,6 +7,7 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Dorg.geotools.referencing.forceXY=true \
 	-Djava.util.prefs.userRoot=/tmp \
 	-Djava.util.prefs.systemRoot=/tmp \
+        -Dmapfish-print-config={{ georchestra.datadir.path }}/mapfishapp/print/config.yaml \
 	-Dextractor.storage.dir={{ extractor_datadir }} \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-Dmapfish-print-config={{ georchestra.datadir.path }}/mapfishapp/print/config.yaml \

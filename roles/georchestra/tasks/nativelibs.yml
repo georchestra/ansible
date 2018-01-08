@@ -1,20 +1,10 @@
 - name: enable non-free and contrib for dependencies
-  apt_repository: repo="deb http://ftp.fr.debian.org/debian/ stretch main non-free contrib"
+  apt_repository: repo="deb http://deb.debian.org/debian stretch main contrib"
 
 - name: install runtime dependencies
   apt: pkg={{ item }} state=installed
   with_items:
   - ttf-mscorefonts-installer
-  - libjai-imageio-core-java
-
-- name: symlink jai libs to tomcat libdir
-  file: src=/usr/share/java/{{ item }}.jar dest=/usr/share/tomcat8/lib/{{ item }}.jar state=link
-  with_items:
-  - jai_imageio
-  - jai_codec
-  - mlibwrapper_jai
-  - jai_core
-  - clibwrapper_jiio
 
 - name: install runtime dependencies
   apt: pkg={{ item }} state=installed

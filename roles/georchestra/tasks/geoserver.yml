@@ -1,3 +1,10 @@
+- name: set useRelativeRedirects for tomcat geoserver
+  lineinfile:
+    dest: "{{ tomcat_basedir }}/geoserver/conf/context.xml"
+    regexp: '<Context>'
+    line: '<Context useRelativeRedirects="false">'
+    state: present
+
 - name: checkout geoserver datadir
   become: yes
   become_user: tomcat8

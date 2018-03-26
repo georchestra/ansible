@@ -12,11 +12,11 @@ RewriteRule ^/console/console$ /console/console/ [R]
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 
-ProxyPass /j_spring_cas_security_check http://localhost:{{ tomcat_instances['proxycas']['port'] }}/j_spring_cas_security_check 
-ProxyPassReverse /j_spring_cas_security_check http://localhost:{{ tomcat_instances['proxycas']['port'] }}/j_spring_cas_security_check
+ProxyPass /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas 
+ProxyPassReverse /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas
 
-ProxyPass /j_spring_security_logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/j_spring_security_logout 
-ProxyPassReverse /j_spring_security_logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/j_spring_security_logout
+ProxyPass /logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/logout 
+ProxyPassReverse /logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/logout
 
 ProxyPass /gateway http://localhost:{{ tomcat_instances['proxycas']['port'] }}/gateway
 ProxyPassReverse /gateway http://localhost:{{ tomcat_instances['proxycas']['port'] }}/gateway

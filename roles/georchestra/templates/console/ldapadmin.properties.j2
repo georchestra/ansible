@@ -1,6 +1,6 @@
 # General purposes properties
 instanceName=geOrchestra
-publicContextPath=/ldapadmin
+publicContextPath=/console
 protectedUser.uid1={{ geoserver.privileged.user }}
 
 # Header height (size in px)
@@ -14,7 +14,7 @@ headerHeight=90
 # and is granted the USER role.
 # 
 moderatedSignup=true
-moderatorEmail={{ ldapadmin_adminemail }}
+moderatorEmail={{ console_adminemail }}
 
 # Delay in days before the "I lost my password" token expires
 delayInDays=1
@@ -22,11 +22,11 @@ delayInDays=1
 # Possible values for org creation form : "orgShortName", "orgAddress" and "orgType"
 requiredFields=firstName,surname,org,orgType
 
-# Org type values is used to populate the drop down list from /ldapadmin/account/new
+# Org type values is used to populate the drop down list from /console/account/new
 orgTypeValues=Association,Company,NGO,Individual,Other
 
 # Areas map configuration
-# This map appears on the /ldapadmin/account/new page, when the user checks the "my org does not exist" checkbox.
+# This map appears on the /console/account/new page, when the user checks the "my org does not exist" checkbox.
 # Currently the map is configured with the EPSG:4326 SRS.
 AreaMapCenter=1.77, 47.3
 AreaMapZoom=6
@@ -68,8 +68,8 @@ smtpPort=25
 
 # Email-related properties
 emailHtml=false
-replyTo={{ ldapadmin_adminemail }}
-from={{ ldapadmin_adminemail }}
+replyTo={{ console_adminemail }}
+from={{ console_adminemail }}
 language=en
 subject.account.created=[geOrchestra] Your account has been created
 subject.account.in.process=[geOrchestra] Your new account is waiting for validation
@@ -80,7 +80,7 @@ warnUserIfUidModified=true
 
 # Email proxy configuration
 # Basically, this webapp can send emails on behalf of LDAP users.
-# The service endpoint is available at /ldapadmin/emailProxy
+# The service endpoint is available at /console/emailProxy
 # Usage is restricted to users having the MOD_EMAILPROXY role by default, 
 # cf https://github.com/georchestra/datadir/blob/master/security-proxy/security-mappings.xml
 # see https://github.com/georchestra/georchestra/pull/1572 for more information.

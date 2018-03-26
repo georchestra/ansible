@@ -47,7 +47,7 @@
   - { src: common, dest: geoserver }
   - { src: common, dest: geowebcache }
   - { src: common, dest: header }
-  - { src: common, dest: ldapadmin }
+  - { src: common, dest: console }
   - { src: common, dest: mapfishapp }
   - { src: common, dest: cadastrapp }
   notify: reload apache2

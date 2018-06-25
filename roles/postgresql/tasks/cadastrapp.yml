@@ -44,7 +44,7 @@
 
 - name: list tables
   tags: runsql
-  always_run: yes
+  check_mode: no
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dt {{ cadastrapp.db.schema }}.* "
@@ -52,7 +52,7 @@
 
 - name: list views
   tags: runsql
-  always_run: yes
+  check_mode: no
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dm {{ cadastrapp.db.schema }}.*"
@@ -60,7 +60,7 @@
 
 - name: list indexes
   tags: runsql
-  always_run: yes
+  check_mode: no
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\di {{ cadastrapp.db.schema }}.*"

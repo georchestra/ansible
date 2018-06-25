@@ -1,5 +1,5 @@
 - name: copy cadastrapp deb
-  always_run: yes
+  check_mode: no
   synchronize:
     src: "{{ cadastrapp.debsrc.path }}/{{ cadastrapp.debsrc.pkg }}"
     dest: /tmp/{{ cadastrapp.debsrc.pkg }}

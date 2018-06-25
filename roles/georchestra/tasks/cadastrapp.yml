@@ -1,10 +1,10 @@
 - name: create temporary directory
-  always_run: yes
+  check_mode: no
   shell: mktemp -d
   register: tempdir
 
 - name: clone cadastrapp repository
-  always_run: yes
+  check_mode: no
   git: repo={{ cadastrapp.gitrepo }} dest={{ tempdir.stdout }} version={{ cadastrapp.gitversion }}
 
 - name: create temp dir for cadastrapp
@@ -21,5 +21,5 @@
   template: src=cadastrapp/config.json.j2 dest={{ georchestra.datadir.path }}/mapfishapp/addons/cadastrapp/config.json
 
 - name: recursively purge temp dir
-  always_run: yes
+  check_mode: no
   file: dest={{ tempdir.stdout }} state=absent

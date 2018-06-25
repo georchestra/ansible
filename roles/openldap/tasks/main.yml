@@ -6,12 +6,12 @@
   - ldap-utils
 
 - name: create temporary directory
-  always_run: yes
+  check_mode: no
   shell: mktemp -d
   register: tempdir
 
 - name: fetch LDAP files
-  always_run: yes
+  check_mode: no
   get_url:
     dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
     url: "{{ openldap.gitrepo }}/{{ openldap.gitversion }}/ldap/{{ item }}.ldif"
@@ -77,14 +77,14 @@
 - name: check if ou=groups exists
   command: ldapsearch  -x -b {{ openldap.basedn }} ou=groups
   ignore_errors: true
-  always_run: true
+  check_mode: no
   register: groupsou
 
 - include: migrate_groups.yml
   when: "'# numEntries: 1' in groupsou.stdout"
 
 - name: recursively purge temp dir
-  always_run: yes
+  check_mode: no
   file: dest={{ tempdir.stdout }} state=absent
 
 - include: clean.yml

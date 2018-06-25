@@ -1,6 +1,6 @@
 - name: create temporary directory
   shell: mktemp -d
-  always_run: yes
+  check_mode: no
   register: tempdir
 
 - name: fetch db structure
@@ -23,7 +23,7 @@
   with_items: "{{ schema_exists.results }}"
 
 - name: recursively purge temp dir
-  always_run: yes
+  check_mode: no
   file: dest={{ tempdir.stdout }} state=absent
 
 - name: grant all privileges to georchestra user on schema

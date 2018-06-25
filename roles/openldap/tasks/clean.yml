@@ -1,5 +1,5 @@
 - name: create temporary directory
-  always_run: yes
+  check_mode: no
   shell: mktemp -d
   register: tempdir
 

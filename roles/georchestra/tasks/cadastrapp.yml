@@ -5,21 +5,36 @@
 
 - name: clone cadastrapp repository
   check_mode: no
-  git: repo={{ cadastrapp.gitrepo }} dest={{ tempdir.stdout }} version={{ cadastrapp.gitversion }}
+  git:
+    repo: "{{ cadastrapp.gitrepo }}"
+    dest: "{{ tempdir.stdout }}"
+    version: "{{ cadastrapp.gitversion }}"
 
 - name: create temp dir for cadastrapp
-  file: name={{ cadastrapp.workdir }} owner=tomcat8 state=directory
+  file:
+    name: "{{ cadastrapp.workdir }}"
+    owner: tomcat8
+    state: directory
 
 - name: create addons subdir in georchestra datadir
-  file: name={{ georchestra.datadir.path }}/mapfishapp/addons/ state=directory
+  file:
+    name: "{{ georchestra.datadir.path }}/mapfishapp/addons/"
+    state: directory
 
 - name: copy cadastrapp to mapfishapp/app/addons
-  synchronize: src={{ tempdir.stdout }}/addons/cadastrapp dest={{ georchestra.datadir.path }}/mapfishapp/addons/ delete=yes
+  synchronize:
+    src: "{{ tempdir.stdout }}/addons/cadastrapp"
+    dest: "{{ georchestra.datadir.path }}/mapfishapp/addons/"
+    delete: yes
   delegate_to: mygeorchestra
 
 - name: template config.json
-  template: src=cadastrapp/config.json.j2 dest={{ georchestra.datadir.path }}/mapfishapp/addons/cadastrapp/config.json
+  template:
+    src: cadastrapp/config.json.j2
+    dest: "{{ georchestra.datadir.path }}/mapfishapp/addons/cadastrapp/config.json"
 
 - name: recursively purge temp dir
   check_mode: no
-  file: dest={{ tempdir.stdout }} state=absent
+  file:
+    dest: "{{ tempdir.stdout }}"
+    state: absent

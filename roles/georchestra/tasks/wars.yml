@@ -1,14 +1,22 @@
 - name: install apt-transport-https
-  apt: pkg=apt-transport-https state=installed
+  apt:
+    pkg: apt-transport-https
+    state: installed
 
 - name: add georchestra repository key
-  apt_key: url={{ georchestra.debian.key }}
+  apt_key:
+    url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo
-  apt_repository: repo="{{ georchestra.debian.repo }}"
+  apt_repository:
+    repo: "{{ georchestra.debian.repo }}"
 
 - name: install debian packages
-  apt: pkg={{ item.value.pkg }} default_release=stretch update_cache=yes state=latest
+  apt:
+    pkg: "{{ item.value.pkg }}"
+    default_release: stretch
+    update_cache: yes
+    state: latest
   with_dict: "{{ georchestra_wars }}"
   when: item.key != 'cadastrapp'
 
@@ -24,5 +32,7 @@
 
 # instances need to be started so that webapps are deployed
 - name: start instances
-  service: name=tomcat-{{ item }} state=started
+  service:
+    name: "tomcat-{{ item }}"
+    state: started
   with_items: "{{ tomcat_instances.keys() }}"

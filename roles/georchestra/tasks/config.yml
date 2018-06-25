@@ -7,7 +7,9 @@
 
 - name: create cadastrapp subdir
   check_mode: no
-  file: path="{{ georchestra.datadir.path }}/cadastrapp" state=directory
+  file:
+    path: "{{ georchestra.datadir.path }}/cadastrapp"
+    state: directory
 
 - name: template config files
   template:

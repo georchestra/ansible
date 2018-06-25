@@ -1,13 +1,18 @@
 - name: enable non-free and contrib for dependencies
-  apt_repository: repo="deb http://deb.debian.org/debian stretch main contrib"
+  apt_repository:
+   repo: "deb http://deb.debian.org/debian stretch main contrib"
 
 - name: install runtime dependencies
-  apt: pkg={{ item }} state=installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
   with_items:
   - ttf-mscorefonts-installer
 
 - name: install runtime dependencies
-  apt: pkg={{ item }} state=installed
+  apt:
+    pkg: "{{ item }}"
+    state: installed
   with_items:
   - gdal-bin
   - libgdal-java
@@ -25,13 +30,21 @@
     line: 'shared.loader=${catalina.home}/shared/classes,${catalina.base}/shared/*.jar,/var/lib/tomcat8/shared/classes,/var/lib/tomcat8/shared/*.jar'
 
 - name: create tomcat shared dir
-  file: dest={{ tomcat_basedir }}/georchestra/shared/ state=directory
+  file:
+    dest: "{{ tomcat_basedir }}/georchestra/shared/"
+    state: directory
 
 - name: symlink gdal.jar to tomcat shared dir
-  file: src=/usr/share/java/gdal.jar dest={{ tomcat_basedir }}/georchestra/shared/gdal.jar state=link
+  file:
+    src: /usr/share/java/gdal.jar
+    dest: "{{ tomcat_basedir }}/georchestra/shared/gdal.jar"
+    state: link
 
 - name: hardlink gdal.jar to geoserver libdir
-  file: src=/usr/share/java/gdal.jar dest={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/gdal.jar state=hard
+  file:
+    src: /usr/share/java/gdal.jar
+    dest: "{{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/gdal.jar"
+    state: hard
 
 #- name: remove conflicting imageio-ext-gdal-bindings jar
 #  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gdal-bindings-1.9.2.jar state=absent

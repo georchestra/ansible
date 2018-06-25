@@ -1,6 +1,10 @@
 - name: create datadirs
   tags: wars
-  file: path={{ item }} state=directory owner=tomcat8 group=tomcat8
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: tomcat8
+    group: tomcat8
   with_items:
   - "{{ geonetwork.datadir.path }}"
   - "{{ geoserver.datadir.path }}"

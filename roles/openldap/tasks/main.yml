@@ -1,5 +1,8 @@
 - name: installing dependencies
-  apt: pkg={{ item }} state=installed update_cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update_cache: yes
   with_items:
   - git
   - slapd
@@ -52,7 +55,10 @@
 #    creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
 
 - name: temporarly store cleartext admin rootpw
-  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap.rootpw }} mode=0400
+  copy:
+    dest: "{{ tempdir.stdout }}/admin-georchestra.pass"
+    content: "{{ openldap.rootpw }}"
+    mode: 0400
 
 - name: check if the root already exists
   command: "ldapsearch  -x -b {{ openldap.basedn }} dc={{ openldap.topdc }}"
@@ -85,7 +91,9 @@
 
 - name: recursively purge temp dir
   check_mode: no
-  file: dest={{ tempdir.stdout }} state=absent
+  file:
+    dest: "{{ tempdir.stdout }}"
+    state: absent
 
 - include: clean.yml
   tags: [cleanup, openldap_cleanup]

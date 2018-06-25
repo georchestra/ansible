@@ -24,7 +24,9 @@
 
 - name: recursively purge temp dir
   check_mode: no
-  file: dest={{ tempdir.stdout }} state=absent
+  file:
+    dest: "{{ tempdir.stdout }}"
+    state: absent
 
 - name: grant all privileges to georchestra user on schema
   postgresql_privs:

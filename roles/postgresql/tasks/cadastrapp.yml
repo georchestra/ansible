@@ -1,12 +1,18 @@
 - name: create cadastrapp user
   become: yes
   become_user: postgres
-  postgresql_user: name={{ cadastrapp.db.user }} password={{ cadastrapp.db.pass }}
+  postgresql_user:
+    name: "{{ cadastrapp.db.user }}"
+    password: "{{ cadastrapp.db.pass }}"
 
 - name: create cadastrapp main database
   become: yes
   become_user: postgres
-  postgresql_db: name={{ cadastrapp.db.name }} owner={{ cadastrapp.db.user }} template=template0 encoding=UTF8
+  postgresql_db:
+    name: "{{ cadastrapp.db.name }}"
+    owner: "{{ cadastrapp.db.user }}"
+    template: template0
+    encoding: UTF8
 
 - name: check if cadastrapp schema already exists
   become: yes
@@ -68,11 +74,15 @@
 
 - name: remove old sql scripts
   tags: fetchsql
-  file: path={{ cadastrappsql.tmpdir }} state=absent
+  file:
+    path: "{{ cadastrappsql.tmpdir }}"
+    state: absent
 
 - name: create temp dir
   tags: fetchsql
-  file: path={{ cadastrappsql.tmpdir }} state=directory
+  file:
+    path: "{{ cadastrappsql.tmpdir }}"
+    state: directory
 
 - name: get the sql scripts for views
   tags: fetchsql
@@ -99,7 +109,10 @@
 
 - name: fix the sql scripts
   tags: fixsql
-  replace: dest={{ cadastrappsql.tmpdir }}/{{ item.1.script }}.sql regexp={{ item.0.pat }} replace={{ item.0.val }} backup=yes
+  replace:
+    dest: "{{ cadastrappsql.tmpdir }}/{{ item.1.script }}.sql"
+    regexp: "{{ item.0.pat }} replace={{ item.0.val }}"
+    backup: yes
   with_nested:
     - [
     { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },

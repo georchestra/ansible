@@ -1,11 +1,18 @@
 - name: setting locale
-  locale_gen: name={{ system_locale }} state=present
+  locale_gen:
+    name: "{{ system_locale }}"
+    state: present
 
 - name: install sudo
-  apt: name=sudo state=installed
+  apt:
+    name: sudo
+    state: installed
 
 - name: installing dependencies
-  apt: name={{ item }} state=installed update_cache=yes
+  apt:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
   with_items:
   - postgresql-9.6-postgis-2.3
   - postgresql-9.6-postgis-2.3-scripts #for postgis.control
@@ -13,17 +20,25 @@
   - postgis
 
 - name: install python-psycopg2 for ansible psql modules
-  apt: name=python-psycopg2 state=installed
+  apt:
+    name: python-psycopg2
+    state: installed
 
 - name: create georchestra user
   become: yes
   become_user: postgres
-  postgresql_user: name={{ georchestra.db.user }} password={{ georchestra.db.pass }}
+  postgresql_user:
+    name: "{{ georchestra.db.user }}"
+    password: "{{ georchestra.db.pass }}"
 
 - name: create georchestra main database
   become: yes
   become_user: postgres
-  postgresql_db: name={{ georchestra.db.name }} owner={{ georchestra.db.user }} template=template0 encoding=UTF8
+  postgresql_db:
+    name: "{{ georchestra.db.name }}"
+    owner: "{{ georchestra.db.user }}"
+    template: template0
+    encoding: UTF8
 
 - include: geonetwork.yml
   become: yes

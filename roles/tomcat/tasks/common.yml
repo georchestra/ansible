@@ -1,11 +1,17 @@
 - name: installing dependencies
-  apt: pkg={{ item }} state=installed update_cache=yes
+  apt:
+    pkg: "{{ item }}"
+    state: installed
+    update_cache: yes
   with_items:
   - tomcat8
   - tomcat8-user #needed for tomcat8-create-instance
 
 - name: disable default instance
-  service: name=tomcat8 state=stopped enabled=no
+  service:
+    name: tomcat8
+    state: stopped
+    enabled: no
 
 - name: clone default keystore
   tags: keystore
@@ -39,7 +45,13 @@
   when: localhost_exists|failed
 
 - name: create tomcat_basedir
-  file: name={{ tomcat_basedir }} state=directory
+  file:
+    name: "{{ tomcat_basedir }}"
+    state: directory
 
 - name: create common logdir
-  file: path={{ logs_basedir }} state=directory owner=tomcat8 group=tomcat8
+  file:
+    path: "{{ logs_basedir }}"
+    state: directory
+    owner: tomcat8
+    group: tomcat8

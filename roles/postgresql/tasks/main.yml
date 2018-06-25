@@ -8,6 +8,7 @@
   apt: name={{ item }} state=installed update_cache=yes
   with_items:
   - postgresql-9.6-postgis-2.3
+  - postgresql-9.6-postgis-2.3-scripts #for postgis.control
   - postgresql-contrib-9.6 #for dblink extension
   - postgis
 

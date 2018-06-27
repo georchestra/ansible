@@ -1,42 +1,78 @@
 - name: installing apache2
-  apt: pkg=apache2 state=installed
+  apt:
+    pkg: apache2
+    state: installed
 
 - name: enable required modules
-  apache2_module: name={{ item }} state=present
-  with_items: [proxy_http, proxy, ssl, rewrite, headers, deflate]
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - proxy_http
+  - proxy
+  - ssl
+  - rewrite
+  - headers
+  - deflate
   notify: reload apache2
 
 - name: disable the default site
-  file: path=/etc/apache2/sites-enabled/{{ item }} state=absent
-  with_items: [000-default, default-ssl]
+  file:
+    path: "/etc/apache2/sites-enabled/{{ item }}"
+    state: absent
+  with_items:
+  - 000-default
+  - default-ssl
   notify: reload apache2
 
 - name: template georchestra vhost
-  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra.conf
+  template:
+    src: georchestra.j2
+    dest: /etc/apache2/sites-available/georchestra.conf
 
 - name: enable georchestra vhost
-  file: dest=/etc/apache2/sites-enabled/georchestra.conf src=/etc/apache2/sites-available/georchestra.conf state=link owner=root group=root mode=0644
+  file:
+    dest: /etc/apache2/sites-enabled/georchestra.conf
+    src: /etc/apache2/sites-available/georchestra.conf
+    state: link
+    owner: root
+    group: root
+    mode: 0644
   notify: reload apache2
 
 - name: create web directories
-  file: name={{ item }} state=directory
+  file:
+    name: "{{ item }}"
+    state: directory
   with_items:
     - /var/www/georchestra/
     - /var/www/georchestra/conf/
     - /var/www/georchestra/ssl/
 
 - name: create logs directories
-  file: name=/var/www/georchestra/logs/ state=directory group=www-data mode=775
+  file:
+    name: var/www/georchestra/logs/
+    state: directory
+    group: www-data
+    mode: 0775
 
 - name: clone htdocs dir
-  git: repo=git://github.com/georchestra/htdocs.git dest=/var/www/georchestra/htdocs/ version=master accept_hostkey=yes
+  git:
+    repo: git://github.com/georchestra/htdocs.git
+    dest: /var/www/georchestra/htdocs/
+    version: master
+    accept_hostkey: yes
 
 - name: fetch 50x.html error page
-  get_url: dest=/var/www/georchestra/htdocs/errors/50x.html url=http://sdi.georchestra.org/errors/50x.html
+  get_url:
+    dest: /var/www/georchestra/htdocs/errors/50x.html
+    url: http://sdi.georchestra.org/errors/50x.html
 
 - name: template config fragments
   tags: apache_config
-  template: src={{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
+  template:
+    src: "{{ item.src }}.conf.j2"
+    dest: "/var/www/georchestra/conf/{{ item.dest }}.conf"
   with_items:
   - { src: global, dest: global }
   - { src: common, dest: proxy }
@@ -59,7 +95,9 @@
     creates=/var/www/georchestra/ssl/georchestra.crt
 
 - name: fix perms on certificate
-  file: path=/var/www/georchestra/ssl/georchestra.key mode=0400
+  file:
+    path: /var/www/georchestra/ssl/georchestra.key
+    mode: 0400
 
 - include: clean.yml
   tags: [cleanup, apache_cleanup]

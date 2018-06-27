@@ -51,7 +51,7 @@
 
 - name: create logs directories
   file:
-    name: var/www/georchestra/logs/
+    name: /var/www/georchestra/logs/
     state: directory
     group: www-data
     mode: 0775

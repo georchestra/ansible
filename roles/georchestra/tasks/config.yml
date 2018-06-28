@@ -18,6 +18,7 @@
     backup: yes
 #  debug: var=item
   with_items:
+  - { file: default.properties, war: '.', destdir: '' }
   - { file: targets-mapping.properties, war: security-proxy, destdir: '' }
   - { file: security-proxy.properties, war: security-proxy , destdir: '' }
   - { file: trusted-users.properties, war: security-proxy , destdir: '' }

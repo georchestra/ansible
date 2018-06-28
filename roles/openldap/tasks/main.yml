@@ -29,7 +29,7 @@
     backup: yes
   with_nested:
     - [
-#    { pat: 'olcDatabase=\{1\}mdb', val: "olcDatabase={2}mdb" },
+    { pat: 'olcDatabase=\{1\}mdb', val: "olcDatabase={2}mdb" },
     { pat: 'cn=admin,dc=georchestra,dc=org', val: "{{ openldap.rootdn }}" },
     { pat: 'dc=georchestra,dc=org', val: "{{ openldap.basedn }}" },
     { pat: 'dc: georchestra', val: "dc: {{ openldap.topdc }}" },
@@ -49,10 +49,10 @@
     creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={4}groupofmembers.ldif
 
 # loaded by default in debian's slapd ?
-#- name: import memberof
-#  command: >
-#    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/memberof.ldif"
-#    creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
+- name: import memberof
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/memberof.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
 
 - name: temporarly store cleartext admin rootpw
   copy:

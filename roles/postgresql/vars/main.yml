@@ -1,9 +1,11 @@
-other_schemas: [ mapfishapp, console, geofence, ogcstatistics ]
+other_schemas: [ mapfishapp, console, geofence, ogcstatistics, atlas, extractorapp ]
 other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/postgresql/02-mapfishapp.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/04-console.sql
-  - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/06-ogc-server-statistics.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/07-atlas.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/08-geofence.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/09-extractor-app.sql
 cadastrappsql: {
   tmpdir: /tmp/cadastrapp/sql,
   views : [

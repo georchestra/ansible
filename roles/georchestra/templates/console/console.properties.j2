@@ -16,7 +16,7 @@ protectedUser.uid1={{ geoserver.privileged.user }}
 #   * user has role PENDING (which grants nothing).
 # Otherwise, the user is immediately considered as registered,
 # and is granted the USER role.
-# 
+#
 moderatedSignup=true
 moderatorEmail={{ console_adminemail }}
 
@@ -58,11 +58,11 @@ ldapUrl=ldap://localhost:389
 baseDN={{ openldap.basedn }}
 ldapAdminDn={{ openldap.rootdn }}
 ldap.admin.password={{ openldap.rootpw }}
-groupUniqueNumberField=ou
+roleUniqueNumberField=ou
 userSearchBaseDN=ou=users
-groupSearchBaseDN=ou=roles
-accountUniqueNumberField=employeeNumber
+roleSearchBaseDN=ou=roles
 orgSearchBaseDN=ou=orgs
+accountUniqueNumberField=employeeNumber
 
 # PostGreSQL database connection parameters
 psql.url=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}
@@ -97,4 +97,4 @@ emailProxyMaxRecipient=10
 emailProxyMaxBodySize=10000
 emailProxyMaxSubjectSize=200
 emailProxyRecipientWhitelist=psc@georchestra.org, postmaster@georchestra.org, listmaster@georchestra.org
-# these restrictions have been implemented to prevent spammers. 
+# these restrictions have been implemented to prevent spammers.

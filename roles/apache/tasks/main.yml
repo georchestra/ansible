@@ -37,7 +37,6 @@
     state: link
     owner: root
     group: root
-    mode: 0644
   notify: reload apache2
 
 - name: create web directories

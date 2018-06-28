@@ -43,8 +43,9 @@ ldapAdminDn={{ openldap.rootdn }}
 # The password for binding to the admin user in the ldap
 ldap.admin.password={{ openldap.rootpw }}
 
+
 realmName=georchestra
 
-# If set, the security-proxy will 302 redirect / to the defaultTarget value
-# This is useful if your homepage (eg a CMS) is located on /portal/ for instance
-#defaultTarget=/portal/
+# The security-proxy will 302 redirect / to the defaultTarget value (/header by default).
+# Change it if your homepage (eg a CMS) is located on /portal/ for instance
+defaultTarget=/header/

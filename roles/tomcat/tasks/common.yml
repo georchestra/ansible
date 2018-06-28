@@ -6,6 +6,7 @@
   with_items:
   - tomcat8
   - tomcat8-user #needed for tomcat8-create-instance
+  - libservlet3.1-java #debian bug 867147
 
 - name: disable default instance
   service:

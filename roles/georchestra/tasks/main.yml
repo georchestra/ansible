@@ -27,6 +27,18 @@
 - include: wars.yml
   tags: wars
 
+- name: force-disable recaptcha check
+  tags: fucaptcha
+  blockinfile:
+    dest: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
+    marker: '//ansible disable recaptcha'
+    insertafter: '	removeError\("g-recaptcha"\);'
+    content: |
+      document.form.recaptcha_response_field.value='nothankyou';
+      return true;
+
+  when: console_captcha.privateKey == ''
+
 - include: nativelibs.yml
   tags: nativelibs
 

@@ -49,9 +49,13 @@ AreasGroup=NOM_DEP
 # CAUTION: AreasGroup **has to** be a string, not a numeric !
 
 # reCaptcha V2
+{% if console_captcha.privateKey == '' %}
+verificationURL=https://{{ georchestra.fqdn }}/fuckyougoogle.json
+{% else %}
 verificationURL=https://www.google.com/recaptcha/api/siteverify
-privateKey=6LfTgF4UAAAAAL-FJJecf36W69hEaC4qZ1yu_s5-
-publicKey=6LfTgF4UAAAAADphdZKi6ocxIpn9MSzt8wRBFmmd
+{% endif %}
+privateKey={{ console_captcha.privateKey }}
+publicKey={{ console_captcha.publicKey }}
 
 # LDAP related
 ldapUrl=ldap://localhost:389

@@ -20,18 +20,6 @@
   command: psql -d {{ georchestra.db.name }} -t -c "CREATE EXTENSION postgis;"
   when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
 
-- name: check if spatial_ref_sys was already filled
-  become: yes
-  become_user: postgres
-  command: psql -d {{ georchestra.db.name }} -t -c "select count(*) from spatial_ref_sys;"
-  register: loaded_ref_sys
-
-- name: create spatial_ref_sys functions
-  become: yes
-  become_user: postgres
-  command: psql -d {{ georchestra.db.name }} -f /usr/share/postgresql/9.1/contrib/postgis-1.5/spatial_ref_sys.sql
-  when: "loaded_ref_sys.stdout is defined and loaded_ref_sys.stdout == '     0'"
-
 - name: grant SELECT privilege to georchestra user on spatial_ref_sys table
   become: yes
   become_user: postgres

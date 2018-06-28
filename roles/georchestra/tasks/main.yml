@@ -32,8 +32,9 @@
   blockinfile:
     dest: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
     marker: '//ansible disable recaptcha'
-    insertafter: '	removeError\("g-recaptcha"\);'
+    insertafter: 'function testRecaptcha\(\) {'
     content: |
+      removeError("g-recaptcha");
       document.form.recaptcha_response_field.value='nothankyou';
       return true;
 

@@ -35,7 +35,8 @@ orgTypeValues=Association,Company,NGO,Individual,Other
 AreaMapCenter=1.77, 47.3
 AreaMapZoom=6
 # AreasUrl is the URL of a static file or a service with a GeoJSON FeatureCollection object string in EPSG:4326.
-AreasUrl=https://sdi.georchestra.org/geoserver/ows?SERVICE=WFS&REQUEST=GetFeature&typeName=gadm:gadm_for_countries&outputFormat=json&cql_filter=ISO='FRA' or ISO='BEL'
+AreasUrl=https://www.geopicardie.fr/public/communes_simplified.json
+# example "dynamic" AreasUrl=https://my.server.org/geoserver/ows?SERVICE=WFS&REQUEST=GetFeature&typeName=gadm:gadm_for_countries&outputFormat=json&cql_filter=ISO='FRA' or ISO='BEL'
 # The following properties are used to configure the map widget behavior:
 AreasKey=OBJECTID
 # AreasKey is the key stored in the org LDAP record to uniquely identify a feature.

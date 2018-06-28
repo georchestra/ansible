@@ -13,6 +13,12 @@
     state: stopped
     enabled: no
 
+- name: disable assistive_technologies (requires non-headless jdk)
+  lineinfile:
+    dest: /etc/java-8-openjdk/accessibility.properties
+    line: 'assistive_technologies=org.GNOME.Accessibility.AtkWrapper'
+    state: absent
+
 - name: clone default keystore
   tags: keystore
   command: >

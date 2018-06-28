@@ -22,14 +22,14 @@ cas.viewResolver.basename=default_views
 host.name={{ georchestra.fqdn }}
 
 ldap.url=ldap://localhost:389
-ldap.authn.groupSearchBaseDn=ou=roles,{{ openldap.basedn }}
+ldap.authn.roleSearchBaseDn=ou=roles,{{ openldap.basedn }}
 ldap.authn.userSearchBaseDn=ou=users,{{ openldap.basedn }}
 ldap.authn.searchFilter=(uid={user})
 ldap.admin.username=cn=admin,{{ openldap.basedn }}
 ldap.admin.password={{ openldap.rootpw }}
-ldap.authn.groupSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
-ldap.authn.groupRoleAttribute=cn
-ldap.authn.pendingGroupName=PENDING
+ldap.authn.roleSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
+ldap.authn.roleRoleAttribute=cn
+ldap.authn.pendingRoleName=PENDING
 
 # See http://www.ldaptive.org/ for information about ldap parameters
 ldap.connectTimeout=30000

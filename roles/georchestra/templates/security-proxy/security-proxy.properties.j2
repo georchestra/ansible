@@ -30,11 +30,11 @@ userSearchFilter=(uid={0})
 #
 #   ou can be cn, ou, or some other option. member is often uniquemember as well.
 authoritiesBaseDN=ou=roles
-# The attribute of the group which is the rolename
-groupRoleAttribute=cn
-# the search filter that selects the groups that the user is part of.
-# If a match is found the containing object is one of the groups the user is part of
-groupSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
+# The attribute of the role which is the rolename
+roleRoleAttribute=cn
+# the search filter that selects the roles that the user belongs to.
+# If a match is found, the containing object is one of the roles the user belongs to
+roleSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
 # the admin user's DN (distinguished name)
 #    Depending on how the LDAP is configured you may be able to comment this and password out and add
 #     <property name="anonymousReadOnly" value="true" />

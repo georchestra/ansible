@@ -35,20 +35,20 @@ ldap.base.dn.pattern=uid={0}
 ldap.sync.user.search.base=ou=users
 ldap.sync.user.search.filter=(&(objectClass=*)(mail=*@*)(givenName=*))
 ldap.sync.user.search.attribute=uid
-ldap.privilege.create.nonexisting.groups=true
+ldap.privilege.create.nonexisting.roles=true
 ldap.privilege.create.nonexisting.users=true
-ldap.sync.group.search.base=ou=roles
-ldap.sync.group.search.filter=(&(objectClass=groupOfMembers)(cn=EL_*))
-ldap.sync.group.search.attribute=cn
-ldap.sync.group.search.pattern=EL_(.*)
+ldap.sync.role.search.base=ou=roles
+ldap.sync.role.search.filter=(&(objectClass=groupOfMembers)(cn=EL_*))
+ldap.sync.role.search.attribute=cn
+ldap.sync.role.search.pattern=EL_(.*)
 
 ldap.sync.cron=0 * * * * ?
 ldap.sync.startDelay=60000
 
 ldap.privilege.import=true
-ldap.privilege.search.group.queryprop=member
-ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
-ldap.privilege.search.group.object=ou=roles
+ldap.privilege.search.role.queryprop=member
+ldap.privilege.search.role.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=EL_*))
+ldap.privilege.search.role.object=ou=roles
 ldap.base.search.base=ou=users
 ldap.privilege.search.privilege.pattern=GN_(.*)
 ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=GN_*))

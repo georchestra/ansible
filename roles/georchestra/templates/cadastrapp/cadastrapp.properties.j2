@@ -1,9 +1,9 @@
 ## Configuration file for cadastrapp
 
 ## Two modes are available on this addons
-## 0 - All user, even connected user can search in any commune in database 
+## 0 - All user, even connected user can search in any commune in database
 ##     (result with CNIL authorization > 0 will be filtered)
-## 1 - Connected user can only search and view result on their geographical limitation, 
+## 1 - Connected user can only search and view result on their geographical limitation,
 ##     not connected user can search without geographical limitation (result with CNIL authorization > 0 will be filtered)
 ##     (see https://github.com/GFI-Informatique/cadastrapp/blob/master/script/commun/user/README.md)
 user.search.are.filtered=1
@@ -11,7 +11,7 @@ user.search.are.filtered=1
 # Database schema name
 schema.name={{ cadastrapp.db.schema }}
 
-## CNIL ROLE NAME for ldap group. Only Cnil 1 and Cnil 2 make some limitation
+## CNIL ROLE NAME for ldap role. Only Cnil 1 and Cnil 2 make some limitation
 cnil1RoleName=ROLE_EL_CAD_CNIL1
 cnil2RoleName=ROLE_EL_CAD_CNIL2
 
@@ -21,7 +21,7 @@ roleSeparator=;
 
 ## Min char number that is required to make a search in database
 ## in link with the min char in combox need before calling webapp
-minNbCharForSearch=5
+minNbCharForSearch=3
 
 # PDF generation
 pdf.imageHeight=550
@@ -32,7 +32,7 @@ pdf.organisme=Un service du CRAIG
 
 ## Use to create image for pdf on server side (could be use for client configuration as well)
 ## if baseMap URL is empty no image will be added in pdf
-#baseMap.wms.url=http://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
+#baseMap.wms.url=https://osm.geobretagne.fr/service/wms?VERSION=1.1.1&Request=GetCapabilities&Service=WMS
 baseMap.wms.url=
 baseMap.layer.name=osm:roads
 baseMap.format=image/png
@@ -77,7 +77,6 @@ tempFolder={{ cadastrapp.workdir }}
 parcelleId.length=14
 cgoCommune.length=6
 
-# Maximun number of object request 
+# Maximun number of object request
 maxRequest=8
-
 

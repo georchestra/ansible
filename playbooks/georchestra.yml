@@ -85,7 +85,7 @@
     tomcat_basedir: /srv/tomcat
     system_locale: en_US.UTF-8
     logs_basedir: /srv/log
-    force_https: true
+    force_https: true #set to false if running behind a reverse proxy that does SSL
     console_adminemail: admin@example.org
     tomcat_instances: {
       proxycas: { port: 8180, control_port: 8105 },

@@ -29,6 +29,7 @@
   template:
     src: georchestra.j2
     dest: /etc/apache2/sites-available/georchestra.conf
+  notify: reload apache2
 
 - name: enable georchestra vhost
   file:

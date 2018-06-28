@@ -2,7 +2,7 @@
  * Sample geOrchestra viewer config file
  *
  * Instructions: copy this buffer into GEOR_custom.js,
- * uncomment lines you wish to modify and 
+ * uncomment lines you wish to modify and
  * modify the corresponding values to suit your needs.
  */
 
@@ -39,7 +39,7 @@ GEOR.custom = {
 
     /**
      * Constant: GEOSERVER_WMS_URL
-     * The URL to the GeoServer WMS. 
+     * The URL to the GeoServer WMS.
      * This is required if and only if OSM_AS_OVMAP is set to false.
      * Defaults to /geoserver/wms
      */
@@ -62,9 +62,9 @@ GEOR.custom = {
 
     /**
      * Constant: CSW_GETDOMAIN_SORTING
-     * true to case insensitive sort (client side) the keywords 
-     * got from a CSW getDomain request. false to disable 
-     * client side sorting 
+     * true to case insensitive sort (client side) the keywords
+     * got from a CSW getDomain request. false to disable
+     * client side sorting
      * (which is preferable in case of too many keywords).
      * Defaults to false
      */
@@ -82,10 +82,9 @@ GEOR.custom = {
      * List of catalogs for freetext search
      */
     CATALOGS: [
-        ['https://sdi.georchestra.org/geonetwork/srv/fre/csw', 'le catalogue geOrchestra démo'],
-        ['http://geobretagne.fr/geonetwork/srv/fre/csw', 'le catalogue GeoBretagne'],
+        ['/geonetwork/srv/fre/csw', 'le catalogue local'],
+        ['https://geobretagne.fr/geonetwork/srv/fre/csw', 'le catalogue GeoBretagne'],
         ['http://ids.pigma.org/geonetwork/srv/fre/csw', 'le catalogue PIGMA'],
-        ['https://{{ georchestra.fqdn }}/geonetwork/srv/fre/csw', 'le catalogue local'],
         ['http://sandre.eaufrance.fr/geonetwork_CSW/srv/fre/csw', 'le catalogue du Sandre'],
         ['http://geocatalog.webservice-energy.org/geonetwork/srv/fre/csw', 'le catalogue de webservice-energy'],
         ['http://www.ifremer.fr/geonetwork/srv/fre/csw', "le catalogue de l'Ifremer"]
@@ -96,7 +95,7 @@ GEOR.custom = {
      * CSW URL which should be used by default for freetext search
      * Note: must be one of the URLs in the above CATALOGS config option
      */
-    DEFAULT_CSW_URL: 'https://{{ georchestra.fqdn }}/geonetwork/srv/fre/csw',
+    DEFAULT_CSW_URL: '/geonetwork/srv/fre/csw',
 
     /**
      * Constant: MAX_CSW_RECORDS
@@ -107,7 +106,7 @@ GEOR.custom = {
      * Defaults to 20.
      */
     //MAX_CSW_RECORDS: 20,
-    
+
     /**
      * Constant: CSW_FILTER_PROPERTIES
      * A list of properties queried on catalog search.
@@ -144,7 +143,7 @@ GEOR.custom = {
 
     /**
      * Constant: DEFAULT_THESAURUS_KEY
-     * Key (as the one in the response from /geonetwork/srv/fre/xml.thesaurus.getList) 
+     * Key (as the one in the response from /geonetwork/srv/fre/xml.thesaurus.getList)
      * of the thesaurus to use as the default (selected) one.
      *
      */
@@ -167,12 +166,12 @@ GEOR.custom = {
 
     /**
      * Constant: OSM_AS_OVMAP
-     * Boolean: if true, use OSM mapnik as overview map baselayer 
+     * Boolean: if true, use OSM mapnik as overview map baselayer
      * instead of GEOR.config.OVMAP_LAYER_NAME.
      * Defaults to true
      */
     //OSM_AS_OVMAP: true,
-    
+
     /**
      * Constant: OVMAP_LAYER_NAME
      * The name of the base layer which will be displayed in the overview map.
@@ -181,7 +180,7 @@ GEOR.custom = {
      * Defaults to "geor_loc:DEPARTEMENTS"
      */
     //OVMAP_LAYER_NAME: "geor_loc:DEPARTEMENTS",
-    
+
     /**
      * Constant: WMSC2WMS
      * Hash allowing correspondance between WMS-C server URLs and WMS server URLs for print
@@ -193,7 +192,7 @@ GEOR.custom = {
      * "wmsc_url": "wms_url",
      *
      * For a WMSC with no WMS counterpart,
-     * referencing the wmsc_url here allows the user 
+     * referencing the wmsc_url here allows the user
      * to be warned that this layer will not be printed:
      *
      * "wmsc_url": undefined,
@@ -207,14 +206,14 @@ GEOR.custom = {
      * see https://github.com/georchestra/georchestra/issues/736
      */
     //MAP_DOTS_PER_INCH: 1000 / 39.37 / 0.28,
-    
+
     /**
      * Constant: RECENTER_ON_ADDRESSES
      * {Boolean} whether to display the recenter on addresses tab.
      * Defaults to false
      */
     //RECENTER_ON_ADDRESSES: false,
-    
+
     /**
      * Constant: ADDRESS_URL
      * {String} The URL to the OpenAddresses web service.
@@ -371,14 +370,14 @@ GEOR.custom = {
      * Defaults to false
      */
     //TILE_SINGLE: false,
-    
+
     /**
      * Constant: TILE_WIDTH
      * {Integer} Width of the WMS tiles in pixels.
      * Defaults to 512
      */
     //TILE_WIDTH: 512,
-    
+
     /**
      * Constant: TILE_HEIGHT
      * {Integer} Height of the WMS tiles in pixels.
@@ -419,7 +418,7 @@ GEOR.custom = {
      * Defaults to 5
      */
     //GEONAMES_ZOOMLEVEL: 5,
-    
+
     /**
      * Constant: ANIMATE_WINDOWS
      * {Boolean} Display animations on windows opening/closing
@@ -437,7 +436,7 @@ GEOR.custom = {
     /**
      * Constant: LAYER_INFO_TEMPLATE
      * {String} The template used to format the layer tooltip
-     * The available variables are those of a GeoExt record 
+     * The available variables are those of a GeoExt record
      * and protocol, protocol_color, protocol_version, service, layername and short_abstract
      *
     LAYER_INFO_TEMPLATE: [
@@ -470,7 +469,7 @@ GEOR.custom = {
      * Defaults to ['ROLE_USER', 'ROLE_GN_REVIEWER', 'ROLE_GN_EDITOR', 'ROLE_GN_ADMIN']
      */
     ROLES_FOR_STYLER: [],
-    
+
     /**
      * Constant: ROLES_FOR_QUERIER
      * {Array} roles required for the querier to show up
@@ -479,7 +478,7 @@ GEOR.custom = {
      * Defaults to []
      */
     //ROLES_FOR_QUERIER: [],
-    
+
     /**
      * Constant: ROLES_FOR_PRINTER
      * {Array} roles required to be able to print
@@ -568,7 +567,7 @@ GEOR.custom = {
 
     /**
      * Constant: EDITABLE_LAYERS
-     * {RegExp} 
+     * {RegExp}
      * PLatform layers only with this config
      */
     EDITABLE_LAYERS: /.*{{ georchestra.fqdn }}.*/i,
@@ -584,24 +583,24 @@ GEOR.custom = {
      * Constant: SEND_MAP_TO
      * {Array} List of menu items configs
      *
-     * Each menu item config **must** have the following properties: 
+     * Each menu item config **must** have the following properties:
      *  - name: the link name. Will be localized by OpenLayers.i18n
-     *  - url: the template url for the link. Must contain one of 
-     *   {context_url}, {map_url} or {id} strings, which will be resp. 
+     *  - url: the template url for the link. Must contain one of
+     *   {context_url}, {map_url} or {id} strings, which will be resp.
      *   replaced by the generated WMC link, the map permalink and the map id.
      *
-     * Each menu item config **may** have the following properties: 
+     * Each menu item config **may** have the following properties:
      *  - qtip: the tip appearing on menu item hover. Will be localized by OpenLayers.i18n
      *  - iconCls: the CSS class which will be appended to the menu item
      *
     SEND_MAP_TO: [{
-        "name": "Mobile viewer", 
-        "url": "https://sdi.georchestra.org/sviewer/?wmc={context_url}",
-        "qtip": "Mobile compatible viewer on sdi.georchestra.org"
+        "name": "Mobile viewer",
+        "url": "/sviewer/?wmc={context_url}",
+        "qtip": "Mobile compatible viewer"
     }, {
         "name": "Desktop viewer",
-        "url": "https://sdi.georchestra.org/mapfishapp/?wmc={context_url}",
-        "qtip": "Desktop viewer on sdi.georchestra.org"
+        "url": "/mapfishapp/?wmc={context_url}",
+        "qtip": "Desktop viewer"
     }],*/
 
     /**

@@ -45,3 +45,14 @@
   - { file: cadastrapp.properties, war: cadastrapp, destdir: '' }
   - { file: logback.xml, war: cadastrapp, destdir: '' }
   notify: restart all tomcats
+
+- name: fix local geoserver url
+  tags: fix_gsurl
+  replace:
+    dest: "{{ georchestra.datadir.path }}/mapfishapp/{{ item }}.servers.json"
+    regexp: '"/geoserver'
+    replace: '"https://{{ georchestra.fqdn }}/geoserver'
+  with_items:
+  - wms
+  - wfs
+  - wmts

@@ -15,7 +15,6 @@ geonetwork.htmlcache.dir=${geonetwork.resources.dir}/htmlcache/
 # database configuration
 jdbc.host=localhost
 jdbc.port=5432
-
 jdbc.database={{ georchestra.db.name }}
 jdbc.schema={{ geonetwork.db.schema }}
 jdbc.username={{ geonetwork.db.user }}
@@ -53,3 +52,5 @@ ldap.base.search.base=ou=users
 ldap.privilege.search.privilege.pattern=GN_(.*)
 ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn})(cn=GN_*))
 ldap.privilege.search.privilege.object=ou=roles
+ldap.privilege.search.privilege.attribute=cn
+ldap.privilege.search.role.attribute=cn

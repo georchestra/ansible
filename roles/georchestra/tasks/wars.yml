@@ -1,13 +1,16 @@
 - name: install apt-transport-https
+  tags: apt_repo
   apt:
     pkg: apt-transport-https
     state: installed
 
 - name: add georchestra repository key
+  tags: apt_repo
   apt_key:
     url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo
+  tags: apt_repo
   apt_repository:
     repo: "{{ georchestra.debian.repo }}"
 

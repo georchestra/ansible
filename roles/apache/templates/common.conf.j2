@@ -1,13 +1,4 @@
 # {{ ansible_managed }}
-{% if item.dest != '_static' %}
-RewriteRule ^/{{ item.dest }}$ /{{ item.dest }}/ [R]
-{% endif %}
-{% if item.dest == 'extractorapp' %}
-RewriteRule ^/extractorapp/admin$ /extractorapp/admin/ [R]
-{% endif %}
-{% if item.dest == 'console' %}
-RewriteRule ^/console/console$ /console/console/ [R]
-{% endif %}
 {% if item.dest == 'proxy' %}
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp

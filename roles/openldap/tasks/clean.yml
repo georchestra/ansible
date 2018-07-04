@@ -27,4 +27,11 @@
   - "cn=schema/cn={4}groupofmembers.ldif"
   notify: restart slapd
 
-#XX remove /var/lib/ldap ?
+- name: remove slapd datadir
+  file:
+    dest: "/var/lib/ldap/{{ item }}"
+    state: absent
+  with_items:
+  - data.mdb
+  - lock.mdb
+  when: cleanup_slapd is defined

@@ -32,3 +32,9 @@ SetEnvIf Referer "^https://{{ georchestra.fqdn|replace('.','\.') }}/" mysdi
 {% endif %}
 ProxyPass /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/
 ProxyPassReverse /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/
+{% if item.dest == 'console' %}
+
+RewriteCond %{REQUEST_URI} !^/console/manager/public/.*$
+RewriteCond %{REQUEST_URI} ^/console/manager/([home|users|org|orgs|role|roles|logs|analytics|delegations].*)$
+RewriteRule .* /console/manager/#/%1 [NE,R,L]
+{% endif %}

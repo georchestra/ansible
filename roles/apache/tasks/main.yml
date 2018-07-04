@@ -83,6 +83,7 @@
   with_items:
   - { src: global, dest: global }
   - { src: common, dest: proxy }
+  - { src: common, dest: _static }
   - { src: common, dest: cas }
   - { src: common, dest: analytics }
   - { src: common, dest: extractorapp }

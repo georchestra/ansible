@@ -34,6 +34,9 @@
 #  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
   - { file: credentials.properties, war: mapfishapp, destdir: '' }
   - { file: mapfishapp.properties, war: mapfishapp, destdir: '' }
+  - { file: wms.servers.json, war: mapfishapp, destdir: '' }
+  - { file: wfs.servers.json, war: mapfishapp, destdir: '' }
+  - { file: wmts.servers.json, war: mapfishapp, destdir: '' }
   - { file: config.yaml, war: mapfishapp, destdir: 'print' }
   - { file: log4j.properties, war: mapfishapp, destdir: 'log4j' }
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'js' }

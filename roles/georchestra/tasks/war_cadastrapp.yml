@@ -8,7 +8,7 @@
 - name: install cadastrapp deb
   apt:
     deb: "/tmp/{{ cadastrapp.debsrc.pkg }}"
-    state: installed
+    state: present
 
 - name: remove deb
   file:

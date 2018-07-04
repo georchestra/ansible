@@ -1,7 +1,7 @@
 - name: installing apache2
   apt:
     pkg: apache2
-    state: installed
+    state: present
 
 - name: enable required modules
   apache2_module:

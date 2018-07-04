@@ -6,12 +6,12 @@
 - name: install sudo
   apt:
     name: sudo
-    state: installed
+    state: present
 
 - name: installing dependencies
   apt:
     name: "{{ item }}"
-    state: installed
+    state: present
     update_cache: yes
   with_items:
   - postgresql-9.6-postgis-2.3
@@ -22,7 +22,7 @@
 - name: install python-psycopg2 for ansible psql modules
   apt:
     name: python-psycopg2
-    state: installed
+    state: present
 
 - name: create georchestra user
   become: yes

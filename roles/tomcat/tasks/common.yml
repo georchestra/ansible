@@ -1,7 +1,7 @@
 - name: installing dependencies
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
     update_cache: yes
   with_items:
   - tomcat8

@@ -5,14 +5,14 @@
 - name: install runtime dependencies
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
   - ttf-mscorefonts-installer
 
 - name: install runtime dependencies
   apt:
     pkg: "{{ item }}"
-    state: installed
+    state: present
   with_items:
   - gdal-bin
   - libgdal-java

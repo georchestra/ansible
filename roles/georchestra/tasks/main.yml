@@ -27,6 +27,10 @@
 - include: wars.yml
   tags: wars
 
+- name: wait for console war unpack
+  wait_for:
+    path: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
+
 - name: force-disable recaptcha check
   tags: fucaptcha
   blockinfile:

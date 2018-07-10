@@ -35,7 +35,7 @@
   tags: fucaptcha
   blockinfile:
     dest: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
-    marker: '//ansible disable recaptcha'
+    marker: '// {mark} ansible disable recaptcha'
     insertafter: 'function testRecaptcha\(\) {'
     content: |
       removeError("g-recaptcha");

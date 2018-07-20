@@ -1,7 +1,6 @@
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Xms256m \
 	-Xmx512m \
-	-XX:MaxPermSize=128m \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-Djavax.net.ssl.trustStore=/etc/tomcat8/keystore \
 	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }}"

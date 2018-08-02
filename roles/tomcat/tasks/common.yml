@@ -27,6 +27,18 @@
   command: systemd-tmpfiles  --prefix=/run/tomcat --create
   when: tomcat_piddir|changed
 
+- name: template systemd unit
+  tags: systemd_unit
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat@.service
+
+- name: reload systemd so that it finds the new unit
+  tags: systemd_unit
+  systemd:
+    daemon-reload: yes
+    name: tomcat@.service
+
 - name: disable assistive_technologies (requires non-headless jdk)
   lineinfile:
     dest: /etc/java-8-openjdk/accessibility.properties

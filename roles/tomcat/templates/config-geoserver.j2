@@ -15,8 +15,3 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-XX:SoftRefLRUPolicyMSPerMB=36000 \
 	-XX:NewRatio=2 \
 	-XX:+AggressiveOpts"
-
-# Unset LC_ALL to prevent user environment executing the init script from
-# influencing servlet behavior.  See Debian bug #645221
-unset LC_ALL
-LANG={{ system_locale }}

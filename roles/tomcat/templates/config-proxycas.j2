@@ -4,8 +4,3 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-Djavax.net.ssl.trustStore=/etc/tomcat8/keystore \
 	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }}"
-
-# Unset LC_ALL to prevent user environment executing the init script from
-# influencing servlet behavior.  See Debian bug #645221
-unset LC_ALL
-LANG={{ system_locale }}

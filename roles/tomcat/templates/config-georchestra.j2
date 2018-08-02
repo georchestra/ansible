@@ -10,8 +10,3 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-Dmapfish-print-config={{ georchestra.datadir.path }}/mapfishapp/print/config.yaml \
 	-Dgeonetwork.jeeves.configuration.overrides.file={{ georchestra.datadir.path }}/geonetwork/config/config-overrides-georchestra.xml"
-
-# Unset LC_ALL to prevent user environment executing the init script from
-# influencing servlet behavior.  See Debian bug #645221
-unset LC_ALL
-LANG={{ system_locale }}

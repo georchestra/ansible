@@ -15,6 +15,18 @@
     state: stopped
     enabled: no
 
+- name: template tmpfiles.d for pidfile
+  tags: systemd_unit
+  template:
+    src: tomcat.conf.j2
+    dest: /etc/tmpfiles.d/tomcat.conf
+  register: tomcat_piddir
+
+- name: create temp dir
+  tags: systemd_unit
+  command: systemd-tmpfiles  --prefix=/run/tomcat --create
+  when: tomcat_piddir|changed
+
 - name: disable assistive_technologies (requires non-headless jdk)
   lineinfile:
     dest: /etc/java-8-openjdk/accessibility.properties

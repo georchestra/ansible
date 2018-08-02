@@ -1,7 +1,7 @@
 # instances need to be stopped so that the db can be removed
 - name: stop instances
   service:
-    name: "tomcat-{{ item }}"
+    name: "tomcat@{{ item }}"
     enabled: no
     state: stopped
   with_items: tomcat_instances.keys()

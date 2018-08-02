@@ -1,6 +1,6 @@
 - name: stop instances
   service:
-    name: "tomcat-{{ item }}"
+    name: "tomcat@{{ item }}"
     enabled: no
     state: stopped
   with_items: "{{ tomcat_instances.keys() }}"

@@ -36,6 +36,6 @@
 # instances need to be started so that webapps are deployed
 - name: start instances
   service:
-    name: "tomcat-{{ item }}"
+    name: "tomcat@{{ item }}"
     state: started
   with_items: "{{ tomcat_instances.keys() }}"

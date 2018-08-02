@@ -32,7 +32,7 @@
   with_items: "{{ tomcat_instances.keys() }}"
 
 - name: enable instance
-  service:
-    name: "tomcat-{{ item }}"
+  systemd:
+    name: "tomcat@{{ item }}"
     enabled: yes
   with_items: "{{ tomcat_instances.keys() }}"

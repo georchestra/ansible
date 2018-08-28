@@ -41,39 +41,6 @@ customConfig = {
     layersBackground: [
         new ol.layer.Tile({
               source: new ol.source.OSM()
-        }),
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'https://sdi.georchestra.org/geoserver/dem/wms',
-                params: {
-                    'LAYERS': 'altitude',
-                    'TILED': true
-                },
-                extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
-                attributions: [new ol.Attribution({ html: 'tiles from geOrchestra, data <a href="http://www.cgiar-csi.org/data/srtm-90m-digital-elevation-database-v4-1">(c) CGIAR-CSI</a>'})],
-            })
-        }),
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'https://sdi.georchestra.org/geoserver/unearthedoutdoors/wms',
-                params: {
-                    'LAYERS': 'truemarble',
-                    'TILED': true
-                },
-                extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
-                attributions: [new ol.Attribution({ html: 'tiles from geOrchestra, data <a href="http://www.unearthedoutdoors.net/global_data/true_marble/">(c) Unearthed Outdoors</a>'})],
-            })
-        }),
-        new ol.layer.Tile({
-            source: new ol.source.TileWMS({
-                url: 'https://sdi.georchestra.org/geoserver/nasa/wms',
-                params: {
-                    'LAYERS': 'night_2012',
-                    'TILED': true
-                },
-                extent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
-                attributions: [new ol.Attribution({ html: 'tiles from geOrchestra, data <a href="http://earthobservatory.nasa.gov/Features/NightLights/page3.php">(c) NASA</a>'})],
-            })
         })
     ],
 

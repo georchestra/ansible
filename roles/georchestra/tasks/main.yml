@@ -14,6 +14,9 @@
 - include: config.yml
   tags: config
 
+- include: sviewer.yml
+  tags: sviewer
+
 - include: war_cadastrapp.yml
   tags: cadastrapp_war
   when: cadastrapp.enabled

@@ -10,7 +10,7 @@ customConfig = {
      * base url of the geOrchetra SDI. Layers coming from this SDI
      * will have enhanced features.
      */
-    geOrchestraBaseUrl: 'https://sdi.georchestra.org/',
+    geOrchestraBaseUrl: 'https://{{ georchestra.fqdn }}/',
 
     /**
      * projection
@@ -20,7 +20,7 @@ customConfig = {
     /**
      * map bounds
      */
-    initialExtent: [-12880000,-1080000,5890000,7540000],
+    initialExtent: [-40000,5400000,780000,6000000],
     maxExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
     restrictedExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
 
@@ -33,7 +33,7 @@ customConfig = {
     /**
      * openLS control
      */
-    openLSGeocodeUrl: "http://gpp3-wxs.ign.fr/[CLEF GEOPORTAIL]/geoportail/ols?",
+    openLSGeocodeUrl: "http://gpp3-wxs.ign.fr/{{ georchestra.ign_api_key }}/geoportail/ols?",
 
     /**
      * background layers (EPSG:3857)

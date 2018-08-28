@@ -40,6 +40,7 @@
     }
     georchestra: {
       fqdn: georchestra.example.org,
+      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f, #invalid key
       db: {
         name: georchestra,
         user: georchestra,

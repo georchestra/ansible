@@ -5,9 +5,9 @@
 - name: symlink policy.d dir
   file:
     src: /etc/tomcat8/policy.d/
-    dest: "{{ tomcat_basedir }}/{{ item }}/conf/policy.d"
+    dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
-  with_items: "{{ tomcat_instances.keys() }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: recursively fix dirs ownership
   file:
@@ -21,18 +21,18 @@
 
 - name: install instance config in /etc/default
   template:
-    src: "config-{{ item }}.j2"
-    dest: "/etc/default/tomcat-{{ item }}"
-  with_items: "{{ tomcat_instances.keys() }}"
+    src: "config-{{ item.key }}.j2"
+    dest: "/etc/default/tomcat-{{ item.key }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: install instance connector
   template:
-    src: "server-{{ item }}.xml.j2"
-    dest: "{{ tomcat_basedir }}/{{ item }}/conf/server.xml"
-  with_items: "{{ tomcat_instances.keys() }}"
+    src: "server-{{ item.key }}.xml.j2"
+    dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/server.xml"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: enable instance
   systemd:
-    name: "tomcat@{{ item }}"
+    name: "tomcat@{{ item.key }}"
     enabled: yes
-  with_items: "{{ tomcat_instances.keys() }}"
+  with_dict: "{{ tomcat_instances }}"

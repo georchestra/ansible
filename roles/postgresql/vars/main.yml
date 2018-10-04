@@ -5,7 +5,7 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/postgresql/050-ogc-server-statistics.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/060-atlas.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/080-geofence.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/090-extractor-app.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/090-extractorapp.sql
 cadastrappsql: {
   tmpdir: /tmp/cadastrapp/sql,
   views : [

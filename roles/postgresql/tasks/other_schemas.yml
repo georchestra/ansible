@@ -29,19 +29,19 @@
 
 - name: fetch console data
   get_url:
-    url: https://raw.github.com/georchestra/georchestra/master/postgresql/041-console-data.sql
-    dest: "{{ tempdir.stdout }}/041-console-data.sql"
+    url: https://raw.github.com/georchestra/georchestra/18.06/postgresql/05-console-data.sql
+    dest: "{{ tempdir.stdout }}/05-console-data.sql"
   when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
 
 - name: remove docker-only lines
   lineinfile:
-    dest: "{{ tempdir.stdout }}/041-console-data.sql"
+    dest: "{{ tempdir.stdout }}/05-console-data.sql"
     regexp: ".*docker.*"
     state: absent
   when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
 
 - name: create console example data
-  command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/041-console-data.sql
+  command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/05-console-data.sql
   when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
 
 - name: recursively purge temp dir

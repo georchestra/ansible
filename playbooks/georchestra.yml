@@ -15,6 +15,7 @@
       },
       qgisdb: {
         host: 10.0.0.9,
+        port: 5432,
         name: qadastre,
         user: qadastre,
         pass: qadastre,

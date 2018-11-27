@@ -8,7 +8,7 @@ other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/18.06/postgresql/090-extractorapp.sql
 cadastrappsql: {
   tmpdir: /tmp/cadastrapp/sql,
-  views : [
+  views: [
     { script: qgisCommune, view: commune },
     { script: qgisHabitationDetails, view: deschabitation },
     { script: qgisParcelle, view: parcelle },

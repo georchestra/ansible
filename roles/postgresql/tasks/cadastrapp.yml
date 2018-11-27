@@ -90,7 +90,7 @@
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/georchestra/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
 #    validate_certs: no
-  with_items: cadastrappsql.views
+  with_items: "{{ cadastrappsql.views }}"
 
 - name: get the sql scripts for tables
   tags: fetchsql
@@ -98,39 +98,40 @@
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/georchestra/cadastrapp/master/script/{{ item.path }}/{{ item.script }}.sql
 #    validate_certs: no
-  with_items: cadastrappsql.tables
+  with_items: "{{ cadastrappsql.tables }}"
 
 - name: get the sql scripts for indexes
   tags: fetchsql
   get_url:
     dest: "{{ cadastrappsql.tmpdir }}/index.sql"
     url: https://raw.github.com/georchestra/cadastrapp/master/script/commun/{{ item.script }}.sql
-  with_items: cadastrappsql.indexes
+  with_items: "{{ cadastrappsql.indexes }}"
 
 - name: fix the sql scripts
   tags: fixsql
   replace:
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.1.script }}.sql"
-    regexp: "{{ item.0.pat }} replace={{ item.0.val }}"
+    regexp: "{{ item.0.pat }}"
+    replace: "{{ item.0.val }}"
     backup: yes
   with_nested:
-    - [
-    { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
+    - [{ pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
     { pat: '#DBHost_qgis', val: "{{ cadastrapp.qgisdb.host }}" },
+    { pat: '#DBPort_qgis', val: "{{ cadastrapp.qgisdb.port }}" },
     { pat: '#DBName_qgis', val: "{{ cadastrapp.qgisdb.name }}" },
     { pat: '#DBUser_qgis', val: "{{ cadastrapp.qgisdb.user }}" },
     { pat: '#DBpasswd_qgis', val: "{{ cadastrapp.qgisdb.pass }}" },
     { pat: '#DBSchema_qgis', val: "{{ cadastrapp.qgisdb.schema }}" },
     { pat: '#schema_cadastrapp', val: "{{ cadastrapp.db.schema }}" },
     { pat: '#user_cadastrapp', val: "{{ cadastrapp.db.user }}" }]
-    - cadastrappsql.views + cadastrappsql.tables + cadastrappsql.indexes
+    - "{{ cadastrappsql.views }} + {{ cadastrappsql.tables }} + {{ cadastrappsql.indexes }}"
 
 - name: create tables
   tags: runsql
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrappsql.tables
+  with_items: "{{ cadastrappsql.tables }}"
   when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
 
 - name: create views
@@ -138,7 +139,7 @@
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrappsql.views
+  with_items: "{{ cadastrappsql.views }}"
   when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
 
 - name: create indexes
@@ -146,5 +147,5 @@
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
-  with_items: cadastrappsql.indexes
+  with_items: "{{ cadastrappsql.indexes }}"
   when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"

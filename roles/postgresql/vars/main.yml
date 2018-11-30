@@ -31,5 +31,8 @@ cadastrappsql: {
     { script: prop_dmatgm, path: commun/tables },
     { script: prop_dmatto, path: commun/tables },
     { script: prop_dnatpr, path: commun/tables } ],
+    { script: prop_type_filiation, path: commun/tables } ],
+    { script: prop_ccocac, path: commun/tables } ],
+    { script: prop_ccocac_simple, path: commun/tables } ],
   indexes: [ { script: index, index: idxcommunelibcom } ]
 }

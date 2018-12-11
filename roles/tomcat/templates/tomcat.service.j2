@@ -11,7 +11,7 @@ Group=tomcat8
 Environment=LANG={{ system_locale }}
 Environment=JRE_HOME=/usr/lib/jvm/default-java
 Environment=CATALINA_HOME=/usr/share/tomcat8
-Environment=CATALINA_TMPDIR=/tmp/tomcat8-%i-tmp
+Environment=CATALINA_TMPDIR=/srv/tomcat/%i/temp
 Environment=CATALINA_PID=/run/tomcat/%i.pid
 PIDFile=/run/tomcat/%i.pid
 

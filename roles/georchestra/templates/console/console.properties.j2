@@ -26,6 +26,10 @@ protectedUser.uid1={{ geoserver.privileged.user }}
 moderatedSignup=true
 moderatorEmail={{ console_adminemail }}
 
+# Prevent the user from choosing its own username
+# if set to true, username will be 'first letter of firstname+lastname'
+readonlyUid=false
+
 # Delay in days before the "I lost my password" token expires
 delayInDays=1
 

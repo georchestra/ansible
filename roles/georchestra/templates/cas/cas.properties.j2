@@ -29,7 +29,6 @@ ldap.admin.username=cn=admin,{{ openldap.basedn }}
 ldap.admin.password={{ openldap.rootpw }}
 ldap.authn.roleSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
 ldap.authn.roleRoleAttribute=cn
-ldap.authn.pendingRoleName=PENDING
 
 # See http://www.ldaptive.org/ for information about ldap parameters
 ldap.connectTimeout=30000

@@ -60,8 +60,9 @@ AreasGroup=NOM_DEP
 
 # reCaptcha V2
 {% if console_captcha.privateKey == '' %}
-verificationURL=https://{{ georchestra.fqdn }}/fuckyougoogle.json
+recaptcha.activated=false
 {% else %}
+recaptcha.activated=true
 verificationURL=https://www.google.com/recaptcha/api/siteverify
 {% endif %}
 privateKey={{ console_captcha.privateKey }}

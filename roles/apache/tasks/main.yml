@@ -68,13 +68,6 @@
     dest: /var/www/georchestra/htdocs/errors/50x.html
     url: http://sdi.georchestra.org/errors/50x.html
 
-- name: create recaptcha response if needed
-  tags: fucaptcha
-  copy:
-    dest: /var/www/georchestra/htdocs/fuckyougoogle.json
-    content: "{ success: true }\n"
-  when: console_captcha.privateKey == ''
-
 - name: template config fragments
   tags: apache_config
   template:

@@ -72,11 +72,12 @@ ldapUrl=ldap://localhost:389
 baseDN={{ openldap.basedn }}
 ldapAdminDn={{ openldap.rootdn }}
 ldap.admin.password={{ openldap.rootpw }}
-roleUniqueNumberField=ou
+# LDAP organizational units:
 userSearchBaseDN=ou=users
 roleSearchBaseDN=ou=roles
 orgSearchBaseDN=ou=orgs
-accountUniqueNumberField=employeeNumber
+pendingUserSearchBaseDN=ou=pendingusers
+pendingOrgSearchBaseDN=ou=pendingorgs
 
 # PostGreSQL database connection parameters
 psql.url=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}

@@ -51,3 +51,13 @@ realmName=georchestra
 # The security-proxy will 302 redirect / to the defaultTarget value (/header by default).
 # Change it if your homepage (eg a CMS) is located on /portal/ for instance
 defaultTarget=/header/
+
+# Connection pool settings for the logger appender that inserts OGC request stats on the database
+ogcStats.jdbcURL=jdbc:postgresql://database:5432/{{ georchestra.db.name }}
+ogcStats.databaseUser={{ georchestra.db.user }}
+ogcStats.databasePassword={{ georchestra.db.pass }}
+ogcStats.minPoolSize=1
+ogcStats.maxPoolSize=5
+ogcStats.timeout=2000
+#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+ogcStats.maxIdleTime=60

@@ -37,7 +37,7 @@
       rootpw: secret,
       gitrepo: "https://raw.github.com/georchestra/georchestra",
       ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
-      gitversion: master
+      gitversion: 18.12
     }
     georchestra: {
       fqdn: georchestra.example.org,
@@ -50,11 +50,11 @@
       datadir: {
         path: /etc/georchestra,
         gitrepo: "https://github.com/georchestra/datadir",
-        gitversion: master
+        gitversion: 18.12
       },
       debian: {
-        repo: "deb https://packages.georchestra.org/debian master main",
-        key: "https://packages.georchestra.org/debian/key.asc"
+        repo: "deb https://packages.georchestra.org/debian 18.12 main",
+        key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
       }
     }
     geonetwork: {
@@ -77,7 +77,7 @@
       datadir: {
         path: /srv/data/geoserver/,
         gitrepo: "https://github.com/georchestra/geoserver_minimal_datadir",
-        gitversion: master
+        gitversion: 18.12
       },
       wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
     }

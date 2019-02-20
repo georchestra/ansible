@@ -1,5 +1,4 @@
 # ------   proxy-servlet.xml   ---------
-public.host=${publicUrl}
 # default timeout : 20min should be enough to handle big extraction (~ 4x10^9 pixels)
 http_client_timeout=1200000
 
@@ -7,13 +6,13 @@ http_client_timeout=1200000
 anonymousRole=ROLE_ANONYMOUS
 proxy.contextPath=/sec
 # url called when user has logged out
-logout-success-url=${publicUrl}/cas/logout?fromgeorchestra
+logout-success-url=https://{{ georchestra.fqdn }}/cas/logout?fromgeorchestra
 # url where the user can login
-casLoginUrl=${publicUrl}/cas/login
+casLoginUrl=https://{{ georchestra.fqdn }}/cas/login
 # url that the security system uses to validate the cas tickets
-casTicketValidation=${publicUrl}/cas
+casTicketValidation=https://{{ georchestra.fqdn }}/cas
 # After going to the cas login cas forwards to this URL where the authorities and permissions are checked
-proxyCallback=${publicUrl}/login/cas
+proxyCallback=https://{{ georchestra.fqdn }}/login/cas
 # list of trusted proxy, all request from listed server will be trusted and will bypass security
 trustedProxy=127.0.0.1, localhost
 # the ldap url

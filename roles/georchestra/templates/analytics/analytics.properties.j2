@@ -1,9 +1,18 @@
+# Uncomment to override default values (see default.properties)
+# instanceName=geOrchestra
+# language=en
+# headerHeight=90
+# headerUrl=/header/
+
 # This variable configures the JDBC URL to the database where the statistics
 # gathered by the OGC-server-statistics module are stored
 dlJdbcUrlOGC=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+dataSource.minPoolSize=2
+dataSource.maxPoolSize=2
+dataSource.timeout=2000
+#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+dataSource.maxIdleTime=60
 
-language=fr
-instance=geOrchestra
 
 # Timezone to convert datetime sent by UI to UTC
 # (see Canonical ID on http://joda-time.sourceforge.net/timezones.html for possible values)

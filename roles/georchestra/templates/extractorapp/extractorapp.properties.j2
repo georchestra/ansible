@@ -1,4 +1,6 @@
-language=fr
+# Uncomment to override default values (see default.properties)
+# publicUrl=https://georchestra.mydomain.org
+# language=en
 
 # Email properties
 smtpHost=localhost
@@ -12,6 +14,11 @@ privileged_admin_pass={{ geoserver.privileged.pass }}
 
 # Link to DB to store extraction statistics in 'extractorapp' schema
 jdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+dataSource.minPoolSize=1
+dataSource.maxPoolSize=10
+dataSource.timeout=2000
+#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+dataSource.maxIdleTime=60
 
 # max extraction size in pixels
 maxCoverageExtractionSize=99999999

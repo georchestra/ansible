@@ -1,8 +1,29 @@
-# this takes back config/defaults/maven.filter
-instance=geOrchestra
-language=fr
-
+# Uncomment to override default values (see default.properties)
+# instanceName=geOrchestra
+# language=en
+# headerHeight=90
+# headerUrl=/header/
 
 jdbcUrl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
+dataSource.minPoolSize=1
+dataSource.maxPoolSize=10
+dataSource.timeout=2000
+#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+dataSource.maxIdleTime=60
+
 
 docTempDir=/tmp
+
+# Maximum file size the backend accepts for uploaded files
+# Default is 8388608
+# Set to -1 to indicate no limit
+# See also: https://docs.spring.io/autorepo/docs/spring-framework/3.1.0.RELEASE/javadoc-api/org/springframework/web/multipart/commons/CommonsFileUploadSupport.html#setMaxUploadSize(long)
+# Complement: if you use Apache2 or nginx as a proxy server in front of geOrchestra, check if it doesn't also limit the length of the requests (possibly generating a 413 HTTP status code)
+#    - in Apache2, see the LimitRequestBody property
+#    - in nginx, see the client_max_body_size property
+#    Note that HAProxy does not provide such an option.
+maxUploadSize=8388608
+# The maximum in memory size allowed
+# Default is 10240
+# See also: see https://docs.spring.io/autorepo/docs/spring-framework/3.1.0.RELEASE/javadoc-api/org/springframework/web/multipart/commons/CommonsFileUploadSupport.html#setMaxInMemorySize(int)
+maxInMemorySize=10240

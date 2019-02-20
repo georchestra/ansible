@@ -1,7 +1,10 @@
 # PLEASE mind this file encoding. It is LATIN-1 !
 
 # General purposes properties
-instanceName=geOrchestra
+
+# Name of this instance. Uncomment to override default value
+# instanceName=geOrchestra
+
 publicContextPath=/console
 protectedUser.uid1={{ geoserver.privileged.user }}
 
@@ -75,6 +78,13 @@ accountUniqueNumberField=employeeNumber
 psql.url=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}
 psql.user={{ georchestra.db.user }}
 psql.pass={{ georchestra.db.pass }}
+dataSource.minPoolSize = 2
+dataSource.maxPoolSize = 10
+#acquire connection timeout (in ms for c3p0)
+dataSource.timeout = 1000
+#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+dataSource.maxIdleTime=60
+
 
 # SMTP configuration
 smtpHost=localhost

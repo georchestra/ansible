@@ -2,7 +2,7 @@
 
 A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOrchestra](http://www.georchestra.org/) SDI instance.
 
-Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
+This will deploy a working geOrchestra from the **18.12** branch with mostly default configs and empty databases/datadirs.
 
 
 ## setup

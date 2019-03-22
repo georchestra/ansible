@@ -1,45 +1,110 @@
-server.name=https://{{ georchestra.fqdn }}
-server.prefix=https://{{ georchestra.fqdn }}/cas
+# Name of the CAS server
+# This property is required and has no default value. Do not comment
+# This property SHOULD be let unmodified. If you need to modify the URL, see
+# "publicURL" in default.properties.
+server.name=${publicUrl}
 
-# Name of this instance. Uncomment to override default value
-# instanceName=geOrchestra
+# Prefix of the CAS server
+# This property is required and has no default value. Do not comment
+# This property SHOULD be let unmodified. If you need to modify the URL, see
+# "publicURL" in default.properties.
+server.prefix=${publicUrl}/cas
 
-# Uncomment to override header height (size in px) or header url in the console
-# defaults to values defined in ../default.properties
-# headerHeight=90
-# headerUrl=/header/
+# Name of the geOrchestra instance
+# default: see default.properties - uncomment to override
+#instanceName=
 
-# IP address or CIDR subnet allowed to access the /status URI of CAS that exposes health check information
-cas.securityContext.status.allowedSubnet=127.0.0.1
+# Header height (in px)
+# default: see default.properties - uncomment to override
+#headerHeight=
 
-console.contextpath=/console
+# Header URL (can be absolute or relative)
+# default: see default.properties - uncomment to override
+#headerUrl=
 
-cas.themeResolver.defaultThemeName=cas-theme-default
-cas.viewResolver.basename=default_views
+# IP address or CIDR subnet allowed to access the /status URI of CAS that
+# exposes health check information
+# default: 127.0.0.1
+#cas.securityContext.status.allowedSubnet=127.0.0.1
 
-##
+# Context path of the console application
+# default: /console
+#console.contextpath=/console
+
+# CAS theme name
+# default: cas-theme-default
+#cas.themeResolver.defaultThemeName=cas-theme-default
+
+# CAS default basename for ResourceBundleViewResolver
+# see https://github.com/georchestra/georchestra/blob/18.12/cas-server-webapp/src/main/resources/default_views.properties
+# default: default_views
+#cas.viewResolver.basename=default_views
+
 # Unique CAS node name
 # host.name is used to generate unique Service Ticket IDs and SAMLArtifacts.  This is usually set to the specific
 # hostname of the machine running the CAS node, but it could be any label so long as it is unique in the cluster.
-host.name={{ georchestra.fqdn }}
+# default: ${domainName}
+#host.name=${domainName}
 
+# LDAP server URL
+# default: ldap://127.0.1.1:389
 ldap.url=ldap://localhost:389
-ldap.authn.roleSearchBaseDn=ou=roles,{{ openldap.basedn }}
-ldap.authn.userSearchBaseDn=ou=users,{{ openldap.basedn }}
-ldap.authn.searchFilter=(uid={user})
+
+# Username to connect to the LDAP server
+# default: cn=admin,dc=georchestra,dc=org
 ldap.admin.username=cn=admin,{{ openldap.basedn }}
+
+# Password to connect to the LDAP server
+# default: secret
 ldap.admin.password={{ openldap.rootpw }}
+
+# DN of the users in LDAP
+# default: ou=users,dc=georchestra,dc=org
+ldap.authn.userSearchBaseDn=ou=users,{{ openldap.basedn }}
+
+# Filter to search users in LDAP
+# default: (uid={user})
+#ldap.authn.searchFilter=(uid={user})
+
+# DN of the roles in LDAP
+# default: ou=roles,dc=georchestra,dc=org
+ldap.authn.roleSearchBaseDn=ou=roles,{{ openldap.basedn }}
+
+# Filter to search roles in LDAP
+# default: (member=uid={1},ou=users,dc=georchestra,dc=org)
 ldap.authn.roleSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
-ldap.authn.roleRoleAttribute=cn
+
+# LDAP attribute that characterizes a role
+# default: cn
+#ldap.authn.roleRoleAttribute=cn
 
 # See http://www.ldaptive.org/ for information about ldap parameters
-ldap.connectTimeout=30000
-ldap.useStartTLS=false
-ldap.pool.minSize=3
-ldap.pool.maxSize=10
-ldap.pool.validateOnCheckout=false
-ldap.pool.validatePeriodically=false
-ldap.pool.validatePeriod=1800
-ldap.pool.prunePeriod=300
-ldap.pool.idleTime=600
-ldap.pool.blockWaitTime=0
+# default: 30000
+#ldap.connectTimeout=30000
+
+# default: false
+#ldap.useStartTLS=false
+
+# default: 3
+#ldap.pool.minSize=3
+
+# default: 10
+#ldap.pool.maxSize=10
+
+# default: false
+#ldap.pool.validateOnCheckout=false
+
+# default: false
+#ldap.pool.validatePeriodically=false
+
+# default: 1800
+#ldap.pool.validatePeriod=1800
+
+# default: 300
+#ldap.pool.prunePeriod=300
+
+# default: 600
+#ldap.pool.idleTime=600
+
+# default: 0
+#ldap.pool.blockWaitTime=0

@@ -1,7 +1,19 @@
-contextPath=/geowebcache
+# Name of the geOrchestra instance
+# default: see default.properties - uncomment to override
+#instanceName=
 
-# Name of this instance. Uncomment to override default value
-# instanceName=geOrchestra
+# Header height (in px)
+# default: see default.properties - uncomment to override
+#headerHeight=
 
-# Header height (size in px). Uncomment to override default value
-# headerHeight=90
+# Context path of the application
+# default: /geowebcache
+#contextPath=/geowebcache
+
+# Directory of the geowebcache.xml configuration file
+# Note: you SHOULD uncomment and set the value to a persistent directory.
+# If you let the configuration file path to /tmp/gwc_config/geowebcache.xml,
+# it will be deleted and recreated from default configuration template at
+# reboot. Consider something like /etc/geowebcache.
+# default: /tmp/gwc_config
+#configurationDir=/tmp/gwc_config

@@ -1,33 +1,104 @@
-# Uncomment to override default values (see default.properties)
-# publicUrl=https://georchestra.mydomain.org
-# language=en
+# General purposes properties
+
+# URL of the geOrchestra instance
+# default: see default.properties - uncomment to override
+#publicUrl=
+
+# Language of the interface
+# default: see default.properties - uncomment to override
+#language=
+
+# User to connect to PostGreSQL server
+# default: see default.properties - uncomment to override
+#pgsqlUser=
+
+# Password to connect to PostGreSQL server
+# default: see default.properties - uncomment to override
+#pgsqlPassword=
+
+# JDBC URL to connect to PostgreSQL server
+# default: see default.properties - uncomment to override
+#jdbcUrl=
+
 
 # Email properties
-smtpHost=localhost
-smtpPort=25
-replyTo={{ console_adminemail }}
-from={{ console_adminemail }}
-emailHtml=false
 
+# SMTP server domain name
+# default: localhost
+#smtpHost=localhost
+
+# SMTP server port
+# default: 25
+#smtpPort=25
+
+# ReplyTo field in sent emails
+# default: ${administratorEmail}
+#replyTo=${administratorEmail}
+
+# From field in sent emails
+# default: ${administratorEmail}
+#from=${administratorEmail}
+
+# Send emails in HTML format
+# default: false
+#emailHtml=false
+
+
+# GeoServer admin username
+# default: geoserver_privileged_user
 privileged_admin_name={{ geoserver.privileged.user }}
+
+# GeoServer admin password
+# default: gerlsSnFd6SmM
 privileged_admin_pass={{ geoserver.privileged.pass }}
 
+
 # Link to DB to store extraction statistics in 'extractorapp' schema
-jdbcurl=jdbc:postgresql://localhost:5432/{{ georchestra.db.name }}?user={{ georchestra.db.user }}&password={{ georchestra.db.pass }}
-dataSource.minPoolSize=1
-dataSource.maxPoolSize=10
-dataSource.timeout=2000
-#max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
-dataSource.maxIdleTime=60
 
-# max extraction size in pixels
-maxCoverageExtractionSize=99999999
-maxExtractions=100
-remoteReproject=true
-useCommandLineGDAL=false
-extractionFolderPrefix=extraction-
-emailfactory=org.georchestra.extractorapp.ws.EmailFactoryDefault
-emailsubject=[geOrchestra] Your extraction request
+# Minimum connections pool size
+# default: 1
+#dataSource.minPoolSize=1
 
-# extractionManager bean
-minThreads=1
+# Maximum connections pool size
+# default: 10
+#dataSource.maxPoolSize=10
+
+# Connections pool timeout (ms)
+# default: 2000
+#dataSource.timeout=2000
+
+# Max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+# default: 60
+#dataSource.maxIdleTime=60
+
+
+# Max extraction size in pixels
+
+# Maximum coverage extraction size
+# default: 99999999
+#maxCoverageExtractionSize=99999999
+
+# Maximum number of extractions
+# default: 100
+#maxExtractions=100
+
+# Allow remote reprojection
+# default: true
+#remoteReproject=true
+
+# Use command line GDAL
+# default: false
+#useCommandLineGDAL=false
+
+# Extraction folder prefix
+# default: extraction-
+#extractionFolderPrefix=extraction-
+
+# Subject of the extraction emails
+# default: [${instanceName}] Your extraction request
+#emailsubject=[${instanceName}] Your extraction request
+
+
+# Minimum number of threads for extractionManager bean
+# default: 1
+#minThreads=1

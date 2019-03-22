@@ -35,6 +35,8 @@ Install the dependencies with:
 sudo apt-get install vagrant virtualbox ansible
 ```
 
+Note: currently (22 march 2019), the vagrant package is [broken on Ubuntu and Debian](https://bugs.launchpad.net/ubuntu/+source/vagrant/+bug/1804626). To fix it, install it from [Vagrant project downloads page](https://www.vagrantup.com/downloads.html).
+
 Optionally, to install the "guest additions", you may run:
 ```
 vagrant plugin install vagrant-vbguest

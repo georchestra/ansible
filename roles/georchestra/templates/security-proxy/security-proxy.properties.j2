@@ -1,6 +1,18 @@
 # General purposes properties
 
-# PostGreSQL database name
+# Note: the PostgreSQL-related properties configure the JDBC access to the
+# database where the statistics gathered by the OGC-server-statistics module
+# are stored
+
+# PostgreSQL server domain name
+# default: see default.properties - uncomment to override
+#pgsqlHost=
+
+# PostgreSQL server port
+# default: see default.properties - uncomment to override
+#pgsqlPort=
+
+# PostgreSQL database name
 # default: see default.properties - uncomment to override
 #pgsqlDatabase=
 
@@ -12,9 +24,48 @@
 # default: see default.properties - uncomment to override
 #pgsqlPassword=
 
-# JDBC URL to connect to PostgreSQL server
+# LDAP server domain name
 # default: see default.properties - uncomment to override
-#jdbcUrl=
+#ldapHost=
+
+# LDAP server port
+# default: see default.properties - uncomment to override
+#ldapPort=
+
+# Base DN of the LDAP directory
+# default: see default.properties - uncomment to override
+#ldapBaseDn=
+
+# Administrator DN
+# default: see default.properties - uncomment to override
+#ldapAdminDn=
+
+# Administrator password
+# default: see default.properties - uncomment to override
+#ldapAdminPassword=
+
+# Users RDN
+# Note: it's the base DN from where to search for the logged-in user. This
+# mostly to verify the user exists.
+# default: see default.properties - uncomment to override
+#ldapUsersRdn=
+
+# Roles RDN
+# Note: it's the base DN to use for looking up the roles/groups/authorities
+# of the logged-in user. Normally the ldap is configured like:
+#   ou=roles
+#     cn=somerole
+#       member=uid=username,ou=users,dc=georchestra,dc=org
+#
+#   ou can be cn, ou, or some other option. member is often uniquemember as well
+# default: see default.properties - uncomment to override
+#ldapRolesRdn=
+
+# Organizations RDN
+# Note: it's the base DN from where to search for organization. Used to fill
+# sec-org http header..
+# default: see default.properties - uncomment to override
+#ldapOrgsRdn=
 
 
 # ------   proxy-servlet.xml   ---------
@@ -35,20 +86,20 @@
 #proxy.contextPath=/sec
 
 # URL called when user has logged out
-# default: ${publicUrl}/cas/logout?fromgeorchestra
-#logout-success-url=${publicUrl}/cas/logout?fromgeorchestra
+# default: ${scheme}://${domainName}/cas/logout?fromgeorchestra
+#logout-success-url=${scheme}://${domainName}/cas/logout?fromgeorchestra
 
 # URL where the user can login
-# default: ${publicUrl}/cas/login
-#casLoginUrl=${publicUrl}/cas/login
+# default: ${scheme}://${domainName}/cas/login
+#casLoginUrl=${scheme}://${domainName}/cas/login
 
 # URL that the security system uses to validate the cas tickets
-# default: ${publicUrl}/cas
-#casTicketValidation=${publicUrl}/cas
+# default: ${scheme}://${domainName}/cas
+#casTicketValidation=${scheme}://${domainName}/cas
 
 # After going to the cas login cas forwards to this URL where the authorities and permissions are checked
-# default: ${publicUrl}/login/cas
-#proxyCallback=${publicUrl}/login/cas
+# default: ${scheme}://${domainName}/login/cas
+#proxyCallback=${scheme}://${domainName}/login/cas
 
 # List of trusted proxies, all requests from listed server will be trusted and
 # will bypass security
@@ -58,36 +109,10 @@
 
 # LDAP
 
-# URL of the LDAP server
-# default: ldap://localhost
-#ldapUrl=ldap://localhost
-
-# Base DN of the LDAP directory
-# default: dc=georchestra,dc=org
-baseDN={{ openldap.basedn }}
-
-# The base DN from where to search for the logged in user.
-# This mostly to verify the user exists
-# default: ou=users
-#userSearchBaseDN=ou=users
-
-# The base DN from where to search for organization.
-# Use to fill sec-org http header
-# default: ou=orgs
-#orgSearchBaseDN=ou=orgs
 
 # The second part of looking up the user
 # default: (uid={0})
 #userSearchFilter=(uid={0})
-
-# The base DN to use for looking up the roles/groups/authorities of the logged in user. Normally the ldap is configured like:
-#   ou=roles
-#     cn=somerole
-#       member=uid=username,ou=users,dc=georchestra,dc=org
-#
-#   ou can be cn, ou, or some other option. member is often uniquemember as well.
-# default: ou=roles
-#authoritiesBaseDN=ou=roles
 
 # The attribute of the role which is the rolename
 # default: cn
@@ -95,19 +120,8 @@ baseDN={{ openldap.basedn }}
 
 # The search filter that selects the roles that the user belongs to.
 # If a match is found, the containing object is one of the roles the user belongs to
-# default: (member=uid={1},ou=users,dc=georchestra,dc=org)
-roleSearchFilter=(member=uid={1},ou=users,{{ openldap.basedn }})
-
-# the admin user's DN (distinguished name)
-#    Depending on how the LDAP is configured you may be able to comment this and password out and add
-#     <property name="anonymousReadOnly" value="true" />
-#    to the "ldapContextSource" bean
-# default: cn=admin,dc=georchestra,dc=org
-ldapAdminDn={{ openldap.rootdn }}
-
-# The password for binding to the admin user in the ldap
-# default: secret
-ldap.admin.password={{ openldap.rootpw }}
+# default: (member=uid={1},${ldapUsersRdn},${ldapBaseDn})
+#roleSearchFilter=(member=uid={1},${ldapUsersRdn},${ldapBaseDn})
 
 
 # Name of the realm

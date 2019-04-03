@@ -38,7 +38,6 @@
   - { file: log4j.properties, war: mapfishapp, destdir: 'log4j' }
   - { file: GEOR_custom.js, war: mapfishapp, destdir: 'js' }
   - { file: log4j.properties, war: extractorapp, destdir: 'log4j' }
-  - { file: extractorapp.properties, war: extractorapp, destdir: '' }
   - { file: log4j.properties, war: analytics, destdir: 'log4j' }
   - { file: cadastrapp.properties, war: cadastrapp, destdir: '' }
   - { file: logback.xml, war: cadastrapp, destdir: '' }

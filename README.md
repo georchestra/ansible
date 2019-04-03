@@ -2,7 +2,7 @@
 
 A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOrchestra](http://www.georchestra.org/) SDI instance.
 
-Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
+This will deploy a working geOrchestra from the **18.12** branch with mostly default configs and empty databases/datadirs.
 
 
 ## setup
@@ -34,6 +34,8 @@ Install the dependencies with:
 ```
 sudo apt-get install vagrant virtualbox ansible
 ```
+
+Note: currently (22 march 2019), the vagrant package is [broken on Ubuntu and Debian](https://bugs.launchpad.net/ubuntu/+source/vagrant/+bug/1804626). To fix it, install it from [Vagrant project downloads page](https://www.vagrantup.com/downloads.html).
 
 Optionally, to install the "guest additions", you may run:
 ```

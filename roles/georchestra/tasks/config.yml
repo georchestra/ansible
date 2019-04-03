@@ -20,9 +20,7 @@
   with_items:
   - { file: default.properties, war: '.', destdir: '' }
   - { file: targets-mapping.properties, war: security-proxy, destdir: '' }
-  - { file: security-proxy.properties, war: security-proxy , destdir: '' }
   - { file: log4j.properties, war: security-proxy, destdir: 'log4j' }
-  - { file: cas.properties, war: cas, destdir: '' }
   - { file: log4j.xml, war: cas, destdir: 'log4j' }
   - { file: console.properties, war: console, destdir: '' }
   - { file: log4j.properties, war: console, destdir: 'log4j' }

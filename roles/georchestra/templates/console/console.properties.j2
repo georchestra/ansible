@@ -66,6 +66,14 @@
 # default: see default.properties - uncomment to override
 #ldapOrgsRdn=
 
+# SMTP server domain name
+# default: see default.properties - uncomment to override
+#smtpHost=
+
+# SMTP server domain name
+# default: see default.properties - uncomment to override
+#smtpPort=
+
 
 # Public context path for the application
 # default: /console
@@ -189,18 +197,6 @@ publicKey={{ console_captcha.publicKey }}
 # Max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
 # default: 60
 #dataSource.maxIdleTime=60
-
-
-# SMTP configuration
-
-# SMTP server domain name
-# default: localhost
-#smtpHost=localhost
-
-# SMTP server port
-# default: 25
-#smtpPort=25
-
 
 # Email-related properties
 

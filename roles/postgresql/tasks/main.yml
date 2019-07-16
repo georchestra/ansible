@@ -40,6 +40,13 @@
     template: template0
     encoding: UTF8
 
+- name: enable postgis extension
+  become: yes
+  become_user: postgres
+  postgresql_ext:
+    name: postgis
+    db: "{{ georchestra.db.name }}"
+
 - include: geonetwork.yml
   become: yes
   become_user: postgres

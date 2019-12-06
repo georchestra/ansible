@@ -36,7 +36,7 @@
       rootdn: "cn=admin,dc=georchestra,dc=org",
       rootpw: secret,
       gitrepo: "https://raw.github.com/georchestra/georchestra",
-      ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
+      ldifs: [ bootstrap, openssh, groupofmembers, memberof, root, georchestra ],
       gitversion: 19.04
     }
     georchestra: {

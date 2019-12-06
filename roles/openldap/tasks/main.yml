@@ -48,6 +48,11 @@
     ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/groupofmembers.ldif"
     creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={4}groupofmembers.ldif
 
+- name: import openssh
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/openssh.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={5}openssh-lpk-openldap.ldif
+
 # loaded by default in debian's slapd ?
 - name: import memberof
   command: >

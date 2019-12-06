@@ -25,6 +25,8 @@
   with_items:
   - "olcDatabase={2}mdb.ldif"
   - "cn=schema/cn={4}groupofmembers.ldif"
+  - "cn=schema/cn={5}georchestra.ldif"
+  - "cn=schema/cn={6}openssh-lpk-openldap.ldif"
   notify: restart slapd
 
 - name: remove slapd datadir

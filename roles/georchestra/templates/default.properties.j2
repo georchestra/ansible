@@ -20,7 +20,7 @@ scheme=https
 # - cas/cas.properties
 # - ...
 # or replace all the strings with `sed` (see README.md)
-domainName=georchestra.mydomain.org
+domainName={{ georchestra.fqdn }}
 
 # Name of this geOrchestra instance
 instanceName=geOrchestra
@@ -56,15 +56,15 @@ pgsqlPort=5432
 
 # PostgreSQL database name
 # Default common PostgreSQL database for all geOrchestra modules
-pgsqlDatabase=georchestra
+pgsqlDatabase={{ georchestra.db.name }}
 
 # User to connect to PostgreSQL server
 # Default common PostgreSQL user for all geOrchestra modules
-pgsqlUser=georchestra
+pgsqlUser={{ georchestra.db.user }}
 
 # Password to connect to PostgreSQL server
 # Default common password of PostgreSQL user for all geOrchestra modules
-pgsqlPassword=georchestra
+pgsqlPassword={{ georchestra.db.pass }}
 
 ### LDAP properties
 
@@ -83,15 +83,15 @@ ldapScheme=ldap
 # Base DN of the LDAP directory
 # Base Distinguished Name of the LDAP directory. Also named root or suffix, see
 # http://www.zytrax.com/books/ldap/apd/index.html#base
-ldapBaseDn=dc=georchestra,dc=org
+ldapBaseDn={{ openldap.basedn }}
 
 # Administrator DN
 # Distinguished name of the administrator user that connects to the LDAP server
-ldapAdminDn=cn=admin,dc=georchestra,dc=org
+ldapAdminDn={{ openldap.rootdn }}
 
 # Administrator password
 # Password of the administrator user that connects to the LDAP server
-ldapAdminPassword=secret
+ldapAdminPassword={{ openldap.rootpw }}
 
 # Users RDN
 # Relative distinguished name of the "users" LDAP organization unit. E.g. if the

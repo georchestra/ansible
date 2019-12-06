@@ -36,7 +36,15 @@
       rootdn: "cn=admin,dc=georchestra,dc=org",
       rootpw: secret,
       gitrepo: "https://raw.github.com/georchestra/georchestra",
-      ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
+      ldifs: [
+      bootstrap,
+      docker-root/georchestraSchema,
+      docker-root/etc/ldap.dist/modules/groupofmembers,
+      docker-root/etc/ldap.dist/modules/openssh,
+      docker-root/memberof,
+      root,
+      docker-root/georchestra
+      ],
       gitversion: master
     }
     georchestra: {

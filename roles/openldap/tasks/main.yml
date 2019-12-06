@@ -16,14 +16,14 @@
 - name: fetch LDAP files
   check_mode: no
   get_url:
-    dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
+    dest: "{{ tempdir.stdout }}/{{ item | basename }}.ldif"
     url: "{{ openldap.gitrepo }}/{{ openldap.gitversion }}/ldap/{{ item }}.ldif"
     validate_certs: no
   with_items: "{{ openldap.ldifs }}"
 
 - name: fix ldif to match our layout/rootdn/basedn
   replace:
-    dest: "{{ tempdir.stdout }}/{{ item.1 }}.ldif"
+    dest: "{{ tempdir.stdout }}/{{ item.1 | basename }}.ldif"
     regexp: "{{ item.0.pat }}"
     replace: "{{ item.0.val }}"
     backup: yes
@@ -47,6 +47,16 @@
   command: >
     ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/groupofmembers.ldif"
     creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={4}groupofmembers.ldif
+
+- name: import georchestraSchema
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/georchestraSchema.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={5}georchestra.ldif
+
+- name: import openssh
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/openssh.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={6}openssh-lpk-openldap.ldif
 
 # loaded by default in debian's slapd ?
 - name: import memberof

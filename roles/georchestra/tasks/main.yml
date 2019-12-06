@@ -30,23 +30,6 @@
 - include: wars.yml
   tags: wars
 
-- name: wait for console war unpack
-  wait_for:
-    path: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
-
-- name: force-disable recaptcha check
-  tags: fucaptcha
-  blockinfile:
-    dest: "{{ tomcat_basedir }}/{{ georchestra_wars['console']['tomcat'] }}/webapps/console/WEB-INF/views/validation.jsp"
-    marker: '// {mark} ansible disable recaptcha'
-    insertafter: 'function testRecaptcha\(\) {'
-    content: |
-      removeError("g-recaptcha");
-      document.form.recaptcha_response_field.value='nothankyou';
-      return true;
-
-  when: console_captcha.privateKey == ''
-
 - include: nativelibs.yml
   tags: nativelibs
 

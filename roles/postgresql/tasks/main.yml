@@ -10,14 +10,11 @@
 
 - name: installing dependencies
   apt:
-    name: "{{ item }}"
+    pkg: ['postgis', 'postgresql-11-postgis-2.5', 'postgresql-11-postgis-2.5-scripts', 'postgresql-contrib']
     state: present
     update_cache: yes
-  with_items:
-  - postgresql-9.6-postgis-2.3
-  - postgresql-9.6-postgis-2.3-scripts #for postgis.control
-  - postgresql-contrib-9.6 #for dblink extension
-  - postgis
+# postgresql-11-postgis-2.5-scripts #for postgis.control
+# postgresql-contrib #for dblink extension
 
 - name: install python-psycopg2 for ansible psql modules
   apt:
@@ -30,6 +27,7 @@
   postgresql_user:
     name: "{{ georchestra.db.user }}"
     password: "{{ georchestra.db.pass }}"
+    encrypted: yes
 
 - name: create georchestra main database
   become: yes

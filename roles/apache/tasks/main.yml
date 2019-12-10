@@ -53,7 +53,7 @@
 - name: fetch 50x.html error page
   get_url:
     dest: /var/www/georchestra/htdocs/errors/50x.html
-    url: http://sdi.georchestra.org/errors/50x.html
+    url: https://raw.githubusercontent.com/georchestra/htdocs/master/errors/50x.html
 
 - name: create recaptcha response if needed
   tags: fucaptcha

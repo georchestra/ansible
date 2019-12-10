@@ -16,8 +16,8 @@
 - name: point georchestra's shared.loader to catalina.base/shared/*.jar
   lineinfile:
     dest: "{{ tomcat_basedir }}/georchestra/conf/catalina.properties"
-    regexp: 'shared.loader=${catalina.home}/shared/classes,${catalina.home}/shared/*.jar,/var/lib/tomcat8/shared/classes,/var/lib/tomcat8/shared/*.jar'
-    line: 'shared.loader=${catalina.home}/shared/classes,${catalina.base}/shared/*.jar,/var/lib/tomcat8/shared/classes,/var/lib/tomcat8/shared/*.jar'
+    regexp: 'shared.loader=${catalina.home}/shared/classes,${catalina.home}/shared/*.jar,/var/lib/tomcat9/shared/classes,/var/lib/tomcat9/shared/*.jar'
+    line: 'shared.loader=${catalina.home}/shared/classes,${catalina.base}/shared/*.jar,/var/lib/tomcat9/shared/classes,/var/lib/tomcat9/shared/*.jar'
 
 - name: create tomcat shared dir
   file:

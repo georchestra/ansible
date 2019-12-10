@@ -25,7 +25,7 @@
 
 - name: symlink webapps in each tomcat instance
   file:
-    owner: tomcat8
+    owner: tomcat9
     src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}-generic.war"
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link

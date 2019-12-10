@@ -1,6 +1,6 @@
 - name: checkout geonetwork datadir
   become: yes
-  become_user: tomcat8
+  become_user: tomcat9
   git:
     dest: "{{ geonetwork.datadir.path }}"
     repo: "{{ geonetwork.datadir.gitrepo }}"

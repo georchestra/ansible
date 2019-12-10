@@ -1,12 +1,15 @@
 - name: installing dependencies
   apt:
-    pkg: [ tomcat8, tomcat8-user, libservlet3.1-java, libtcnative-1 ] #libservlet cf debian bug 867147
+    pkg: ['tomcat9', 'tomcat9-user', 'libservlet3.1-java', 'libtcnative-1'] #libservlet cf debian bug 867147
     state: present
     update_cache: yes
+# tomcat9-user #needed for tomcat9-create-instance
+# libservlet3.1-java #debian bug 867147
+# libtcnative-1 #APR native libs
 
 - name: disable default instance
   service:
-    name: tomcat8
+    name: tomcat9
     state: stopped
     enabled: no
 
@@ -46,15 +49,15 @@
     keytool -importkeystore
       -srckeystore /etc/ssl/certs/java/cacerts \
       -srcstorepass changeit \
-      -destkeystore /etc/tomcat8/keystore \
+      -destkeystore /etc/tomcat9/keystore \
       -deststorepass {{ tomcat_keystore_pass }}
-    creates=/etc/tomcat8/keystore
+    creates=/etc/tomcat9/keystore
 
 - name: check if localhost exists in keystore
   tags: keystore
   command: >
     keytool -list -alias localhost \
-      -keystore /etc/tomcat8/keystore \
+      -keystore /etc/tomcat9/keystore \
       -storepass {{ tomcat_keystore_pass }}
   ignore_errors: yes
   register: localhost_exists
@@ -63,7 +66,7 @@
   tags: keystore
   command: >
     keytool -genkey -alias localhost \
-      -keystore /etc/tomcat8/keystore \
+      -keystore /etc/tomcat9/keystore \
       -storepass {{ tomcat_keystore_pass }} \
       -keypass {{ tomcat_keystore_pass }} \
       -keyalg RSA \
@@ -80,5 +83,5 @@
   file:
     path: "{{ logs_basedir }}"
     state: directory
-    owner: tomcat8
-    group: tomcat8
+    owner: tomcat9
+    group: tomcat9

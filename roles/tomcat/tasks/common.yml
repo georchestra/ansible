@@ -23,7 +23,7 @@
 - name: create temp dir
   tags: systemd_unit
   command: systemd-tmpfiles  --prefix=/run/tomcat --create
-  when: tomcat_piddir|changed
+  when: tomcat_piddir.changed
 
 - name: template systemd unit
   tags: systemd_unit
@@ -72,7 +72,7 @@
       -keyalg RSA \
       -keysize 2048 \
       -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
-  when: localhost_exists|failed
+  when: localhost_exists is failed
 
 - name: create tomcat_basedir
   file:

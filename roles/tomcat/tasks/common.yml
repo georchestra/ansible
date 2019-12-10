@@ -83,5 +83,5 @@
   file:
     path: "{{ logs_basedir }}"
     state: directory
-    owner: tomcat9
-    group: tomcat9
+    owner: tomcat
+    group: tomcat

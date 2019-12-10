@@ -14,7 +14,7 @@
     name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
     state: directory
     recurse: yes
-    owner: tomcat9
+    owner: tomcat
   with_nested:
     - "{{ tomcat_instances.keys() }}"
     - [ logs, temp, conf, work, webapps ]

@@ -13,7 +13,7 @@
 - name: create temp dir for cadastrapp
   file:
     name: "{{ cadastrapp.workdir }}"
-    owner: tomcat9
+    owner: tomcat
     state: directory
 
 - name: create addons subdir in georchestra datadir

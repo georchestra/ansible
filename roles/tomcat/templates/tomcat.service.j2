@@ -5,8 +5,8 @@ After=syslog.target network.target
 [Service]
 Type=forking
 
-User=tomcat9
-Group=tomcat9
+User=tomcat
+Group=tomcat
 
 Environment=LANG={{ system_locale }}
 Environment=JRE_HOME=/usr/lib/jvm/default-java

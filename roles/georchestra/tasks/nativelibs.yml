@@ -1,6 +1,6 @@
 - name: enable non-free and contrib for dependencies
   apt_repository:
-   repo: "deb http://deb.debian.org/debian stretch main contrib"
+   repo: "deb http://deb.debian.org/debian buster main contrib"
 
 - name: install runtime dependencies
   apt:

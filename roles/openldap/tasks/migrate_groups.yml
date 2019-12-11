@@ -2,21 +2,6 @@
   command: >
     ldapmodrdn -r -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass ou=groups,{{ openldap.basedn }} ou=roles
 
-- name: create ldif for fake group
-  copy:
-    dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
-    content: "dn: cn={{ item }},ou=roles,{{ openldap.basedn }}\nobjectClass: groupOfMembers\ncn: {{ item }}\n"
-  with_items:
-    - MOD
-    - GN
-
-- name: create hierarchical fake groups
-  command: >
-    ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f {{ tempdir.stdout }}/{{ item }}.ldif
-  with_items:
-    - MOD
-    - GN
-
 - name: create ldif for orgs
   copy:
     dest: "{{ tempdir.stdout }}/orgs.ldif"

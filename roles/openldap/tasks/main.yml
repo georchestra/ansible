@@ -1,12 +1,8 @@
 - name: installing dependencies
   apt:
-    pkg: "{{ item }}"
+    pkg: [git, slapd, ldap-utils]
     state: present
     update_cache: yes
-  with_items:
-  - git
-  - slapd
-  - ldap-utils
 
 - name: create temporary directory
   check_mode: no

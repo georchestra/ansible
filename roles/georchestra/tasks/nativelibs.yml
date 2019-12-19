@@ -4,18 +4,8 @@
 
 - name: install runtime dependencies
   apt:
-    pkg: "{{ item }}"
+    pkg: [ ttf-mscorefonts-installer, gdal-bin, libgdal-java ]
     state: present
-  with_items:
-  - ttf-mscorefonts-installer
-
-- name: install runtime dependencies
-  apt:
-    pkg: "{{ item }}"
-    state: present
-  with_items:
-  - gdal-bin
-  - libgdal-java
 
 #- name: fetch libjpeg-turbo deb from sourceforge
 #  get_url: dest=/tmp/ url=http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-official_1.4.0_amd64.deb

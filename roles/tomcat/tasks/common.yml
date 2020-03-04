@@ -79,7 +79,7 @@
   tags: keystore
   command: >
     keytool -importkeystore
-      -srckeystore /etc/ssl/certs/java/cacerts \
+      -srckeystore /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/security/cacerts \
       -srcstorepass changeit \
       -destkeystore /etc/tomcat9/keystore \
       -deststorepass {{ tomcat_keystore_pass }}

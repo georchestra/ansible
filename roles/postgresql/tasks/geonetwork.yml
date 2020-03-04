@@ -2,6 +2,7 @@
   postgresql_user:
     name: "{{ geonetwork.db.user }}"
     password: "{{ geonetwork.db.pass }}"
+    encrypted: yes
 
 - name: check if geonetwork schema already exists
   command: psql -d {{ georchestra.db.name }} -t -c "\dn"

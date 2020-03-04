@@ -2,6 +2,4 @@ JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Xms256m \
 	-Xmx512m \
-	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
-	-Djavax.net.ssl.trustStore=/etc/tomcat9/keystore \
-	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }}"
+	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

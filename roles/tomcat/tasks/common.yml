@@ -80,37 +80,6 @@
     line: 'assistive_technologies=org.GNOME.Accessibility.AtkWrapper'
     state: absent
 
-- name: clone default keystore
-  tags: keystore
-  command: >
-    keytool -importkeystore
-      -srckeystore /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/security/cacerts \
-      -srcstorepass changeit \
-      -destkeystore /etc/tomcat9/keystore \
-      -deststorepass {{ tomcat_keystore_pass }}
-    creates=/etc/tomcat9/keystore
-
-- name: check if localhost exists in keystore
-  tags: keystore
-  command: >
-    keytool -list -alias localhost \
-      -keystore /etc/tomcat9/keystore \
-      -storepass {{ tomcat_keystore_pass }}
-  ignore_errors: yes
-  register: localhost_exists
-
-- name: create and self-sign certificate
-  tags: keystore
-  command: >
-    keytool -genkey -alias localhost \
-      -keystore /etc/tomcat9/keystore \
-      -storepass {{ tomcat_keystore_pass }} \
-      -keypass {{ tomcat_keystore_pass }} \
-      -keyalg RSA \
-      -keysize 2048 \
-      -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
-  when: localhost_exists is failed
-
 - name: create tomcat_basedir
   file:
     name: "{{ tomcat_basedir }}"

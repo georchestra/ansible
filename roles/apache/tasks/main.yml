@@ -113,6 +113,40 @@
     path: /var/www/georchestra/ssl/georchestra.key
     mode: 0400
 
+- name: install ca-certificates-java
+  tags: keystore
+  apt:
+    pkg: ca-certificates-java
+
+- name: overwrite jks-keystore hook
+  tags: keystore
+  template:
+    src: jks-keystore
+    dest: /etc/ca-certificates/update.d/jks-keystore
+    mode: 0755
+
+- name: symlink cert for ca-certificates
+  tags: keystore
+  file:
+    src: /var/www/georchestra/ssl/georchestra.crt
+    dest: /usr/local/share/ca-certificates/georchestra.crt
+    state: link
+  register: cert_symlinked
+
+- name: insert selfsigned cert into systemwide store
+  tags: keystore
+  command:
+    update-ca-certificates
+  when: cert_symlinked is changed
+
+- name: symlink keystore
+  tags: keystore
+  file:
+    src: /etc/ssl/certs/java/cacerts
+    dest: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/security/cacerts
+    force: yes
+    state: link
+
 - include: clean.yml
   tags: [cleanup, apache_cleanup]
   when: cleanup is defined

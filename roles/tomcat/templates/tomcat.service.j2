@@ -1,5 +1,5 @@
 [Unit]
-Description=Tomcat8 - instance %i
+Description=Tomcat9 - instance %i
 After=syslog.target network.target
 
 [Service]
@@ -9,7 +9,7 @@ User=tomcat
 Group=tomcat
 
 Environment=LANG={{ system_locale }}
-Environment=JRE_HOME=/usr/lib/jvm/default-java
+Environment=JRE_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 Environment=CATALINA_HOME=/usr/share/tomcat9
 Environment=CATALINA_TMPDIR=/srv/tomcat/%i/temp
 Environment=CATALINA_PID=/run/tomcat/%i.pid

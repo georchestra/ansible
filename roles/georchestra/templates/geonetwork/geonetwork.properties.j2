@@ -65,3 +65,7 @@ ldap.roles.search.base=ou=roles
 # LDAP synchronization job runs every minute:
 ldap.sync.cron=0 * * * * ?
 
+# Schematron validation job, which scans non-harvested metadatas regularly,
+# then updates the validation table in the database, runs every 2 hours:
+schematron.job.activated=true
+schematron.job.cronExpression=0 0 0/2 * * ?

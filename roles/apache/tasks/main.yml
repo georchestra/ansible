@@ -3,19 +3,6 @@
     pkg: apache2
     state: present
 
-- name: enable required modules
-  apache2_module:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - proxy_http
-  - proxy
-  - ssl
-  - rewrite
-  - headers
-  - deflate
-  notify: reload apache2
-
 - name: disable the default site
   file:
     path: "/etc/apache2/sites-enabled/{{ item }}"
@@ -66,7 +53,7 @@
 - name: fetch 50x.html error page
   get_url:
     dest: /var/www/georchestra/htdocs/errors/50x.html
-    url: http://sdi.georchestra.org/errors/50x.html
+    url: https://raw.githubusercontent.com/georchestra/htdocs/master/errors/50x.html
 
 - name: create recaptcha response if needed
   tags: fucaptcha
@@ -106,6 +93,19 @@
   file:
     path: /var/www/georchestra/ssl/georchestra.key
     mode: 0400
+
+- name: enable required modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - proxy_http
+  - proxy
+  - ssl
+  - rewrite
+  - headers
+  - deflate
+  notify: reload apache2
 
 - include: clean.yml
   tags: [cleanup, apache_cleanup]

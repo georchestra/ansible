@@ -1,10 +1,10 @@
 - name: create instance {{ item.key }}
-  command: tomcat8-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  command: tomcat9-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
   with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
-    src: /etc/tomcat8/policy.d/
+    src: /etc/tomcat9/policy.d/
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
   with_dict: "{{ tomcat_instances }}"
@@ -14,7 +14,7 @@
     name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
     state: directory
     recurse: yes
-    owner: tomcat8
+    owner: tomcat
   with_nested:
     - "{{ tomcat_instances.keys() }}"
     - [ logs, temp, conf, work, webapps ]

@@ -17,7 +17,7 @@
 - name: install debian packages
   apt:
     pkg: "{{ item.value.pkg }}"
-    default_release: stretch
+    default_release: buster
     update_cache: yes
     state: latest
   with_dict: "{{ georchestra_wars }}"
@@ -25,7 +25,7 @@
 
 - name: symlink webapps in each tomcat instance
   file:
-    owner: tomcat8
+    owner: tomcat
     src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}-generic.war"
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link

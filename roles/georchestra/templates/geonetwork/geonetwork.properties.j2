@@ -1,5 +1,11 @@
-# geonetwork datadir subdirs
+# GeoNetwork datadir location:
 geonetwork.dir={{ geonetwork.datadir.path }}
+# Note that it can/should be overriden at runtime with -Dgeonetwork.dir=/path/to/...
+
+# GeoNetwork datadir subdirectories are embedded by default,
+# but they can be eventually relocated elsewhere, eg to use geonetwork-provided
+# schemas:
+# geonetwork.schema.dir=/var/lib/jetty/webapps/geonetwork/WEB-INF/data/config/schema_plugins/
 geonetwork.config.dir=${geonetwork.dir}/config/
 geonetwork.schema.dir=${geonetwork.config.dir}/schema_plugins/
 geonetwork.lucene.dir=${geonetwork.dir}/index/
@@ -20,45 +26,42 @@ jdbc.schema={{ geonetwork.db.schema }}
 jdbc.username={{ geonetwork.db.user }}
 jdbc.password={{ geonetwork.db.pass }}
 
-jdbc.basic.maxActive=33
+# The maximum number of active connections that can be allocated from this pool
+# at the same time, or negative for no limit
+jdbc.basic.maxActive=50
+# The minimum number of active connections that can remain idle in the pool,
+# without extra ones being created, or 0 to create none
+jdbc.basic.minIdle=1
+# The maximum number of connections that can remain idle in the pool, without
+# extra ones being released, or negative for no limit
+jdbc.basic.maxIdle=10
+# The maximum number of open statements that can be allocated from the statement
+# pool at the same time, or non-positive for no limit
+jdbc.basic.maxOpenPreparedStatements=100
+# The maximum number of milliseconds that the pool will wait (when there are no
+# available connections) for a connection to be returned before throwing an
+# exception, or <= 0 to wait indefinitely
 jdbc.basic.maxWait=200
-jdbc.basic.maxOpenPreparedStatements=1200
+# The indication of whether objects will be validated before being borrowed from
+# the pool:
+jdbc.basic.testOnBorrow=true
+# The SQL query that will be used to validate connections from this pool before
+# returning them to the caller
+jdbc.basic.validationQuery=SELECT 1
 
-# ldap configuration (config-security/config-security-ldap.xml)
-ldap.base.provider.url=ldap://localhost:389
+# LDAP configuration
+ldap.url=ldap://localhost:389
 ldap.base.dn={{ openldap.basedn }}
 ldap.security.principal={{ openldap.rootdn }}
 ldap.security.credentials={{ openldap.rootpw }}
-ldap.base.dn.pattern=uid={0}
 
-ldap.sync.user.search.base=ou=users
-ldap.sync.user.search.filter=(&(objectClass=*)(mail=*@*)(givenName=*))
-ldap.sync.user.search.attribute=uid
+# Users are found in the following OU:
+ldap.users.search.base=ou=users
+# geOrchestra synchronises LDAP orgs as GN groups:
+ldap.groups.search.base=ou=orgs
+# geOrchestra roles are found in the following OU:
+ldap.roles.search.base=ou=roles
 
-ldap.privilege.create.nonexisting.groups=true
-ldap.privilege.create.nonexisting.users=true
-
-# Synchronise all orgs:
-ldap.sync.group.search.base=ou=orgs
-ldap.sync.group.search.filter=(objectClass=groupOfMembers)
-ldap.sync.group.search.attribute=cn
-ldap.sync.group.search.pattern=(.*)
-ldap.sync.group.label.attribute=o
-
-# LDAP synchronization job runs every minute
+# LDAP synchronization job runs every minute:
 ldap.sync.cron=0 * * * * ?
 
-ldap.privilege.import=true
-ldap.base.search.base=ou=users
-ldap.privilege.search.group.queryprop=member
-ldap.privilege.search.group.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn}))
-ldap.privilege.search.group.object=ou=orgs
-# Org name serves as GN group identifier:
-ldap.privilege.search.group.attribute=cn
-# Synchronise Orgs (as GN groups) matching this pattern:
-ldap.privilege.search.group.pattern=(.*)
-
-ldap.privilege.search.privilege.pattern=GN_(.*)
-ldap.privilege.search.privilege.query=(&(objectClass=groupOfMembers)(member=uid={0},${ldap.base.search.base},${ldap.base.dn}))
-ldap.privilege.search.privilege.object=ou=roles
-ldap.privilege.search.privilege.attribute=cn

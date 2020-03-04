@@ -1,0 +1,172 @@
+# General purposes properties
+
+# Note: the PostgreSQL-related properties configure the JDBC access to the
+# database where the statistics gathered by the OGC-server-statistics module
+# are stored
+
+# PostgreSQL server domain name
+# default: see default.properties - uncomment to override
+#pgsqlHost=
+
+# PostgreSQL server port
+# default: see default.properties - uncomment to override
+#pgsqlPort=
+
+# PostgreSQL database name
+# default: see default.properties - uncomment to override
+#pgsqlDatabase=
+
+# User to connect to PostGreSQL server
+# default: see default.properties - uncomment to override
+#pgsqlUser=
+
+# Password to connect to PostGreSQL server
+# default: see default.properties - uncomment to override
+#pgsqlPassword=
+
+# LDAP server domain name
+# default: see default.properties - uncomment to override
+#ldapHost=
+
+# LDAP server port
+# default: see default.properties - uncomment to override
+#ldapPort=
+
+# Base DN of the LDAP directory
+# default: see default.properties - uncomment to override
+#ldapBaseDn=
+
+# Administrator DN
+# default: see default.properties - uncomment to override
+#ldapAdminDn=
+
+# Administrator password
+# default: see default.properties - uncomment to override
+#ldapAdminPassword=
+
+# Users RDN
+# Note: it's the base DN from where to search for the logged-in user. This
+# mostly to verify the user exists.
+# default: see default.properties - uncomment to override
+#ldapUsersRdn=
+
+# Roles RDN
+# Note: it's the base DN to use for looking up the roles/groups/authorities
+# of the logged-in user. Normally the ldap is configured like:
+#   ou=roles
+#     cn=somerole
+#       member=uid=username,ou=users,dc=georchestra,dc=org
+#
+#   ou can be cn, ou, or some other option. member is often uniquemember as well
+# default: see default.properties - uncomment to override
+#ldapRolesRdn=
+
+# Organizations RDN
+# Note: it's the base DN from where to search for organization. Used to fill
+# sec-org http header..
+# default: see default.properties - uncomment to override
+#ldapOrgsRdn=
+
+
+# ------   proxy-servlet.xml   ---------
+
+# Default timeout : 20min should be enough to handle big extraction (~ 4x10^9 pixels)
+# default: 1200000
+#http_client_timeout=1200000
+
+
+# -------  applicationContext-security.xml   -------
+
+# Anonymous role
+# default: ROLE_ANONYMOUS
+#anonymousRole=ROLE_ANONYMOUS
+
+# Proxy context path
+# default: /sec
+#proxy.contextPath=/sec
+
+# URL called when user has logged out
+# default: ${scheme}://${domainName}/cas/logout?fromgeorchestra
+#logout-success-url=${scheme}://${domainName}/cas/logout?fromgeorchestra
+
+# URL where the user can login
+# default: ${scheme}://${domainName}/cas/login
+#casLoginUrl=${scheme}://${domainName}/cas/login
+
+# URL that the security system uses to validate the cas tickets
+# default: ${scheme}://${domainName}/cas
+#casTicketValidation=${scheme}://${domainName}/cas
+
+# After going to the cas login cas forwards to this URL where the authorities and permissions are checked
+# default: ${scheme}://${domainName}/login/cas
+#proxyCallback=${scheme}://${domainName}/login/cas
+
+# List of trusted proxies, all requests from listed server will be trusted and
+# will bypass security
+# default: 127.0.0.1, localhost
+#trustedProxy=127.0.0.1, localhost
+
+
+# LDAP
+
+
+# The second part of looking up the user
+# default: (uid={0})
+#userSearchFilter=(uid={0})
+
+# The attribute of the role which is the rolename
+# default: cn
+#roleRoleAttribute=cn
+
+# The search filter that selects the roles that the user belongs to.
+# If a match is found, the containing object is one of the roles the user belongs to
+# default: (member=uid={1},${ldapUsersRdn},${ldapBaseDn})
+#roleSearchFilter=(member=uid={1},${ldapUsersRdn},${ldapBaseDn})
+
+
+# Name of the realm
+# default: georchestra
+#realmName=georchestra
+
+# The security-proxy will 302 redirect / to the defaultTarget value (/header by default).
+# Change it if your homepage (eg a CMS) is located on /portal/ for instance
+# default: ${headerUrl}
+#defaultTarget=${headerUrl}
+
+
+# Connection pool settings for the logger appender that inserts OGC request stats on the database
+
+# Minimum connections pool size
+# default: 2
+#ogcStats.minPoolSize=2
+
+# Maximum connections pool size
+# default: 5
+#ogcStats.maxPoolSize=5
+
+# Timeout of connections pool
+# default: 2000
+#ogcStats.timeout=2000
+
+# Max time unused connections are kept idle in the pool. Unit is seconds for c3p0.
+# default: 60
+#ogcStats.maxIdleTime=60
+
+# A comma-separated list of privileged users that are allowed to impersonate other users
+# default: geoserver_privileged_user
+trustedUsers={{ geoserver.privileged.user }}
+
+# A comma-separated list of patterns of urls that (when matched) will have
+# the x-forwarded-* headers removed
+# default: .*geo.admin.ch.*,.*rolnp.fr.*
+#removedXForwardedHeaders=.*geo.admin.ch.*,.*rolnp.fr.*
+
+# A comma-separated list of user agents that will receive a basic authentication
+# challenge instead of being redirected to CAS login
+# eg. userAgents=.*ArcGIS.*,.*uDig.*,.*QGIS.*
+# default: empty
+#userAgents=
+
+# Whether to allow semicolons in URLs to avoid errors like:
+# the request was rejected because the URL contained a potentially malicious String ";"
+# allowSemicolon=false

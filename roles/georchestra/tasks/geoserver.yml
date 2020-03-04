@@ -21,14 +21,6 @@
     regexp: '<location>/tmp/geoserver.log</location>'
     replace: '<location>{{ logs_basedir }}/geoserver.log</location>'
 
-- name: set full geoserver url for getcapabilities docs
-  become: yes
-  become_user: tomcat
-  replace:
-    dest: "{{ geoserver.datadir.path }}/global.xml"
-    regexp: '<proxyBaseUrl>https://georchestra.mydomain.org/geoserver</proxyBaseUrl>'
-    replace: '<proxyBaseUrl>https://{{ georchestra.fqdn }}/geoserver</proxyBaseUrl>'
-
 - name: set list of advertised wms srs
   become: yes
   become_user: tomcat

@@ -62,6 +62,25 @@
     content: "{ success: true }\n"
   when: console_captcha.privateKey == ''
 
+- name: enable required modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - proxy_http
+  - proxy
+  - ssl
+  - rewrite
+  - headers
+  - deflate
+  register: apache_modules
+
+- name: reload apache2 if needed
+  service:
+    name: apache2
+    state: reloaded
+  when: apache_modules is changed
+
 - name: template config fragments
   tags: apache_config
   template:
@@ -93,19 +112,6 @@
   file:
     path: /var/www/georchestra/ssl/georchestra.key
     mode: 0400
-
-- name: enable required modules
-  apache2_module:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - proxy_http
-  - proxy
-  - ssl
-  - rewrite
-  - headers
-  - deflate
-  notify: reload apache2
 
 - include: clean.yml
   tags: [cleanup, apache_cleanup]

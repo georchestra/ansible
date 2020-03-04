@@ -53,7 +53,7 @@
   register: tomcat_piddir
 
 - name: add fqdn to /etc/hosts
-  lineinefile:
+  lineinfile:
     dest: /etc/hosts
     line: "127.0.0.1 {{ georchestra.fqdn }}"
 

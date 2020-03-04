@@ -45,7 +45,7 @@
 
 - name: clone htdocs dir
   git:
-    repo: git://github.com/georchestra/htdocs.git
+    repo: https://github.com/georchestra/htdocs.git
     dest: /var/www/georchestra/htdocs/
     version: master
     accept_hostkey: yes

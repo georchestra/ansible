@@ -1,6 +1,6 @@
 - name: checkout sviewer
   git:
-    repo: git://github.com/georchestra/sviewer.git
+    repo: https://github.com/georchestra/sviewer.git
     dest: /var/www/georchestra/htdocs/sviewer/
     version: master
 

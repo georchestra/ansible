@@ -52,6 +52,11 @@
     dest: /etc/tmpfiles.d/tomcat.conf
   register: tomcat_piddir
 
+- name: add fqdn to /etc/hosts
+  lineinefile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ georchestra.fqdn }}"
+
 - name: create temp dir
   tags: systemd_unit
   command: systemd-tmpfiles  --prefix=/run/tomcat --create

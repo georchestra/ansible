@@ -11,7 +11,6 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Djavax.servlet.response.encoding=UTF-8 \
 	-Djava.library.path=/usr/lib/jni:/opt/libjpeg-turbo/lib64/ \
 	-server \
-	-XX:+UseParNewGC -XX:ParallelGCThreads=2 \
 	-XX:SoftRefLRUPolicyMSPerMB=36000 \
 	-XX:NewRatio=2 \
 	-XX:+AggressiveOpts"

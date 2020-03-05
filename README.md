@@ -16,7 +16,7 @@ In order to deploy all the middleware and components of a geOrchestra instance, 
 ansible-playbook playbooks/georchestra.yml
 ```
 
-This is meant to work on a Debian Stretch (9.x) VM.
+This is meant to work on a Debian Buster (10.x) VM, using JAVA8 from [AdoptOpenJDK](https://adoptopenjdk.net/) project.
 
 ## cleanup
 

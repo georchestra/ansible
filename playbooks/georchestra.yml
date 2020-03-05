@@ -103,9 +103,24 @@
       publicKey: '',
     }
     tomcat_instances: {
-      proxycas: { port: 8180, control_port: 8105 },
-      georchestra: { port: 8280, control_port: 8205 },
-      geoserver: { port: 8380, control_port: 8305 }
+      proxycas: {
+        port: 8180,
+        control_port: 8105,
+        xms: 256m,
+        xmx: 512m
+      },
+      georchestra: {
+        port: 8280,
+        control_port: 8205,
+        xms: 1G,
+        xmx: 2G
+      },
+      geoserver: {
+        port: 8380,
+        control_port: 8305,
+        xms: 1G,
+        xmx: 1G
+      }
     }
     georchestra_wars: {
       analytics: { pkg: georchestra-analytics,  tomcat: georchestra },

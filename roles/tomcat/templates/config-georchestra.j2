@@ -1,7 +1,7 @@
 JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
-	-Xms1G \
-	-Xmx2G \
+	-Xms{{ tomcat_instances.georchestra.xms }} \
+	-Xmx{{ tomcat_instances.georchestra.xmx }} \
 	-Dorg.geotools.referencing.forceXY=true \
 	-Djava.util.prefs.userRoot=/tmp \
 	-Djava.util.prefs.systemRoot=/tmp \

@@ -58,7 +58,7 @@
       datadir: {
         path: /etc/georchestra,
         gitrepo: "https://github.com/georchestra/datadir",
-        gitversion: master
+        gitversion: 20.0
       },
       debian: {
         repo: "deb https://packages.georchestra.org/debian 20.0.x main",

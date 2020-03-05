@@ -37,6 +37,7 @@
     state: stopped
     enabled: no
 
+# debian bug #948553
 - name: update catalina.sh to fix CATALINA_PID handling
   get_url:
     url: https://svn.apache.org/viewvc/tomcat/trunk/bin/catalina.sh?revision=1853508&view=co&pathrev=1853508

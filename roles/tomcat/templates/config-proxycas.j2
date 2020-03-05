@@ -1,5 +1,5 @@
 JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
-	-Xms256m \
-	-Xmx512m \
+	-Xms{{ tomcat_instances.proxycas.xms }} \
+	-Xmx{{ tomcat_instances.proxycas.xmx }} \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

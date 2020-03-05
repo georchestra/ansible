@@ -61,8 +61,8 @@
         gitversion: master
       },
       debian: {
-        repo: "deb https://packages.georchestra.org/debian master main",
-        key: "https://packages.georchestra.org/debian/key.asc"
+        repo: "deb https://packages.georchestra.org/debian 20.0.x main",
+        key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
       }
     }
     geonetwork: {

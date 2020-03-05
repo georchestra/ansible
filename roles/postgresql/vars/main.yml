@@ -1,13 +1,14 @@
-other_schemas: [ mapfishapp, ldapadmin, downloadform, geofence, ogcstatistics ]
+other_schemas: [ mapfishapp, console, geofence, ogcstatistics, atlas, extractorapp ]
 other_schemas_urls:
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/02-mapfishapp.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/04-ldapadmin.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/03-downloadform.sql
-  - https://raw.github.com/georchestra/geofence/georchestra/doc/setup/sql/002_create_schema_postgres.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/06-ogc-server-statistics.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/020-mapfishapp.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/040-console.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/050-ogc-server-statistics.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/060-atlas.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/080-geofence.sql
+  - https://raw.github.com/georchestra/georchestra/master/postgresql/090-extractorapp.sql
 cadastrappsql: {
   tmpdir: /tmp/cadastrapp/sql,
-  views : [
+  views: [
     { script: qgisCommune, view: commune },
     { script: qgisHabitationDetails, view: deschabitation },
     { script: qgisParcelle, view: parcelle },
@@ -17,6 +18,7 @@ cadastrappsql: {
     { script: qgisProprieteBatie, view: proprietebatie },
     { script: qgisProprieteNonBatie, view: proprietenonbatie },
     { script: qgisProprieteNonBatieSufExo, view: proprietenonbatiesufexo },
+    { script: qgisLot, view: lot },
     { script: qgisSection, view: section } ],
   tables: [
     { script: groupe_autorisation, path: commun/user },
@@ -28,6 +30,9 @@ cadastrappsql: {
     { script: prop_ccogrm, path: commun/tables },
     { script: prop_dmatgm, path: commun/tables },
     { script: prop_dmatto, path: commun/tables },
-    { script: prop_dnatpr, path: commun/tables } ],
+    { script: prop_dnatpr, path: commun/tables },
+    { script: prop_type_filiation, path: commun/tables },
+    { script: prop_ccocac, path: commun/tables },
+    { script: prop_ccocac_simple, path: commun/tables } ],
   indexes: [ { script: index, index: idxcommunelibcom } ]
 }

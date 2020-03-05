@@ -1,68 +1,38 @@
 - name: create instance {{ item.key }}
-  command: tomcat8-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
-  with_dict: tomcat_instances
+  command: tomcat9-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
-    src: /etc/tomcat8/policy.d/
-    dest: "{{ tomcat_basedir }}/{{ item }}/conf/policy.d"
+    src: /etc/tomcat9/policy.d/
+    dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
-  with_items: tomcat_instances.keys()
+  with_dict: "{{ tomcat_instances }}"
 
 - name: recursively fix dirs ownership
   file:
     name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
     state: directory
     recurse: yes
-    owner: tomcat8
+    owner: tomcat
   with_nested:
-    - tomcat_instances.keys()
+    - "{{ tomcat_instances.keys() }}"
     - [ logs, temp, conf, work, webapps ]
 
-- name: clone init.d script
-  command: cp /etc/init.d/tomcat8 /etc/init.d/tomcat-{{ item }} # creates="/etc/init.d/tomcat-{{ item }}"
-  with_items: tomcat_instances.keys()
-
-- name: fix Provides line
-  lineinfile:
-    dest: "/etc/init.d/tomcat-{{ item }}"
-    regexp: '^# Provides:.*tomcat8$'
-    line: "# Provides: tomcat-{{ item }}"
-    state: present
-  with_items: tomcat_instances.keys()
-
-- name: fix CATALINA_BASE
-  lineinfile:
-    dest: "/etc/init.d/tomcat-{{ item }}"
-    regexp: '^CATALINA_BASE=/var/lib/\$NAME$'
-    line: "CATALINA_BASE={{ tomcat_basedir }}/{{ item }}"
-    state: present
-  with_items: tomcat_instances.keys()
-
-- name: fix CATALINA_HOME
-  lineinfile:
-    dest: "/etc/init.d/tomcat-{{ item }}"
-    regexp: '^CATALINA_HOME=/usr/share/\$NAME$'
-    line: "CATALINA_HOME=/usr/share/tomcat8"
-    state: present
-  with_items: tomcat_instances.keys()
-
-- name: fix NAME
-  lineinfile:
-    dest: "/etc/init.d/tomcat-{{ item }}"
-    regexp: '^NAME.*$'
-    line: "NAME=tomcat-{{ item }}"
-    state: present
-  with_items: tomcat_instances.keys()
-
 - name: install instance config in /etc/default
-  template: src=config-{{ item }}.j2 dest=/etc/default/tomcat-{{ item }}
-  with_items: tomcat_instances.keys()
+  template:
+    src: "config-{{ item.key }}.j2"
+    dest: "/etc/default/tomcat-{{ item.key }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: install instance connector
-  template: src=server-{{ item }}.xml.j2 dest={{ tomcat_basedir }}/{{ item }}/conf/server.xml
-  with_items: tomcat_instances.keys()
+  template:
+    src: "server-{{ item.key }}.xml.j2"
+    dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/server.xml"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: enable instance
-  service: name=tomcat-{{ item }} enabled=yes
-  with_items: tomcat_instances.keys()
+  systemd:
+    name: "tomcat@{{ item.key }}"
+    enabled: yes
+  with_dict: "{{ tomcat_instances }}"

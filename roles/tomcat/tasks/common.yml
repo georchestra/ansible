@@ -1,45 +1,94 @@
+- name: add adoptopenjdk repository key
+  tags: java8
+  apt_key:
+    url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
+
+- name: add adoptopenjdk debian repo
+  tags: java8
+  apt_repository:
+    repo: "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main"
+
+- name: install java8 from adoptopenjdk
+  tags: java8
+  apt:
+    pkg: adoptopenjdk-8-hotspot
+    default_release: buster
+    update_cache: yes
+    state: latest
+
+- name: default to adoptopenjdk
+  tags: java8
+  alternatives:
+    name: java
+    path: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/bin/java
+
 - name: installing dependencies
-  apt: pkg={{ item }} state=installed update_cache=yes
-  with_items:
-  - tomcat8
-  - tomcat8-user #needed for tomcat8-create-instance
+  apt:
+    pkg: ['tomcat9', 'tomcat9-user', 'libservlet3.1-java', 'libtcnative-1'] #libservlet cf debian bug 867147
+    state: present
+    update_cache: yes
+# tomcat9-user #needed for tomcat9-create-instance
+# libservlet3.1-java #debian bug 867147
+# libtcnative-1 #APR native libs
 
 - name: disable default instance
-  service: name=tomcat8 state=stopped enabled=no
+  service:
+    name: tomcat9
+    state: stopped
+    enabled: no
 
-- name: clone default keystore
-  tags: keystore
-  command: >
-    keytool -importkeystore
-      -srckeystore /etc/ssl/certs/java/cacerts \
-      -srcstorepass changeit \
-      -destkeystore /etc/tomcat8/keystore \
-      -deststorepass {{ tomcat_keystore_pass }}
-    creates=/etc/tomcat8/keystore
+# debian bug #948553
+- name: update catalina.sh to fix CATALINA_PID handling
+  get_url:
+    url: https://svn.apache.org/viewvc/tomcat/trunk/bin/catalina.sh?revision=1853508&view=co&pathrev=1853508
+    dest: /usr/share/tomcat9/bin/catalina.sh
+    checksum: sha256:90e7494c960acfbf9017989751b6a208435c139678d7bfc244eed67ffa9d588b
+    force: true
+    mode: 0755
 
-- name: check if localhost exists in keystore
-  tags: keystore
-  command: >
-    keytool -list -alias localhost \
-      -keystore /etc/tomcat8/keystore \
-      -storepass {{ tomcat_keystore_pass }}
-  ignore_errors: yes
-  register: localhost_exists
+- name: template tmpfiles.d for pidfile
+  tags: systemd_unit
+  template:
+    src: tomcat.conf.j2
+    dest: /etc/tmpfiles.d/tomcat.conf
+  register: tomcat_piddir
 
-- name: create and self-sign certificate
-  tags: keystore
-  command: >
-    keytool -genkey -alias localhost \
-      -keystore /etc/tomcat8/keystore \
-      -storepass {{ tomcat_keystore_pass }} \
-      -keypass {{ tomcat_keystore_pass }} \
-      -keyalg RSA \
-      -keysize 2048 \
-      -dname "CN=localhost, O=IT, L=Somewhere, C=FR"
-  when: localhost_exists|failed
+- name: add fqdn to /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ georchestra.fqdn }}"
+
+- name: create temp dir
+  tags: systemd_unit
+  command: systemd-tmpfiles  --prefix=/run/tomcat --create
+  when: tomcat_piddir.changed
+
+- name: template systemd unit
+  tags: systemd_unit
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat@.service
+
+- name: reload systemd so that it finds the new unit
+  tags: systemd_unit
+  systemd:
+    daemon-reload: yes
+    name: tomcat@.service
+
+- name: disable assistive_technologies (requires non-headless jdk)
+  lineinfile:
+    dest: /etc/java-8-openjdk/accessibility.properties
+    line: 'assistive_technologies=org.GNOME.Accessibility.AtkWrapper'
+    state: absent
 
 - name: create tomcat_basedir
-  file: name={{ tomcat_basedir }} state=directory
+  file:
+    name: "{{ tomcat_basedir }}"
+    state: directory
 
 - name: create common logdir
-  file: path={{ logs_basedir }} state=directory owner=tomcat8 group=tomcat8
+  file:
+    path: "{{ logs_basedir }}"
+    state: directory
+    owner: tomcat
+    group: tomcat

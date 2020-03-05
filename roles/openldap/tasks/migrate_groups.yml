@@ -1,0 +1,21 @@
+- name: rename ou=groups to ou=roles
+  command: >
+    ldapmodrdn -r -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass ou=groups,{{ openldap.basedn }} ou=roles
+
+- name: create ldif for orgs
+  copy:
+    dest: "{{ tempdir.stdout }}/orgs.ldif"
+    content: "dn: ou=orgs,{{ openldap.basedn }}\nobjectClass: organizationalUnit\nou: orgs"
+
+- name: create ou=orgs
+  command: >
+    ldapadd -vv -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f {{ tempdir.stdout }}/orgs.ldif
+
+- name: rename geonetwork roles
+  command: >
+    ldapmodrdn -r -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass cn={{ item.from }},ou=roles,{{ openldap.basedn }} cn={{ item.to }}
+  with_items:
+    - { from: SV_USER, to: USER }
+    - { from: SV_EDITOR, to: GN_EDITOR }
+    - { from: SV_REVIEWER, to: GN_REVIEWER }
+    - { from: SV_ADMIN, to: GN_ADMIN }

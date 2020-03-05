@@ -1,28 +1,41 @@
 - name: install apt-transport-https
-  apt: pkg=apt-transport-https state=installed
+  tags: apt_repo
+  apt:
+    pkg: apt-transport-https
+    state: present
 
 - name: add georchestra repository key
-  apt_key: url={{ georchestra.debian.key }}
+  tags: apt_repo
+  apt_key:
+    url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo
-  apt_repository: repo="{{ georchestra.debian.repo }}"
+  tags: apt_repo
+  apt_repository:
+    repo: "{{ georchestra.debian.repo }}"
 
 - name: install debian packages
-  apt: pkg={{ item.value.pkg }} default_release=jessie update_cache=yes state=latest
-  with_dict: georchestra_wars
+  apt:
+    pkg: "{{ item.value.pkg }}"
+    default_release: buster
+    update_cache: yes
+    state: latest
+  with_dict: "{{ georchestra_wars }}"
   when: item.key != 'cadastrapp'
 
 - name: symlink webapps in each tomcat instance
   file:
-    owner: tomcat8
+    owner: tomcat
     src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}-generic.war"
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link
     force: yes
-  with_dict: georchestra_wars
+  with_dict: "{{ georchestra_wars }}"
   when: "item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled)"
 
 # instances need to be started so that webapps are deployed
 - name: start instances
-  service: name=tomcat-{{ item }} state=started
-  with_items: tomcat_instances.keys()
+  service:
+    name: "tomcat@{{ item }}"
+    state: started
+  with_items: "{{ tomcat_instances.keys() }}"

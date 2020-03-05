@@ -1,19 +1,26 @@
 # instances need to be stopped so that the db can be removed
 - name: stop instances
-  service: name=tomcat-{{ item }} enabled=no state=stopped
-  with_items: tomcat_instances.keys()
+  service:
+    name: "tomcat@{{ item }}"
+    enabled: no
+    state: stopped
+  with_items: "{{ tomcat_instances.keys() }}"
 
 - name: delete georchestra main database
-  sudo: yes
-  sudo_user: postgres
-  postgresql_db: name={{ item }} state=absent
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{ item }}"
+    state: absent
   with_items:
   - "{{ georchestra.db.name }}"
 
 - name: delete db users
-  sudo: yes
-  sudo_user: postgres
-  postgresql_user: name={{ item }} state=absent
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{ item }}"
+    state: absent
   with_items:
   - "{{ georchestra.db.user }}"
   - "{{ geonetwork.db.user }}"

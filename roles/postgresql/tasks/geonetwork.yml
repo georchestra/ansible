@@ -1,16 +1,13 @@
 - name: create geonetwork user
-  sudo: yes
-  sudo_user: postgres
-  postgresql_user: name={{ geonetwork.db.user }} password={{ geonetwork.db.pass }}
+  postgresql_user:
+    name: "{{ geonetwork.db.user }}"
+    password: "{{ geonetwork.db.pass }}"
+    encrypted: yes
 
 - name: check if geonetwork schema already exists
-  sudo: yes
-  sudo_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create geonetwork schema in georchestra db
-  sudo: yes
-  sudo_user: postgres
   command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA {{ geonetwork.db.schema }} AUTHORIZATION {{ geonetwork.db.user }}'
   when: "loaded_schemas.stdout is defined and '{{ geonetwork.db.schema }}' not in loaded_schemas.stdout"

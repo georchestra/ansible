@@ -1,0 +1,55 @@
+customConfig = {
+    title: 'geOrchestra mobile',
+
+    /**
+     * force default language, see etc/i18n.js
+     */
+    // lang: 'fr',
+
+    /**
+     * base url of the geOrchetra SDI. Layers coming from this SDI
+     * will have enhanced features.
+     */
+    geOrchestraBaseUrl: 'https://{{ georchestra.fqdn }}/',
+
+    /**
+     * projection
+     */
+    projcode: 'EPSG:3857',
+
+    /**
+     * map bounds
+     */
+    initialExtent: [-40000,5400000,780000,6000000],
+    maxExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+    restrictedExtent: [-20037508.34, -20037508.34, 20037508.34, 20037508.34],
+
+    /**
+     * getFeatureInfo control
+     */
+    maxFeatures: 10,
+    nodata: '<!--nodatadetect-->\n<!--nodatadetect-->',
+
+    /**
+     * openLS control
+     */
+    openLSGeocodeUrl: "http://gpp3-wxs.ign.fr/{{ georchestra.ign_api_key }}/geoportail/ols?",
+
+    /**
+     * background layers (EPSG:3857)
+     */
+    layersBackground: [
+        new ol.layer.Tile({
+              source: new ol.source.OSM()
+        })
+    ],
+
+    /**
+     * social media links (prefixes)
+     */
+    socialMedia: {
+        'Twitter' : 'https://twitter.com/intent/tweet?text=',
+        'Google+' : 'https://plus.google.com/share?url=',
+        'Facebook': 'http://www.facebook.com/sharer/sharer.php?u='
+    }
+};

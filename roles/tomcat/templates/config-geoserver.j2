@@ -1,10 +1,7 @@
+JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Xms{{ tomcat_instances.geoserver.xms }} \
 	-Xmx{{ tomcat_instances.geoserver.xmx }} \
-	-XX:MaxPermSize=512m \
-	-XX:PermSize=512m \
-	-Djavax.net.ssl.trustStore=/etc/tomcat8/keystore \
-	-Djavax.net.ssl.trustStorePassword={{ tomcat_keystore_pass }} \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-DGEOSERVER_DATA_DIR={{ geoserver.datadir.path }} \
 	-DGEOWEBCACHE_CACHE_DIR={{ geowebcache_datadir }} \
@@ -13,12 +10,6 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Djavax.servlet.response.encoding=UTF-8 \
 	-Djava.library.path=/usr/lib/jni:/opt/libjpeg-turbo/lib64/ \
 	-server \
-	-XX:+UseParNewGC -XX:ParallelGCThreads=2 \
 	-XX:SoftRefLRUPolicyMSPerMB=36000 \
 	-XX:NewRatio=2 \
 	-XX:+AggressiveOpts"
-
-# Unset LC_ALL to prevent user environment executing the init script from
-# influencing servlet behavior.  See Debian bug #645221
-unset LC_ALL
-LANG={{ system_locale }}

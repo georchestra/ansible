@@ -1,39 +1,38 @@
 - name: installing dependencies
-  apt: pkg={{ item }} state=installed update_cache=yes
-  with_items:
-  - git
-  - slapd
-  - ldap-utils
+  apt:
+    pkg: [git, slapd, ldap-utils]
+    state: present
+    update_cache: yes
 
 - name: create temporary directory
-  always_run: yes
+  check_mode: no
   shell: mktemp -d
   register: tempdir
 
 - name: fetch LDAP files
-  always_run: yes
+  check_mode: no
   get_url:
-    dest: "{{ tempdir.stdout }}/{{ item }}.ldif"
+    dest: "{{ tempdir.stdout }}/{{ item | basename }}.ldif"
     url: "{{ openldap.gitrepo }}/{{ openldap.gitversion }}/ldap/{{ item }}.ldif"
     validate_certs: no
-  with_items: openldap.ldifs
+  with_items: "{{ openldap.ldifs }}"
 
 - name: fix ldif to match our layout/rootdn/basedn
   replace:
-    dest: "{{ tempdir.stdout }}/{{ item.1 }}.ldif"
+    dest: "{{ tempdir.stdout }}/{{ item.1 | basename }}.ldif"
     regexp: "{{ item.0.pat }}"
     replace: "{{ item.0.val }}"
     backup: yes
   with_nested:
     - [
-#    { pat: 'olcDatabase=\{1\}mdb', val: "olcDatabase={2}mdb" },
+    { pat: 'olcDatabase=\{1\}mdb', val: "olcDatabase={2}mdb" },
     { pat: 'cn=admin,dc=georchestra,dc=org', val: "{{ openldap.rootdn }}" },
     { pat: 'dc=georchestra,dc=org', val: "{{ openldap.basedn }}" },
     { pat: 'dc: georchestra', val: "dc: {{ openldap.topdc }}" },
     { pat: 'olcRootPW: secret', val: "olcRootPW: {{ openldap.rootpw }}" },
     { pat: 'geoserver_privileged_user', val: "{{ geoserver.privileged.user }}" },
     { pat: 'userPassword:: e1NIQX1XMlY4d2UrOFdNanpma28rMUtZVDFZcWZFVDQ9', val: "userPassword: {{ geoserver.privileged.pass }}" }]
-    - openldap.ldifs
+    - "{{ openldap.ldifs }}"
 
 - name: bootstrap the db
   command: >
@@ -45,14 +44,27 @@
     ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/groupofmembers.ldif"
     creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={4}groupofmembers.ldif
 
+- name: import georchestraSchema
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/georchestraSchema.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={5}georchestra.ldif
+
+- name: import openssh
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/openssh.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/cn=schema/cn={6}openssh-lpk-openldap.ldif
+
 # loaded by default in debian's slapd ?
-#- name: import memberof
-#  command: >
-#    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/memberof.ldif"
-#    creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
+- name: import memberof
+  command: >
+    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/memberof.ldif"
+    creates=/etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
 
 - name: temporarly store cleartext admin rootpw
-  copy: dest={{ tempdir.stdout }}/admin-georchestra.pass content={{ openldap.rootpw }} mode=0400
+  copy:
+    dest: "{{ tempdir.stdout }}/admin-georchestra.pass"
+    content: "{{ openldap.rootpw }}"
+    mode: 0400
 
 - name: check if the root already exists
   command: "ldapsearch  -x -b {{ openldap.basedn }} dc={{ openldap.topdc }}"
@@ -74,9 +86,20 @@
     ldapadd -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -f "{{ tempdir.stdout }}/georchestra.ldif"
   when: "testadmindn.stdout is defined and '# numEntries: 1' not in testadmindn.stdout"
 
+- name: check if ou=groups exists
+  command: ldapsearch  -x -b {{ openldap.basedn }} ou=groups
+  ignore_errors: true
+  check_mode: no
+  register: groupsou
+
+- include: migrate_groups.yml
+  when: "'# numEntries: 1' in groupsou.stdout"
+
 - name: recursively purge temp dir
-  always_run: yes
-  file: dest={{ tempdir.stdout }} state=absent
+  check_mode: no
+  file:
+    dest: "{{ tempdir.stdout }}"
+    state: absent
 
 - include: clean.yml
   tags: [cleanup, openldap_cleanup]

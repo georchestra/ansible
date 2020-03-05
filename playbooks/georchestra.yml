@@ -1,7 +1,7 @@
 - name: georchestra deployment
   hosts: mygeorchestra
   # note: above host must match the content of the "hosts" file
-  sudo: yes
+  become: yes
   roles:
     - georchestra
   vars:
@@ -15,16 +15,17 @@
       },
       qgisdb: {
         host: 10.0.0.9,
+        port: 5432,
         name: qadastre,
         user: qadastre,
         pass: qadastre,
         schema: public
       },
-      gitrepo: "https://github.com/GFI-Informatique/cadastrapp",
+      gitrepo: "https://github.com/georchestra/cadastrapp",
       gitversion: master,
       debsrc: {
         path: /root/src/cadastrapp/cadastrapp/cadastrapp/target/,
-        pkg: georchestra-cadastrapp_1.3+201605031614-1_all.deb,
+        pkg: georchestra-cadastrapp_1.3+201606281215-1_all.deb,
         host: web-wheezy
       },
       workdir: /tmp/cadastrapp/tmp
@@ -35,11 +36,20 @@
       rootdn: "cn=admin,dc=georchestra,dc=org",
       rootpw: secret,
       gitrepo: "https://raw.github.com/georchestra/georchestra",
-      ldifs: [ bootstrap, groupofmembers, memberof, root, georchestra ],
+      ldifs: [
+      bootstrap,
+      docker-root/georchestraSchema,
+      docker-root/etc/ldap.dist/modules/groupofmembers,
+      docker-root/etc/ldap.dist/modules/openssh,
+      docker-root/memberof,
+      root,
+      docker-root/georchestra
+      ],
       gitversion: master
     }
     georchestra: {
       fqdn: georchestra.example.org,
+      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f, #invalid key
       db: {
         name: georchestra,
         user: georchestra,
@@ -51,8 +61,8 @@
         gitversion: master
       },
       debian: {
-        repo: "deb https://build.georchestra.org/debian jessie main",
-        key: "https://build.georchestra.org/debian/build.georchestra.org.asc"
+        repo: "deb https://packages.georchestra.org/debian master main",
+        key: "https://packages.georchestra.org/debian/key.asc"
       }
     }
     geonetwork: {
@@ -64,7 +74,7 @@
       datadir: {
         path: /srv/data/geonetwork/,
         gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir",
-        gitversion: gn3.0.x
+        gitversion: gn3.8.3
       }
     }
     geoserver: {
@@ -85,8 +95,13 @@
     tomcat_basedir: /srv/tomcat
     system_locale: en_US.UTF-8
     logs_basedir: /srv/log
-    force_https: true
-    ldapadmin_adminemail: admin@example.org
+    force_https: true #set to false if running behind a reverse proxy that does SSL
+    console_adminemail: admin@example.org
+    console_captcha: {
+      # if empty, captcha during registration will be disabled
+      privateKey: '',
+      publicKey: '',
+    }
     tomcat_instances: {
       proxycas: {
         port: 8180,
@@ -110,13 +125,12 @@
     georchestra_wars: {
       analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
       cas: { pkg: georchestra-cas, tomcat: proxycas },
-      catalogapp: { pkg: georchestra-catalogapp, tomcat: georchestra },
       extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
       geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
       geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },
       geowebcache: { pkg: georchestra-geowebcache, tomcat: georchestra },
       header: { pkg: georchestra-header, tomcat: georchestra },
-      ldapadmin: { pkg: georchestra-ldapadmin, tomcat: georchestra },
+      console: { pkg: georchestra-console, tomcat: georchestra },
       mapfishapp: { pkg: georchestra-mapfishapp, tomcat: georchestra },
       cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
       ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }

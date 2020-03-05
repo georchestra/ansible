@@ -2,11 +2,18 @@
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
 <log4j:configuration debug="false">
     <appender name="fileAppender" class="org.apache.log4j.rolling.RollingFileAppender">
-        <param name="File" value="{{ logs_basedir }}/geonetwork.log" />
         <param name="Threshold" value="ALL" />
+        <param name="File" value="{{ logs_basedir }}/geonetwork.log" />
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
             <param name="FileNamePattern" value="{{ logs_basedir }}/geonetwork.%d.log.gz"/>
         </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] - %m%n" />
+        </layout>
+    </appender>
+    <appender name="harvesterAppender" class="org.apache.log4j.FileAppender">
+        <param name="Threshold" value="ALL" />
+	<param name="File" value="{{ logs_basedir }}/geonetwork-harvester.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ISO8601} %-5p [%c] - %m%n" />
         </layout>
@@ -63,7 +70,7 @@
     </logger>
     <logger name="geonetwork.harvester" additivity="false">
         <level value="WARN" />
-        <appender-ref ref="fileAppender" />
+        <appender-ref ref="harvesterAppender" />
     </logger>
     <logger name="geonetwork.lucene">
         <level value="WARN" />
@@ -186,8 +193,4 @@
         <level value="TRACE" />
         <appender-ref ref="fileAppender" />
     </logger>
-
-    <root>
-        <appender-ref ref="fileAppender" />
-    </root>
 </log4j:configuration>

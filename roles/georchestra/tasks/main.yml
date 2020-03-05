@@ -1,6 +1,10 @@
 - name: create datadirs
   tags: wars
-  file: path={{ item }} state=directory owner=tomcat8 group=tomcat8
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: tomcat
+    group: tomcat
   with_items:
   - "{{ geonetwork.datadir.path }}"
   - "{{ geoserver.datadir.path }}"
@@ -9,6 +13,9 @@
 
 - include: config.yml
   tags: config
+
+- include: sviewer.yml
+  tags: sviewer
 
 - include: war_cadastrapp.yml
   tags: cadastrapp_war

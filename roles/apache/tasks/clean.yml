@@ -1,5 +1,7 @@
 - name: remove apache directories/config
-  file: name={{ item }} state=absent
+  file:
+    name: "{{ item }}"
+    state: absent
   with_items:
   - /etc/apache2/sites-enabled/georchestra.conf
   - /etc/apache2/sites-available/georchestra.conf

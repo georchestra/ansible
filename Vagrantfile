@@ -4,13 +4,19 @@
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
+$script = <<SCRIPT
+echo configuring ssh in guest...
+sudo sed -i '/AcceptEnv/d' /etc/ssh/sshd_config
+sudo /etc/init.d/ssh restart
+SCRIPT
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "debian/jessie64"
+  config.vm.box = "debian/buster64"
 
   # set CPU and RAM
   config.vm.provider "virtualbox" do |vb|
@@ -31,6 +37,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "georchestra" do |georchestra|
   end
 
+  config.vm.provision "shell", inline: $script
+
   config.vm.provision "ansible" do |ansible|
     # execute this playbook for vm provisioning:
     ansible.playbook = "playbooks/georchestra.yml"
@@ -43,5 +51,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # ssh connection parameters for ansible:
     ansible.extra_vars = { ansible_ssh_host: '127.0.0.1', ansible_ssh_user: 'vagrant', ansible_ssh_port: 9999 }
   end
+
+  config.vm.post_up_message = "geOrchestra SDI installed, congrats! See https://www.georchestra.org/community.html for help and bug reports"
 
 end

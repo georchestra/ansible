@@ -1,54 +1,103 @@
 - name: installing apache2
-  apt: pkg=apache2 state=installed
-
-- name: enable required modules
-  apache2_module: name={{ item }} state=present
-  with_items: [proxy_http, proxy, ssl, rewrite, headers, deflate]
-  notify: reload apache2
+  apt:
+    pkg: apache2
+    state: present
 
 - name: disable the default site
-  file: path=/etc/apache2/sites-enabled/{{ item }} state=absent
-  with_items: [000-default, default-ssl]
+  file:
+    path: "/etc/apache2/sites-enabled/{{ item }}"
+    state: absent
+  with_items:
+  - 000-default
+  - default-ssl
   notify: reload apache2
 
+- name: enable required modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - proxy_http
+  - proxy
+  - ssl
+  - rewrite
+  - headers
+  - deflate
+  register: apache_modules
+
+- name: reload apache2 if needed
+  service:
+    name: apache2
+    state: reloaded
+  when: apache_modules is changed
+
 - name: template georchestra vhost
-  template: src=georchestra.j2 dest=/etc/apache2/sites-available/georchestra.conf
+  template:
+    src: georchestra.j2
+    dest: /etc/apache2/sites-available/georchestra.conf
+  notify: reload apache2
 
 - name: enable georchestra vhost
-  file: dest=/etc/apache2/sites-enabled/georchestra.conf src=/etc/apache2/sites-available/georchestra.conf state=link owner=root group=root mode=0644
+  file:
+    dest: /etc/apache2/sites-enabled/georchestra.conf
+    src: /etc/apache2/sites-available/georchestra.conf
+    state: link
+    owner: root
+    group: root
   notify: reload apache2
 
 - name: create web directories
-  file: name={{ item }} state=directory
+  file:
+    name: "{{ item }}"
+    state: directory
   with_items:
     - /var/www/georchestra/
     - /var/www/georchestra/conf/
     - /var/www/georchestra/ssl/
 
 - name: create logs directories
-  file: name=/var/www/georchestra/logs/ state=directory group=www-data mode=775
+  file:
+    name: /var/www/georchestra/logs/
+    state: directory
+    group: www-data
+    mode: 0775
 
 - name: clone htdocs dir
-  git: repo=git://github.com/georchestra/htdocs.git dest=/var/www/georchestra/htdocs/ version=master accept_hostkey=yes
+  git:
+    repo: https://github.com/georchestra/htdocs.git
+    dest: /var/www/georchestra/htdocs/
+    version: master
+    accept_hostkey: yes
 
 - name: fetch 50x.html error page
-  get_url: dest=/var/www/georchestra/htdocs/errors/50x.html url=http://sdi.georchestra.org/errors/50x.html
+  get_url:
+    dest: /var/www/georchestra/htdocs/errors/50x.html
+    url: https://raw.githubusercontent.com/georchestra/htdocs/master/errors/50x.html
+
+- name: create recaptcha response if needed
+  tags: fucaptcha
+  copy:
+    dest: /var/www/georchestra/htdocs/fuckyougoogle.json
+    content: "{ success: true }\n"
+  when: console_captcha.privateKey == ''
 
 - name: template config fragments
   tags: apache_config
-  template: src={{ item.src }}.conf.j2 dest=/var/www/georchestra/conf/{{ item.dest }}.conf
+  template:
+    src: "{{ item.src }}.conf.j2"
+    dest: "/var/www/georchestra/conf/{{ item.dest }}.conf"
   with_items:
   - { src: global, dest: global }
   - { src: common, dest: proxy }
+  - { src: common, dest: _static }
   - { src: common, dest: cas }
-  - { src: common, dest: catalogapp }
   - { src: common, dest: analytics }
   - { src: common, dest: extractorapp }
   - { src: common, dest: geonetwork }
   - { src: common, dest: geoserver }
   - { src: common, dest: geowebcache }
   - { src: common, dest: header }
-  - { src: common, dest: ldapadmin }
+  - { src: common, dest: console }
   - { src: common, dest: mapfishapp }
   - { src: common, dest: cadastrapp }
   notify: reload apache2
@@ -60,7 +109,43 @@
     creates=/var/www/georchestra/ssl/georchestra.crt
 
 - name: fix perms on certificate
-  file: path=/var/www/georchestra/ssl/georchestra.key mode=0400
+  file:
+    path: /var/www/georchestra/ssl/georchestra.key
+    mode: 0400
+
+- name: install ca-certificates-java
+  tags: keystore
+  apt:
+    pkg: ca-certificates-java
+
+- name: overwrite jks-keystore hook
+  tags: keystore
+  template:
+    src: jks-keystore
+    dest: /etc/ca-certificates/update.d/jks-keystore
+    mode: 0755
+
+- name: symlink cert for ca-certificates
+  tags: keystore
+  file:
+    src: /var/www/georchestra/ssl/georchestra.crt
+    dest: /usr/local/share/ca-certificates/georchestra.crt
+    state: link
+  register: cert_symlinked
+
+- name: insert selfsigned cert into systemwide store
+  tags: keystore
+  command:
+    update-ca-certificates
+  when: cert_symlinked is changed
+
+- name: symlink keystore
+  tags: keystore
+  file:
+    src: /etc/ssl/certs/java/cacerts
+    dest: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/security/cacerts
+    force: yes
+    state: link
 
 - include: clean.yml
   tags: [cleanup, apache_cleanup]

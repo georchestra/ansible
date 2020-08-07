@@ -38,4 +38,4 @@
   service:
     name: "tomcat@{{ item }}"
     state: started
-  with_items: "{{ tomcat_instances.keys() }}"
+  with_items: "{{ tomcat_instances|list }}"

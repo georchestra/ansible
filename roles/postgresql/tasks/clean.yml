@@ -4,7 +4,7 @@
     name: "tomcat@{{ item }}"
     enabled: no
     state: stopped
-  with_items: "{{ tomcat_instances.keys() }}"
+  with_items: "{{ tomcat_instances|list }}"
 
 - name: delete georchestra main database
   become: yes

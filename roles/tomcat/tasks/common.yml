@@ -37,15 +37,6 @@
     state: stopped
     enabled: no
 
-# debian bug #948553
-- name: update catalina.sh to fix CATALINA_PID handling
-  get_url:
-    url: https://svn.apache.org/viewvc/tomcat/trunk/bin/catalina.sh?revision=1853508&view=co&pathrev=1853508
-    dest: /usr/share/tomcat9/bin/catalina.sh
-    checksum: sha256:90e7494c960acfbf9017989751b6a208435c139678d7bfc244eed67ffa9d588b
-    force: true
-    mode: 0755
-
 - name: template tmpfiles.d for pidfile
   tags: systemd_unit
   template:

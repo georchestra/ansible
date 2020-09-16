@@ -5,6 +5,7 @@ JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }} \
 	-DGEOSERVER_DATA_DIR={{ geoserver.datadir.path }} \
 	-DGEOWEBCACHE_CACHE_DIR={{ geowebcache_datadir }} \
+	-DGEOSERVER_CSRF_WHITELIST={{ georchestra.fqdn }} \
 	-Dfile.encoding=UTF8 \
 	-Djavax.servlet.request.encoding=UTF-8 \
 	-Djavax.servlet.response.encoding=UTF-8 \

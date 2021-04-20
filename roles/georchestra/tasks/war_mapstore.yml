@@ -1,0 +1,22 @@
+- name: fetch mapstore artifact from github
+  get_url:
+    force_basic_auth: true
+    url: "https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip"
+    url_username: "{{ mapstore.github_username }}"
+    url_password: "{{ mapstore.github_token }}"
+    dest: "/usr/share/lib/georchestra-mapstore-{{ mapstore.artifact_id }}.zip"
+#    sha256sum: "{{ mapstore.artifact_sha256 }}"
+
+- name: extract mapstore war from artifact
+  unarchive:
+    src: "/usr/share/lib/georchestra-mapstore-{{ mapstore.artifact_id }}.zip"
+    dest: /usr/share/lib/
+    copy: no
+  when: not ansible_check_mode
+
+- name: symlink mapstore.war into tomcat webapp
+  file:
+    owner: tomcat
+    src: "/usr/share/lib/mapstore-{{ mapstore.commit_sha }}.war"
+    dest: "{{ tomcat_basedir }}/georchestra/webapps/mapstore.war"
+    state: link

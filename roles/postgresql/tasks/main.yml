@@ -57,6 +57,11 @@
   tags: postgresql_cadastrapp
   when: cadastrapp.enabled
 
+- include: datafeeder.yml
+  become: yes
+  become_user: postgres
+  tags: postgresql_datafeeder
+
 - include: clean.yml
   tags: [cleanup, postgresql_cleanup]
   when: cleanup is defined

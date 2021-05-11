@@ -34,6 +34,9 @@
 - include: wars.yml
   tags: wars
 
+- include: datafeeder.yml
+  tags: datafeeder
+
 - include: nativelibs.yml
   tags: nativelibs
 

@@ -1,0 +1,14 @@
+- name: check if datafeeder schema already exists
+  command: psql -d {{ georchestra.db.name }} -t -c "\dn"
+  register: loaded_schemas
+
+- name: create datafeeder schema in georchestra db
+  command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA datafeeder AUTHORIZATION georchestra'
+  when: "loaded_schemas.stdout is defined and 'datafeeder' not in loaded_schemas.stdout"
+
+- name: create the datafeeder.hibernate_sequence
+  command: "psql -d {{ georchestra.db.name }} -c {{ item }}"
+  when: "loaded_schemas.stdout is defined and 'datafeeder' not in loaded_schemas.stdout"
+  with_items:
+  - 'CREATE SEQUENCE datafeeder.hibernate_sequence'
+  - 'GRANT ALL ON datafeeder.hibernate_sequence TO georchestra'

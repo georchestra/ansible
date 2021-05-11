@@ -1,5 +1,5 @@
 - name: georchestra deployment
-  hosts: mygeorchestra
+  hosts: all
   # note: above host must match the content of the "hosts" file
   become: yes
   roles:

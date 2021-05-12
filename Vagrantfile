@@ -30,6 +30,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.playbook = "playbooks/georchestra.yml"
     # display ansible-playbook output:
     ansible.verbose = "v"
+    ansible.groups = {
+      "mygeorchestra" => ["georchestra"]
+    }
   end
 
   config.vm.post_up_message = "geOrchestra SDI installed, congrats! See https://www.georchestra.org/community.html for help and bug reports"

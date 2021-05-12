@@ -1,7 +1,16 @@
+- name: makes sure /srv/webapps exists
+  file:
+    path: /srv/webapps
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+
 - name: installs datafeeder.jar (backend)
   get_url:
     url: https://packages.georchestra.org/datafeeder/datafeeder.jar
-    dest: /opt/datafeeder.jar
+    dest: /srv/webapps/datafeeder.jar
     mode: '0644'
 
 - name: makes sure the destination directory exists # To be removed once georchestra/datadir#211 is merged

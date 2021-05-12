@@ -6,8 +6,8 @@ After=syslog.target
 User=www-data
 ExecStart=/usr/bin/java -Dserver.port={{ datafeeder.port }} -jar /srv/webapps/datafeeder.jar
 SuccessExitStatus=143
-StandardOutput=append:/tmp/datafeeder.log
-StandardError=append:/tmp/datafeeder.log
+StandardOutput=append:{{ logs_basedir }}/datafeeder.log
+StandardError=append:{{ logs_basedir }}/datafeeder.log
 
 [Install]
 WantedBy=multi-user.target

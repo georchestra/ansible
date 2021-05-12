@@ -1,12 +1,38 @@
-- name: configures the datafeeder part of the datadir
-  debug:
-    msg: "not implemented yet (provided by PR georchestra/datadir#211)"
-
 - name: installs datafeeder.jar (backend)
   get_url:
     url: https://packages.georchestra.org/datafeeder/datafeeder.jar
     dest: /opt/datafeeder.jar
     mode: '0644'
+
+- name: makes sure the destination directory exists # To be removed once georchestra/datadir#211 is merged
+  file:
+    path: /etc/georchestra/datafeeder
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: downloading templates # To be removed once georchestra/datadir#211 is merged
+  get_url:
+    url: "{{ item.url }}"
+    dest: "/etc/georchestra/datafeeder/{{ item.filename }}"
+    mode: '0644'
+  with_items:
+    - url: https://raw.githubusercontent.com/georchestra/datadir/docker-master/datafeeder/metadata_transform.xsl
+      filename: metadata_transform.xsl
+    - url: https://raw.githubusercontent.com/georchestra/datadir/docker-master/datafeeder/metadata_template.xml
+      filename: metadata_template.xml
+
+- name: setup the backend configuration
+  template:
+    src: "datafeeder/datafeeder.properties.j2"
+    dest: "/etc/georchestra/datafeeder/datafeeder.properties"
+  register: df_config
+
+- name: setup the frontend configuration
+  template:
+    src: "datafeeder/frontend-config.json.j2"
+    dest: "/etc/georchestra/datafeeder/frontend-config.json"
 
 - name: setup a systemd unit file
   template:
@@ -14,12 +40,12 @@
     dest: "/etc/systemd/system/datafeeder.service"
   register: df_unitfile
 
-- name: restart sword service
+- name: restart the datafeeder service
   systemd:
     state: restarted
     daemon_reload: yes
     name: datafeeder
-  when: df_unitfile.changed
+  when: df_unitfile.changed or df_config.changed
 
 - name: installs the datafeeder-ui (frontend) in the 'georchestra' tomcat
   get_url:

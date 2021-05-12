@@ -3,3 +3,7 @@
 {{ f }}=http://localhost:{{ tomcat_instances[georchestra_wars[f].tomcat]['port']}}/{{ f }}/
 {% endif %}
 {% endfor %}
+{% if datafeeder.enabled %}
+datafeeder=http://localhost:{{ datafeeder.port }}/datafeeder/
+import=http://localhost:{{ tomcat_instances['georchestra']['port']}}/import/
+{% endif %}

@@ -36,6 +36,7 @@
 
 - include: datafeeder.yml
   tags: datafeeder
+  when: datafeeder.enabled
 
 - include: nativelibs.yml
   tags: nativelibs

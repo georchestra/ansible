@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/bin/java -jar /opt/datafeeder.jar
+ExecStart=/usr/bin/java -Dserver.port={{ datafeeder.port }} -jar /opt/datafeeder.jar
 SuccessExitStatus=143
 StandardOutput=append:/tmp/datafeeder.log
 StandardError=append:/tmp/datafeeder.log

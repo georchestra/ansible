@@ -1,0 +1,146 @@
+### The following properties are inherited from the geOrchestra default.properties,
+### if you want to override them for datafeeder, uncomment them.
+
+# PostgreSQL server domain name
+# pgsqlHost=database
+
+# PostgreSQL server port
+# pgsqlPort=5432
+
+# PostgreSQL database name
+# pgsqlDatabase=georchestra
+
+# User to connect to PostgreSQL server
+# pgsqlUser=georchestra
+
+# Password to connect to PostgreSQL server
+# pgsqlPassword=georchestra
+
+####################################
+#  Datafeeder specific properties  #
+####################################
+
+#publicUrl=https://georchestra-127-0-1-1.traefik.me
+
+# pgsqlSchema=datafeeder
+
+# maximum size allowed for uploaded files. (e.g. 128MB, GB can't be used, only KB or MB)
+file-upload.max-file-size=50MB
+# maximum size allowed for multipart/form-data requests (e.g. 128MB, GB can't be used, only KB or MB)
+file-upload.max-request-size=100MB
+# size threshold after which files will be written to disk.
+file-upload.file-size-threshold=1MB
+# directory location where files will be stored by the servlet container once the request exceeds the {@link #fileSizeThreshold}
+file-upload.temporary-location=${java.io.tmpdir}/datafeeder/tmp
+# directory location where files will be stored.
+file-upload.persistent-location=${java.io.tmpdir}/datafeeder/uploads
+# select the file to serve as the front-end application configuration
+front-end.config.uri=file:${georchestra.datadir}/datafeeder/frontend-config.json
+
+datafeeder.publishing.geoserver.api-url=http://localhost:{{ tomcat_instances['geoserver']['port'] }}/geoserver/rest
+datafeeder.publishing.geoserver.public-url=${scheme}://${domainName}/geoserver
+# Use this for HTTP basic authentication to geoserver api url:
+#datafeeder.publishing.geoserver.auth.type=basic
+#datafeeder.publishing.geoserver.auth.basic.username=geoserver_privileged_user
+#datafeeder.publishing.geoserver.auth.basic.password=gerlsSnFd6SmM
+# Use this for HTTP-headers based authentication to GeoServer's api url:
+datafeeder.publishing.geoserver.auth.type=headers
+datafeeder.publishing.geoserver.auth.headers.[sec-proxy]=true
+datafeeder.publishing.geoserver.auth.headers.[sec-username]=datafeeder-application
+datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR
+
+
+datafeeder.publishing.geonetwork.api-url=http://localhost:{{ tomcat_instances['georchestra']['port'] }}/geonetwork
+datafeeder.publishing.geonetwork.public-url=${scheme}://${domainName}/geonetwork
+# Use this for HTTP basic authentication to Geonetwork's api url:
+#datafeeder.publishing.geonetwork.auth.type=basic
+#datafeeder.publishing.geonetwork.auth.basic.username=
+#datafeeder.publishing.geonetwork.auth.basic.password=
+# Use this for HTTP-headers based authentication to Geonetwork's api url:
+datafeeder.publishing.geonetwork.auth.type=headers
+datafeeder.publishing.geonetwork.auth.headers.[sec-proxy]=true
+datafeeder.publishing.geonetwork.auth.headers.[sec-username]=testadmin
+datafeeder.publishing.geonetwork.auth.headers.[sec-org]=Datafeeder Test
+datafeeder.publishing.geonetwork.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROLE_GN_ADMIN
+# This is odd, apparently any UUID works as XSRF token, and these two need to be set
+datafeeder.publishing.geonetwork.auth.headers.[X-XSRF-TOKEN]=c9f33266-e242-4198-a18c-b01290dce5f1
+datafeeder.publishing.geonetwork.auth.headers.[Cookie]=XSRF-TOKEN=c9f33266-e242-4198-a18c-b01290dce5f1
+
+#template-record-id, an existing geonetwork record id to use as template. If provided, takes precedence over template-record
+#datafeeder.publishing.geonetwork.template-record-id:
+datafeeder.publishing.geonetwork.template-record: file:${georchestra.datadir}/datafeeder/metadata_template.xml
+datafeeder.publishing.geonetwork.template-transform: file:${georchestra.datadir}/datafeeder/metadata_transform.xsl
+
+
+# GeoTools DataStore connection params used inside datafeeder when importing
+# uploaded datasets to the target store
+datafeeder.publishing.backend.local.dbtype=postgis
+datafeeder.publishing.backend.local.host=${pgsqlHost}
+datafeeder.publishing.backend.local.port=${pgsqlPort}
+datafeeder.publishing.backend.local.database=${pgsqlDatabase}
+#<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
+datafeeder.publishing.backend.geoserver.schema=<schema>
+datafeeder.publishing.backend.local.user=${pgsqlUser}
+datafeeder.publishing.backend.local.passwd=${pgsqlPassword}
+datafeeder.publishing.backend.local.preparedStatements=true
+
+# GeoTools DataStore connection params to be used when configuring a GeoServer
+# datastore to access the imported datasets
+datafeeder.publishing.backend.geoserver.dbtype=postgis
+datafeeder.publishing.backend.geoserver.preparedStatements=true
+#<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
+datafeeder.publishing.backend.geoserver.schema=<schema>
+#datafeeder.publishing.backend.geoserver.jndiReferenceName=java:comp/env/jdbc/datafeeder
+#if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones
+datafeeder.publishing.backend.geoserver.host=${pgsqlHost}
+datafeeder.publishing.backend.geoserver.port=${pgsqlPort}
+datafeeder.publishing.backend.geoserver.database=${pgsqlDatabase}
+datafeeder.publishing.backend.geoserver.user=${pgsqlUser}
+datafeeder.publishing.backend.geoserver.passwd=${pgsqlPassword}
+
+# note how to set a property with spaces: property.prefix.[name\ with\ spaces]=value
+datafeeder.publishing.backend.geoserver.[Loose\ bbox]=false
+datafeeder.publishing.backend.geoserver.[Estimated\ extends]=true
+
+
+#datafeeder.email.send=true #not used yet
+datafeeder.email.ackTemplate=file:${georchestra.datadir}/datafeeder/templates/analysis-started-email-template.txt
+datafeeder.email.analysisFailedTemplate=file:${georchestra.datadir}/datafeeder/templates/analysis-failed-email-template.txt
+datafeeder.email.publishFailedTemplate=file:${georchestra.datadir}/datafeeder/templates/data-publishing-failed-email-template.txt
+datafeeder.email.publishSuccessTemplate=file:${georchestra.datadir}/datafeeder/templates/data-publishing-succeeded-email-template.txt
+
+#administratorEmail=noreply.georchestra.dev@gmail.com
+
+# Configuration for SMTP email sending of application events
+# Datafeeder will send emails to the user when a job is started, finished, or failed,
+# if the spring.mail.* configuration properties are set.
+
+# defined in ../default.properties
+#smtpHost=smtp.gmail.com
+# defined in ../default.properties
+#smtpPort=587
+#smtpUser=${administratorEmail}
+#smtpPassword=changeme
+#smtpAuth=true
+#smtpTLS=true
+
+spring.mail.host=${smtpHost}
+spring.mail.port=${smtpPort}
+spring.mail.username=${smtpUser:}
+spring.mail.password=${smtpPassword:}
+spring.mail.protocol=smtp
+spring.mail.test-connection=${smtpTest:true}
+spring.mail.properties.mail.smtp.auth=${smtpAuth:false}
+spring.mail.properties.mail.smtp.starttls.enable=${smtpTLS:false}
+
+# Example for gmail:
+# make sure 2-step verification is turned off: https://support.google.com/accounts/answer/1064203?hl=en
+# and Allow Less Secure App turnes ON: https://myaccount.google.com/lesssecureapps
+#spring.mail.host=smtp.gmail.com
+#spring.mail.port=587
+#spring.mail.username: noreply.georchestra.dev@gmail.com
+#spring.mail.password: *****
+#spring.mail.protocol: smtp
+#spring.mail.test-connection: true
+#spring.mail.properties.mail.smtp.auth: true
+#spring.mail.properties.mail.smtp.starttls.enable: true

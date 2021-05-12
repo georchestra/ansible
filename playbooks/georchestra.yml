@@ -144,3 +144,6 @@
       cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
       ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }
     }
+    datafeeder:
+      enabled: true
+      port: 8480

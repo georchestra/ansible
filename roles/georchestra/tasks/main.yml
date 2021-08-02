@@ -41,10 +41,6 @@
 - include: nativelibs.yml
   tags: nativelibs
 
-- include: cadastrapp.yml
-  tags: cadastrapp_addon
-  when: cadastrapp.enabled
-
 - include: clean.yml
   tags: [cleanup, georchestra_cleanup]
   when: cleanup is defined

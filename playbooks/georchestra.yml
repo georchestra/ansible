@@ -33,9 +33,9 @@
     mapstore: {
       enabled: false,
       repo: georchestra/mapstore2-georchestra,
-      artifact_id: 54883163,
-      artifact_sha256: a92e8cfd60ca36f939db4d38ffac3e1874e983eccf6a745c0468e79edb97e40c,
-      commit_sha: f08a44d1fa4cd7685910c5970092ddf57d1f8a93,
+      artifact_id: 60964122,
+      artifact_sha256: 59167239bccbbee890f4ae593140a4ead000a8b74eee0ec0bbd647282dd077bb,
+      commit_sha: b79d76808274663cf475e0b82ed4ce66d3240287,
       github_username: yourusername,
       github_token: yourtoken
     }

@@ -8,25 +8,25 @@
     cadastrapp: {
       enabled: false,
       db: {
-        name: cadastrapp_qgis,
-        user: cadastrapp_qgis,
-        schema: cadastrapp_qgis,
-        pass: cadastrapp_qgis
+        name: georchestra,
+        user: georchestra,
+        schema: cadastrapp,
+        pass: georchestra
       },
       qgisdb: {
-        host: 10.0.0.9,
+        host: localhost,
         port: 5432,
-        name: qadastre,
-        user: qadastre,
-        pass: qadastre,
-        schema: public
+        name: georchestra,
+        user: georchestra,
+        pass: georchestra,
+        schema: qadastre
       },
       gitrepo: "https://github.com/georchestra/cadastrapp",
       gitversion: master,
       debsrc: {
-        path: /root/src/cadastrapp/cadastrapp/cadastrapp/target/,
-        pkg: georchestra-cadastrapp_1.3+201606281215-1_all.deb,
-        host: web-wheezy
+        path: /data/src/georchestra/cadastrapp/cadastrapp/target/,
+        pkg: georchestra-cadastrapp_99.master.202108020909~80b14a6-1_all.deb,
+        host: build.fluela
       },
       workdir: /tmp/cadastrapp/tmp
     }

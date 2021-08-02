@@ -76,7 +76,7 @@
   tags: fetchsql
   get_url:
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
-    url: https://raw.github.com/georchestra/cadastrapp/master/script/qgis/views/{{ item.script }}.sql
+    url: https://raw.github.com/georchestra/cadastrapp/master/database/sql/vues/{{ item.script }}.sql
 #    validate_certs: no
   with_items: "{{ cadastrappsql.views }}"
 
@@ -84,15 +84,15 @@
   tags: fetchsql
   get_url:
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
-    url: https://raw.github.com/georchestra/cadastrapp/master/script/{{ item.path }}/{{ item.script }}.sql
+    url: https://raw.github.com/georchestra/cadastrapp/master/database/sql/tables/{{ item.script }}.sql
 #    validate_certs: no
   with_items: "{{ cadastrappsql.tables }}"
 
 - name: get the sql scripts for indexes
   tags: fetchsql
   get_url:
-    dest: "{{ cadastrappsql.tmpdir }}/index.sql"
-    url: https://raw.github.com/georchestra/cadastrapp/master/script/commun/{{ item.script }}.sql
+    dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
+    url: https://raw.github.com/georchestra/cadastrapp/master/database/sql/indexes/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.indexes }}"
 
 - name: fix the sql scripts

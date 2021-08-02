@@ -24,7 +24,7 @@
   become: yes
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -c 'CREATE SCHEMA {{ cadastrapp.db.schema }}'
-  when: "loaded_schemas.stdout is defined and '{{ cadastrapp.db.schema }}' not in loaded_schemas.stdout"
+  when: "loaded_schemas.stdout is defined and cadastrapp.db.schema not in loaded_schemas.stdout"
 
 - name: grant all privileges to cadastrapp user on its schema
   become: yes
@@ -132,7 +132,7 @@
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.tables }}"
-  when: "tables.stdout is defined and '{{ item.script }}' not in tables.stdout"
+  when: "tables.stdout is defined and item.script not in tables.stdout"
 
 - name: create views
   tags: runsql
@@ -140,7 +140,7 @@
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.views }}"
-  when: "views.stdout is defined and '{{ item.view }}' not in views.stdout"
+  when: "views.stdout is defined and item.view not in views.stdout"
 
 - name: create indexes
   tags: runsql
@@ -148,4 +148,4 @@
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.indexes }}"
-  when: "indexes.stdout is defined and '{{ item.index }}' not in indexes.stdout"
+  when: "indexes.stdout is defined and item.index not in indexes.stdout"

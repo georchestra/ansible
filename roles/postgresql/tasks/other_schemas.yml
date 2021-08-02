@@ -19,7 +19,7 @@
 
 - name: create missing schemas
   command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
-  when: "item.stdout is defined and '{{ item.item }}' not in item.stdout"
+  when: "item.stdout is defined and item.item not in item.stdout"
   with_items: "{{ schema_exists.results }}"
 
 - name: check if console.delegations exists

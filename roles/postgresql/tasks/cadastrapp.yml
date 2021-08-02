@@ -36,18 +36,6 @@
     roles: "{{ cadastrapp.db.user }}"
     objs: "{{ cadastrapp.db.schema }}"
 
-- name: check if dblink is already loaded
-  become: yes
-  become_user: postgres
-  command: psql -d {{ cadastrapp.db.name }} -t -c "\dx"
-  register: loaded_extensions
-
-- name: create dblink extension
-  become: yes
-  become_user: postgres
-  command: psql -d {{ cadastrapp.db.name }} -t -c "CREATE EXTENSION dblink;"
-  when: "loaded_extensions.stdout is defined and 'dblink' not in loaded_extensions.stdout"
-
 - name: list tables
   tags: runsql
   check_mode: no

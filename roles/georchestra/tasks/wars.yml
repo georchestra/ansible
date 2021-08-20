@@ -43,16 +43,17 @@
 - name: creating symlinks for downloaded webapps
   file:
     owner: tomcat
-    src: "/usr/share/lib/{{ item.key }}{{ '-' if item.value.artifact_sha256 is defined }}{{ item.value.artifact_sha256 if item.value.artifact_sha256 is defined }}.war"
+    src: "/usr/share/lib/{{ item.key }}{% if item.value.artifact_sha256 is defined %}-{{ item.value.artifact_sha256 }}{% endif %}.war"
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link
+    force: yes
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined
 
 
 - name: removes the downloaded archive
   file:
-    path: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key}}.zip"
+    path: "/usr/share/lib/georchestra-{{ item.key }}.zip"
     state: absent
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined

@@ -4,6 +4,7 @@
     state: absent
     purge: yes
   with_dict: "{{ georchestra_wars }}"
+  when: item.value.pkg is defined and item.value.enabled|bool == True
 # roles/tomcat/tasks/clean.yml already removed the unzipped wars
 
 - name: remove datadirs

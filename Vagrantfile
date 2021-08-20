@@ -14,7 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # set CPU and RAM
   config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "16384"]
+    vb.customize ["modifyvm", :id, "--memory", "20480"]
     vb.customize ["modifyvm", :id, "--cpus", "4"]
   end
 

@@ -10,8 +10,7 @@ Right now, this will deploy a working geOrchestra from the **master** branch wit
 In order to deploy all the middleware and components of a geOrchestra instance, you just need to:
  * use `ansible-galaxy` to install external roles required for geonetwork 4:
 ```
-ansible-galaxy install elastic.elasticsearch,v7.13.4
-ansible-galaxy install geerlingguy.kibana,v4.0.1
+ansible-galaxy install -r requirements.yaml
 ```
  * setup variables for your own instance in ```playbooks/georchestra.yml```,
  * point to the IP of a host where you have ssh-with-passphrase root access in the ```hosts``` file (ideally, an lxc container, or a vm, whatever suits you)

@@ -142,19 +142,46 @@
         xmx: 1G
       }
     }
-    georchestra_wars: {
-      analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
-      cas: { pkg: georchestra-cas, tomcat: proxycas },
-      extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
-      geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
-      geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },
-      geowebcache: { pkg: georchestra-geowebcache, tomcat: georchestra },
-      header: { pkg: georchestra-header, tomcat: georchestra },
-      console: { pkg: georchestra-console, tomcat: georchestra },
-      mapfishapp: { pkg: georchestra-mapfishapp, tomcat: georchestra },
-      cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
-      ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }
-    }
+    georchestra_wars:
+      analytics:
+        pkg: georchestra-analytics
+        tomcat: georchestra
+      cas:
+        pkg: georchestra-cas
+        tomcat: proxycas
+      extractorapp:
+        pkg: georchestra-extractorapp
+        tomcat: georchestra
+      geonetwork:
+        # one can use an URL to fetch the webapps
+        # but they should point onto a ZIP file containing the WAR,
+        # this limitation comes from github which provides the artifacts in a zipped archive.
+        url: https://api.github.com/repos/georchestra/geonetwork/actions/artifacts/84847691/zip
+        extra_headers:
+          # Set here your github token, it should have at least the "actions" scope
+          Authorization: Bearer XXXX
+        tomcat: georchestra
+      geoserver:
+        pkg: georchestra-geoserver
+        tomcat: geoserver
+      geowebcache:
+        pkg: georchestra-geowebcache
+        tomcat: georchestra
+      header:
+        pkg: georchestra-header
+        tomcat: georchestra
+      console:
+        pkg: georchestra-console
+        tomcat: georchestra
+      mapfishapp:
+        pkg: georchestra-mapfishapp
+        tomcat: georchestra
+      cadastrapp:
+        pkg: georchestra-cadastrapp
+        tomcat: georchestra
+      ROOT:
+        pkg: georchestra-security-proxy
+        tomcat: proxycas
     datafeeder:
       enabled: true
       port: 8480

@@ -21,7 +21,30 @@
     update_cache: yes
     state: latest
   with_dict: "{{ georchestra_wars }}"
-  when: item.key != 'cadastrapp'
+  when: item.key != 'cadastrapp' and item.value.pkg is defined
+
+- name: install the wars defined by an url
+  get_url:
+    url: "{{ item.value.url }}"
+    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key}}.war.zip"
+    headers: "{{ item.value.extra_headers }}"
+  with_dict: "{{ georchestra_wars }}"
+  when: item.value.url is defined
+
+- name: unzips the war
+  unarchive:
+    src: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key}}.war.zip"
+    dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps"
+    remote_src: yes
+  with_dict: "{{ georchestra_wars }}"
+  when: item.value.url is defined
+
+- name: removes the downloaded archive
+  file:
+    path: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key}}.war.zip"
+    state: absent
+  with_dict: "{{ georchestra_wars }}"
+  when: item.value.url is defined
 
 - name: symlink webapps in each tomcat instance
   file:
@@ -31,7 +54,7 @@
     state: link
     force: yes
   with_dict: "{{ georchestra_wars }}"
-  when: "item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled)"
+  when: "item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled) and item.value.pkg is defined"
 
 # instances need to be started so that webapps are deployed
 - name: start instances

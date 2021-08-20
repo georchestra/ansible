@@ -8,7 +8,7 @@
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
     kibana_server_host: "127.0.0.1"
-    es_version: 7.13.4
+    es_version: 7.14.0
     es_data_dirs:
       - "/srv/elasticsearch/data"
     es_log_dir: "/srv/elasticsearch/logs"
@@ -197,3 +197,17 @@
     datafeeder:
       enabled: true
       port: 8480
+
+  tasks:
+    - name: reconfigure Kibana after geerlingguy.kibana
+      copy:
+        src: resources/kibana.yml
+        dest: /etc/kibana/kibana.yml
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart kibana
+
+  handlers:
+    - name: restart kibana
+      service: name=kibana state=restarted

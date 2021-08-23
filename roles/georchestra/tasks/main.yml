@@ -21,10 +21,6 @@
   tags: cadastrapp_war
   when: cadastrapp.enabled
 
-- include: war_mapstore.yml
-  tags: mapstore_war
-  when: mapstore.enabled
-
 - include: geoserver.yml
   tags: geoserver
 

@@ -1,0 +1,3 @@
+server.basePath: "/geonetwork/dashboards"
+server.rewriteBasePath: false
+kibana.index: ".dashboards"

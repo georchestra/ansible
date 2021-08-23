@@ -1,3 +1,5 @@
 .vagrant
 **/*.retry
 ansible.log
+roles/elastic.elasticsearch
+roles/geerlingguy.kibana

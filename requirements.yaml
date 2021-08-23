@@ -1,0 +1,3 @@
+# ansible roles from galaxy
+- elastic.elasticsearch,7.13.4
+- geerlingguy.kibana,4.0.1

@@ -4,7 +4,18 @@
   become: yes
   roles:
     - georchestra
+    - { role: elastic.elasticsearch, tags: es }
+    - { role: geerlingguy.kibana, tags: kibana }
   vars:
+    kibana_server_host: "127.0.0.1"
+    es_version: 7.14.0
+    es_data_dirs:
+      - "/srv/elasticsearch/data"
+    es_log_dir: "/srv/elasticsearch/logs"
+    es_config:
+      cluster.name: "{{ georchestra.fqdn }}"
+      bootstrap.memory_lock: true
+    es_heap_size: 1g
     cadastrapp: {
       enabled: false,
       db: {
@@ -30,14 +41,13 @@
       },
       workdir: /tmp/cadastrapp/tmp
     }
+    # Set here your Github token, which should at least have the 'actions' scope
+    github_action_token: secret
     mapstore: {
-      enabled: false,
+      enabled: True,
       repo: georchestra/mapstore2-georchestra,
-      artifact_id: 60964122,
-      artifact_sha256: 59167239bccbbee890f4ae593140a4ead000a8b74eee0ec0bbd647282dd077bb,
-      commit_sha: b79d76808274663cf475e0b82ed4ce66d3240287,
-      github_username: yourusername,
-      github_token: yourtoken
+      artifact_id: 80579941,
+      artifact_sha256: ca15083c9adf5ba20963c86ede1c887c15613792
     }
     openldap: {
       topdc: georchestra,
@@ -131,19 +141,73 @@
         xmx: 1G
       }
     }
-    georchestra_wars: {
-      analytics: { pkg: georchestra-analytics,  tomcat: georchestra },
-      cas: { pkg: georchestra-cas, tomcat: proxycas },
-      extractorapp: { pkg: georchestra-extractorapp,  tomcat: georchestra },
-      geonetwork: { pkg: georchestra-geonetwork3,  tomcat: georchestra },
-      geoserver: { pkg: georchestra-geoserver, tomcat: geoserver },
-      geowebcache: { pkg: georchestra-geowebcache, tomcat: georchestra },
-      header: { pkg: georchestra-header, tomcat: georchestra },
-      console: { pkg: georchestra-console, tomcat: georchestra },
-      mapfishapp: { pkg: georchestra-mapfishapp, tomcat: georchestra },
-      cadastrapp: { pkg: georchestra-cadastrapp, tomcat: georchestra },
-      ROOT: { pkg: georchestra-security-proxy, tomcat: proxycas }
-    }
+    georchestra_wars:
+      analytics:
+        pkg: georchestra-analytics
+        tomcat: georchestra
+        enabled: True
+      cas:
+        pkg: georchestra-cas
+        tomcat: proxycas
+        enabled: True
+      extractorapp:
+        pkg: georchestra-extractorapp
+        tomcat: georchestra
+        enabled: True
+      geonetwork:
+        # one can use an URL to fetch the webapps
+        # but they should point onto a ZIP file containing the WAR,
+        # this limitation comes from github which provides the artifacts in a zipped archive.
+        url: https://api.github.com/repos/georchestra/geonetwork/actions/artifacts/84847691/zip
+        tomcat: georchestra
+        enabled: True
+      mapstore:
+        url: https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip
+        tomcat: georchestra
+        artifact_sha256: "{{ mapstore.artifact_sha256 }}"
+        enabled: "{{ mapstore.enabled }}"
+      geoserver:
+        pkg: georchestra-geoserver
+        tomcat: geoserver
+        enabled: True
+      geowebcache:
+        pkg: georchestra-geowebcache
+        tomcat: georchestra
+        enabled: True
+      header:
+        pkg: georchestra-header
+        tomcat: georchestra
+        enabled: True
+      console:
+        pkg: georchestra-console
+        tomcat: georchestra
+        enabled: True
+      mapfishapp:
+        pkg: georchestra-mapfishapp
+        tomcat: georchestra
+        enabled: True
+      cadastrapp:
+        pkg: georchestra-cadastrapp
+        tomcat: georchestra
+        enabled: True
+      ROOT:
+        pkg: georchestra-security-proxy
+        tomcat: proxycas
+        enabled: True
     datafeeder:
       enabled: true
       port: 8480
+
+  tasks:
+    - name: reconfigure Kibana after geerlingguy.kibana
+      copy:
+        src: resources/kibana.yml
+        dest: /etc/kibana/kibana.yml
+        owner: root
+        group: root
+        mode: '0644'
+      notify: restart kibana
+
+  handlers:
+    - name: restart kibana
+      service: name=kibana state=restarted

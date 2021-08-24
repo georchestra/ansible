@@ -5,5 +5,4 @@
 {% endfor %}
 {% if datafeeder.enabled %}
 datafeeder=http://localhost:{{ datafeeder.port }}/datafeeder/
-import=http://localhost:{{ tomcat_instances['georchestra']['port']}}/import/
 {% endif %}

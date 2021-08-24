@@ -61,7 +61,7 @@
 - name: symlink webapps in each tomcat instance
   file:
     owner: tomcat
-    src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}{% if item.key != 'import' and item.key != 'geowebcache' and item.key != 'geonetwork' %}-generic{% endif %}.war"
+    src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}{% if item.key != 'import' and item.key != 'geowebcache' %}-generic{% endif %}.war"
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link
     force: yes

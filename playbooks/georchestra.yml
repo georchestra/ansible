@@ -81,7 +81,7 @@
       },
       debian: {
         repo: "deb https://packages.georchestra.org/debian master main",
-        key: "https://packages.georchestra.org/debian/key.asc"
+        key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
       }
     }
     geonetwork: {
@@ -172,6 +172,10 @@
         enabled: True
       geowebcache:
         pkg: georchestra-geowebcache
+        tomcat: georchestra
+        enabled: True
+      import:
+        pkg: georchestra-datafeeder-ui
         tomcat: georchestra
         enabled: True
       header:

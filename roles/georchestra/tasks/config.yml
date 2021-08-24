@@ -28,6 +28,8 @@
   - { file: log4j.properties, war: geowebcache, destdir: 'log4j' }
   - { file: log4j.xml, war: geonetwork, destdir: 'log4j' }
   - { file: geonetwork.properties, war: geonetwork, destdir: '' }
+  - { file: datafeeder.properties, war: datafeeder, destdir: '' }
+  - { file: frontend-config.json, war: datafeeder, destdir: '' }
 #  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
   - { file: credentials.properties, war: mapfishapp, destdir: '' }
   - { file: wms.servers.json, war: mapfishapp, destdir: '' }

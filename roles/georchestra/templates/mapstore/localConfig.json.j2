@@ -1,0 +1,807 @@
+{
+    "proxyUrl": {
+        "url": "proxy/?url=",
+        "useCORS": [
+          "https://georchestra.geo-solutions.it"
+        ],
+        "autoDetectCORS": true
+    },
+    "geoStoreUrl": "rest/geostore/",
+    "printUrl": "pdf/info.json",
+    "bingApiKey": "AhuXBu7ipR1gNbBfXhtUAyCZ6rkC5PkWpxs2MnMRZ1ZupxQfivjLCch22ozKSCAn",
+    "mapquestApiKey": "__API_KEY_MAPQUEST__",
+    "initialMapFilter": "",
+    "ignoreMobileCss": false,
+    "useAuthenticationRules": true,
+    "loadAfterTheme": true,
+    "userSessions": {
+      "enabled": true,
+      "contextOnly": true
+    },
+    "header": {
+      "height": 90,
+      "url": "/header/"
+    },
+    "defaultMapOptions": {
+      "cesium": {
+          "flyTo": true,
+          "navigationTools": true,
+          "terrainProvider": {
+              "type": "ellipsoid"
+          }
+      }
+    },
+    "authenticationRules": [{
+        "urlPattern": ".*geostore.*",
+        "method": "bearer"
+    }, {
+        "urlPattern": ".*rest/config.*",
+        "method": "bearer"
+    }],
+    "monitorState": [
+      {"name": "router", "path": "router.location.pathname"},
+      {"name": "browser", "path": "browser"},
+      {"name": "geostorymode", "path": "geostory.mode"},
+      {"name": "featuregridmode", "path": "featuregrid.mode"},
+      {"name": "printEnabled","path": "print.capabilities"}],
+    "projectionDefs": [{
+      "code": "EPSG:2154",
+      "def": "+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [-378305.81, 6093283.21, 1212610.74, 7186901.68],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3942",
+      "def": "+proj=lcc +lat_1=41.25 +lat_2=42.75 +lat_0=42 +lon_0=3 +x_0=1700000 +y_0=1200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [624506.09, 1186515.84, 2218708.44, 2290184.50],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3943",
+      "def": "+proj=lcc +lat_1=42.25 +lat_2=43.75 +lat_0=43 +lon_0=3 +x_0=1700000 +y_0=2200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [624227.05, 2076993.88, 2217136.99, 3178000.51],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3944",
+      "def": "+proj=lcc +lat_1=43.25 +lat_2=44.75 +lat_0=44 +lon_0=3 +x_0=1700000 +y_0=3200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [623631.35, 2967391.61, 2215750.35, 4066109.53],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3945",
+      "def": "+proj=lcc +lat_1=44.25 +lat_2=45.75 +lat_0=45 +lon_0=3 +x_0=1700000 +y_0=4200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [622723.91, 3857676.97, 2214544.93, 4954472.70],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3946",
+      "def": "+proj=lcc +lat_1=45.25 +lat_2=46.75 +lat_0=46 +lon_0=3 +x_0=1700000 +y_0=5200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [621509.63, 4747818.41, 2213517.21, 5843051.80],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3947",
+      "def": "+proj=lcc +lat_1=46.25 +lat_2=47.75 +lat_0=47 +lon_0=3 +x_0=1700000 +y_0=6200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [619993.48, 5637784.91, 2212663.72, 6731809.22],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3948",
+      "def": "+proj=lcc +lat_1=47.25 +lat_2=48.75 +lat_0=48 +lon_0=3 +x_0=1700000 +y_0=7200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [618180.54, 6527546.03, 2211981.05, 7620707.95],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3949",
+      "def": "+proj=lcc +lat_1=48.25 +lat_2=49.75 +lat_0=49 +lon_0=3 +x_0=1700000 +y_0=8200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [616075.94, 7417071.95, 2211465.79, 8509711.64],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }, {
+      "code": "EPSG:3950",
+      "def": "+proj=lcc +lat_1=49.25 +lat_2=50.75 +lat_0=50 +lon_0=3 +x_0=1700000 +y_0=9200000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
+      "extent": [613684.96, 8306333.45, 2211114.59, 9398784.57],
+      "worldExtent": [-9.86, 41.15, 10.38, 51.56]
+    }],
+    "initialState": {
+      "defaultState": {
+        "annotations": {
+          "config": {
+            "multiGeometry": true,
+            "validationErrors": {}
+          },
+          "format": "decimal",
+          "defaultTextAnnotation": "New"
+        },
+        "maptype": {
+            "mapType": "{context.mode === 'desktop' ? 'openlayers' : 'leaflet'}"
+        },
+        "catalog": {
+          "default": {
+            "newService": {
+                "url": "",
+                "type": "wms",
+                "title": "",
+                "isNew": true,
+                "autoload": false
+            },
+            "selectedService": "local",
+            "services": {
+              "local": {
+                "url": "/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue local",
+                "autoload": true
+              },
+              "localgs": {
+                "url": "/geoserver/ows",
+                "type": "wms",
+                "title": "le geoserver local",
+                "autoload": true
+              },
+              "geobretagne": {
+                "url": "https://geobretagne.fr/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue GeoBretagne",
+                "autoload": true
+              },
+              "PIGMA": {
+                "url": "https://www.pigma.org/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue PIGMA",
+                "autoload": true
+              },
+              "sadre": {
+                "url": "http://www.sandre.eaufrance.fr/atlas/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue du Sandre",
+                "autoload": true
+              },
+              "webservice_energy": {
+                "url": "http://geocatalog.webservice-energy.org/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue de webservice-energy",
+                "autoload": true
+              },
+              "ifremer": {
+                "NOTE": "NOT WORKING, requires login. This is configured on the current viewer but do not provide any response",
+                "url": "http://www.ifremer.fr/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue de l'Ifremer",
+                "autoload": true
+              },
+              "geograndest": {
+                "url": "https://www.geograndest.fr/geonetwork/srv/fre/csw",
+                "type": "csw",
+                "title": "le catalogue de GéoGrandEst",
+                "autoload": true
+              }
+            },
+            "staticServices": {
+              "default_map_backgrounds": {
+                "type": "backgrounds",
+                "title": "defaultMapBackgroundsServiceTitle",
+                "autoload": true,
+                "backgrounds": [{
+                    "type": "osm",
+                    "title": "Open Street Map",
+                    "name": "mapnik",
+                    "source": "osm",
+                    "group": "background"
+                }, {
+                    "type": "tileprovider",
+                    "title": "NASAGIBS Night 2012",
+                    "provider": "NASAGIBS.ViirsEarthAtNight2012",
+                    "name": "Night2012",
+                    "source": "nasagibs",
+                    "group": "background"
+                }, {
+                    "type": "tileprovider",
+                    "title": "OpenTopoMap",
+                    "provider": "OpenTopoMap",
+                    "name": "OpenTopoMap",
+                    "source": "OpenTopoMap",
+                    "group": "background"
+                  },
+                  {
+                    "source": "ol",
+                    "group": "background",
+                    "title": "Empty Background",
+                    "fixed": true,
+                    "type": "empty"
+                }]
+              }
+            }
+          }
+        },
+        "locales": {
+          "supportedLocales": {
+            "en": {
+              "code": "en-US",
+              "description": "English"
+            },
+            "it": {
+              "code": "it-IT",
+              "description": "Italiano"
+            },
+            "fr": {
+              "code": "fr-FR",
+              "description": "Français"
+            }
+          }
+        }
+      }
+    },
+    "plugins": {
+        "mobile": ["Header", {
+                "name": "Map",
+                "cfg": {
+                    "mapOptions": {
+                      "openlayers": {
+                        "interactions": {
+                          "pinchRotate": false,
+                          "altShiftDragRotate": false
+                        }
+                      }
+                    }
+                }
+            }, "Version", "DrawerMenu",
+            {
+                "name": "BackgroundSelector",
+                "cfg": {
+                    "bottom": 25,
+                    "dimensions": {
+                    "side": 65,
+                    "sidePreview": 65,
+                    "frame": 3,
+                    "margin": 5,
+                    "label": false,
+                    "vertical": true
+                   }
+                }
+            },
+            {
+                "name": "Identify",
+                "showIn": ["Settings"],
+                "cfg": {
+                    "showFullscreen": true,
+                    "position": "bottom",
+                    "size": 0.5,
+                    "fluid": true,
+                    "viewerOptions": {
+                        "container": "{context.ReactSwipe}"
+                    }
+                }
+            }, {
+                "name": "Locate",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            }, {
+                "name": "TOC",
+                "cfg": {
+                    "activateMetedataTool": false,
+                    "activateMapTitle": false,
+                    "activateSortLayer": false,
+                    "activateLayerFilterTool": false,
+                    "activateQueryTool": false
+                }
+            }, "AddGroup", {
+                "name": "TOCItemsSettings",
+                "cfg": {
+                    "width": 300
+                }
+            }, {
+                "name": "Tutorial",
+                "cfg": {
+                    "preset": "default_mobile_tutorial"
+                }
+            }, {
+                "name": "Settings",
+                "cfg": {
+                    "wrap": true
+                }
+            }, {
+                "name": "Search",
+                "cfg": {
+                  "showOptions": false,
+                  "withToggle": ["max-width: 768px", "min-width: 768px"]
+                }
+            }, {
+                "name": "Toolbar",
+                "id": "NavigationBar",
+                "cfg": {
+                    "id": "navigationBar"
+                }
+            }, "ZoomAll", {
+                "name": "MapLoading",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            }, {
+                "name": "FullScreen",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": false
+                    }
+                }
+            }, "Login",
+            "OmniBar", "BurgerMenu", "Expander", {
+              "name": "Cookie",
+              "cfg": {
+                "externalCookieUrl": "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
+                "declineUrl": "https://www.georchestra.org/"
+              }
+            },
+            "FeedbackMask"
+        ],
+        "desktop": [
+          "Header",
+          "Details",
+          {
+            "name": "Map",
+            "cfg": {
+              "mapOptions": {
+                "openlayers": {
+                  "interactions": {
+                    "pinchRotate": false,
+                    "altShiftDragRotate": false
+                  },
+                  "attribution": {
+                    "container": "#footer-attribution-container"
+                  }
+                },
+                "leaflet": {
+                  "attribution": {
+                    "container": "#footer-attribution-container"
+                  }
+                }
+              },
+              "toolsOptions": {
+                "scalebar": {
+                  "container" : "#footer-scalebar-container"
+                }
+              }
+            }
+          }, {
+              "name": "HelpLink",
+              "cfg": {
+                "docsUrl": "https://georchestra.readthedocs.io/"
+              }
+            }, "AutoMapUpdate", "DrawerMenu", "Version", "Notifications", "BackgroundSelector", {
+              "name": "Annotations",
+              "cfg": {
+                "symbolsPath": "assets/symbols/"
+              }
+            },
+            {
+              "name": "Share",
+              "cfg": {
+                "showAPI": false,
+                "advancedSettings": {
+                  "bbox": true
+                }
+              }
+            },
+            {
+                "name": "Identify",
+                "cfg": {
+                    "showEdit": true,
+                    "showHighlightFeatureButton": true,
+                    "viewerOptions": {
+                        "container": "{context.ReactSwipe}"
+                    }
+                },
+                "override": {
+                  "Toolbar": {
+                    "position": 11
+                  }
+                }
+            },
+            {
+                "name": "Locate",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            },
+            "FeatureEditor",
+            "LayerDownload",
+            {
+              "name": "QueryPanel",
+              "cfg": {
+                  "activateQueryTool": true,
+                  "spatialOperations": [
+                      {"id": "INTERSECTS", "name": "queryform.spatialfilter.operations.intersects"},
+                      {"id": "CONTAINS", "name": "queryform.spatialfilter.operations.contains"},
+                      {"id": "WITHIN", "name": "queryform.spatialfilter.operations.within"}
+                  ],
+                  "spatialMethodOptions": [
+                      {"id": "Viewport", "name": "queryform.spatialfilter.methods.viewport"},
+                      {"id": "BBOX", "name": "queryform.spatialfilter.methods.box"},
+                      {"id": "Circle", "name": "queryform.spatialfilter.methods.circle"},
+                      {"id": "Polygon", "name": "queryform.spatialfilter.methods.poly"}
+                  ]
+              }
+            }, {
+                "name": "TOC",
+                "cfg": {
+                    "activateMetedataTool": true,
+                    "metadataOptions": {
+                        "xmlNamespaces": {
+                            "gmd": "http://www.isotc211.org/2005/gmd",
+                            "srv": "http://www.isotc211.org/2005/srv",
+                            "gco": "http://www.isotc211.org/2005/gco",
+                            "gmx": "http://www.isotc211.org/2005/gmx",
+                            "gfc": "http://www.isotc211.org/2005/gfc",
+                            "gts": "http://www.isotc211.org/2005/gts",
+                            "gml": "http://www.opengis.net/gml"
+                        },
+                        "extractors": [{
+                            "properties": {
+                                "title": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
+                                "abstract": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString",
+                                "purpose": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:purpose/gco:CharacterString",
+                                "source": "/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement/gco:CharacterString",
+                                "createdDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='creation']]",
+                                "lastRevisionDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='revision']]",
+                                "pointsOfContact": {
+                                    "xpath": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
+                                    "properties": {
+                                        "individualName": "gmd:individualName/gco:CharacterString",
+                                        "organisationName": "gmd:organisationName/gco:CharacterString",
+                                        "contactInfo": {
+                                            "xpath": "gmd:contactInfo/gmd:CI_Contact",
+                                            "properties": {
+                                                "phone": "gmd:phone/gmd:CI_Telephone/gmd:voice/gco:CharacterString",
+                                                "deliveryPoints": "gmd:address/gmd:CI_Address/gmd:deliveryPoint/gco:CharacterString",
+                                                "city": "gmd:address/gmd:CI_Address/gmd:city/gco:CharacterString",
+                                                "postalCode": "gmd:address/gmd:CI_Address/gmd:postalCode/gco:CharacterString",
+                                                "country": "gmd:address/gmd:CI_Address/gmd:country/gco:CharacterString",
+                                                "electronicMailAddress": "gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString",
+                                                "URL": "gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage/gmd:URL",
+                                                "hoursOfService": "gmd:hoursOfService/gco:CharacterString"
+                                            }
+                                        },
+                                        "role": "gmd:role/gmd:CI_RoleCode/@codeListValue"
+                                    }
+                                }
+                            }
+                        }]
+                    }
+                }
+            },
+            "FilterLayer",
+            "AddGroup",
+            "TOCItemsSettings",
+            "Tutorial", "MapFooter", {
+                "name": "Measure",
+                "cfg": {
+                  "defaultOptions": {
+                    "showAddAsAnnotation": true
+                  }
+                }
+            }, {
+              "name": "Print",
+              "cfg": {
+                "useFixedScales": true,
+                "mapPreviewOptions": {
+                  "enableScalebox": true
+                }
+              }
+            }, "MapImport", "MapExport", {
+                "name": "Settings",
+                "cfg": {
+                    "wrap": true
+                }
+            }, {
+                "name": "MetadataExplorer",
+                "cfg": {
+                    "wrap": true
+                }
+            }, {
+              "name": "About",
+              "showIn": ["BurgerMenu"]
+            }
+            , {
+              "name": "MousePosition",
+              "cfg": {
+                "editCRS": true,
+                "showLabels": true,
+                "showToggle": true,
+                "filterAllowedCRS": ["EPSG:4326", "EPSG:3857"],
+                "additionalCRS": {}
+              }
+            }, {
+              "name": "CRSSelector",
+              "cfg": {
+                "additionalCRS": {
+                  "EPSG:2154": {
+                    "label": "EPSG:2154"
+                  },
+                  "EPSG:3945": {
+                    "label": "EPSG:3945"
+                  },
+                  "EPSG:3946": {
+                    "label": "EPSG:3946"
+                  },
+                  "EPSG:3948": {
+                    "label": "EPSG:3948"
+                  }
+                },
+                "filterAllowedCRS": [
+                  "EPSG:4326",
+                  "EPSG:3857"
+                ],
+                "allowedRoles": [
+                  "ADMIN"
+                ]
+              }
+            }, {
+                "name": "Search",
+                "cfg": {
+                  "withToggle": ["max-width: 768px", "min-width: 768px"]
+                }
+            }, {
+                "name": "Toolbar",
+                "id": "NavigationBar",
+                "cfg": {
+                    "id": "navigationBar"
+                }
+            },
+            "ScaleBox", {
+              "name":"ZoomAll",
+              "override": {
+                "Toolbar": {
+                  "alwaysVisible": true
+                }
+              }
+            }, {
+                "name": "MapLoading",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            }, {
+                "name": "ZoomIn",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            }, {
+                "name": "ZoomOut",
+                "override": {
+                    "Toolbar": {
+                        "alwaysVisible": true
+                    }
+                }
+            }, {
+              "name": "Cookie",
+              "cfg": {
+                "externalCookieUrl" : "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
+                "declineUrl" : "https://www.georchestra.org/"
+                }
+            },
+            "OmniBar", "Login", "BurgerMenu", "Expander", "Undo", "Redo", "FullScreen", "GlobeViewSwitcher", "SearchServicesConfig", "WidgetsBuilder", "Widgets",
+            "WidgetsTray",
+            "Timeline",
+            "Playback",
+            "FeedbackMask",
+            "StyleEditor",
+            "Save",
+            "SaveAs",
+            "MapCatalog"
+        ],
+        "embedded": ["Details",
+          {
+            "name": "Map",
+            "cfg": {
+              "mapOptions": {
+                "openlayers": {
+                  "interactions": {
+                    "pinchRotate": false,
+                    "altShiftDragRotate": false
+                  },
+                  "attribution": {
+                    "container": "#footer-attribution-container"
+                  }
+                },
+                "leaflet": {
+                  "attribution": {
+                    "container": "#footer-attribution-container"
+                  }
+                }
+              },
+              "toolsOptions": {
+                "scalebar": {
+                  "container": "#footer-scalebar-container"
+                }
+              }
+            }
+          },
+          {
+            "name": "DrawerMenu",
+            "hide": "{!(request.query && request.query.forceDrawer)}"
+          },
+          {
+            "name": "BackgroundSelector",
+            "cfg": {
+              "bottom": 40,
+              "dimensions": {
+                "side": 65,
+                "sidePreview": 65,
+                "frame": 3,
+                "margin": 5,
+                "label": false,
+                "vertical": true
+              }
+            }
+          },
+          {
+            "name": "Identify",
+            "cfg": {
+              "showFullscreen": true,
+              "position": "bottom",
+              "size": 0.5,
+              "fluid": true,
+              "viewerOptions": {
+                "container": "{context.ReactSwipe}"
+              }
+            }
+          },
+          {
+            "name": "ZoomAll",
+            "override": {
+              "Toolbar": {
+                "alwaysVisible": true
+              }
+            }
+          },
+          {
+            "name": "Locate",
+            "override": {
+              "Toolbar": {
+                "alwaysVisible": true
+              }
+            }
+          },
+          {
+            "name": "TOC",
+            "cfg": {
+              "activateMapTitle": false,
+              "activateSettingsTool": false,
+              "activateMetedataTool": false,
+              "activateRemoveLayer": false
+            }
+          },
+          "AddGroup",
+          "MapFooter",
+          {
+            "name": "Settings",
+            "cfg": {
+              "wrap": true
+            }
+          },
+          {
+            "name": "Search",
+            "cfg": {
+              "showOptions": false,
+              "withToggle": [
+                "max-width: 768px",
+                "min-width: 768px"
+              ]
+            }
+          },
+          {
+            "name": "Toolbar",
+            "id": "NavigationBar",
+            "cfg": {
+              "id": "navigationBar"
+            }
+          },
+          {
+            "name": "MapLoading",
+            "override": {
+              "Toolbar": {
+                "alwaysVisible": true
+              }
+            }
+          },
+          {
+            "name": "Cookie",
+            "cfg": {
+              "externalCookieUrl": "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
+              "declineUrl": "https://www.georchestra.org/"
+            }
+          },
+          "OmniBar",
+          {
+            "name": "GoFull",
+            "override": {
+              "Toolbar": {
+                "alwaysVisible": true
+              }
+            }
+          },
+          "FeedbackMask"
+        ],
+        "common": [],
+        "maps": [
+          "Login",
+          {
+            "name": "Maps",
+            "cfg": {
+              "mapsOptions": {
+                "start": 0,
+                "limit": 12
+              },
+              "fluid": true
+            }
+          },
+          "MapSearch",
+          "CreateNewMap",
+          "FeaturedMaps"],
+        "admin": [{
+          "name": "Header",
+            "cfg": {
+              "page": "msadmin"
+            }
+          }, {
+          "cfg": {
+            "page": "msadmin"
+          }
+        }, {
+          "name": "OmniBar",
+          "cfg": {
+            "className": "navbar shadow navbar-home"
+          }
+        }, "Login", "ContextManager"],
+        "notallowed": [{
+            "name": "Header",
+            "cfg": {
+              "page": "msadmin"
+            }
+          },
+          {
+            "name": "OmniBar",
+            "cfg": {
+              "className": "navbar shadow navbar-home"
+            }
+          },
+          "Login",
+          "NotAllowed"
+        ],
+        "context-creator": [
+          {
+            "name": "Header",
+            "cfg": {
+              "page": "msadmin"
+            }
+          },
+          {
+            "name": "OmniBar",
+            "cfg": {
+              "containerPosition": "header",
+              "className": "navbar shadow navbar-home"
+            }
+          },
+          "Login",
+          "Tutorial",
+
+          {
+            "name": "ContextCreator",
+            "cfg": {
+              "documentationBaseURL": "https://mapstore.geo-solutions.it/mapstore/docs/api/plugins",
+              "saveDestLocation": "/admin",
+              "backToPageDestRoute": "/admin"
+            }
+          },
+          "Notifications",
+          {
+            "name": "FeedbackMask",
+            "cfg": {
+              "containerPosition": "header"
+            }
+          }
+        ]
+    }
+}

@@ -7,6 +7,3 @@
 datafeeder=http://localhost:{{ datafeeder.port }}/datafeeder/
 import=http://localhost:{{ tomcat_instances['georchestra']['port']}}/import/
 {% endif %}
-{% if mapstore.enabled %}
-mapstore=http://localhost:{{ tomcat_instances['georchestra']['port']}}/mapstore/
-{% endif %}

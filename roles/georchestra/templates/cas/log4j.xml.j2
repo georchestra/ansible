@@ -26,8 +26,8 @@
     <appender name="cas" class="org.apache.log4j.rolling.RollingFileAppender">
       <param name="File" value="{{ logs_basedir }}/cas-server-webapp.log" />
        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
-            <param name="FileNamePattern" value="{{ logs_basedir }}/cas-server-webapp.%d.log.gz"/>
-        </rollingPolicy>
+          <param name="FileNamePattern" value="{{ logs_basedir }}/cas-server-webapp.%d.log.gz"/>
+       </rollingPolicy>
        <layout class="org.apache.log4j.PatternLayout">
           <param name="ConversionPattern" value="[%p] %d %c %M - %m%n"/>
        </layout>

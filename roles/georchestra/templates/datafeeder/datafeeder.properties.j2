@@ -20,7 +20,7 @@
 #  Datafeeder specific properties  #
 ####################################
 
-#publicUrl=https://georchestra-127-0-1-1.traefik.me
+publicUrl=${scheme}://${domainName}
 
 # pgsqlSchema=datafeeder
 
@@ -66,7 +66,7 @@ datafeeder.publishing.geonetwork.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROL
 datafeeder.publishing.geonetwork.auth.headers.[X-XSRF-TOKEN]=c9f33266-e242-4198-a18c-b01290dce5f1
 datafeeder.publishing.geonetwork.auth.headers.[Cookie]=XSRF-TOKEN=c9f33266-e242-4198-a18c-b01290dce5f1
 
-#template-record-id, an existing geonetwork record id to use as template. If provided, takes precedence over template-record
+#template-record-id, an existing geonetwork record id to use as template. If provided, takes precedence over template-record 
 #datafeeder.publishing.geonetwork.template-record-id:
 datafeeder.publishing.geonetwork.template-record: file:${georchestra.datadir}/datafeeder/metadata_template.xml
 datafeeder.publishing.geonetwork.template-transform: file:${georchestra.datadir}/datafeeder/metadata_transform.xsl
@@ -91,7 +91,7 @@ datafeeder.publishing.backend.geoserver.preparedStatements=true
 #<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
 datafeeder.publishing.backend.geoserver.schema=<schema>
 #datafeeder.publishing.backend.geoserver.jndiReferenceName=java:comp/env/jdbc/datafeeder
-#if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones
+#if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones 
 datafeeder.publishing.backend.geoserver.host=${pgsqlHost}
 datafeeder.publishing.backend.geoserver.port=${pgsqlPort}
 datafeeder.publishing.backend.geoserver.database=${pgsqlDatabase}
@@ -109,15 +109,23 @@ datafeeder.email.analysisFailedTemplate=file:${georchestra.datadir}/datafeeder/t
 datafeeder.email.publishFailedTemplate=file:${georchestra.datadir}/datafeeder/templates/data-publishing-failed-email-template.txt
 datafeeder.email.publishSuccessTemplate=file:${georchestra.datadir}/datafeeder/templates/data-publishing-succeeded-email-template.txt
 
-#administratorEmail=noreply.georchestra.dev@gmail.com
+#administratorEmail=georchestra@georchestra.mydomain.org
 
 # Configuration for SMTP email sending of application events
 # Datafeeder will send emails to the user when a job is started, finished, or failed,
 # if the spring.mail.* configuration properties are set.
 
-# defined in ../default.properties
+# already defined in ../default.properties:
+#smtpHost=localhost
+#smtpPort=25
+# not defined in ../default.properties:
+smtpUser=
+smtpPassword=
+smtpAuth=false
+smtpTLS=false
+
+# Example smtp config for gmail:
 #smtpHost=smtp.gmail.com
-# defined in ../default.properties
 #smtpPort=587
 #smtpUser=${administratorEmail}
 #smtpPassword=changeme
@@ -144,3 +152,4 @@ spring.mail.properties.mail.smtp.starttls.enable=${smtpTLS:false}
 #spring.mail.test-connection: true
 #spring.mail.properties.mail.smtp.auth: true
 #spring.mail.properties.mail.smtp.starttls.enable: true
+

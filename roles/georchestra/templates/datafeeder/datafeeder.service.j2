@@ -1,10 +1,10 @@
 [Unit]
-Description=datafeeder
+Description=geOrchestra datafeeder backend
 After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/bin/java -Dserver.port={{ datafeeder.port }} -jar /srv/webapps/datafeeder.jar
+ExecStart=/usr/bin/java -Dserver.port={{ datafeeder.port }} -jar /usr/share/lib/georchestra-datafeeder/datafeeder-bin.jar
 SuccessExitStatus=143
 StandardOutput=append:{{ logs_basedir }}/datafeeder.log
 StandardError=append:{{ logs_basedir }}/datafeeder.log

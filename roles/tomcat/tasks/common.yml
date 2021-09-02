@@ -1,3 +1,8 @@
+- name: ensure GPG is installed
+  apt:
+    name: gpg
+    state: present
+
 - name: add adoptopenjdk repository key
   tags: java8
   apt_key:

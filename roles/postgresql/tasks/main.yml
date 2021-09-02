@@ -8,18 +8,36 @@
     name: sudo
     state: present
 
-- name: installing dependencies
+- name: installing dependencies (buster)
   apt:
     pkg: ['postgis', 'postgresql-11-postgis-2.5', 'postgresql-11-postgis-2.5-scripts', 'postgresql-contrib']
     state: present
     update_cache: yes
+  when: ansible_distribution_release == "buster"
 # postgresql-11-postgis-2.5-scripts #for postgis.control
 # postgresql-contrib #for dblink extension
 
-- name: install python-psycopg2 for ansible psql modules
+- name: installing dependencies (bullseye)
+  apt:
+    pkg: ['postgis', 'postgresql-13-postgis-3', 'postgresql-13-postgis-3-scripts', 'postgresql-contrib']
+    state: present
+    update_cache: yes
+  when: ansible_distribution_release == "bullseye"
+# postgresql-11-postgis-2.5-scripts #for postgis.control
+# postgresql-contrib #for dblink extension
+
+
+- name: install python-psycopg2 for ansible psql modules (buster)
   apt:
     name: python-psycopg2
     state: present
+  when: ansible_distribution_release == "buster"
+
+- name: install python-psycopg2 for ansible psql modules (bullseye)
+  apt:
+    name: python3-psycopg2
+    state: present
+  when: ansible_distribution_release == "bullseye"
 
 - name: create georchestra user
   become: yes

@@ -17,7 +17,6 @@
 - name: install debian packages
   apt:
     pkg: "{{ item.value.pkg }}"
-    default_release: buster
     update_cache: yes
     state: latest
   with_dict: "{{ georchestra_wars }}"

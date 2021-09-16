@@ -201,7 +201,10 @@
     datafeeder:
       enabled: true
       port: 8480
-
+    gn_cloud_searching:
+      enabled: true
+      port: 8580
+      url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

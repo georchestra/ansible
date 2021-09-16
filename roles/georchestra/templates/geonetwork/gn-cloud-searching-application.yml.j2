@@ -1,0 +1,90 @@
+server:
+  instance-id: ${spring.application.name}:${spring.application.instance_id:${spring.cloud.client.ip-address}}:${server.port}
+spring:
+  rabbitmq.host: localhost
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+management:
+  health.ldap.enabled: false
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+    fetch-registry: false
+
+gn:
+  datadir: ${java.io.tmpdir}/gn-datadir
+  baseurl: https://{{ georchestra.fqdn }}/geonetwork
+  legacy.url: https://{{ georchestra.fqdn }}/geonetwork
+  linkToLegacyGN4: true
+  language.default: fr
+  site:
+    name: GeoNetwork
+    organization: opensource
+  index:
+    url: http://localhost:9200
+    records: gn-records
+    username:
+    password:
+  api:
+    metadata:
+      license:
+        name: GNU General Public License v2.0
+        url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+  search:
+    # Full text on all fields
+    # 'queryBase': '${any}',
+    # Full text but more boost on title match
+    queryBase: 'any:(${any}) resourceTitleObject.default:(${any})^2'
+    scoreConfig: >
+      {
+        "boost": "5",
+        "functions": [
+          { // Boost down member of a series
+            "filter": { "exists": { "field": "parentUuid" } },
+            "weight": 0.3
+          },
+          { // Boost down obsolete records
+            "filter": { "match": { "cl_status.key": "obsolete" } },
+            "weight": 0.3
+          },
+          {
+            "gauss": {
+              "dateStamp": {
+                "scale": "365d",
+                "offset": "90d",
+                "decay": 0.5
+              }
+            }
+          }
+        ],
+        "score_mode": "multiply"
+      }
+    sortables:
+      - "relevance"
+      - "createDate:desc"
+      - "resourceTitleObject.default.keyword"
+      - "rating:desc"
+      - "popularity:desc"
+    formats:
+      - name : rss
+        mimeType : application/rss+xml
+        responseProcessor: RssResponseProcessorImpl
+        operations:
+          - items
+    defaultMimeType: text/html
+    sources:
+      - "resourceTitleObject"
+      - "resourceAbstractObject"
+      - "resourceType"
+      - "overview"
+      - "uuid"
+      - "schema"
+      - "link"
+      - "allKeywords"
+      - "contactForResource"
+      - "cl_status"
+      - "edit"

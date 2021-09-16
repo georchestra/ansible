@@ -1,0 +1,14 @@
+[Unit]
+Description=geOrchestra gn-cloud-searching webservice
+After=syslog.target
+
+[Service]
+User=www-data
+# gn-cloud-* webservices require java >= 11
+ExecStart=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64/bin/java  -Dsearch_without_sql -Dspring.config.location=/etc/georchestra/geonetwork/microservices/searching/ -Dspring.cloud.bootstrap.enabled=false -Dserver.port={{ gn_cloud_searching.port }} -jar /usr/share/lib/searching.jar
+SuccessExitStatus=143
+StandardOutput=append:{{ logs_basedir }}/gn-cloud-searching.log
+StandardError=append:{{ logs_basedir }}/gn-cloud-searching.log
+
+[Install]
+WantedBy=multi-user.target

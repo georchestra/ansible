@@ -1,20 +1,42 @@
+- name: ensure GPG is installed
+  apt:
+    name: gpg
+    state: present
+
 - name: add adoptopenjdk repository key
   tags: java8
   apt_key:
     url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
 
-- name: add adoptopenjdk debian repo
+- name: add adoptopenjdk debian repo (buster)
   tags: java8
   apt_repository:
     repo: "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main"
+  when: ansible_distribution_release == "buster"
 
-- name: install java8 from adoptopenjdk
+- name: add adoptopenjdk debian repo (bullseye)
+  tags: java8
+  apt_repository:
+    repo: "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ bullseye main"
+  when: ansible_distribution_release == "bullseye"
+
+- name: install java8 from adoptopenjdk (buster)
   tags: java8
   apt:
-    pkg: adoptopenjdk-8-hotspot
+    pkg: [ adoptopenjdk-8-hotspot, adoptopenjdk-11-hotspot ]
     default_release: buster
     update_cache: yes
     state: latest
+  when: ansible_distribution_release == "buster"
+
+- name: install java8 from adoptopenjdk (bullseye)
+  tags: java8
+  apt:
+    pkg: [ adoptopenjdk-8-hotspot, adoptopenjdk-11-hotspot ]
+    default_release: bullseye
+    update_cache: yes
+    state: latest
+  when: ansible_distribution_release == "bullseye"
 
 - name: default to adoptopenjdk
   tags: java8

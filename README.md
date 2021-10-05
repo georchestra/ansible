@@ -56,3 +56,15 @@ To browse your SDI, just drop a line in your ```/etc/hosts``` file, registering 
 192.168.0.19 georchestra.example.org
 ```
 ... and open https://georchestra.example.org/geonetwork/ in your browser.
+
+# Serverspec
+
+a serverspec testsuite is provided to test the vagrant environments Once the box is up (see previous section),
+you can test the setup with the following command:
+
+```
+$ rake spec
+```
+
+This will require the `ruby-serverspec` package to be installed on the host.
+

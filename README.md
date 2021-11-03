@@ -25,7 +25,7 @@ ansible-galaxy install -r requirements.yaml
 
  * setup variables for your own instance in ```playbooks/georchestra.yml```
 
- * Open `ansible/hosts` file
+ * Open `hosts` file
 
  * Replace `IP_OF_YOUR_MACHINE` by the IP of a host where you have `ssh-with-passphrase` root access (ideally, an lxc container, a vm, or whatever suits you) to get something like :
 
@@ -50,7 +50,7 @@ In fact, this folder could be the default datadir (/etc/georchestra/datadir) but
 
 So, we suggest you to set an alternative mapstore plugins directory. To do that, open `/etc/default/tomcat-georchestra` and add this JVM option :
 
-`-Dgeorchestra.extensions= /target/path/extensions \`
+`-Dgeorchestra.extensions=/target/path/extensions \`
 
 Don't forget to restart the service next... and be sure this path is writable by tomcat.
 

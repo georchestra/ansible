@@ -4,23 +4,60 @@ A simple [ansible](http://docs.ansible.com) playbook to deploy a fullblown [geOr
 
 Right now, this will deploy a working geOrchestra from the **master** branch with mostly default configs and empty databases/datadirs.
 
+## Prerequisite
+
+* Debian Buster (10.x) VM
+* JAVA8 (could use [AdoptOpenJDK](https://adoptopenjdk.net/) project)
+* Token access to allow connection from VM to GitHub and allow to get MapStore2 artifact (see playbook.yml)
 
 ## setup
 
 In order to deploy all the middleware and components of a geOrchestra instance, you just need to:
+
  * use `ansible-galaxy` to install external roles required for geonetwork 4:
 ```
 ansible-galaxy install -r requirements.yaml
 ```
- * setup variables for your own instance in ```playbooks/georchestra.yml```,
- * point to the IP of a host where you have ssh-with-passphrase root access in the ```hosts``` file (ideally, an lxc container, or a vm, whatever suits you)
+
+ * Clone source :
+
+    `git clone https://github.com/georchestra/ansible.git`
+
+ * setup variables for your own instance in ```playbooks/georchestra.yml```
+
+ * Open `ansible/hosts` file
+
+ * Replace `IP_OF_YOUR_MACHINE` by the IP of a host where you have `ssh-with-passphrase` root access (ideally, an lxc container, a vm, or whatever suits you) to get something like :
+
+    `mygeorchestra ansible_ssh_host=192.xxx.xx.x`
 
 ... and run:
 ```
 ansible-playbook playbooks/georchestra.yml
 ```
 
-This is meant to work on a Debian Buster (10.x) VM, using JAVA8 from [AdoptOpenJDK](https://adoptopenjdk.net/) project.
+👉 If you run the playbook with a remote access (ssh) you maybe need to run the playbook with this command :
+
+    `ansible-playbook playbook.yml -i hosts --user=<username> --extra-vars "ansible_sudo_pass=<yourPassword>"`
+
+## additional config
+
+- **Set MapStore2-georchestra config extensions**
+
+To import plugins, Tomcat (or Jetty) will need to write into a plugins folder. He can't by default and you get some errors.
+In fact, this folder could be the default datadir (/etc/georchestra/datadir) but it's not fully recomended.
+> [More details here](http://docs.georchestra.geo-solutions.it/fr/latest/configuration/application/index.html?highlight=extensions#dynamic-files)
+
+So, we suggest you to set an alternative mapstore plugins directory. To do that, open `/etc/default/tomcat-georchestra` and add this JVM option :
+
+`-Dgeorchestra.extensions= /target/path/extensions \`
+
+Don't forget to restart the service next... and be sure this path is writable by tomcat.
+
+If you really want to use datadir, you have to set correct right to the `/mapstore` directory. 
+
+If an `extensions.json` file is missing, just add it manually with empty `{}` json content.
+
 
 ## cleanup
 

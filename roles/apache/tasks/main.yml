@@ -102,6 +102,14 @@
   - { src: common, dest: cadastrapp }
   notify: reload apache2
 
+- name: template config for gn-cloud-searching
+  tags: apache_config
+  template:
+    src: gn-cloud-searching.conf.j2
+    dest: "/var/www/georchestra/conf/gn-cloud-searching.conf"
+  notify: reload apache2
+  when: gn_cloud_searching.enabled
+
 - name: generate self-signed cert
   command: >
     openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"

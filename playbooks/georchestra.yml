@@ -46,8 +46,8 @@
     mapstore: {
       enabled: True,
       repo: georchestra/mapstore2-georchestra,
-      artifact_id: 80579941,
-      artifact_sha256: ca15083c9adf5ba20963c86ede1c887c15613792
+      artifact_id: 119135632,
+      artifact_sha256: b2803ecc76a3768fdc5e358f23b5c5ce10b02ddc #git commit hash
     }
     openldap: {
       topdc: georchestra,

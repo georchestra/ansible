@@ -158,7 +158,7 @@
         # one can use an URL to fetch the webapps
         # but they should point onto a ZIP file containing the WAR,
         # this limitation comes from github which provides the artifacts in a zipped archive.
-        url: https://api.github.com/repos/georchestra/geonetwork/actions/artifacts/84847691/zip
+        url: https://api.github.com/repos/georchestra/geonetwork/actions/artifacts/104382303/zip
         tomcat: georchestra
         enabled: True
       mapstore:

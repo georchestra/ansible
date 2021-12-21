@@ -199,9 +199,13 @@
       enabled: true
       port: 8480
     gn_cloud_searching:
-      enabled: true
+      enabled: false
       port: 8580
-      url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip
+      url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip # expired
+    datahub:
+      enabled: true
+      url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
+      default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

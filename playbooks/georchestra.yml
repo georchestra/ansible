@@ -201,9 +201,11 @@
     gn_cloud_searching:
       enabled: false
       port: 8580
+      # artifact came from https://github.com/georchestra/geonetwork-microservices/commit/221583d5
       url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip # expired
     datahub:
       enabled: true
+      # artifact comes from https://github.com/georchestra/geonetwork-ui/commit/c62096291
       url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
   tasks:

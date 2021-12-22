@@ -102,6 +102,10 @@
   - { src: common, dest: cadastrapp }
   notify: reload apache2
 
+- include: datahub.yml
+  tags: datahub
+  when: datahub.enabled
+
 - name: template config for gn-cloud-searching
   tags: apache_config
   template:

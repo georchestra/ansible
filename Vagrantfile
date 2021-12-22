@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "mygeorchestra" => ["georchestra"]
     }
     # If needed to test a part of the playbook by limiting to a specific tag
-    #ansible.raw_arguments = ["-t", "gn-cloud-searching"]
+    #ansible.raw_arguments = ["-t", "datahub"]
   end
 
   config.vm.post_up_message = "geOrchestra SDI installed, congrats! See https://www.georchestra.org/community.html for help and bug reports"

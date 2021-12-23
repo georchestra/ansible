@@ -2,21 +2,11 @@
   get_url:
     url: "{{ datahub.url }}"
     dest: "/var/www/georchestra/htdocs/datahub.zip"
-    headers:
-      Authorization: "Bearer {{ github_action_token }}"
 
-- name: Creates a directory for the datahub
-  file:
-    path: /var/www/georchestra/htdocs/datahub
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: '0755'
-
-- name: unzips the war
+- name: unzips the datahub archive
   unarchive:
     src: "/var/www/georchestra/htdocs/datahub.zip"
-    dest: "/var/www/georchestra/htdocs/datahub"
+    dest: "/var/www/georchestra/htdocs"
     remote_src: yes
 
 - name: templatize the env.js file

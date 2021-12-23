@@ -206,8 +206,7 @@
       url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip # expired
     datahub:
       enabled: true
-      # artifact comes from https://github.com/georchestra/geonetwork-ui/commit/c62096291
-      url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
+      url: https://packages.georchestra.org/bot/datahub/datahub.zip
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
     # Here can be defined a SMTP smarthost
     smtp:

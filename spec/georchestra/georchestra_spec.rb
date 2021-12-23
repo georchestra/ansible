@@ -9,7 +9,13 @@ describe port(80) do
   it { should be_listening }
 end
 
+# Frontend webserver TLS (apache2)
 describe port(443) do
+  it { should be_listening }
+end
+
+# Mailserver
+describe port(25) do
   it { should be_listening }
 end
 

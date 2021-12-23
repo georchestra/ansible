@@ -3,6 +3,7 @@
   # note: above host must match the content of the "hosts" file
   become: yes
   roles:
+    - postfix
     - georchestra
     - { role: elastic.elasticsearch, tags: es }
     - { role: geerlingguy.kibana, tags: kibana }
@@ -208,6 +209,11 @@
       # artifact comes from https://github.com/georchestra/geonetwork-ui/commit/c62096291
       url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
+    # Here can be defined a SMTP smarthost
+    smtp:
+      smarthost: gateway:25
+      fqdn: "{{ georchestra.fqdn }}"
+      admin_email: "postmaster@{{ georchestra.fqdn }}"
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

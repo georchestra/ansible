@@ -1,0 +1,17 @@
+- name: set debconf values
+  debconf:
+    name: postfix
+    vtype: "{{ item.type }}"
+    question: "{{ item.key }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { key: postfix/main_mailer_type, type: string, value: 'Satellite system' }
+    - { key: postfix/mailname, type: string, value: '{{ smtp.fqdn }}' }
+    - { key: postfix/relayhost, type: string, value: '{{ smtp.smarthost }}' }
+    - { key: postfix/root_address, type: string, value: '{{ smtp.admin_email }}' }
+
+- name: installs postfix
+  apt:
+    name: postfix
+    state: present
+    update_cache: yes

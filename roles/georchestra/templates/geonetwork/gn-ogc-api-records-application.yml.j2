@@ -1,0 +1,135 @@
+server:
+  port: {{ gn_ogc_api_records.port }}
+#  address: localhost
+#  forward-headers-strategy: NATIVE
+#  servlet:
+#    context-path: /ogcapi
+  instance-id: ${spring.application.name}:${spring.application.instance_id:${spring.cloud.client.ip-address}}:${server.port}
+  servlet:
+    encoding:
+      charset: UTF-8
+      force-response: true
+spring:
+  application.name: ogc-records-service
+  main.banner-mode: off
+  cloud:
+    loadbalancer.ribbon.enabled: false # ribbon is in maintenance mode and should be replaced by spring-cloud-loadbalancer
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 20
+      discovery:
+        enabled: true
+        service-id: config-service
+
+
+---
+# Use this profile when running on a GN4 database on localhost and Elasticsearch index.
+# Turn off security, config & discover.
+spring:
+  profiles: standalone
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://{{ gn_ogc_api_records.db_host }}/{{ georchestra.db.name }}
+    username: {{ geonetwork.db.user }}
+    password: {{ geonetwork.db.pass }}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    jpa.generate-ddl: false
+    jpa.hibernate.ddl-auto: none
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+management:
+  health.ldap.enabled: false
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+    fetch-registry: false
+gn:
+  baseurl: https://{{ georchestra.fqdn }}/{{ gn_ogc_api_records.gn_context }}
+  language:
+    default: eng
+  legacy.url: https://{{ georchestra.fqdn }}/{{ gn_ogc_api_records.gn_context }}
+  index:
+    url: {{ gn_ogc_api_records.elasticsearch_url }}
+    records: gn-records
+    username:
+    password:
+  search:
+    formats:
+      - name: html
+        mimeType: text/html
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name: xml
+        mimeType: application/xml
+        responseProcessor: XmlResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name: json
+        mimeType: application/json
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name : gn
+        mimeType : application/gn+xml
+        responseProcessor: XsltResponseProcessorImpl
+      - name: opensearch
+        mimeType: application/opensearchdescription+xml
+        operations:
+          - collection
+      - name : schema.org
+        mimeType : application/ld+json
+        responseProcessor: JsonLdResponseProcessorImpl
+        operations:
+          - items
+          - item
+      - name: dcat
+        mimeType: application/rdf+xml
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - item
+      - name : dcat_turtle
+        mimeType : text/turtle
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations :
+          - item
+      - name : rss
+        mimeType : application/rss+xml
+        responseProcessor: RssResponseProcessorImpl
+        operations:
+          - items
+    defaultMimeType: text/html
+logging:
+  level:
+    # geonetwork roots
+    org.fao.geonet: INFO
+    org.fao.geonet.ogcapi: INFO
+    org.fao.geonet.searching: INFO
+springfox:
+  documentation:
+    swaggerUi:
+      baseUrl: /openapi
+    openApi:
+      v3:
+        path: /openapi/v3/api-docs
+    swagger:
+      v2 :
+        path: /openapi/v2/api-docs

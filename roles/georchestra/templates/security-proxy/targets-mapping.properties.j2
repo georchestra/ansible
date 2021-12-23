@@ -6,3 +6,6 @@
 {% if datafeeder.enabled %}
 datafeeder=http://localhost:{{ datafeeder.port }}/datafeeder/
 {% endif %}
+{% if gn_ogc_api_records.enabled %}
+ogc-api-records=http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records
+{% endif %}

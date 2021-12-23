@@ -1,20 +1,7 @@
 - name: install the gn-cloud-searching microservice
   get_url:
     url: "{{ gn_cloud_searching.url }}"
-    dest: "/usr/share/lib/georchestra-gn-cloud-searching.zip"
-    headers:
-      Authorization: "Bearer {{ github_action_token }}"
-
-- name: unzips the war
-  unarchive:
-    src: "/usr/share/lib/georchestra-gn-cloud-searching.zip"
-    dest: /usr/share/lib
-    remote_src: yes
-
-- name: removes the downloaded archive
-  file:
-    path: "/usr/share/lib/georchestra-gn-cloud-searching.zip"
-    state: absent
+    dest: "/usr/share/lib/searching.jar"
 
 - name: prepare a configuration directory for the microservice
   file:

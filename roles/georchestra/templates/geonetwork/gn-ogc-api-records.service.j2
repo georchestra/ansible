@@ -1,0 +1,14 @@
+[Unit]
+Description=geOrchestra gn-ogc-api-records webservice
+After=syslog.target
+
+[Service]
+User=www-data
+# gn-cloud-* webservices require java >= 11
+ExecStart=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64/bin/java -Dserver.servlet.context-path=/ogc-api-records -Dspring.profiles.active=standalone  -Dspring.config.location=/etc/georchestra/geonetwork/microservices/ogc-api-records/application.yml -Dspring.cloud.bootstrap.enabled=false -jar /usr/share/lib/gn-ogc-api-records.jar
+SuccessExitStatus=143
+StandardOutput=append:{{ logs_basedir }}/gn-ogc-api-records.log
+StandardError=append:{{ logs_basedir }}/gn-ogc-api-records.log
+
+[Install]
+WantedBy=multi-user.target

@@ -200,10 +200,16 @@
       enabled: true
       port: 8480
     gn_cloud_searching:
-      enabled: false
+      enabled: true
       port: 8580
-      # artifact came from https://github.com/georchestra/geonetwork-microservices/commit/221583d5
-      url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/93336082/zip # expired
+      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/searching.jar
+    gn_ogc_api_records:
+      enabled: true
+      port: 8680
+      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-ogc-api-records.jar
+      db_host: localhost:5432
+      gn_context: geonetwork
+      elasticsearch_url: http://localhost:9200
     datahub:
       enabled: true
       url: https://packages.georchestra.org/bot/datahub/datahub.zip

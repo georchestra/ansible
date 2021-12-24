@@ -1,7 +1,7 @@
 server:
   port: {{ gn_ogc_api_records.port }}
 #  address: localhost
-#  forward-headers-strategy: NATIVE
+  forward-headers-strategy: framework
 #  servlet:
 #    context-path: /ogcapi
   instance-id: ${spring.application.name}:${spring.application.instance_id:${spring.cloud.client.ip-address}}:${server.port}

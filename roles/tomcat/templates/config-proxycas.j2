@@ -1,5 +1,9 @@
-JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+JAVA_HOME=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64
+JRE_HOME=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64
+
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Xms{{ tomcat_instances.proxycas.xms }} \
 	-Xmx{{ tomcat_instances.proxycas.xmx }} \
+	-DCAS_BANNER_SKIP=true \
+	-Dcas.standalone.configurationDirectory=/etc/georchestra/cas/config  \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

@@ -158,11 +158,15 @@
         pkg: georchestra-geonetwork
         tomcat: georchestra
         enabled: True
-      mapstore:
-        url: https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip
+      # mapstore: # using a github action artifact
+      #   url: https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip
+      #   tomcat: georchestra
+      #   artifact_sha256: "{{ mapstore.artifact_sha256 }}"
+      #   enabled: "{{ mapstore.enabled }}"
+      mapstore: # using the package from packages.georchestra.org
+        pkg: georchestra-mapstore
         tomcat: georchestra
-        artifact_sha256: "{{ mapstore.artifact_sha256 }}"
-        enabled: "{{ mapstore.enabled }}"
+        enabled: True
       geoserver:
         pkg: georchestra-geoserver
         tomcat: geoserver

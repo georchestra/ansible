@@ -1,4 +1,6 @@
-JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
+JAVA_HOME=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64
+JRE_HOME=/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64
+
 JAVA_OPTS="-Djava.awt.headless=true -XX:+UseConcMarkSweepGC \
 	-Xms{{ tomcat_instances.georchestra.xms }} \
 	-Xmx{{ tomcat_instances.georchestra.xmx }} \

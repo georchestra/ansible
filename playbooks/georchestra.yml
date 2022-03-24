@@ -77,10 +77,10 @@
       datadir: {
         path: /etc/georchestra,
         gitrepo: "https://github.com/georchestra/datadir",
-        gitversion: master
+        gitversion: 22.0.x
       },
       debian: {
-        repo: "deb https://packages.georchestra.org/debian master main",
+        repo: "deb https://packages.georchestra.org/debian 22.0.x main",
         key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
       }
     }
@@ -104,7 +104,7 @@
       datadir: {
         path: /srv/data/geoserver/,
         gitrepo: "https://github.com/georchestra/geoserver_minimal_datadir",
-        gitversion: master
+        gitversion: 22.0
       },
       wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
     }

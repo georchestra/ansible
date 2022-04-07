@@ -9,8 +9,9 @@
 	<logger name="org.springframework" level="INFO" />
 	
 	<!--  database -->
-	<logger name="org.hibernate" level="INFO" />	
-	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="TRACE" />
+	<logger name="org.hibernate.SQL" level="INFO" />	
+	<logger name="org.hibernate.type" level="INFO" />	
+	<logger name="org.springframework.jdbc.core.JdbcTemplate" level="INFO" />
 	
 	<!--  services -->
 	<logger name="org.apache.cxf" level="WARN" />
@@ -22,6 +23,12 @@
 	<!-- image generation -->
 	<logger name="org.geotools" level="WARN" />
 	<logger name="com.vividsolutions.jts" level="WARN" />
+	
+	<!-- purge trace with quartz -->
+	<logger name="org.quartz.core.QuartzSchedulerThread" level="WARN" />
+
+	<!-- swagger info --> 
+	<logger name="springfox.documentation" level="WARN" />
 
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>{{ logs_basedir }}/cadastrapp.log</file>
@@ -29,7 +36,7 @@
 			<fileNamePattern>{{ logs_basedir }}/cadastrapp.%d.log.gz</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%d [%thread] %-5level /%X{uri} - %X{user:-nouser} - %X{roles:-norole} -%logger{36} - %msg%n</pattern>
+			<pattern>%d [%thread] %-5level /%X{uri} - %X{sec-username:-nouser} - %X{sec-roles:-norole} - %X{sec-org:-noorg} -%logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
 

@@ -43,12 +43,13 @@
     }
     # Set here your Github token, which should at least have the 'actions' scope
     github_action_token: secret
-    mapstore: {
-      enabled: True,
-      repo: georchestra/mapstore2-georchestra,
-      artifact_id: 119135632,
-      artifact_sha256: b2803ecc76a3768fdc5e358f23b5c5ce10b02ddc #git commit hash
-    }
+    # if deploying an ms2 artifact from gh
+    #mapstore: {
+    #  enabled: True,
+    #  repo: georchestra/mapstore2-georchestra,
+    #  artifact_id: 119135632,
+    #  artifact_sha256: b2803ecc76a3768fdc5e358f23b5c5ce10b02ddc #git commit hash
+    #}
     openldap: {
       topdc: georchestra,
       basedn: "dc=georchestra,dc=org", # has to be in the form dc={{ topdc }},dc=xx

@@ -131,6 +131,60 @@
                 "title": "le geoserver local",
                 "autoload": true
               },
+              "ignrasterwms": {
+                "url": "https://wxs.ign.fr/essentiels/geoportail/r/wms",
+                "type": "wms",
+                "title": "IGN essentiels RASTER",
+                "autoload": true
+              },
+              "ignvectorwms": {
+                "url": "https://wxs.ign.fr/essentiels/geoportail/v/wms",
+                "type": "wms",
+                "title": "IGN essentiels VECTOR",
+                "autoload": true
+              },
+              "ignwmts": {
+                "url": "https://wxs.ign.fr/essentiels/geoportail/wmts",
+                "type": "wmts",
+                "title": "IGN essentiels WMTS",
+                "autoload": true
+              },
+              "igndecouvertewmts": {
+                "url": "https://wxs.ign.fr/decouverte/geoportail/wmts",
+                "type": "wmts",
+                "title": "IGN decouverte WMTS",
+                "autoload": true
+              },
+              "igncartovectowms": {
+                "url": "https://wxs.ign.fr/cartovecto/geoportail/v/wms",
+                "type": "wms",
+                "title": "IGN carto vectorielle",
+                "autoload": true
+              },
+              "ignadministratifwms": {
+                "url": "https://wxs.ign.fr/administratif/geoportail/r/wms",
+                "type": "wms",
+                "title": "IGN administratif",
+                "autoload": true
+              },
+              "ignadressewms": {
+                "url": "https://wxs.ign.fr/adresse/geoportail/v/wms",
+                "type": "wms",
+                "title": "IGN adresse",
+                "autoload": true
+              },
+              "ignagriculturewms": {
+                "url": "https://wxs.ign.fr/agriculture/geoportail/r/wms",
+                "type": "wms",
+                "title": "IGN agriculture",
+                "autoload": true
+              },
+              "ignaltimetriewmts": {
+                "url": "https://wxs.ign.fr/altimetrie/geoportail/wmts",
+                "type": "wmts",
+                "title": "IGN altimetrie WMTS",
+                "autoload": true
+              },
               "geobretagne": {
                 "url": "https://geobretagne.fr/geonetwork/srv/fre/csw",
                 "type": "csw",
@@ -223,6 +277,9 @@
           }
         }
       }
+    },
+    "miscSettings": {
+      "homePath": "/home"
     },
     "plugins": {
         "mobile": ["Header", {
@@ -322,7 +379,7 @@
                     }
                 }
             }, "Login",
-            "OmniBar", "BurgerMenu", "Expander", {
+            "OmniBar", "BurgerMenu", "Home", "Expander", {
               "name": "Cookie",
               "cfg": {
                 "externalCookieUrl": "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
@@ -725,52 +782,241 @@
           "FeedbackMask"
         ],
         "common": [],
-        "maps": [
-          "Login",
-          {
-            "name": "Maps",
-            "cfg": {
-              "mapsOptions": {
-                "start": 0,
-                "limit": 12
-              },
-              "fluid": true
-            }
-          },
-          "MapSearch",
-          "CreateNewMap",
-          "FeaturedMaps"],
-        "admin": [{
+      "maps": [
+        "Login",
+        "HomeDescription", "Fork",
+        "MapSearch",
+        "CreateNewMap",
+        "FeaturedMaps", "ContentTabs",
+        {
           "name": "Header",
-            "cfg": {
-              "page": "msadmin"
+          "cfg": {
+            "page": "mapstore-home"
+          }
+        },
+        {
+          "name": "Maps",
+          "cfg": {
+            "mapsOptions": {
+              "start": 0,
+              "limit": 12
+            },
+            "fluid": true
+          }
+        },
+        {
+          "name": "Dashboards",
+          "cfg": {
+            "mapsOptions": {
+              "start": 0,
+              "limit": 12
+            },
+            "fluid": true
+          }
+        },
+        {
+          "name": "GeoStories",
+          "cfg": {
+            "mapsOptions": {
+              "start": 0,
+              "limit": 12
+            },
+            "fluid": true
+          }
+        },
+        {
+          "name": "Contexts",
+          "cfg": {
+            "mapsOptions": {
+              "start": 0,
+              "limit": 12
+            },
+            "fluid": true
+          }
+        }],
+      "dashboard": [{
+        "name": "OmniBar",
+        "cfg": {
+          "containerPosition": "header",
+          "className": "navbar shadow navbar-home"
+        }
+      }, "Login", "Language", "NavMenu", "DashboardSave", "DashboardSaveAs", "Attribution", "Home", {
+        "name": "Share",
+        "cfg": {
+          "showAPI": false,
+          "advancedSettings": false,
+          "shareUrlRegex": "(h[^#]*)#\\/dashboard\\/([A-Za-z0-9]*)",
+          "shareUrlReplaceString": "$1dashboard-embedded.html#/$2",
+          "embedOptions": {
+            "showTOCToggle": false,
+            "showConnectionsParamToggle": true,
+            "allowFullScreen": false,
+            "sizeOptions": {
+              "Small": { "width": 600, "height": 500 },
+              "Medium": { "width": 800, "height": 600},
+              "Large": { "width": 1000, "height": 800},
+              "Custom": {"width": 0, "height": 0}
+            },
+            "selectedOption": "Small"
+          }
+        }
+      },
+        {
+          "name": "DashboardEditor",
+          "cfg": {
+            "selectedService": "localgs",
+            "services": {
+              "localgs": {
+                "url": "/geoserver/wfs",
+                "type": "wfs",
+                "title": "le geoserver local",
+                "autoload": true
+              }
+            },
+            "containerPosition": "columns"
+          }
+        }, {
+          "name": "QueryPanel",
+          "cfg": {
+            "toolsOptions": {
+              "hideCrossLayer": true,
+              "hideSpatialFilter": true
+            },
+            "containerPosition": "columns"
+          }
+        }, "BurgerMenu", "Dashboard", "Notifications", {
+          "name": "Tutorial",
+          "cfg": {
+            "allowClicksThruHole": false,
+            "containerPosition": "header",
+            "preset": "dashboard_tutorial"
+          }
+        },
+        {
+          "name": "FeedbackMask",
+          "cfg": {
+            "containerPosition": "header"
+          }
+        }],
+      "dashboard-embedded": [
+        {
+          "name": "Dashboard",
+          "cfg": {
+            "minLayoutWidth": 768
+          }
+        },
+        { "name": "FeedbackMask" }
+      ],
+      "geostory": [
+        {
+          "name": "OmniBar",
+          "cfg": {
+            "containerPosition": "header",
+            "className": "navbar shadow navbar-home"
+          }
+        },
+        {
+          "name": "Tutorial",
+          "cfg": {
+            "allowClicksThruHole": false,
+            "containerPosition": "header",
+            "preset": "geostory_view_tutorial"
+          }
+        },
+        "Login",
+        "BurgerMenu",
+        "Language",
+        "NavMenu",
+        "Attribution",
+        "Home",
+        {
+          "name": "GeoStory"
+        },
+        "GeoStorySave",
+        "GeoStorySaveAs",
+        "MapEditor",
+        "MediaEditor",
+        {
+          "name": "GeoStoryEditor",
+          "cfg": {
+            "disablePluginIf": "{!!(state('browser') && state('browser').mobile)}",
+            "containerPosition": "columns"
+          }
+        },
+        {
+          "name": "GeoStoryNavigation",
+          "cfg": {
+            "containerPosition": "header"
+          }
+        },
+        "Notifications",
+        {
+          "name": "FeedbackMask",
+          "cfg": {
+            "containerPosition": "header"
+          }
+        },
+        {
+          "name": "Share",
+          "cfg": {
+            "embedPanel": true,
+            "showAPI": false,
+            "embedOptions": {
+              "showTOCToggle": false,
+              "allowFullScreen":false
+            },
+            "shareUrlRegex": "(h[^#]*)#\\/geostory\\/([^\\/]*)\\/([A-Za-z0-9]*)",
+            "shareUrlReplaceString": "$1geostory-embedded.html#/$3",
+            "advancedSettings": {
+              "hideInTab": "embed",
+              "homeButton": true,
+              "sectionId": true
             }
-          }, {
+          }
+        }
+      ],
+      "geostory-embedded": [
+        "GeoStory",
+        {
+          "name": "GeoStoryNavigation",
+          "cfg": {
+            "containerPosition": "header"
+          }
+        },
+        {
+          "name": "FeedbackMask",
+          "cfg": {
+            "containerPosition": "header"
+          }
+        }
+      ],
+      "admin": [{
+        "name": "Header",
           "cfg": {
             "page": "msadmin"
           }
         }, {
+        "name": "OmniBar",
+        "cfg": {
+          "className": "navbar shadow navbar-home"
+        }
+      }, "Login", "ContextManager"],
+      "notallowed": [{
+          "name": "Header",
+          "cfg": {
+            "page": "msadmin"
+          }
+        },
+        {
           "name": "OmniBar",
           "cfg": {
             "className": "navbar shadow navbar-home"
           }
-        }, "Login", "ContextManager"],
-        "notallowed": [{
-            "name": "Header",
-            "cfg": {
-              "page": "msadmin"
-            }
-          },
-          {
-            "name": "OmniBar",
-            "cfg": {
-              "className": "navbar shadow navbar-home"
-            }
-          },
-          "Login",
-          "NotAllowed"
-        ],
-        "context-creator": [
+        },
+        "Login",
+        "NotAllowed"
+      ],
+      "context-creator": [
           {
             "name": "Header",
             "cfg": {
@@ -785,8 +1031,10 @@
             }
           },
           "Login",
+          "Language",
+          "NavMenu",
+          "Attribution",
           "Tutorial",
-
           {
             "name": "ContextCreator",
             "cfg": {

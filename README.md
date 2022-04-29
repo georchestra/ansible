@@ -6,8 +6,8 @@ Right now, this will deploy a working geOrchestra from the **master** branch wit
 
 ## Prerequisite
 
-* Debian Buster (10.x) VM
-* JAVA8 (could use [AdoptOpenJDK](https://adoptopenjdk.net/) project)
+* Debian Bullseye (11.x) VM
+* JAVA11 (could use [AdoptOpenJDK](https://adoptopenjdk.net/) project)
 * Token access to allow connection from VM to GitHub and allow to get MapStore2 artifact (see playbook.yml)
 
 ## setup

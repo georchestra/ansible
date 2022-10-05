@@ -7,6 +7,6 @@
 
 - name: symlink postgresql.jar for jdbc/cadastrapp
   file:
-    src: "{{ tomcat_basedir }}/georchestra/webapps/cadastrapp/WEB-INF/lib/postgresql-9.4-1205-jdbc4.jar"
-    dest: /usr/share/tomcat9/lib/postgresql-9.4-1205-jdbc4.jar
+    src: "{{ tomcat_basedir }}/georchestra/webapps/cadastrapp/WEB-INF/lib/postgresql-42.3.3.jar"
+    dest: /usr/share/tomcat9/lib/postgresql-42.3.3.jar
     state: link

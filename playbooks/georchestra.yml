@@ -82,7 +82,7 @@
 
     georchestra:
       fqdn: georchestra.example.org
-      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f #invalid key
+      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f #invalid key only used in sviewer
       db:
         name: georchestra
         user: georchestra

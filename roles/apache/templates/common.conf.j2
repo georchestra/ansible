@@ -1,8 +1,9 @@
 # {{ ansible_managed }}
 {% if item.dest == 'proxy' %}
 
-ProxyPass / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
-ProxyPassReverse / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
+# Comments to acces to georchestra apache htdocs
+#ProxyPass / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
+#ProxyPassReverse / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
 
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp

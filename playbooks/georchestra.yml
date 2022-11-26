@@ -216,6 +216,16 @@
       # artifact comes from https://github.com/georchestra/geonetwork-ui/commit/c62096291
       url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
+    mviewer:
+      enabled: true
+      port: 85
+      gitrepo: https://github.com/geobretagne/mviewer
+      gitversion: master
+    mviewerstudio:
+      enabled: true
+      port: 90
+      gitrepo: https://github.com/geobretagne/mviewerstudio
+      gitversion: master
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

@@ -6,3 +6,9 @@
 {% if datafeeder.enabled %}
 datafeeder=http://localhost:{{ datafeeder.port }}/datafeeder/
 {% endif %}
+{% if mviewer.enabled %}
+mviewer=http://localhost:{{ mviewer.port }}/
+{% endif %}
+{% if mviewerstudio.enabled %}
+mviewerstudio=http://localhost:{{ mviewerstudio.port }}/
+{% endif %}

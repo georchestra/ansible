@@ -17,7 +17,7 @@
   notify: reload apache2
 
 - name: create output folder for mviewer preview
-    file:
+  file:
     name: "/var/www/mviewer/store"
     state: directory
     owner: www-data

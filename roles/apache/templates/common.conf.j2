@@ -1,6 +1,7 @@
 # {{ ansible_managed }}
 {% if item.dest == 'proxy' %}
 
+# Comments to acces to georchestra apache htdocs
 ProxyPass / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
 ProxyPassReverse / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
 

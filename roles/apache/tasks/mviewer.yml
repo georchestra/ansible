@@ -1,0 +1,27 @@
+- name: checkout mviewer
+  git:
+    repo: "{{ mviewer.gitrepo }}"
+    version: "{{ mviewer.gitversion }}"
+    dest: /var/www/mviewer/
+
+- name: apache2 listen on specific port for mviewer
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    line: Listen {{ mviewer.port }}
+    state: present
+  notify: reload apache2
+
+- name: template mviewer vhost
+  template:
+    src: mviewer/mviewer.conf.j2
+    dest: /etc/apache2/sites-available/mviewer.conf
+  notify: reload apache2
+
+- name: enable georchestra vhost
+  file:
+    dest: /etc/apache2/sites-enabled/mviewer.conf
+    src: /etc/apache2/sites-available/mviewer.conf
+    state: link
+    owner: root
+    group: root
+  notify: reload apache2

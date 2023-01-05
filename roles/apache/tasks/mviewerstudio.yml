@@ -1,0 +1,29 @@
+- name: checkout mviewer
+  git:
+    repo: "{{ mviewerstudio.gitrepo }}"
+    version: "{{ mviewerstudio.gitversion }}"
+    dest: /var/www/mviewerstudio/
+
+- name: installing php
+  apt:
+    pkg: php, php-xml
+    state: present
+
+- name: apache2 listen on specific port for mviewerstudio
+  lineinfile:
+    path: /etc/apache2/ports.conf
+    line: Listen {{ mviewerstudio.port }}
+    state: present
+  notify: reload apache2
+
+- name: create output folder for mviewer preview
+  file:
+    name: "/var/www/mviewer/store"
+    state: directory
+    owner: www-data
+    group: www-data
+
+- name: link mviewerstudio with mviewer
+  template:
+    src: "mviewerstudio/config.json.j2"
+    dest: "/var/www/mviewerstudio/apps/config.json"

@@ -1,0 +1,19 @@
+<VirtualHost *:{{ mviewer.port }}>
+     ServerName {{ georchestra.fqdn }}
+     DocumentRoot /var/www/mviewer
+     LogLevel warn
+     ErrorLog /var/www/georchestra/logs/mviewer-error.log
+     CustomLog /var/www/georchestra/logs/mviewer-access.log "combined"
+     ServerSignature Off
+</VirtualHost>
+
+{% if mviewerstudio.enabled %}
+<VirtualHost *:{{ mviewerstudio.port }}>
+     ServerName {{ georchestra.fqdn }}
+     DocumentRoot /var/www/mviewerstudio
+     LogLevel warn
+     ErrorLog /var/www/georchestra/logs/mviewerstudio-error.log
+     CustomLog /var/www/georchestra/logs/mviewerstudio-access.log "combined"
+     ServerSignature Off
+</VirtualHost>
+{% endif %}

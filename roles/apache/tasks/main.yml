@@ -100,11 +100,21 @@
   - { src: common, dest: console }
   - { src: common, dest: mapfishapp }
   - { src: common, dest: cadastrapp }
+  - { src: common, dest: mviewer }
+  - { src: common, dest: mviewerstudio }
   notify: reload apache2
 
 - include: datahub.yml
   tags: datahub
   when: datahub.enabled
+
+- include: mviewer.yml
+  tags: mviewer
+  when: mviewer.enabled
+
+- include: mviewerstudio.yml
+  tags: mviewerstudio
+  when: mviewerstudio.enabled
 
 - name: template config for gn-cloud-searching
   tags: apache_config

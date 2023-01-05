@@ -218,12 +218,12 @@
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
     mviewer:
       enabled: true
-      port: 85
+      port: 8680
       gitrepo: https://github.com/geobretagne/mviewer
       gitversion: master
     mviewerstudio:
       enabled: true
-      port: 90
+      port: 8780
       gitrepo: https://github.com/geobretagne/mviewerstudio
       gitversion: master
   tasks:

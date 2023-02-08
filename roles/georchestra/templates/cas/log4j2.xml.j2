@@ -53,6 +53,7 @@
         <!-- Loggers inherit appenders from Root Logger unless additivity is false -->
         <AsyncLogger name="org.apereo" level="${sys:cas.log.level}" includeLocation="true"/>
         <AsyncLogger name="org.apereo.services.persondir" level="${sys:cas.log.level}" includeLocation="true"/>
+        <AsyncLogger name="org.apereo.cas.services" level="warn" includeLocation="true"/>
         <AsyncLogger name="org.apereo.cas.web.flow" level="${sys:cas.log.level}" includeLocation="true"/>
         <AsyncLogger name="org.apereo.spring" level="${sys:cas.log.level}" includeLocation="true"/>
 

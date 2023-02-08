@@ -99,6 +99,7 @@
   - { src: common, dest: header }
   - { src: common, dest: console }
   - { src: common, dest: mapfishapp }
+  - { src: common, dest: mapstore }
   - { src: common, dest: cadastrapp }
   - { src: common, dest: mviewer }
   - { src: common, dest: mviewerstudio }

@@ -23,4 +23,3 @@
     state: absent
   with_items:
   - "{{ georchestra.db.user }}"
-  - "{{ geonetwork.db.user }}"

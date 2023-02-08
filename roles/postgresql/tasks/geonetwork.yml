@@ -1,13 +1,7 @@
-- name: create geonetwork user
-  postgresql_user:
-    name: "{{ geonetwork.db.user }}"
-    password: "{{ geonetwork.db.pass }}"
-    encrypted: yes
-
 - name: check if geonetwork schema already exists
   command: psql -d {{ georchestra.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create geonetwork schema in georchestra db
-  command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA {{ geonetwork.db.schema }} AUTHORIZATION {{ geonetwork.db.user }}'
+  command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA {{ geonetwork.db.schema }} AUTHORIZATION {{ georchestra.db.user }}'
   when: "loaded_schemas.stdout is defined and geonetwork.db.schema not in loaded_schemas.stdout"

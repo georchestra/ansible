@@ -76,6 +76,7 @@
         - docker-root/etc/ldap.dist/modules/groupofmembers
         - docker-root/etc/ldap.dist/modules/openssh
         - docker-root/memberof
+        - docker-root/lastbind
         - root
         - docker-root/georchestra
       gitversion: '{{ georchestra_versions.georchestra_repository }}'

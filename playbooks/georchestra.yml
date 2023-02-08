@@ -97,8 +97,6 @@
     geonetwork:
       db:
         schema: geonetwork
-        user: geonetwork
-        pass: geonetwork
       datadir:
         path: /srv/data/geonetwork/
         gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir"

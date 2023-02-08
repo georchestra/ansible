@@ -1,4 +1,4 @@
-cas.server.name=https://georchestra.mydomain.org
+cas.server.name=https://{{ georchestra.fqdn }}
 cas.server.prefix=${cas.server.name}/cas
 
 logging.config=file:/etc/georchestra/cas/config/log4j2.xml
@@ -17,7 +17,7 @@ cas.authn.ldap[0].ldap-url=ldap://localhost:389/
 cas.authn.ldap[0].bind-dn=
 cas.authn.ldap[0].bind-credential=
 
-cas.authn.ldap[0].base-dn=dc=georchestra,dc=org
+cas.authn.ldap[0].base-dn={{ openldap.basedn }}
 cas.authn.ldap[0].subtree-search=true
 cas.authn.ldap[0].search-filter=uid={user}
 cas.authn.ldap[0].page-size=0
@@ -46,4 +46,4 @@ cas.authn.ldap[0].binary-attributes=jpegPhoto
 cas.authn.ldap[0].name=
 
 cas.authn.ldap[0].type=DIRECT
-cas.authn.ldap[0].dn-format=uid=%s,ou=users,dc=georchestra,dc=org
+cas.authn.ldap[0].dn-format=uid=%s,ou=users,{{ openldap.basedn }}

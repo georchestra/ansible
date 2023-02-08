@@ -210,9 +210,8 @@
       # artifact comes from https://github.com/georchestra/geonetwork-microservices/commit/13ba7a99
       url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/275994686/zip
     datahub:
-      enabled: false
-      # artifact comes from https://github.com/georchestra/geonetwork-ui/commit/c62096291
-      url: https://api.github.com/repos/georchestra/geonetwork-ui/actions/artifacts/129941483/zip
+      enabled: true
+      url: https://packages.georchestra.org/bot/datahub/datahub.zip
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
     mviewer:
       enabled: true

@@ -2,32 +2,23 @@
   get_url:
     url: "{{ datahub.url }}"
     dest: "/var/www/georchestra/htdocs/datahub.zip"
-    headers:
-      Authorization: "Bearer {{ github_action_token }}"
-
-- name: Creates a directory for the datahub
-  file:
-    path: /var/www/georchestra/htdocs/datahub
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: '0755'
 
 - name: unzips the war
   unarchive:
     src: "/var/www/georchestra/htdocs/datahub.zip"
-    dest: "/var/www/georchestra/htdocs/datahub"
+    dest: "/var/www/georchestra/htdocs/"
     remote_src: yes
-
-- name: templatize the env.js file
-  template:
-    src: "datahub-env.js.j2"
-    dest: "/var/www/georchestra/htdocs/datahub/assets/env.js"
 
 - name: removes the downloaded archive
   file:
     path: "/var/www/georchestra/htdocs/datahub.zip"
     state: absent
+
+- name: set base url in index.html
+  replace:
+    path: /var/www/georchestra/htdocs/datahub/index.html
+    regexp: '<base href="/">'
+    replace: '<base href="/datahub/">'
 
 - name: templatize the apache config for datahub
   template:

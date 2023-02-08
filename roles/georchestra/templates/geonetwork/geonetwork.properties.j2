@@ -61,8 +61,9 @@ jdbc.host=localhost
 jdbc.port=5432
 jdbc.database={{ georchestra.db.name }}
 jdbc.schema={{ geonetwork.db.schema }}
-jdbc.username={{ geonetwork.db.user }}
-jdbc.password={{ geonetwork.db.pass }}
+jdbc.username={{ georchestra.db.user }}
+jdbc.password={{ georchestra.db.pass }}
+jdbc.connectionProperties=currentSchema={{ geonetwork.db.schema }}
 
 # The maximum number of active connections that can be allocated from this pool
 # at the same time, or negative for no limit

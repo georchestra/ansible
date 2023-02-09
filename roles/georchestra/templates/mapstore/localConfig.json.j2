@@ -24,12 +24,17 @@
     },
     "defaultMapOptions": {
       "cesium": {
-          "flyTo": true,
-          "navigationTools": true,
-          "terrainProvider": {
-              "type": "ellipsoid"
-          }
-      }
+        "flyTo": true,
+        "navigationTools": true,
+        "showSkyAtmosphere": true,
+        "showGroundAtmosphere": false,
+        "enableFog": false,
+        "depthTestAgainstTerrain": false,
+        "terrainProvider": {
+          "type": "ellipsoid"
+        }
+      },
+      "floatingIdentifyDelay": 1000
     },
     "authenticationRules": [{
         "urlPattern": ".*geostore.*",
@@ -386,7 +391,20 @@
                 "declineUrl": "https://www.georchestra.org/"
               }
             },
-            "FeedbackMask"
+            "FeedbackMask",
+            {
+              "name": "Share",
+              "cfg": {
+                "showAPI": false,
+                "advancedSettings": {
+                  "bbox": true
+                }
+              }
+            },
+            "MetadataExplorer",
+            "MapImport", 
+            "MapExport",
+            "GlobeViewSwitcher"
         ],
         "desktop": [
           "Header",
@@ -541,6 +559,9 @@
                 "useFixedScales": true,
                 "mapPreviewOptions": {
                   "enableScalebox": true
+                },
+                "overlayLayersOptions": {
+                  "enabled": true
                 }
               }
             }, "MapImport", "MapExport", {
@@ -551,13 +572,10 @@
             }, {
                 "name": "MetadataExplorer",
                 "cfg": {
+                    "zoomToLayer": false,
                     "wrap": true
                 }
             }, {
-              "name": "About",
-              "showIn": ["BurgerMenu"]
-            }
-            , {
               "name": "MousePosition",
               "cfg": {
                 "editCRS": true,
@@ -638,14 +656,16 @@
                 "declineUrl" : "https://www.georchestra.org/"
                 }
             },
-            "OmniBar", "Login", "BurgerMenu", "Expander", "Undo", "Redo", "FullScreen", "GlobeViewSwitcher", "SearchServicesConfig", "WidgetsBuilder", "Widgets",
+            "OmniBar", "Login", "SidebarMenu", "Expander", "Undo", "Redo", "FullScreen", "GlobeViewSwitcher", "SearchServicesConfig", "WidgetsBuilder", "Widgets",
             "WidgetsTray",
             "Timeline",
             "Playback",
             "FeedbackMask",
             "StyleEditor",
+            "DeleteMap",
             "Save",
             "SaveAs",
+            "SearchByBookmark",
             "MapCatalog"
         ],
         "embedded": ["Details",
@@ -840,7 +860,10 @@
           "containerPosition": "header",
           "className": "navbar shadow navbar-home"
         }
-      }, "Login", "Language", "NavMenu", "DashboardSave", "DashboardSaveAs", "Attribution", "Home", {
+      }, "Login", "Language", "NavMenu",
+        "DashboardSave", "DashboardSaveAs",
+        "DashboardExport", "DashboardImport",
+        "Attribution", "Home", {
         "name": "Share",
         "cfg": {
           "showAPI": false,
@@ -867,8 +890,8 @@
             "selectedService": "localgs",
             "services": {
               "localgs": {
-                "url": "/geoserver/wfs",
-                "type": "wfs",
+                "url": "/geoserver/wms",
+                "type": "wms",
                 "title": "le geoserver local",
                 "autoload": true
               }
@@ -934,6 +957,8 @@
         },
         "GeoStorySave",
         "GeoStorySaveAs",
+        "GeoStoryImport",
+        "GeoStoryExport",
         "MapEditor",
         "MediaEditor",
         {
@@ -1050,6 +1075,9 @@
               "containerPosition": "header"
             }
           }
+        ],
+        "context": [
+          "Header"
         ]
     }
 }

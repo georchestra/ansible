@@ -18,12 +18,6 @@
   - "{{ extractor_datadir }}"
   - "{{ georchestra.datadir.path }}"
 
-- name: remove non-free and contrib for dependencies (buster)
-  apt_repository:
-    repo: "deb http://ftp.fr.debian.org/debian/ buster main non-free contrib"
-    state: absent
-  when: ansible_distribution_release == "buster"
-
 - name: remove non-free and contrib for dependencies (bullseye)
   apt_repository:
     repo: "deb http://ftp.fr.debian.org/debian/ bullseye main non-free contrib"

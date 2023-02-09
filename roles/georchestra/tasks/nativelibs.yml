@@ -1,18 +1,7 @@
-- name: enable non-free and contrib for dependencies (buster)
-  apt_repository:
-   repo: "deb http://deb.debian.org/debian buster main contrib"
-  when: ansible_distribution_release == "buster"
-
 - name: enable non-free and contrib for dependencies (bullseye)
   apt_repository:
    repo: "deb http://deb.debian.org/debian bullseye main contrib"
   when: ansible_distribution_release == "bullseye"
-
-- name: install runtime dependencies (buster)
-  apt:
-    pkg: [ ttf-mscorefonts-installer, gdal-bin, libgdal-java ]
-    state: present
-  when: ansible_distribution_release == "buster"
 
 # libgdal-java does not exist anymore in bullseye
 # See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=947960
@@ -38,20 +27,3 @@
   file:
     dest: "{{ tomcat_basedir }}/georchestra/shared/"
     state: directory
-
-- name: symlink gdal.jar to tomcat shared dir
-  file:
-    src: /usr/share/java/gdal.jar
-    dest: "{{ tomcat_basedir }}/georchestra/shared/gdal.jar"
-    state: link
-  when: ansible_distribution_release == "buster"
-
-- name: hardlink gdal.jar to geoserver libdir
-  file:
-    src: /usr/share/java/gdal.jar
-    dest: "{{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/gdal.jar"
-    state: hard
-  when: ansible_distribution_release == "buster"
-
-#- name: remove conflicting imageio-ext-gdal-bindings jar
-#  file: path={{ tomcat_basedir }}/geoserver/webapps/geoserver/WEB-INF/lib/imageio-ext-gdal-bindings-1.9.2.jar state=absent

@@ -208,8 +208,7 @@
     gn_cloud_searching:
       enabled: true
       port: 8580
-      # artifact comes from https://github.com/georchestra/geonetwork-microservices/commit/13ba7a99
-      url: https://api.github.com/repos/georchestra/geonetwork-microservices/actions/artifacts/275994686/zip
+      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/searching.jar
     datahub:
       enabled: true
       url: https://packages.georchestra.org/bot/datahub/datahub.zip

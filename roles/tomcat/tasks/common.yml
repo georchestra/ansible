@@ -8,26 +8,11 @@
   apt_key:
     url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
 
-- name: add adoptopenjdk debian repo (buster)
-  tags: java
-  apt_repository:
-    repo: "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main"
-  when: ansible_distribution_release == "buster"
-
 - name: add adoptopenjdk debian repo (bullseye)
   tags: java
   apt_repository:
     repo: "deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ bullseye main"
   when: ansible_distribution_release == "bullseye"
-
-- name: install java runtimes from adoptopenjdk (buster)
-  tags: java
-  apt:
-    pkg: [ adoptopenjdk-8-hotspot, adoptopenjdk-11-hotspot ]
-    default_release: buster
-    update_cache: yes
-    state: latest
-  when: ansible_distribution_release == "buster"
 
 - name: install java runtimes from adoptopenjdk (bullseye)
   tags: java

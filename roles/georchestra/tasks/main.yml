@@ -41,6 +41,10 @@
 - include: nativelibs.yml
   tags: nativelibs
 
+- include: mviewerstudio.yml
+  tags: mviewerstudio
+  when: mviewerstudio.enabled
+
 - include: clean.yml
   tags: [cleanup, georchestra_cleanup]
   when: cleanup is defined

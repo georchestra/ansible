@@ -1,0 +1,6 @@
+- name: Mviewerstudio accessible only if connected
+  lineinfile:
+    insertbefore: "<intercept-url pattern=\".*\" "
+    path: "{{ georchestra.datadir.path }}/security-proxy/security-mappings.xml"
+    line: "  <intercept-url pattern=\"/mviewerstudio/.*\" access=\"IS_AUTHENTICATED_FULLY\" />"
+    state: present

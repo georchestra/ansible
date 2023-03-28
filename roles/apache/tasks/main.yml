@@ -166,7 +166,7 @@
   tags: keystore
   file:
     src: /etc/ssl/certs/java/cacerts
-    dest: /usr/lib/jvm/adoptopenjdk-8-hotspot-amd64/jre/lib/security/cacerts
+    dest: /usr/lib/jvm/adoptopenjdk-11-hotspot-amd64/lib/security/cacerts
     force: yes
     state: link
 

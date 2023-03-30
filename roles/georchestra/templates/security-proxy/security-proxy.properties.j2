@@ -86,21 +86,21 @@
 #proxy.contextPath=/sec
 
 # URL called when user has logged out
-# default: ${scheme}://${domainName}/cas/logout?fromgeorchestra
-#logout-success-url=${scheme}://${domainName}/cas/logout?fromgeorchestra
+# default: https://${domainName}/cas/logout?fromgeorchestra
+#logout-success-url=https://${domainName}/cas/logout?fromgeorchestra
 
 # URL where the user can login
-# default: ${scheme}://${domainName}/cas/login
-#casLoginUrl=${scheme}://${domainName}/cas/login
+# default: https://${domainName}/cas/login
+#casLoginUrl=https://${domainName}/cas/login
 
 # URL that the security system uses to validate the cas tickets
-# default: ${scheme}://${domainName}/cas
-#casTicketValidation=${scheme}://${domainName}/cas
+# default: https://${domainName}/cas
+#casTicketValidation=https://${domainName}/cas
 casTicketValidation=http://localhost:{{ tomcat_instances.proxycas.port }}/cas
 
 # After going to the cas login cas forwards to this URL where the authorities and permissions are checked
-# default: ${scheme}://${domainName}/login/cas
-#proxyCallback=${scheme}://${domainName}/login/cas
+# default: https://${domainName}/login/cas
+#proxyCallback=https://${domainName}/login/cas
 
 # List of trusted proxies, all requests from listed server will be trusted and
 # will bypass security

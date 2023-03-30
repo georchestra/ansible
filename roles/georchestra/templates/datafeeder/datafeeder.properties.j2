@@ -20,7 +20,7 @@
 #  Datafeeder specific properties  #
 ####################################
 
-publicUrl=${scheme}://${domainName}
+publicUrl=https://${domainName}
 
 # pgsqlSchema=datafeeder
 
@@ -38,7 +38,7 @@ file-upload.persistent-location=${java.io.tmpdir}/datafeeder/uploads
 front-end.config.uri=file:${georchestra.datadir}/datafeeder/frontend-config.json
 
 datafeeder.publishing.geoserver.api-url=http://localhost:{{ tomcat_instances['geoserver']['port'] }}/geoserver/rest
-datafeeder.publishing.geoserver.public-url=${scheme}://${domainName}/geoserver
+datafeeder.publishing.geoserver.public-url=https://${domainName}/geoserver
 # Use this for HTTP basic authentication to geoserver api url:
 #datafeeder.publishing.geoserver.auth.type=basic
 #datafeeder.publishing.geoserver.auth.basic.username=geoserver_privileged_user
@@ -51,7 +51,7 @@ datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR
 
 
 datafeeder.publishing.geonetwork.api-url=http://localhost:{{ tomcat_instances['georchestra']['port'] }}/geonetwork
-datafeeder.publishing.geonetwork.public-url=${scheme}://${domainName}/geonetwork
+datafeeder.publishing.geonetwork.public-url=https://${domainName}/geonetwork
 # Use this for HTTP basic authentication to Geonetwork's api url:
 #datafeeder.publishing.geonetwork.auth.type=basic
 #datafeeder.publishing.geonetwork.auth.basic.username=

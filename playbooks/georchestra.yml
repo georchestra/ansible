@@ -209,6 +209,10 @@
       enabled: true
       port: 8580
       url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/searching.jar
+    gn_ogc_api_records:
+      enabled: true
+      port: 8880
+      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-ogc-api-records.jar
     datahub:
       enabled: true
       url: https://packages.georchestra.org/bot/datahub/datahub.zip

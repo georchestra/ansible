@@ -1,4 +1,6 @@
 server:
+  port: {{ gn_ogc_api_records.port }}
+  forward-headers-strategy: FRAMEWORK
   instance-id: ${spring.application.name}:${spring.application.instance_id:${spring.cloud.client.ip-address}}:${server.port}
   servlet:
     context-path: /ogc-api-records

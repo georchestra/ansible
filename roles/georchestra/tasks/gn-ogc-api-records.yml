@@ -1,0 +1,22 @@
+- name: install the gn-ogc-api-records microservice
+  get_url:
+    url: "{{ gn_ogc_api_records.url }}"
+    dest: "/usr/share/lib/gn-ogc-api-records.jar"
+
+- name: template the configuration file
+  template:
+    src: "geonetwork/gn-ogc-api-records-config.yml.j2"
+    dest: "/etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml"
+
+- name: setup a systemd unit file
+  template:
+    src: "geonetwork/gn-ogc-api-records.service.j2"
+    dest: "/etc/systemd/system/gn-ogc-api-records.service"
+  register: gn_ogc_api_records_unitfile
+
+- name: start/enable the gn-ogc-api-records service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: gn-ogc-api-records
+  when: gn_ogc_api_records_unitfile.changed

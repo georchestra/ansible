@@ -38,6 +38,10 @@
   tags: gn-cloud-searching
   when: gn_cloud_searching.enabled
 
+- include: gn-ogc-api-records.yml
+  tags: gn-ogc-api-records
+  when: gn_ogc_api_records.enabled
+
 - include: nativelibs.yml
   tags: nativelibs
 

@@ -3,11 +3,6 @@
     url: "{{ gn_cloud_searching.url }}"
     dest: "/usr/share/lib/searching.jar"
 
-- name: prepare a configuration directory for the microservice
-  file:
-    path: "/etc/georchestra/geonetwork/microservices/searching"
-    state: directory
-
 - name: templating a configuration file
   template:
     src: "geonetwork/gn-cloud-searching-application.yml.j2"

@@ -125,6 +125,14 @@
   notify: reload apache2
   when: gn_cloud_searching.enabled
 
+- name: template config for gn-ogc-api-records
+  tags: apache_config
+  template:
+    src: gn-ogc-api-records.conf.j2
+    dest: "/var/www/georchestra/conf/gn-ogc-api-records.conf"
+  notify: reload apache2
+  when: gn_ogc_api_records.enabled
+
 - name: generate self-signed cert
   command: >
     openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"

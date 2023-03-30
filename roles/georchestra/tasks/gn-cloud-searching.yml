@@ -6,7 +6,7 @@
 - name: templating a configuration file
   template:
     src: "geonetwork/gn-cloud-searching-application.yml.j2"
-    dest: "/etc/georchestra/geonetwork/microservices/searching/application.yml"
+    dest: "/etc/georchestra/geonetwork/microservices/searching/gn-cloud-searching-application.yml"
 
 - name: setup a systemd unit file
   template:

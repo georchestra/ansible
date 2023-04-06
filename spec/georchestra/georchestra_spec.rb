@@ -63,11 +63,9 @@ end
   'georchestra-console',
   'georchestra-datafeeder',
   'georchestra-datafeeder-ui',
-  'georchestra-extractorapp',
   'georchestra-geoserver',
   'georchestra-geowebcache',
   'georchestra-header',
-  'georchestra-mapfishapp',
   'georchestra-security-proxy',
 ].each do |pkg|
   describe package(pkg) do

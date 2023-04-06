@@ -1,0 +1,134 @@
+server:
+#  address: localhost
+  port: 8480
+  forward-headers-strategy: FRAMEWORK
+  instance-id: ${spring.application.name}:${spring.application.instance_id:${spring.cloud.client.ip-address}}:${server.port}
+  servlet:
+    context-path: /ogc-api-records
+    encoding:
+      charset: UTF-8
+      force-response: true
+management:
+  health.ldap.enabled: false
+eureka:
+  client:
+    enabled: false
+    registerWithEureka: false
+    fetch-registry: false
+
+spring:
+  profiles: standalone
+  rabbitmq.host: localhost
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/georchestra?currentSchema=geonetwork
+    username: geonetwork
+    password: geonetwork
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    jpa.generate-ddl: false
+    jpa.hibernate.ddl-auto: none
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+
+gn:
+  baseurl: https://georchestra.dev.craig.fr/geonetwork
+  legacy.url: https://georchestra.dev.craig.fr/geonetwork
+  language:
+    default: fre
+  linkToLegacyGN4: true
+  site:
+    name: GeoNetwork
+    organization: opensource
+  index:
+    url: http://ids3.fluela:9200
+    records: gn-records-demo
+    username: "gn_user"
+    password: 8bVAgDPeNlNR9Y4H
+  search:
+    queryFilter: '+isTemplate:n AND -indexingError:true' # only show relevant records
+    trackTotalHits: true
+    formats:
+      - name: html
+        mimeType: text/html
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name: xml
+        mimeType: application/xml
+        responseProcessor: XmlResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name: json
+        mimeType: application/json
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations:
+          - root
+          - collections
+          - collection
+          - items
+          - item
+      - name : gn
+        mimeType : application/gn+xml
+        responseProcessor: XsltResponseProcessorImpl
+      - name: opensearch
+        mimeType: application/opensearchdescription+xml
+        operations:
+          - collection
+      - name : schema.org
+        mimeType : application/ld+json
+        responseProcessor: JsonLdResponseProcessorImpl
+        operations:
+          - items
+          - item
+      - name: dcat
+        mimeType: application/rdf+xml
+        responseProcessor: DcatCatalogResponseProcessorImpl
+        operations:
+          - items
+          - item
+      - name : dcat_turtle
+        mimeType : text/turtle
+        responseProcessor: JsonUserAndSelectionAwareResponseProcessorImpl
+        operations :
+          - item
+      - name : rss
+        mimeType : application/rss+xml
+        responseProcessor: RssResponseProcessorImpl
+        operations:
+          - items
+      - name : geojson
+        mimeType : application/geo+json
+        responseProcessor: GeoJsonResponseProcessorImpl
+        operations:
+          - items
+          - item
+    defaultMimeType: text/html
+
+logging:
+  level:
+    # geonetwork roots
+    org.fao.geonet: DEBUG
+    org.fao.geonet.ogcapi: DEBUG
+    org.fao.geonet.searching: INFO
+springfox:
+  documentation:
+    swaggerUi:
+      baseUrl: /openapi
+    openApi:
+      v3:
+        path: /openapi/v3/api-docs
+    swagger:
+      v2 :
+        path: /openapi/v2/api-docs

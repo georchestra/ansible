@@ -112,7 +112,6 @@
         gitversion: '{{ georchestra_versions.geoserver_datadir }}'
       wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
     geowebcache_datadir: /srv/data/geowebcache/
-    extractor_datadir: /srv/data/extractor/
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     system_locale: en_US.UTF-8
@@ -153,10 +152,6 @@
         pkg: georchestra-cas
         tomcat: proxycas
         enabled: True
-      extractorapp:
-        pkg: georchestra-extractorapp
-        tomcat: georchestra
-        enabled: True
       geonetwork:
         pkg: georchestra-geonetwork
         tomcat: georchestra
@@ -188,10 +183,6 @@
         enabled: True
       console:
         pkg: georchestra-console
-        tomcat: georchestra
-        enabled: True
-      mapfishapp:
-        pkg: georchestra-mapfishapp
         tomcat: georchestra
         enabled: True
       cadastrapp:

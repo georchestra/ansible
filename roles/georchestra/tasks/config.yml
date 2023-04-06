@@ -32,28 +32,9 @@
   - { file: datafeeder.properties, war: datafeeder, destdir: '' }
   - { file: frontend-config.json, war: datafeeder, destdir: '' }
 #  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
-  - { file: credentials.properties, war: mapfishapp, destdir: '' }
-  - { file: wms.servers.json, war: mapfishapp, destdir: '' }
-  - { file: wfs.servers.json, war: mapfishapp, destdir: '' }
-  - { file: wmts.servers.json, war: mapfishapp, destdir: '' }
-  - { file: config.yaml, war: mapfishapp, destdir: 'print' }
-  - { file: log4j.properties, war: mapfishapp, destdir: 'log4j' }
-  - { file: GEOR_custom.js, war: mapfishapp, destdir: 'js' }
   - { file: localConfig.json, war: mapstore, destdir: 'configs' }
   - { file: log4j.properties, war: mapstore, destdir: '' }
-  - { file: log4j.properties, war: extractorapp, destdir: 'log4j' }
   - { file: log4j.properties, war: analytics, destdir: 'log4j' }
   - { file: cadastrapp.properties, war: cadastrapp, destdir: '' }
   - { file: logback.xml, war: cadastrapp, destdir: '' }
   notify: restart all tomcats
-
-- name: fix local geoserver url
-  tags: fix_gsurl
-  replace:
-    dest: "{{ georchestra.datadir.path }}/mapfishapp/{{ item }}.servers.json"
-    regexp: '"/geoserver'
-    replace: '"https://{{ georchestra.fqdn }}/geoserver'
-  with_items:
-  - wms
-  - wfs
-  - wmts

@@ -15,7 +15,6 @@
   - "{{ geonetwork.datadir.path }}"
   - "{{ geoserver.datadir.path }}"
   - "{{ geowebcache_datadir }}"
-  - "{{ extractor_datadir }}"
   - "{{ georchestra.datadir.path }}"
 
 - name: remove non-free and contrib for dependencies (bullseye)

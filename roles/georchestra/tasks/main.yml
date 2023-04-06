@@ -9,7 +9,6 @@
   - "{{ geonetwork.datadir.path }}"
   - "{{ geoserver.datadir.path }}"
   - "{{ geowebcache_datadir }}"
-  - "{{ extractor_datadir }}"
 
 - include: config.yml
   tags: config

@@ -12,7 +12,7 @@
     - "{{ other_schemas }}"
     - "{{ other_schemas_urls }}"
 
-- name: check if mapfishapp schema already exists
+- name: check if schema already exists
   command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='{{ item }}';"
   register: schema_exists
   with_items: "{{ other_schemas }}"

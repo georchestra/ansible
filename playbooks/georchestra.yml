@@ -22,7 +22,7 @@
       #geoserver_datadir: 22.0
 
     kibana_server_host: "127.0.0.1"
-    es_version: 7.14.0
+    es_version: 7.15.1
     es_data_dirs:
       - "/srv/elasticsearch/data"
     es_log_dir: "/srv/elasticsearch/logs"

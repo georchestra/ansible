@@ -8,10 +8,10 @@ ProxyPassReverse / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 
-ProxyPass /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas 
+ProxyPass /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas
 ProxyPassReverse /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas
 
-ProxyPass /logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/logout 
+ProxyPass /logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/logout
 ProxyPassReverse /logout http://localhost:{{ tomcat_instances['proxycas']['port'] }}/logout
 
 ProxyPass /gateway http://localhost:{{ tomcat_instances['proxycas']['port'] }}/gateway
@@ -33,6 +33,7 @@ SetEnvIf Referer "^https://{{ georchestra.fqdn|replace('.','\.') }}/" mysdi
 <Location /geoserver>
   Header set Access-Control-Allow-Origin "*"
   Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+  RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
 </Location>
 {% endif %}
 ProxyPass /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/

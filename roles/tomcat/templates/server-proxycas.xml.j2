@@ -71,19 +71,6 @@
                URIEncoding="UTF-8"
                redirectPort="8443" />
 
-<Connector port="8443" protocol="HTTP/1.1"
-               SSLEnabled="true"
-               scheme="https"
-               secure="true"
-               URIEncoding="UTF-8"
-               maxThreads="150"
-               clientAuth="false"
-               keystoreFile="/usr/lib/jvm/adoptopenjdk-11-hotspot-amd64/lib/security/cacerts"
-               keystorePass="changeit"
-               compression="on"
-               compressionMinSize="2048"
-               noCompressionUserAgents="gozilla, traviata"
-               compressableMimeType="text/html,text/xml,application/xml,text/javascript,application/x-javascript,application/javascript,text/css" />
     <!-- A "Connector" using the shared thread pool-->
     <!--
     <Connector executor="tomcatThreadPool"

@@ -48,10 +48,6 @@ describe port(8180) do
   it { should be_listening }
 end
 
-describe port(8443) do
-  it { should be_listening }
-end
-
 # datafeeder
 describe port(8480) do
   it { should be_listening }

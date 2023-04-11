@@ -53,6 +53,16 @@ describe port(8480) do
   it { should be_listening }
 end
 
+# gn-cloud-searching
+describe port(8580) do
+  it { should be_listening }
+end
+
+# gn-ogc-api-records
+describe port(8880) do
+  it { should be_listening }
+end
+
 # geOrchestra base debian packages should be present
 [ 'georchestra-analytics',
   'georchestra-cas',

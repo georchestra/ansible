@@ -1,8 +1,7 @@
-other_schemas: [ console, geofence, ogcstatistics, atlas, mapstore, datafeeder ]
+other_schemas: [ console, geofence, ogcstatistics, mapstore, datafeeder ]
 other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/postgresql/040-console.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/050-ogc-server-statistics.sql
-  - https://raw.github.com/georchestra/georchestra/master/postgresql/060-atlas.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/080-geofence.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/110-mapstore.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/120-datafeeder.sql

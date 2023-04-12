@@ -33,7 +33,9 @@ SetEnvIf Referer "^https://{{ georchestra.fqdn|replace('.','\.') }}/" mysdi
 <Location /geoserver>
   Header set Access-Control-Allow-Origin "*"
   Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
-  RequestHeader set "X-Forwarded-Proto" expr=%{REQUEST_SCHEME}
+{% if force_https %}
+  RequestHeader set "X-Forwarded-Proto" "https"
+{% endif %}
 </Location>
 {% endif %}
 ProxyPass /{{ item.dest }}/ http://localhost:{{ tomcat_instances['proxycas']['port'] }}/{{ item.dest }}/

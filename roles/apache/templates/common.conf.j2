@@ -35,6 +35,9 @@ SetEnvIf Referer "^https://{{ georchestra.fqdn|replace('.','\.') }}/" mysdi
   Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
 {% if force_https %}
   RequestHeader set "X-Forwarded-Proto" "https"
+{% else %}
+  # otherwise geoserver recieves a duplicate value of the fqdn in the header ?
+  RequestHeader unset "X-Forwarded-Host"
 {% endif %}
 </Location>
 {% endif %}

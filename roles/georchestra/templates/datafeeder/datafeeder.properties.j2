@@ -46,8 +46,8 @@ datafeeder.publishing.geoserver.public-url=https://${domainName}/geoserver
 # Use this for HTTP-headers based authentication to GeoServer's api url:
 datafeeder.publishing.geoserver.auth.type=headers
 datafeeder.publishing.geoserver.auth.headers.[sec-proxy]=true
-datafeeder.publishing.geoserver.auth.headers.[sec-username]=datafeeder-application
-datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR
+datafeeder.publishing.geoserver.auth.headers.[sec-username]=georchestra_privileged_user
+datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROLE_GN_ADMIN
 
 
 datafeeder.publishing.geonetwork.api-url=http://localhost:{{ tomcat_instances['georchestra']['port'] }}/geonetwork
@@ -59,8 +59,8 @@ datafeeder.publishing.geonetwork.public-url=https://${domainName}/geonetwork
 # Use this for HTTP-headers based authentication to Geonetwork's api url:
 datafeeder.publishing.geonetwork.auth.type=headers
 datafeeder.publishing.geonetwork.auth.headers.[sec-proxy]=true
-datafeeder.publishing.geonetwork.auth.headers.[sec-username]=testadmin
-datafeeder.publishing.geonetwork.auth.headers.[sec-org]=Datafeeder Test
+datafeeder.publishing.geonetwork.auth.headers.[sec-username]=georchestra_privileged_user
+datafeeder.publishing.geonetwork.auth.headers.[sec-org]=geOrchestra
 datafeeder.publishing.geonetwork.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROLE_GN_ADMIN
 # This is odd, apparently any UUID works as XSRF token, and these two need to be set
 datafeeder.publishing.geonetwork.auth.headers.[X-XSRF-TOKEN]=c9f33266-e242-4198-a18c-b01290dce5f1

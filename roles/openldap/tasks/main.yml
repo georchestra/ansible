@@ -30,8 +30,8 @@
     { pat: 'dc=georchestra,dc=org', val: "{{ openldap.basedn }}" },
     { pat: 'dc: georchestra', val: "dc: {{ openldap.topdc }}" },
     { pat: 'olcRootPW: secret', val: "olcRootPW: {{ openldap.rootpw }}" },
-    { pat: 'georchestra_privileged_user', val: "{{ georchestra.privileged.user }}" },
-    { pat: 'userPassword:: e1NIQX1XMlY4d2UrOFdNanpma28rMUtZVDFZcWZFVDQ9', val: "userPassword: {{ georchestra.privileged.pass }}" }]
+    { pat: 'geoserver_privileged_user', val: "{{ geoserver.privileged.user }}" },
+    { pat: 'userPassword:: e1NIQX1XMlY4d2UrOFdNanpma28rMUtZVDFZcWZFVDQ9', val: "userPassword: {{ geoserver.privileged.pass }}" }]
     - "{{ openldap.ldifs }}"
 
 - name: bootstrap the db

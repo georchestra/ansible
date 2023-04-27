@@ -95,9 +95,6 @@
       debian:
         repo: '{{ georchestra_versions.debian_repository_url }}'
         key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
-      privileged:
-        user: georchestra_privileged_user
-        pass: gerlsSnFd6SmM
     geonetwork:
       db:
         schema: geonetwork
@@ -106,6 +103,9 @@
         gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir"
         gitversion: '{{ georchestra_versions.geonetwork_datadir }}'
     geoserver:
+      privileged:
+        user: geoserver_privileged_user
+        pass: gerlsSnFd6SmM
       datadir:
         path: /srv/data/geoserver/
         gitrepo: "https://github.com/georchestra/geoserver_minimal_datadir"

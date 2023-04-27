@@ -154,8 +154,8 @@ casTicketValidation=http://localhost:{{ tomcat_instances.proxycas.port }}/cas
 #ogcStats.maxIdleTime=60
 
 # A comma-separated list of privileged users that are allowed to impersonate other users
-# default: georchestra_privileged_user
-trustedUsers={{ georchestra.privileged.user }}
+# default: geoserver_privileged_user
+trustedUsers={{ geoserver.privileged.user }}
 
 # A comma-separated list of patterns of urls that (when matched) will have
 # the x-forwarded-* headers removed

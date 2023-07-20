@@ -31,16 +31,15 @@
 
 - name: installing dependencies
   apt:
-    pkg: ['tomcat9', 'tomcat9-user', 'libservlet3.1-java', 'libtcnative-1', 'unzip'] #libservlet cf debian bug 867147
+    pkg: ['tomcat10', 'tomcat10-user', 'libtcnative-1', 'unzip']
     state: present
     update_cache: yes
-# tomcat9-user #needed for tomcat9-create-instance
-# libservlet3.1-java #debian bug 867147
+# tomcat10-user #needed for tomcat9-create-instance
 # libtcnative-1 #APR native libs
 # unzip needed for unzipping artifacts from github actions
 - name: disable default instance
   service:
-    name: tomcat9
+    name: tomcat10
     state: stopped
     enabled: no
 

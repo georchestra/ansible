@@ -3,7 +3,7 @@
   # note: above host must match the content of the "hosts" file
   become: yes
   roles:
-    - georchestra
+    - { role: georchestra, tags: georchestra }
     - { role: elastic.elasticsearch, tags: es }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:

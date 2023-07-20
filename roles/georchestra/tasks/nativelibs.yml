@@ -1,15 +1,13 @@
-- name: enable non-free and contrib for dependencies (bullseye)
+- name: enable non-free and contrib for dependencies
   apt_repository:
    repo: "deb http://deb.debian.org/debian bullseye main contrib"
-  when: ansible_distribution_release == "bullseye"
 
 # libgdal-java does not exist anymore in bullseye
 # See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=947960
-- name: install runtime dependencies (bullseye)
+- name: install runtime dependencies
   apt:
     pkg: [ ttf-mscorefonts-installer, gdal-bin ]
     state: present
-  when: ansible_distribution_release == "bullseye"
 
 #- name: fetch libjpeg-turbo deb from sourceforge
 #  get_url: dest=/tmp/ url=http://sourceforge.net/projects/libjpeg-turbo/files/1.4.0/libjpeg-turbo-official_1.4.0_amd64.deb

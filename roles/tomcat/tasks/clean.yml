@@ -12,7 +12,7 @@
   with_items:
   - "{{ tomcat_basedir }}"
   - "{{ logs_basedir }}"
-  - /etc/tomcat9/keystore
+  - "/etc/tomcat{{ tomcat_version }}/keystore"
 
 #- name: removing pkgs
 #  apt:
@@ -20,8 +20,8 @@
 #    state: absent
 #    purge: yes
 #  with_items:
-#  - tomcat9
-#  - tomcat9-user
+#  - tomcat{{ tomcat_version }}
+#  - tomcat{{ tomcat_version }}-user
 
 - name: remove init scripts & config files
   file:

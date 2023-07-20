@@ -1,10 +1,10 @@
 - name: create instance {{ item.key }}
-  command: tomcat9-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  command: tomcat{{ tomcat_version }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
   with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
-    src: /etc/tomcat9/policy.d/
+    src: "/etc/tomcat{{ tomcat_version }}/policy.d/"
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
   with_dict: "{{ tomcat_instances }}"

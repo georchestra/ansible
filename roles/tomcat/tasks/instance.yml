@@ -31,6 +31,13 @@
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/server.xml"
   with_dict: "{{ tomcat_instances }}"
 
+- name: add the jakarta loader for tomcat10 compat
+  lineinfile:
+    dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/context.xml"
+    insertafter: '<Context>'
+    line: '<Loader jakartaConverter="TOMCAT"/>'
+    state: present
+
 - name: enable instance
   systemd:
     name: "tomcat@{{ item.key }}"

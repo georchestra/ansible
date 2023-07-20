@@ -22,6 +22,7 @@
       #geoserver_datadir: 23.0
 
     java_version: java-17-openjdk-amd64
+    tomcat_version: 10
     kibana_server_host: "127.0.0.1"
     es_version: 7.15.1
     es_data_dirs:

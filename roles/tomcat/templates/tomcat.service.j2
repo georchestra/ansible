@@ -1,5 +1,5 @@
 [Unit]
-Description=Tomcat9 - instance %i
+Description=Tomcat{{ tomcat_version }} - instance %i
 After=syslog.target network.target
 
 [Service]
@@ -9,7 +9,7 @@ User=tomcat
 Group=tomcat
 
 Environment=LANG={{ system_locale }}
-Environment=CATALINA_HOME=/usr/share/tomcat9
+Environment=CATALINA_HOME=/usr/share/tomcat{{ tomcat_version }}
 Environment=CATALINA_TMPDIR=/srv/tomcat/%i/temp
 Environment=CATALINA_PID=/run/tomcat/%i.pid
 PIDFile=/run/tomcat/%i.pid
@@ -20,7 +20,7 @@ PassEnvironment=JAVA_OPTS LANG
 ExecStart={{ tomcat_basedir }}/%i/bin/startup.sh
 ExecStop={{ tomcat_basedir }}/%i/bin/shutdown.sh
 
-SyslogIdentifier=tomcat9-%i
+SyslogIdentifier=tomcat{{ tomcat_version }}-%i
 Restart=on-failure
 
 [Install]

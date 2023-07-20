@@ -5,15 +5,16 @@
 
 - name: installing dependencies
   apt:
-    pkg: ['tomcat10', 'tomcat10-user', 'libtcnative-1', 'unzip']
+    pkg:
+    - "tomcat{{ tomcat_version }}"
+    - "tomcat{{ tomcat_version }}-user" #needed for create-instance script
+    - libtcnative-1 #APR native libs
+    - unzip #for unzipping artifacts from github actions
     state: present
     update_cache: yes
-# tomcat10-user #needed for tomcat9-create-instance
-# libtcnative-1 #APR native libs
-# unzip needed for unzipping artifacts from github actions
 - name: disable default instance
   service:
-    name: tomcat10
+    name: tomcat{{ tomcat_version }}
     state: stopped
     enabled: no
 

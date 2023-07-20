@@ -8,6 +8,7 @@
     pkg:
     - "tomcat{{ tomcat_version }}"
     - "tomcat{{ tomcat_version }}-user" #needed for create-instance script
+    - tomcat-jakartaee-migration
     - libtcnative-1 #APR native libs
     - unzip #for unzipping artifacts from github actions
     state: present
@@ -17,6 +18,12 @@
     name: tomcat{{ tomcat_version }}
     state: stopped
     enabled: no
+
+- name: link tomcat9 to 10 migration jar
+  file:
+    src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-1.0.6-shaded.jar
+    dest: /usr/share/tomcat10/lib/
+    state: link
 
 - name: template tmpfiles.d for pidfile
   tags: systemd_unit

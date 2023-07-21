@@ -37,6 +37,7 @@
     insertafter: '<Context>'
     line: '<Loader jakartaConverter="TOMCAT"/>'
     state: present
+  with_dict: "{{ tomcat_instances }}"
 
 - name: enable instance
   systemd:

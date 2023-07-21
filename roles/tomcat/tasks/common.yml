@@ -22,7 +22,7 @@
 - name: link tomcat9 to 10 migration jar
   file:
     src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-1.0.6-shaded.jar
-    dest: /usr/share/tomcat10/lib/
+    dest: /usr/share/tomcat10/lib/jakartaee-migration-1.0.6-shaded.jar
     state: link
 
 - name: template tmpfiles.d for pidfile

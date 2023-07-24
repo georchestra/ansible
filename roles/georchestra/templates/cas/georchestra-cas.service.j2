@@ -1,0 +1,15 @@
+[Unit]
+Description=geOrchestra georchestra-cas webservice
+After=syslog.target
+
+[Service]
+User=tomcat
+ExecStart=/usr/lib/jvm/{{ java_version }}/bin/java -Dserver.ssl.keyStore=file:/etc/ssl/certs/java/cacerts -Dserver.ssl.keyStorePassword=changeit -Dserver.ssl.keyPassword=changeit -Dserver.port={{ cas.port }} -Dgeorchestra.datadir={{ georchestra.datadir.path }} -Dlog4j2.configurationFile={{ georchestra.datadir.path }}/cas/config/log4j2.xml -Dcas.standalone.configurationDirectory={{ georchestra.datadir.path }}/cas/config -jar /usr/share/lib/georchestra-cas/cas.war
+Environment=JAVA_OPTS=-Dfile.encoding=UTF-8
+Environment=LANG={{ system_locale }}
+SuccessExitStatus=143
+StandardOutput=append:{{ logs_basedir }}/georchestra-cas.log
+StandardError=append:{{ logs_basedir }}/georchestra-cas.log
+
+[Install]
+WantedBy=multi-user.target

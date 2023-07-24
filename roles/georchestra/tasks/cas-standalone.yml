@@ -1,0 +1,16 @@
+- name: install the cas package
+  apt:
+    name: "{{ cas.pkg }}"
+
+- name: setup a systemd unit file
+  template:
+    src: "cas/georchestra-cas.service.j2"
+    dest: "/etc/systemd/system/georchestra-cas.service"
+  register: georchestra_cas_unitfile
+
+- name: start/enable the cas service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: georchestra-cas
+  when: georchestra_cas_unitfile.changed

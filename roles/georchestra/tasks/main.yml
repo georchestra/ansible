@@ -41,6 +41,10 @@
   tags: gn-ogc-api-records
   when: gn_ogc_api_records.enabled
 
+- include: cas-standalone.yml
+  tags: cas
+  when: cas.enabled
+
 - include: nativelibs.yml
   tags: nativelibs
 

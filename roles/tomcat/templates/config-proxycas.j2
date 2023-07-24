@@ -5,6 +5,4 @@ JAVA_OPTS="-Djava.awt.headless=true \
 	-Xms{{ tomcat_instances.proxycas.xms }} \
 	-Xmx{{ tomcat_instances.proxycas.xmx }} \
 	--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED \
-	-DCAS_BANNER_SKIP=true \
-	-Dcas.standalone.configurationDirectory=/etc/georchestra/cas/config  \
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

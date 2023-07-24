@@ -8,6 +8,9 @@ ProxyPassReverse / http://localhost:{{ tomcat_instances['proxycas']['port'] }}/
 ProxyPass /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 ProxyPassReverse /casfailed.jsp http://localhost:{{ tomcat_instances['proxycas']['port'] }}/casfailed.jsp
 
+ProxyPass /cas http://localhost:{{ cas.port }}/
+ProxyPassReverse /cas http://localhost:{{ cas.port }}/
+
 ProxyPass /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas
 ProxyPassReverse /login/cas http://localhost:{{ tomcat_instances['proxycas']['port'] }}/login/cas
 

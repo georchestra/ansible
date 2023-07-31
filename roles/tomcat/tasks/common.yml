@@ -11,6 +11,31 @@
     dest: /etc/apt/sources.list.d/wtflts-bookworm.sources
   when: tomcat_version == 9
 
+- name: add adoptium.net repository key
+  tags: java
+  get_url:
+    dest: /etc/apt/trusted.gpg.d/packages.adoptium.net.asc
+    url: https://packages.adoptium.net/artifactory/api/gpg/key/public
+
+- name: add adoptium.net debian repo
+  tags: java
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/packages.adoptium.net.asc] https://packages.adoptium.net/artifactory/deb/ bullseye main"
+
+- name: install java runtimes from adoptium
+  tags: java
+  apt:
+    pkg: temurin-11-jdk
+    default_release: bookworm
+    update_cache: yes
+    state: latest
+
+- name: default to temurin-11-jdk
+  tags: java
+  alternatives:
+    name: java
+    path: /usr/lib/jvm/temurin-11-jdk-amd64/bin/java
+
 - name: installing dependencies
   apt:
     pkg:

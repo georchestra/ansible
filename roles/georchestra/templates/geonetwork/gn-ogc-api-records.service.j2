@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/lib/jvm/{{ java_version }}/bin/java --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED -Dspring.config.location=/etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml -jar /usr/share/lib/gn-ogc-api-records.jar
+ExecStart=/usr/lib/jvm/{{ java_version }}/bin/java {% if "17" in java_version %}--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED {% endif %}-Dspring.config.location=/etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml -jar /usr/share/lib/gn-ogc-api-records.jar
 Environment=SPRING_PROFILES_ACTIVE=standalone
 Environment=JAVA_OPTS=-Dfile.encoding=UTF-8
 Environment=LANG={{ system_locale }}

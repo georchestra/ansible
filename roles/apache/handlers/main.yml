@@ -1,3 +1,5 @@
 ---
 - name: reload apache2
-  service: name=apache2 state=reloaded
+  service:
+    name: apache2
+    state: reloaded

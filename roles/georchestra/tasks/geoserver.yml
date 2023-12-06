@@ -40,20 +40,20 @@
     replace: "{{ item.0.val }}"
     backup: true
   with_nested:
-    -   - pat: <user>.*</user>
-          val: "<user>{{ openldap.rootdn }}</user>"
-        - pat: <password>.*</password>
-          val: "<password>{{ openldap.rootpw }}</password>"
-        - pat: <groupSearchBase>ou=(\w+),.*</groupSearchBase>
-          val: <groupSearchBase>ou=\1,{{ openldap.basedn }}</groupSearchBase>
-        - pat: <groupSearchFilter>.*</groupSearchFilter>
-          val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>"
-        - pat: <userSearchBase>.*</userSearchBase>
-          val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>"
+    - - pat: <user>.*</user>
+        val: "<user>{{ openldap.rootdn }}</user>"
+      - pat: <password>.*</password>
+        val: "<password>{{ openldap.rootpw }}</password>"
+      - pat: <groupSearchBase>ou=(\w+),.*</groupSearchBase>
+        val: <groupSearchBase>ou=\1,{{ openldap.basedn }}</groupSearchBase>
+      - pat: <groupSearchFilter>.*</groupSearchFilter>
+        val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>"
+      - pat: <userSearchBase>.*</userSearchBase>
+        val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>"
     - [role, usergroup]
 
 # alternative could be to checkout the geofence branch of geoserver_minimal_datadir
-#- name: enforce geofence auth
+# - name: enforce geofence auth
 #  become: yes
 #  become_user: tomcat
 #  lineinfile:

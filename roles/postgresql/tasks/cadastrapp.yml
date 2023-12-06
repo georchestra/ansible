@@ -104,15 +104,15 @@
     replace: "{{ item.0.val }}"
     backup: true
   with_nested:
-    -   - { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" }
-        - { pat: "#DBHost_qgis", val: "{{ cadastrapp.qgisdb.host }}" }
-        - { pat: "#DBPort_qgis", val: "{{ cadastrapp.qgisdb.port }}" }
-        - { pat: "#DBName_qgis", val: "{{ cadastrapp.qgisdb.name }}" }
-        - { pat: "#DBUser_qgis", val: "{{ cadastrapp.qgisdb.user }}" }
-        - { pat: "#DBpasswd_qgis", val: "{{ cadastrapp.qgisdb.pass }}" }
-        - { pat: "#DBSchema_qgis", val: "{{ cadastrapp.qgisdb.schema }}" }
-        - { pat: "#schema_cadastrapp", val: "{{ cadastrapp.db.schema }}" }
-        - { pat: "#user_cadastrapp", val: "{{ cadastrapp.db.user }}" }
+    - - { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" }
+      - { pat: "#DBHost_qgis", val: "{{ cadastrapp.qgisdb.host }}" }
+      - { pat: "#DBPort_qgis", val: "{{ cadastrapp.qgisdb.port }}" }
+      - { pat: "#DBName_qgis", val: "{{ cadastrapp.qgisdb.name }}" }
+      - { pat: "#DBUser_qgis", val: "{{ cadastrapp.qgisdb.user }}" }
+      - { pat: "#DBpasswd_qgis", val: "{{ cadastrapp.qgisdb.pass }}" }
+      - { pat: "#DBSchema_qgis", val: "{{ cadastrapp.qgisdb.schema }}" }
+      - { pat: "#schema_cadastrapp", val: "{{ cadastrapp.db.schema }}" }
+      - { pat: "#user_cadastrapp", val: "{{ cadastrapp.db.user }}" }
     - "{{ cadastrappsql.views }} + {{ cadastrappsql.tables }} + {{ cadastrappsql.indexes }}"
 
 - name: create tables

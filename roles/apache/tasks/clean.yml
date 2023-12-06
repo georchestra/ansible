@@ -9,4 +9,4 @@
     - /var/www/georchestra/
   notify: reload apache2
 
-#XXX disable unneeded modules/reenable default site ?
+# XXX disable unneeded modules/reenable default site ?

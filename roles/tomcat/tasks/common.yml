@@ -15,10 +15,10 @@
   apt:
     pkg:
       - tomcat{{ tomcat_version }}
-      - tomcat{{ tomcat_version }}-user #needed for create-instance script
+      - tomcat{{ tomcat_version }}-user # needed for create-instance script
       - tomcat-jakartaee-migration
-      - libtcnative-1 #APR native libs
-      - unzip #for unzipping artifacts from github actions
+      - libtcnative-1 # APR native libs
+      - unzip # for unzipping artifacts from github actions
     state: present
     update_cache: true
 - name: disable default instance

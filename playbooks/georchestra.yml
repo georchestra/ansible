@@ -150,6 +150,10 @@
         pkg: georchestra-analytics
         tomcat: georchestra
         enabled: True
+      cas:
+        pkg: georchestra-cas
+        tomcat: proxycas
+        enabled: True
       geonetwork:
         pkg: georchestra-geonetwork
         tomcat: georchestra
@@ -194,10 +198,11 @@
     datafeeder:
       enabled: true
       port: 8480
-    cas:
-      pkg: georchestra-cas
-      enabled: true
-      port: 8980
+# not yet, doesnt work standalone ?
+#    cas:
+#      pkg: georchestra-cas
+#      enabled: true
+#      port: 8980
     gn_cloud_searching:
       enabled: true
       port: 8580

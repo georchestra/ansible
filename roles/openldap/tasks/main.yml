@@ -97,7 +97,7 @@
   check_mode: no
   register: groupsou
 
-- include: migrate_groups.yml
+- import_tasks: migrate_groups.yml
   when: "'# numEntries: 1' in groupsou.stdout"
 
 - name: recursively purge temp dir
@@ -106,6 +106,6 @@
     dest: "{{ tempdir.stdout }}"
     state: absent
 
-- include: clean.yml
+- import_tasks: clean.yml
   tags: [cleanup, openldap_cleanup]
   when: cleanup is defined

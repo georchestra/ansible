@@ -10,48 +10,48 @@
   - "{{ geoserver.datadir.path }}"
   - "{{ geowebcache_datadir }}"
 
-- include: config.yml
+- import_tasks: config.yml
   tags: config
 
-- include: sviewer.yml
+- import_tasks: sviewer.yml
   tags: sviewer
 
-- include: war_cadastrapp.yml
+- import_tasks: war_cadastrapp.yml
   tags: cadastrapp_war
   when: cadastrapp.enabled
 
-- include: geoserver.yml
+- import_tasks: geoserver.yml
   tags: geoserver
 
-- include: geonetwork.yml
+- import_tasks: geonetwork.yml
   tags: geonetwork
 
-- include: wars.yml
+- import_tasks: wars.yml
   tags: wars
 
-- include: datafeeder.yml
+- import_tasks: datafeeder.yml
   tags: datafeeder
   when: datafeeder.enabled
 
-- include: gn-cloud-searching.yml
+- import_tasks: gn-cloud-searching.yml
   tags: gn-cloud-searching
   when: gn_cloud_searching.enabled
 
-- include: gn-ogc-api-records.yml
+- import_tasks: gn-ogc-api-records.yml
   tags: gn-ogc-api-records
   when: gn_ogc_api_records.enabled
 
-- include: cas-standalone.yml
+- import_tasks: cas-standalone.yml
   tags: cas
   when: cas.enabled and tomcat_version == 10
 
-- include: nativelibs.yml
+- import_tasks: nativelibs.yml
   tags: nativelibs
 
-- include: mviewerstudio.yml
+- import_tasks: mviewerstudio.yml
   tags: mviewerstudio
   when: mviewerstudio.enabled
 
-- include: clean.yml
+- import_tasks: clean.yml
   tags: [cleanup, georchestra_cleanup]
   when: cleanup is defined

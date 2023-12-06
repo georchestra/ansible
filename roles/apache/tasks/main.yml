@@ -103,15 +103,15 @@
   - { src: common, dest: mviewerstudio }
   notify: reload apache2
 
-- include: datahub.yml
+- import_tasks: datahub.yml
   tags: datahub
   when: datahub.enabled
 
-- include: mviewer.yml
+- import_tasks: mviewer.yml
   tags: mviewer
   when: mviewer.enabled
 
-- include: mviewerstudio.yml
+- import_tasks: mviewerstudio.yml
   tags: mviewerstudio
   when: mviewerstudio.enabled
 
@@ -176,6 +176,6 @@
     force: yes
     state: link
 
-- include: clean.yml
+- import_tasks: clean.yml
   tags: [cleanup, apache_cleanup]
   when: cleanup is defined

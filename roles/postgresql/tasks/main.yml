@@ -36,25 +36,25 @@
     template: template0
     encoding: UTF8
 
-- include: geonetwork.yml
+- import_tasks: geonetwork.yml
   become: yes
   become_user: postgres
   tags: postgresql_geonetwork
 
-- include: geofence.yml
+- import_tasks: geofence.yml
   become: yes
   become_user: postgres
   tags: postgresql_geofence
 
-- include: other_schemas.yml
+- import_tasks: other_schemas.yml
   become: yes
   become_user: postgres
   tags: postgresql_other_schemas
 
-- include: cadastrapp.yml
+- import_tasks: cadastrapp.yml
   tags: postgresql_cadastrapp
   when: cadastrapp.enabled
 
-- include: clean.yml
+- import_tasks: clean.yml
   tags: [cleanup, postgresql_cleanup]
   when: cleanup is defined

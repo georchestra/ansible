@@ -8,7 +8,7 @@
   tags: tomcat_apt_repo
   get_url:
     url: http://www.mirbsd.org/~tg/Debs/sources.txt/wtflts-bookworm.sources
-    dest: /etc/apt/keyrings/wtflts-bookworm.sources
+    dest: /etc/apt/sources.list.d/wtflts-bookworm.sources
   when: tomcat_version == 9
 
 - name: installing dependencies

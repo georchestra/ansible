@@ -1,3 +1,4 @@
+---
 - name: checkout mviewer
   git:
     repo: "{{ mviewerstudio.gitrepo }}"
@@ -18,12 +19,12 @@
 
 - name: create output folder for mviewer preview
   file:
-    name: "/var/www/mviewer/store"
+    name: /var/www/mviewer/store
     state: directory
     owner: www-data
     group: www-data
 
 - name: link mviewerstudio with mviewer
   template:
-    src: "mviewerstudio/config.json.j2"
-    dest: "/var/www/mviewerstudio/apps/config.json"
+    src: mviewerstudio/config.json.j2
+    dest: /var/www/mviewerstudio/apps/config.json

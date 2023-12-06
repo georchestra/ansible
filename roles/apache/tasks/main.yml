@@ -1,3 +1,4 @@
+---
 - name: installing apache2
   apt:
     pkg: apache2
@@ -5,11 +6,11 @@
 
 - name: disable the default site
   file:
-    path: "/etc/apache2/sites-enabled/{{ item }}"
+    path: /etc/apache2/sites-enabled/{{ item }}
     state: absent
   with_items:
-  - 000-default
-  - default-ssl
+    - "000-default"
+    - default-ssl
   notify: reload apache2
 
 - name: enable required modules
@@ -17,12 +18,12 @@
     name: "{{ item }}"
     state: present
   with_items:
-  - proxy_http
-  - proxy
-  - ssl
-  - rewrite
-  - headers
-  - deflate
+    - proxy_http
+    - proxy
+    - ssl
+    - rewrite
+    - headers
+    - deflate
   register: apache_modules
 
 - name: reload apache2 if needed
@@ -60,14 +61,14 @@
     name: /var/www/georchestra/logs/
     state: directory
     group: www-data
-    mode: 0775
+    mode: "0775"
 
 - name: clone htdocs dir
   git:
     repo: https://github.com/georchestra/htdocs.git
     dest: /var/www/georchestra/htdocs/
     version: master
-    accept_hostkey: yes
+    accept_hostkey: true
 
 - name: fetch 50x.html error page
   get_url:
@@ -85,22 +86,22 @@
   tags: apache_config
   template:
     src: "{{ item.src }}.conf.j2"
-    dest: "/var/www/georchestra/conf/{{ item.dest }}.conf"
+    dest: /var/www/georchestra/conf/{{ item.dest }}.conf
   with_items:
-  - { src: global, dest: global }
-  - { src: common, dest: proxy }
-  - { src: common, dest: _static }
-  - { src: common, dest: cas }
-  - { src: common, dest: analytics }
-  - { src: common, dest: geonetwork }
-  - { src: common, dest: geoserver }
-  - { src: common, dest: geowebcache }
-  - { src: common, dest: header }
-  - { src: common, dest: console }
-  - { src: common, dest: mapstore }
-  - { src: common, dest: cadastrapp }
-  - { src: common, dest: mviewer }
-  - { src: common, dest: mviewerstudio }
+    - { src: global, dest: global }
+    - { src: common, dest: proxy }
+    - { src: common, dest: _static }
+    - { src: common, dest: cas }
+    - { src: common, dest: analytics }
+    - { src: common, dest: geonetwork }
+    - { src: common, dest: geoserver }
+    - { src: common, dest: geowebcache }
+    - { src: common, dest: header }
+    - { src: common, dest: console }
+    - { src: common, dest: mapstore }
+    - { src: common, dest: cadastrapp }
+    - { src: common, dest: mviewer }
+    - { src: common, dest: mviewerstudio }
   notify: reload apache2
 
 - import_tasks: datahub.yml
@@ -119,7 +120,7 @@
   tags: apache_config
   template:
     src: gn-cloud-searching.conf.j2
-    dest: "/var/www/georchestra/conf/gn-cloud-searching.conf"
+    dest: /var/www/georchestra/conf/gn-cloud-searching.conf
   notify: reload apache2
   when: gn_cloud_searching.enabled
 
@@ -127,7 +128,7 @@
   tags: apache_config
   template:
     src: gn-ogc-api-records.conf.j2
-    dest: "/var/www/georchestra/conf/gn-ogc-api-records.conf"
+    dest: /var/www/georchestra/conf/gn-ogc-api-records.conf
   notify: reload apache2
   when: gn_ogc_api_records.enabled
 
@@ -135,12 +136,13 @@
   command: >
     openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"
       -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
-    creates=/var/www/georchestra/ssl/georchestra.crt
+  args:
+    creates: /var/www/georchestra/ssl/georchestra.crt
 
 - name: fix perms on certificate
   file:
     path: /var/www/georchestra/ssl/georchestra.key
-    mode: 0400
+    mode: "0400"
 
 - name: install ca-certificates-java
   tags: keystore
@@ -152,7 +154,7 @@
   template:
     src: jks-keystore
     dest: /etc/ca-certificates/update.d/jks-keystore
-    mode: 0755
+    mode: "0755"
 
 - name: symlink cert for ca-certificates
   tags: keystore
@@ -164,16 +166,15 @@
 
 - name: insert selfsigned cert into systemwide store
   tags: keystore
-  command:
-    update-ca-certificates
+  command: update-ca-certificates
   when: cert_symlinked is changed
 
 - name: symlink keystore
   tags: keystore
   file:
     src: /etc/ssl/certs/java/cacerts
-    dest: "/usr/lib/jvm/{{ java_version }}/lib/security/cacerts"
-    force: yes
+    dest: /usr/lib/jvm/{{ java_version }}/lib/security/cacerts
+    force: true
     state: link
 
 - import_tasks: clean.yml

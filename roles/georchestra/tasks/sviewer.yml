@@ -1,3 +1,4 @@
+---
 - name: checkout sviewer
   git:
     repo: https://github.com/georchestra/sviewer.git
@@ -8,4 +9,4 @@
   template:
     src: sviewerConfig.js.j2
     dest: /var/www/georchestra/htdocs/sviewer/etc/customConfig.js
-    backup: yes
+    backup: true

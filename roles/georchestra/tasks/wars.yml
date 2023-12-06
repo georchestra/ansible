@@ -1,3 +1,4 @@
+---
 - name: install apt-transport-https
   tags: apt_repo
   apt:
@@ -17,7 +18,7 @@
 - name: install debian packages
   apt:
     pkg: "{{ item.value.pkg }}"
-    update_cache: yes
+    update_cache: true
     state: latest
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.key != 'cadastrapp' and item.value.pkg is defined
@@ -25,34 +26,33 @@
 - name: install the wars defined by an url
   get_url:
     url: "{{ item.value.url }}"
-    dest: "/usr/share/lib/georchestra-{{ item.key }}.zip"
+    dest: /usr/share/lib/georchestra-{{ item.key }}.zip
     headers:
-      Authorization: "Bearer {{ github_action_token }}"
+      Authorization: Bearer {{ github_action_token }}
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined
 
 - name: unzips the war
   unarchive:
-    src: "/usr/share/lib/georchestra-{{ item.key }}.zip"
+    src: /usr/share/lib/georchestra-{{ item.key }}.zip
     dest: /usr/share/lib
-    remote_src: yes
+    remote_src: true
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined
 
 - name: creating symlinks for downloaded webapps
   file:
     owner: tomcat
-    src: "/usr/share/lib/{{ item.key }}{% if item.value.artifact_sha256 is defined %}-{{ item.value.artifact_sha256 }}{% endif %}.war"
+    src: /usr/share/lib/{{ item.key }}{% if item.value.artifact_sha256 is defined %}-{{ item.value.artifact_sha256 }}{% endif %}.war
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link
-    force: yes
+    force: true
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined
 
-
 - name: removes the downloaded archive
   file:
-    path: "/usr/share/lib/georchestra-{{ item.key }}.zip"
+    path: /usr/share/lib/georchestra-{{ item.key }}.zip
     state: absent
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.url is defined
@@ -60,16 +60,16 @@
 - name: symlink webapps in each tomcat instance
   file:
     owner: tomcat
-    src: "/usr/share/lib/{{ item.value.pkg }}/{{ item.key }}{% if item.key != 'import' and item.key != 'geowebcache' %}-generic{% endif %}.war"
+    src: /usr/share/lib/{{ item.value.pkg }}/{{ item.key }}{% if item.key != 'import' and item.key != 'geowebcache' %}-generic{% endif %}.war
     dest: "{{ tomcat_basedir }}/{{ item.value.tomcat }}/webapps/{{ item.key }}.war"
     state: link
-    force: yes
+    force: true
   with_dict: "{{ georchestra_wars }}"
   when: item.value.enabled|bool == True and item.value.pkg is defined and (item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled))
 
 # instances need to be started so that webapps are deployed
 - name: start instances
   service:
-    name: "tomcat@{{ item }}"
+    name: tomcat@{{ item }}
     state: started
   with_items: "{{ tomcat_instances|list }}"

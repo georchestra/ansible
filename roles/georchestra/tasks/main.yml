@@ -1,3 +1,4 @@
+---
 - name: create datadirs
   tags: wars
   file:
@@ -6,9 +7,9 @@
     owner: tomcat
     group: tomcat
   with_items:
-  - "{{ geonetwork.datadir.path }}"
-  - "{{ geoserver.datadir.path }}"
-  - "{{ geowebcache_datadir }}"
+    - "{{ geonetwork.datadir.path }}"
+    - "{{ geoserver.datadir.path }}"
+    - "{{ geowebcache_datadir }}"
 
 - import_tasks: config.yml
   tags: config

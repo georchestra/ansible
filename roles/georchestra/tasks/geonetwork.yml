@@ -1,8 +1,9 @@
+---
 - name: checkout geonetwork datadir
-  become: yes
+  become: true
   become_user: tomcat
   git:
     dest: "{{ geonetwork.datadir.path }}"
     repo: "{{ geonetwork.datadir.gitrepo }}"
     version: "{{ geonetwork.datadir.gitversion }}"
-    force: yes
+    force: true

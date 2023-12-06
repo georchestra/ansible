@@ -1,5 +1,6 @@
+---
 - name: copy cadastrapp deb
-  check_mode: no
+  check_mode: false
   synchronize:
     src: "{{ cadastrapp.debsrc.path }}/{{ cadastrapp.debsrc.pkg }}"
     dest: /tmp/{{ cadastrapp.debsrc.pkg }}
@@ -7,10 +8,10 @@
 
 - name: install cadastrapp deb
   apt:
-    deb: "/tmp/{{ cadastrapp.debsrc.pkg }}"
+    deb: /tmp/{{ cadastrapp.debsrc.pkg }}
     state: present
 
 - name: remove deb
   file:
-    path: "/tmp/{{ cadastrapp.debsrc.pkg }}"
+    path: /tmp/{{ cadastrapp.debsrc.pkg }}
     state: absent

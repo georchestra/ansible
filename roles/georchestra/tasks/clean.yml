@@ -1,8 +1,9 @@
+---
 - name: remove wars
   apt:
     pkg: "{{ item.value.pkg }}"
     state: absent
-    purge: yes
+    purge: true
   with_dict: "{{ georchestra_wars }}"
   when: item.value.pkg is defined and item.value.enabled|bool == True
 # roles/tomcat/tasks/clean.yml already removed the unzipped wars
@@ -12,13 +13,13 @@
     path: "{{ item }}"
     state: absent
   with_items:
-  - "{{ geonetwork.datadir.path }}"
-  - "{{ geoserver.datadir.path }}"
-  - "{{ geowebcache_datadir }}"
-  - "{{ georchestra.datadir.path }}"
+    - "{{ geonetwork.datadir.path }}"
+    - "{{ geoserver.datadir.path }}"
+    - "{{ geowebcache_datadir }}"
+    - "{{ georchestra.datadir.path }}"
 
 - name: remove non-free and contrib for dependencies (bullseye)
   apt_repository:
-    repo: "deb http://ftp.fr.debian.org/debian/ bullseye main non-free contrib"
+    repo: deb http://ftp.fr.debian.org/debian/ bullseye main non-free contrib
     state: absent
   when: ansible_distribution_release == "bullseye"

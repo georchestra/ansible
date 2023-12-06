@@ -1,51 +1,56 @@
+---
 - name: set useRelativeRedirects for tomcat geoserver
   replace:
     dest: "{{ tomcat_basedir }}/geoserver/conf/context.xml"
-    regexp: '<Context>'
-    replace: '<Context useRelativeRedirects="false">'
+    regexp: <Context>
+    replace: <Context useRelativeRedirects="false">
 
 - name: checkout geoserver datadir
-  become: yes
+  become: true
   become_user: tomcat
   git:
     dest: "{{ geoserver.datadir.path }}"
     repo: "{{ geoserver.datadir.gitrepo }}"
     version: "{{ geoserver.datadir.gitversion }}"
-    force: yes
+    force: true
 
 - name: fix geoserver logging path
-  become: yes
+  become: true
   become_user: tomcat
   replace:
     dest: "{{ geoserver.datadir.path }}/logging.xml"
-    regexp: '<location>/tmp/geoserver.log</location>'
-    replace: '<location>{{ logs_basedir }}/geoserver.log</location>'
+    regexp: <location>/tmp/geoserver.log</location>
+    replace: <location>{{ logs_basedir }}/geoserver.log</location>
 
 - name: set list of advertised wms srs
-  become: yes
+  become: true
   become_user: tomcat
   lineinfile:
     dest: "{{ geoserver.datadir.path }}/wms.xml"
-    insertafter: '</metadata>'
-    line: "<srs><string>{{ geoserver.wms_srslist|join('</string><string>') }}</string></srs>"
+    insertafter: </metadata>
+    line: <srs><string>{{ geoserver.wms_srslist|join('</string><string>') }}</string></srs>
 
 - name: fix my_ldap config for usergroup/roles
   tags: fixgsldap
-  become: yes
+  become: true
   become_user: tomcat
   replace:
     dest: "{{ geoserver.datadir.path }}/security/{{ item.1 }}/my_ldap/config.xml"
     regexp: "{{ item.0.pat }}"
     replace: "{{ item.0.val }}"
-    backup: yes
+    backup: true
   with_nested:
-    - [
-    { pat: "<user>.*</user>", val: "<user>{{ openldap.rootdn }}</user>" },
-    { pat: "<password>.*</password>", val: "<password>{{ openldap.rootpw }}</password>" },
-    { pat: "<groupSearchBase>ou=(\\w+),.*</groupSearchBase>", val: "<groupSearchBase>ou=\\1,{{ openldap.basedn }}</groupSearchBase>" },
-    { pat: "<groupSearchFilter>.*</groupSearchFilter>", val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>" },
-    { pat: "<userSearchBase>.*</userSearchBase>", val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>" }]
-    - [ role, usergroup ]
+    -   - pat: <user>.*</user>
+          val: "<user>{{ openldap.rootdn }}</user>"
+        - pat: <password>.*</password>
+          val: "<password>{{ openldap.rootpw }}</password>"
+        - pat: <groupSearchBase>ou=(\w+),.*</groupSearchBase>
+          val: <groupSearchBase>ou=\1,{{ openldap.basedn }}</groupSearchBase>
+        - pat: <groupSearchFilter>.*</groupSearchFilter>
+          val: "<groupSearchFilter>member=uid={0},ou=users,{{ openldap.basedn }}</groupSearchFilter>"
+        - pat: <userSearchBase>.*</userSearchBase>
+          val: "<userSearchBase>ou=users,{{ openldap.basedn }}</userSearchBase>"
+    - [role, usergroup]
 
 # alternative could be to checkout the geofence branch of geoserver_minimal_datadir
 #- name: enforce geofence auth
@@ -61,4 +66,3 @@
     dest: "{{ geowebcache_datadir }}"
     owner: tomcat
     state: directory
-

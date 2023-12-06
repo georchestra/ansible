@@ -24,6 +24,7 @@
     src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-1.0.6-shaded.jar
     dest: /usr/share/tomcat10/lib/jakartaee-migration-1.0.6-shaded.jar
     state: link
+  when: tomcat_version == 10
 
 - name: template tmpfiles.d for pidfile
   tags: systemd_unit

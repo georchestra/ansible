@@ -4,7 +4,9 @@ JRE_HOME=/usr/lib/jvm/{{ java_version }}
 JAVA_OPTS="-Djava.awt.headless=true \
 	-Xms{{ tomcat_instances.georchestra.xms }} \
 	-Xmx{{ tomcat_instances.georchestra.xmx }} \
+{% if "17" in java_version %}
 	--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED \
+{% endif %}
 	-Dorg.geotools.referencing.forceXY=true \
 	-Djava.util.prefs.userRoot=/tmp \
 	-Djava.util.prefs.systemRoot=/tmp \

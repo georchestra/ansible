@@ -43,7 +43,7 @@
 
 - include: cas-standalone.yml
   tags: cas
-  when: cas.enabled
+  when: cas.enabled and tomcat_version == 10
 
 - include: nativelibs.yml
   tags: nativelibs

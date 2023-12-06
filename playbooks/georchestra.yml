@@ -1,7 +1,8 @@
+---
 - name: georchestra deployment
   hosts: mygeorchestra
   # note: above host must match the content of the "hosts" file
-  become: yes
+  become: true
   roles:
     - { role: georchestra, tags: georchestra }
     - { role: elastic.elasticsearch, tags: es }
@@ -10,68 +11,64 @@
     georchestra_versions:
       # master version
       datadir: master # or 23.0, see https://github.com/georchestra/datadir/branches
-      debian_repository_url: "deb https://packages.georchestra.org/debian master main" # or 23.0.x
+      debian_repository_url: deb https://packages.georchestra.org/debian master main # or 23.0.x
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.2.2 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
       # 23.0.x
-      #datadir: 23.0
-      #debian_repository_url: "deb https://packages.georchestra.org/debian 23.0.x main"
-      #georchestra_repository: 23.0.x
-      #geonetwork_datadir: gn4.2.2
-      #geoserver_datadir: 23.0
+      # datadir: 23.0
+      # debian_repository_url: "deb https://packages.georchestra.org/debian 23.0.x main"
+      # georchestra_repository: 23.0.x
+      # geonetwork_datadir: gn4.2.2
+      # geoserver_datadir: 23.0
 
     java_version: java-17-openjdk-amd64
     tomcat_version: 9
-    kibana_server_host: "127.0.0.1"
+    kibana_server_host: 127.0.0.1
     es_version: 7.15.1
     es_data_dirs:
-      - "/srv/elasticsearch/data"
-    es_log_dir: "/srv/elasticsearch/logs"
+      - /srv/elasticsearch/data
+    es_log_dir: /srv/elasticsearch/logs
     es_config:
       cluster.name: "{{ georchestra.fqdn }}"
       bootstrap.memory_lock: true
     es_heap_size: 1g
-    cadastrapp: {
-      enabled: false,
-      db: {
-        name: georchestra,
-        user: georchestra,
-        schema: cadastrapp,
+    cadastrapp:
+      enabled: false
+      db:
+        name: georchestra
+        user: georchestra
+        schema: cadastrapp
         pass: georchestra
-      },
-      qgisdb: {
-        host: localhost,
-        port: 5432,
-        name: georchestra,
-        user: georchestra,
-        pass: georchestra,
+      qgisdb:
+        host: localhost
+        port: 5432
+        name: georchestra
+        user: georchestra
+        pass: georchestra
         schema: qadastre
-      },
-      gitrepo: "https://github.com/georchestra/cadastrapp",
-      gitversion: master,
-      debsrc: {
-        path: /data/src/georchestra/cadastrapp/cadastrapp/target/,
-        pkg: georchestra-cadastrapp_99.master.202108020909~80b14a6-1_all.deb,
+      gitrepo: https://github.com/georchestra/cadastrapp
+      gitversion: master
+      debsrc:
+        path: /data/src/georchestra/cadastrapp/cadastrapp/target/
+        pkg: georchestra-cadastrapp_99.master.202108020909~80b14a6-1_all.deb
         host: build.fluela
-      },
       workdir: /tmp/cadastrapp/tmp
-    }
     # Set here your Github token, which should at least have the 'actions' scope
     github_action_token: secret
     # if deploying an ms2 artifact from gh
-    #mapstore: {
+    # mapstore: {
     #  enabled: True,
     #  repo: georchestra/mapstore2-georchestra,
     #  artifact_id: 119135632,
     #  artifact_sha256: b2803ecc76a3768fdc5e358f23b5c5ce10b02ddc #git commit hash
-    #}
+    # }
     openldap:
       topdc: georchestra
-      basedn: "dc=georchestra,dc=org" # has to be in the form dc={{ topdc }},dc=xx
-      rootdn: "cn=admin,dc=georchestra,dc=org"
+      basedn: dc=georchestra,dc=org # has to be in the form dc={{ topdc }},dc=xx
+      rootdn: cn=admin,dc=georchestra,dc=org
       rootpw: secret
-      gitrepo: "https://raw.github.com/georchestra/georchestra"
+      gitrepo: https://raw.github.com/georchestra/georchestra
       ldifs:
         - bootstrap
         - docker-root/georchestraSchema
@@ -81,83 +78,100 @@
         - docker-root/lastbind
         - root
         - docker-root/georchestra
-      gitversion: '{{ georchestra_versions.georchestra_repository }}'
+      gitversion: "{{ georchestra_versions.georchestra_repository }}"
 
     georchestra:
       fqdn: georchestra.example.org
-      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f #invalid key only used in sviewer
+      ign_api_key: luvs4p9c4yq5ewfwqcqgm83f # invalid key only used in sviewer
       db:
         name: georchestra
         user: georchestra
         pass: georchestra
       datadir:
         path: /etc/georchestra
-        gitrepo: "https://github.com/georchestra/datadir"
-        gitversion: '{{ georchestra_versions.datadir }}'
+        gitrepo: https://github.com/georchestra/datadir
+        gitversion: "{{ georchestra_versions.datadir }}"
       debian:
-        repo: '{{ georchestra_versions.debian_repository_url }}'
-        key: "https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey"
+        repo: "{{ georchestra_versions.debian_repository_url }}"
+        key: https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey
     geonetwork:
       db:
         schema: geonetwork
       datadir:
         path: /srv/data/geonetwork/
-        gitrepo: "https://github.com/georchestra/geonetwork_minimal_datadir"
-        gitversion: '{{ georchestra_versions.geonetwork_datadir }}'
+        gitrepo: https://github.com/georchestra/geonetwork_minimal_datadir
+        gitversion: "{{ georchestra_versions.geonetwork_datadir }}"
     geoserver:
       privileged:
         user: geoserver_privileged_user
         pass: gerlsSnFd6SmM
       datadir:
         path: /srv/data/geoserver/
-        gitrepo: "https://github.com/georchestra/geoserver_minimal_datadir"
-        gitversion: '{{ georchestra_versions.geoserver_datadir }}'
-      wms_srslist: [2154, 3857, 3942, 3943, 3944, 3945, 3946, 3947, 3948, 3949, 3950, 4171, 4258, 4326, 23030, 23031, 23032, 32630, 32631, 32632, 4171, 4271, 3758]
+        gitrepo: https://github.com/georchestra/geoserver_minimal_datadir
+        gitversion: "{{ georchestra_versions.geoserver_datadir }}"
+      wms_srslist:
+        - 2154
+        - 3857
+        - 3942
+        - 3943
+        - 3944
+        - 3945
+        - 3946
+        - 3947
+        - 3948
+        - 3949
+        - 3950
+        - 4171
+        - 4258
+        - 4326
+        - 23030
+        - 23031
+        - 23032
+        - 32630
+        - 32631
+        - 32632
+        - 4171
+        - 4271
+        - 3758
     geowebcache_datadir: /srv/data/geowebcache/
     tomcat_keystore_pass: tomcatkstp
     tomcat_basedir: /srv/tomcat
     system_locale: en_US.UTF-8
     logs_basedir: /srv/log
-    force_https: true #set to false if running behind a reverse proxy that does SSL
+    force_https: true # set to false if running behind a reverse proxy that does SSL
     console_adminemail: admin@example.org
-    console_captcha: {
-      # if empty, captcha during registration will be disabled
-      privateKey: '',
-      publicKey: '',
-    }
-    tomcat_instances: {
-      proxycas: {
-        port: 8180,
-        control_port: 8105,
-        xms: 256m,
+    console_captcha:
+      privateKey: ""
+      publicKey: ""
+    tomcat_instances:
+      proxycas:
+        port: 8180
+        control_port: 8105
+        xms: 256m
         xmx: 512m
-      },
-      georchestra: {
-        port: 8280,
-        control_port: 8205,
-        xms: 1G,
+      georchestra:
+        port: 8280
+        control_port: 8205
+        xms: 1G
         xmx: 2G
-      },
-      geoserver: {
-        port: 8380,
-        control_port: 8305,
-        xms: 1G,
+      geoserver:
+        port: 8380
+        control_port: 8305
+        xms: 1G
         xmx: 1G
-      }
-    }
     georchestra_wars:
       analytics:
         pkg: georchestra-analytics
         tomcat: georchestra
-        enabled: True
+        enabled: true
       cas:
         pkg: georchestra-cas
         tomcat: proxycas
-        enabled: True
+        enabled: true
       geonetwork:
         pkg: georchestra-geonetwork
         tomcat: georchestra
-        enabled: True
+        enabled: true
       # mapstore: # using a github action artifact
       #   url: https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip
       #   tomcat: georchestra
@@ -166,43 +180,43 @@
       mapstore: # using the package from packages.georchestra.org
         pkg: georchestra-mapstore
         tomcat: georchestra
-        enabled: True
+        enabled: true
       geoserver:
         pkg: georchestra-geoserver
         tomcat: geoserver
-        enabled: True
+        enabled: true
       geowebcache:
         pkg: georchestra-geowebcache
         tomcat: georchestra
-        enabled: True
+        enabled: true
       import:
         pkg: georchestra-datafeeder-ui
         tomcat: georchestra
-        enabled: True
+        enabled: true
       header:
         pkg: georchestra-header
         tomcat: georchestra
-        enabled: True
+        enabled: true
       console:
         pkg: georchestra-console
         tomcat: georchestra
-        enabled: True
+        enabled: true
       cadastrapp:
         pkg: georchestra-cadastrapp
         tomcat: georchestra
-        enabled: True
+        enabled: true
       ROOT:
         pkg: georchestra-security-proxy
         tomcat: proxycas
-        enabled: True
+        enabled: true
     datafeeder:
       enabled: true
       port: 8480
-# not yet, doesnt work standalone ?
-#    cas:
-#      pkg: georchestra-cas
-#      enabled: true
-#      port: 8980
+    # not yet, doesnt work standalone ?
+    #    cas:
+    #      pkg: georchestra-cas
+    #      enabled: true
+    #      port: 8980
     gn_cloud_searching:
       enabled: true
       port: 8580
@@ -232,7 +246,7 @@
         dest: /etc/kibana/kibana.yml
         owner: root
         group: root
-        mode: '0644'
+        mode: "0644"
       notify: restart kibana
 
   handlers:

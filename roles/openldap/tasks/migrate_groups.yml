@@ -1,3 +1,4 @@
+---
 - name: rename ou=groups to ou=roles
   command: >
     ldapmodrdn -r -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass ou=groups,{{ openldap.basedn }} ou=roles

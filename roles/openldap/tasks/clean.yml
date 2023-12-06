@@ -1,5 +1,6 @@
+---
 - name: create temporary directory
-  check_mode: no
+  check_mode: false
   shell: mktemp -d
   register: tempdir
 
@@ -7,10 +8,10 @@
   copy:
     dest: "{{ tempdir.stdout }}/admin-georchestra.pass"
     content: "{{ openldap.rootpw }}"
-    mode: 0400
+    mode: "0400"
 
 - name: purge DIT
-  ignore_errors: yes
+  ignore_errors: true
   command: ldapdelete -D {{ openldap.rootdn }} -x -y {{ tempdir.stdout }}/admin-georchestra.pass -r "{{ openldap.basedn }}"
 
 - name: recursively purge temp dir
@@ -20,20 +21,20 @@
 
 - name: remove cn=config bits
   file:
-    dest: "/etc/ldap/slapd.d/cn=config/{{ item }}"
+    dest: /etc/ldap/slapd.d/cn=config/{{ item }}
     state: absent
   with_items:
-  - "olcDatabase={2}mdb.ldif"
-  - "cn=schema/cn={4}groupofmembers.ldif"
-  - "cn=schema/cn={5}georchestra.ldif"
-  - "cn=schema/cn={6}openssh-lpk-openldap.ldif"
+    - olcDatabase={2}mdb.ldif
+    - cn=schema/cn={4}groupofmembers.ldif
+    - cn=schema/cn={5}georchestra.ldif
+    - cn=schema/cn={6}openssh-lpk-openldap.ldif
   notify: restart slapd
 
 - name: remove slapd datadir
   file:
-    dest: "/var/lib/ldap/{{ item }}"
+    dest: /var/lib/ldap/{{ item }}
     state: absent
   with_items:
-  - data.mdb
-  - lock.mdb
+    - data.mdb
+    - lock.mdb
   when: cleanup_slapd is defined

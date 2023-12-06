@@ -3,6 +3,13 @@
     name: gpg
     state: present
 
+- name: setup wtf lts repokey for tomcat9 (deb822 only available in ansible 2.15)
+  tags: tomcat_apt_repo
+  get_url:
+    url: http://www.mirbsd.org/~tg/Debs/sources.txt/wtflts-bookworm.sources
+    dest: /etc/apt/keyrings/wtflts-bookworm.sources
+  when: tomcat_version == 9
+
 - name: installing dependencies
   apt:
     pkg:

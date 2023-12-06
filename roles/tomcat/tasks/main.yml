@@ -1,3 +1,4 @@
+---
 - import_tasks: common.yml
 - import_tasks: instance.yml
 - import_tasks: cadastrapp.yml

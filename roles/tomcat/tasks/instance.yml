@@ -1,10 +1,14 @@
+---
 - name: create instance {{ item.key }}
-  command: tomcat{{ tomcat_version }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }} creates={{ tomcat_basedir }}/{{ item.key }}
+  command: >
+    tomcat{{ tomcat_version }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }}
+  args:
+    creates: "{{ tomcat_basedir }}/{{ item.key }}"
   with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
-    src: "/etc/tomcat{{ tomcat_version }}/policy.d/"
+    src: /etc/tomcat{{ tomcat_version }}/policy.d/
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
   with_dict: "{{ tomcat_instances }}"
@@ -13,35 +17,35 @@
   file:
     name: "{{ tomcat_basedir }}/{{ item.0 }}/{{ item.1 }}"
     state: directory
-    recurse: yes
+    recurse: true
     owner: tomcat
   with_nested:
     - "{{ tomcat_instances|list }}"
-    - [ logs, temp, conf, work, webapps ]
+    - [logs, temp, conf, work, webapps]
 
 - name: install instance config in /etc/default
   template:
-    src: "config-{{ item.key }}.j2"
-    dest: "/etc/default/tomcat-{{ item.key }}"
+    src: config-{{ item.key }}.j2
+    dest: /etc/default/tomcat-{{ item.key }}
   with_dict: "{{ tomcat_instances }}"
 
 - name: install instance connector
   template:
-    src: "server-{{ item.key }}.xml.j2"
+    src: server-{{ item.key }}.xml.j2
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/server.xml"
   with_dict: "{{ tomcat_instances }}"
 
 - name: add the jakarta loader for tomcat10 compat
   lineinfile:
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/context.xml"
-    insertafter: '<Context>'
-    line: '<Loader jakartaConverter="TOMCAT"/>'
+    insertafter: <Context>
+    line: <Loader jakartaConverter="TOMCAT"/>
     state: present
   with_dict: "{{ tomcat_instances }}"
   when: tomcat_version == 10
 
 - name: enable instance
   systemd:
-    name: "tomcat@{{ item.key }}"
-    enabled: yes
+    name: tomcat@{{ item.key }}
+    enabled: true
   with_dict: "{{ tomcat_instances }}"

@@ -1,8 +1,9 @@
+---
 - name: add the ResourceLink for jdbc/cadastrapp
   lineinfile:
     dest: "{{ tomcat_basedir }}/georchestra/conf/context.xml"
-    insertbefore: '</Context>'
-    line: '<ResourceLink name="jdbc/cadastrapp" global="jdbc/cadastrapp" type="javax.sql.DataSource"/>'
+    insertbefore: </Context>
+    line: <ResourceLink name="jdbc/cadastrapp" global="jdbc/cadastrapp" type="javax.sql.DataSource"/>
     state: present
 
 - name: symlink postgresql.jar for jdbc/cadastrapp

@@ -1,3 +1,4 @@
+---
 - name: ensure GPG is installed
   apt:
     name: gpg
@@ -13,18 +14,18 @@
 - name: installing dependencies
   apt:
     pkg:
-    - "tomcat{{ tomcat_version }}"
-    - "tomcat{{ tomcat_version }}-user" #needed for create-instance script
-    - tomcat-jakartaee-migration
-    - libtcnative-1 #APR native libs
-    - unzip #for unzipping artifacts from github actions
+      - tomcat{{ tomcat_version }}
+      - tomcat{{ tomcat_version }}-user #needed for create-instance script
+      - tomcat-jakartaee-migration
+      - libtcnative-1 #APR native libs
+      - unzip #for unzipping artifacts from github actions
     state: present
-    update_cache: yes
+    update_cache: true
 - name: disable default instance
   service:
     name: tomcat{{ tomcat_version }}
     state: stopped
-    enabled: no
+    enabled: false
 
 - name: link tomcat9 to 10 migration jar
   file:
@@ -43,7 +44,7 @@
 - name: add fqdn to /etc/hosts
   lineinfile:
     dest: /etc/hosts
-    line: "127.0.0.1 {{ georchestra.fqdn }}"
+    line: 127.0.0.1 {{ georchestra.fqdn }}
 
 - name: create temp dir
   tags: systemd_unit
@@ -59,13 +60,13 @@
 - name: reload systemd so that it finds the new unit
   tags: systemd_unit
   systemd:
-    daemon-reload: yes
+    daemon-reload: true
     name: tomcat@.service
 
 - name: disable assistive_technologies (requires non-headless jdk)
   lineinfile:
     dest: /etc/java-8-openjdk/accessibility.properties
-    line: 'assistive_technologies=org.GNOME.Accessibility.AtkWrapper'
+    line: assistive_technologies=org.GNOME.Accessibility.AtkWrapper
     state: absent
 
 - name: create tomcat_basedir

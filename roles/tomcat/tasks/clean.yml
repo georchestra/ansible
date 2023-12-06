@@ -1,7 +1,8 @@
+---
 - name: stop instances
   service:
-    name: "tomcat@{{ item }}"
-    enabled: no
+    name: tomcat@{{ item }}
+    enabled: false
     state: stopped
   with_items: "{{ tomcat_instances|list }}"
 
@@ -10,9 +11,9 @@
     name: "{{ item }}"
     state: absent
   with_items:
-  - "{{ tomcat_basedir }}"
-  - "{{ logs_basedir }}"
-  - "/etc/tomcat{{ tomcat_version }}/keystore"
+    - "{{ tomcat_basedir }}"
+    - "{{ logs_basedir }}"
+    - /etc/tomcat{{ tomcat_version }}/keystore
 
 #- name: removing pkgs
 #  apt:
@@ -28,6 +29,13 @@
     name: "{{ item[0] }}-{{ item[1] }}"
     state: absent
   with_nested:
-  - [ "/etc/init.d/tomcat", "/etc/default/tomcat", "/etc/rc2.d/K01tomcat", "/etc/rc3.d/K01tomcat", "/etc/rc4.d/K01tomcat",
-   "/etc/rc5.d/K01tomcat", "/etc/rc0.d/K01tomcat", "/etc/rc1.d/K01tomcat", "/etc/rc6.d/K01tomcat" ]
-  - "{{ tomcat_instances|list }}"
+    -   - /etc/init.d/tomcat
+        - /etc/default/tomcat
+        - /etc/rc2.d/K01tomcat
+        - /etc/rc3.d/K01tomcat
+        - /etc/rc4.d/K01tomcat
+        - /etc/rc5.d/K01tomcat
+        - /etc/rc0.d/K01tomcat
+        - /etc/rc1.d/K01tomcat
+        - /etc/rc6.d/K01tomcat
+    - "{{ tomcat_instances|list }}"

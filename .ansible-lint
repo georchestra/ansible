@@ -1,3 +1,7 @@
 exclude_paths:
   - roles/elastic.elasticsearch
   - roles/geerlingguy.kibana
+skip_list:
+  - name[missing] # complains mostly on import_tasks
+  - name[casing]
+  - fqcn

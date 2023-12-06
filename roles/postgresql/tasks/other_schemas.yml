@@ -30,7 +30,7 @@
 
 - name: fetch console data
   get_url:
-    url: https://raw.github.com/georchestra/georchestra/master/postgresql/041-console-data.sql
+    url: https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/041-console-data.sql
     dest: "{{ tempdir.stdout }}/041-console-data.sql"
   when: delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout
 

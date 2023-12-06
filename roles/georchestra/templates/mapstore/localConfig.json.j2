@@ -45,6 +45,7 @@
     }],
     "monitorState": [
       {"name": "router", "path": "router.location.pathname"},
+      {"name": "userrole", "path": "security.user.role"},
       {"name": "browser", "path": "browser"},
       {"name": "geostorymode", "path": "geostory.mode"},
       {"name": "featuregridmode", "path": "featuregrid.mode"},
@@ -110,9 +111,6 @@
           "format": "decimal",
           "defaultTextAnnotation": "New"
         },
-        "maptype": {
-            "mapType": "{context.mode === 'desktop' ? 'openlayers' : 'leaflet'}"
-        },
         "catalog": {
           "default": {
             "newService": {
@@ -127,13 +125,13 @@
               "local": {
                 "url": "/geonetwork/srv/fre/csw",
                 "type": "csw",
-                "title": "le catalogue local",
+                "title": "Catalogue de données de la plateforme",
                 "autoload": true
               },
               "localgs": {
                 "url": "/geoserver/ows",
                 "type": "wms",
-                "title": "le geoserver local",
+                "title": "Service de données de la plateforme",
                 "autoload": true
               },
               "ignrasterwms": {
@@ -142,16 +140,53 @@
                 "title": "IGN essentiels RASTER",
                 "autoload": true
               },
+              "gpfrasterwms": {
+                "url": "https://data.geopf.fr/wms-r/wms",
+                "type": "wms",
+                "title": "Géoplateforme RASTER",
+                "autoload": true
+              },
               "ignvectorwms": {
                 "url": "https://wxs.ign.fr/essentiels/geoportail/v/wms",
                 "type": "wms",
                 "title": "IGN essentiels VECTOR",
                 "autoload": true
               },
+              "gpfvectorwms": {
+                "url": "https://data.geopf.fr/wms-v/wms",
+                "type": "wms",
+                "title": "Géoplateforme VECTOR",
+                "autoload": true
+              },
+              "gpfwfs": {
+                "url": "https://data.geopf.fr/wfs/ows",
+                "type": "wfs",
+                "title": "Géoplateforme WFS",
+                "autoload": true
+              },
               "ignwmts": {
                 "url": "https://wxs.ign.fr/essentiels/geoportail/wmts",
                 "type": "wmts",
                 "title": "IGN essentiels WMTS",
+                "autoload": true
+              },
+              "gpfwmts": {
+                "url": "https://data.geopf.fr/wmts",
+                "type": "wmts",
+                "title": "Géoplateforme WMTS",
+                "autoload": true
+              },
+              "gpftms": {
+                "url": "https://data.geopf.fr/tms/1.0.0/",
+                "type": "tms",
+                "provider":"tms",
+                "title": "Géoplateforme TMS",
+                "autoload": true
+              },
+              "gpfcsw": {
+                "url": "https://data.geopf.fr/csw",
+                "type": "csw",
+                "title": "Géoplateforme CSW",
                 "autoload": true
               },
               "igndecouvertewmts": {
@@ -190,35 +225,34 @@
                 "title": "IGN altimetrie WMTS",
                 "autoload": true
               },
+              "sandre": {
+                "url": "https://www.sandre.eaufrance.fr/atlas/srv/fre/csw",
+                "type": "csw",
+                "title": "Référentiels de l'Eau en France (Sandre)",
+                "autoload": true
+              },
+              "craig": {
+                "url": "https://ids.craig.fr/geocat/srv/fre/csw",
+                "type": "csw",
+                "title": "Région Auvergne-Rhône-Alpes",
+                "autoload": true
+              },
               "geobretagne": {
                 "url": "https://geobretagne.fr/geonetwork/srv/fre/csw",
                 "type": "csw",
-                "title": "le catalogue GeoBretagne",
+                "title": "Région Bretagne",
                 "autoload": true
               },
-              "sandre": {
-                "url": "http://www.sandre.eaufrance.fr/atlas/srv/fre/csw",
+              "geo2france": {
+                "url": "https://www.geo2france.fr/geonetwork/srv/fre/csw",
                 "type": "csw",
-                "title": "le catalogue du Sandre",
+                "title": "Région Hauts-de-France",
                 "autoload": true
               },
-              "webservice_energy": {
-                "url": "http://geocatalog.webservice-energy.org/geonetwork/srv/fre/csw",
+              "datagrandest": {
+                "url": "https://www.datagrandest.fr/geonetwork/srv/fre/csw",
                 "type": "csw",
-                "title": "le catalogue de webservice-energy",
-                "autoload": true
-              },
-              "ifremer": {
-                "NOTE": "NOT WORKING, requires login. This is configured on the current viewer but do not provide any response",
-                "url": "http://www.ifremer.fr/geonetwork/srv/fre/csw",
-                "type": "csw",
-                "title": "le catalogue de l'Ifremer",
-                "autoload": true
-              },
-              "geograndest": {
-                "url": "https://www.geograndest.fr/geonetwork/srv/fre/csw",
-                "type": "csw",
-                "title": "le catalogue de GéoGrandEst",
+                "title": "Région Grand Est",
                 "autoload": true
               }
             },
@@ -378,13 +412,7 @@
                     }
                 }
             }, "Login",
-            "OmniBar", "BurgerMenu", "Home", "Expander", {
-              "name": "Cookie",
-              "cfg": {
-                "externalCookieUrl": "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
-                "declineUrl": "https://www.georchestra.org/"
-              }
-            },
+            "OmniBar", "BurgerMenu", "Home", "Expander",
             "FeedbackMask",
             {
               "name": "Share",
@@ -395,8 +423,9 @@
                 }
               }
             },
+            "Permalink",
             "MetadataExplorer",
-            "MapImport", 
+            "MapImport",
             "MapExport",
             "GlobeViewSwitcher"
         ],
@@ -444,10 +473,12 @@
               "cfg": {
                 "showAPI": false,
                 "advancedSettings": {
-                  "bbox": true
+                  "bbox": true,
+                  "centerAndZoom": true
                 }
               }
             },
+            "Permalink",
             {
                 "name": "Identify",
                 "cfg": {
@@ -644,12 +675,6 @@
                         "alwaysVisible": true
                     }
                 }
-            }, {
-              "name": "Cookie",
-              "cfg": {
-                "externalCookieUrl" : "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
-                "declineUrl" : "https://www.georchestra.org/"
-                }
             },
             "OmniBar", "Login", "SidebarMenu", "Expander", "Undo", "Redo", "FullScreen", "GlobeViewSwitcher", "SearchServicesConfig", "WidgetsBuilder", "Widgets",
             "WidgetsTray",
@@ -778,13 +803,6 @@
               }
             }
           },
-          {
-            "name": "Cookie",
-            "cfg": {
-              "externalCookieUrl": "https://docs.georchestra.geo-solutions.it/en/latest/mapstore/index.html",
-              "declineUrl": "https://www.georchestra.org/"
-            }
-          },
           "OmniBar",
           {
             "name": "GoFull",
@@ -858,6 +876,7 @@
       }, "Login", "Language", "NavMenu",
         "DashboardSave", "DashboardSaveAs",
         "DashboardExport", "DashboardImport",
+        "DeleteDashboard",
         "Attribution", "Home", {
         "name": "Share",
         "cfg": {
@@ -879,6 +898,7 @@
           }
         }
       },
+      "Permalink",
         {
           "name": "DashboardEditor",
           "cfg": {
@@ -954,6 +974,7 @@
         "GeoStorySaveAs",
         "GeoStoryImport",
         "GeoStoryExport",
+        "DeleteGeoStory",
         "MapEditor",
         "MediaEditor",
         {
@@ -993,7 +1014,8 @@
               "sectionId": true
             }
           }
-        }
+        },
+        "Permalink"
       ],
       "geostory-embedded": [
         "GeoStory",
@@ -1009,6 +1031,10 @@
             "containerPosition": "header"
           }
         }
+      ],
+      "permalink": [
+        "Permalink",
+        "FeedbackMask"
       ],
       "admin": [{
         "name": "Header",
@@ -1069,7 +1095,9 @@
             "cfg": {
               "containerPosition": "header"
             }
-          }
+          },
+          "ContextImport",
+          "ContextExport"
         ],
         "context": [
           "Header"

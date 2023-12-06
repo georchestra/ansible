@@ -57,7 +57,7 @@
     privs: ALL
     type: schema
     roles: "{{ georchestra.db.user }}"
-    objs: "{{ other_schemas|join(',') }}"
+    objs: "{{ other_schemas | join(',') }}"
 
 - name: grant all privileges to georchestra user on sequences in schema
   postgresql_privs:

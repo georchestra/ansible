@@ -28,7 +28,7 @@
   lineinfile:
     dest: "{{ geoserver.datadir.path }}/wms.xml"
     insertafter: </metadata>
-    line: <srs><string>{{ geoserver.wms_srslist|join('</string><string>') }}</string></srs>
+    line: <srs><string>{{ geoserver.wms_srslist | join('</string><string>') }}</string></srs>
 
 - name: fix my_ldap config for usergroup/roles
   tags: fixgsldap

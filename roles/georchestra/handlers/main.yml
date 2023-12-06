@@ -3,4 +3,4 @@
   service:
     name: tomcat@{{ item }}
     state: restarted
-  with_items: "{{ tomcat_instances|list }}"
+  with_items: "{{ tomcat_instances | list }}"

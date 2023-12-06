@@ -20,7 +20,7 @@
     recurse: true
     owner: tomcat
   with_nested:
-    - "{{ tomcat_instances|list }}"
+    - "{{ tomcat_instances | list }}"
     - [logs, temp, conf, work, webapps]
 
 - name: install instance config in /etc/default

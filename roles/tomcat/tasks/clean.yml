@@ -4,7 +4,7 @@
     name: tomcat@{{ item }}
     enabled: false
     state: stopped
-  with_items: "{{ tomcat_instances|list }}"
+  with_items: "{{ tomcat_instances | list }}"
 
 - name: remove tomcat directories/config
   file:
@@ -38,4 +38,4 @@
       - /etc/rc0.d/K01tomcat
       - /etc/rc1.d/K01tomcat
       - /etc/rc6.d/K01tomcat
-    - "{{ tomcat_instances|list }}"
+    - "{{ tomcat_instances | list }}"

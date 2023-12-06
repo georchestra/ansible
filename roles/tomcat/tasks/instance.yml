@@ -38,6 +38,7 @@
     line: '<Loader jakartaConverter="TOMCAT"/>'
     state: present
   with_dict: "{{ tomcat_instances }}"
+  when: tomcat_version == 10
 
 - name: enable instance
   systemd:

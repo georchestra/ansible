@@ -25,9 +25,9 @@ publicUrl=https://${domainName}
 # pgsqlSchema=datafeeder
 
 # maximum size allowed for uploaded files. (e.g. 128MB, GB can't be used, only KB or MB)
-file-upload.max-file-size=50MB
+file-upload.max-file-size=512MB
 # maximum size allowed for multipart/form-data requests (e.g. 128MB, GB can't be used, only KB or MB)
-file-upload.max-request-size=100MB
+file-upload.max-request-size=512MB
 # size threshold after which files will be written to disk.
 file-upload.file-size-threshold=1MB
 # directory location where files will be stored by the servlet container once the request exceeds the {@link #fileSizeThreshold}
@@ -37,17 +37,18 @@ file-upload.persistent-location=${java.io.tmpdir}/datafeeder/uploads
 # select the file to serve as the front-end application configuration
 front-end.config.uri=file:${georchestra.datadir}/datafeeder/frontend-config.json
 
-datafeeder.publishing.geoserver.api-url=http://localhost:{{ tomcat_instances['geoserver']['port'] }}/geoserver/rest
 datafeeder.publishing.geoserver.public-url=https://${domainName}/geoserver
 # Use this for HTTP basic authentication to geoserver api url:
+#datafeeder.publishing.geoserver.api-url=https://${domainName}/geoserver/rest
 #datafeeder.publishing.geoserver.auth.type=basic
 #datafeeder.publishing.geoserver.auth.basic.username=geoserver_privileged_user
 #datafeeder.publishing.geoserver.auth.basic.password=gerlsSnFd6SmM
 # Use this for HTTP-headers based authentication to GeoServer's api url:
+datafeeder.publishing.geoserver.api-url=http://localhost:{{ tomcat_instances['geoserver']['port'] }}/geoserver/rest
 datafeeder.publishing.geoserver.auth.type=headers
 datafeeder.publishing.geoserver.auth.headers.[sec-proxy]=true
-datafeeder.publishing.geoserver.auth.headers.[sec-username]=datafeeder-application
-datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR
+datafeeder.publishing.geoserver.auth.headers.[sec-username]=idatafeeder
+datafeeder.publishing.geoserver.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROLE_GN_ADMIN
 
 
 datafeeder.publishing.geonetwork.api-url=http://localhost:{{ tomcat_instances['georchestra']['port'] }}/geonetwork
@@ -59,17 +60,22 @@ datafeeder.publishing.geonetwork.public-url=https://${domainName}/geonetwork
 # Use this for HTTP-headers based authentication to Geonetwork's api url:
 datafeeder.publishing.geonetwork.auth.type=headers
 datafeeder.publishing.geonetwork.auth.headers.[sec-proxy]=true
-datafeeder.publishing.geonetwork.auth.headers.[sec-username]=testadmin
-datafeeder.publishing.geonetwork.auth.headers.[sec-org]=Datafeeder Test
+datafeeder.publishing.geonetwork.auth.headers.[sec-username]=idatafeeder
+datafeeder.publishing.geonetwork.auth.headers.[sec-org]=geOrchestra
 datafeeder.publishing.geonetwork.auth.headers.[sec-roles]=ROLE_ADMINISTRATOR;ROLE_GN_ADMIN
 # This is odd, apparently any UUID works as XSRF token, and these two need to be set
 datafeeder.publishing.geonetwork.auth.headers.[X-XSRF-TOKEN]=c9f33266-e242-4198-a18c-b01290dce5f1
 datafeeder.publishing.geonetwork.auth.headers.[Cookie]=XSRF-TOKEN=c9f33266-e242-4198-a18c-b01290dce5f1
 
-#template-record-id, an existing geonetwork record id to use as template. If provided, takes precedence over template-record 
+#template-record-id, an existing geonetwork record id to use as template. If provided, takes precedence over template-record
 #datafeeder.publishing.geonetwork.template-record-id:
 datafeeder.publishing.geonetwork.template-record: file:${georchestra.datadir}/datafeeder/metadata_template.xml
 datafeeder.publishing.geonetwork.template-transform: file:${georchestra.datadir}/datafeeder/metadata_transform.xsl
+# you can override the resource type used in the metadata by uncommenting this line:
+# possible values are here:
+# https://github.com/geonetwork/core-geonetwork/blob/main/schemas/iso19139/src/main/plugin/iso19139/schema/resources/Codelist/gmxCodelists.xml#L1538-L1646
+# defaults to dataset
+#datafeeder.publishing.geonetwork.defaultResourceType=dataset
 
 
 # GeoTools DataStore connection params used inside datafeeder when importing
@@ -79,7 +85,7 @@ datafeeder.publishing.backend.local.host=${pgsqlHost}
 datafeeder.publishing.backend.local.port=${pgsqlPort}
 datafeeder.publishing.backend.local.database=${pgsqlDatabase}
 #<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
-datafeeder.publishing.backend.geoserver.schema=<schema>
+datafeeder.publishing.backend.local.schema=<schema>
 datafeeder.publishing.backend.local.user=${pgsqlUser}
 datafeeder.publishing.backend.local.passwd=${pgsqlPassword}
 datafeeder.publishing.backend.local.preparedStatements=true
@@ -90,8 +96,8 @@ datafeeder.publishing.backend.geoserver.dbtype=postgis
 datafeeder.publishing.backend.geoserver.preparedStatements=true
 #<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
 datafeeder.publishing.backend.geoserver.schema=<schema>
-#datafeeder.publishing.backend.geoserver.jndiReferenceName=java:comp/env/jdbc/datafeeder
-#if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones 
+#datafeeder.publishing.backend.geoserver.jndiReferenceName=jdbc/datafeeder
+#if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones
 datafeeder.publishing.backend.geoserver.host=${pgsqlHost}
 datafeeder.publishing.backend.geoserver.port=${pgsqlPort}
 datafeeder.publishing.backend.geoserver.database=${pgsqlDatabase}
@@ -141,6 +147,12 @@ spring.mail.test-connection=${smtpTest:true}
 spring.mail.properties.mail.smtp.auth=${smtpAuth:false}
 spring.mail.properties.mail.smtp.starttls.enable=${smtpTLS:false}
 
+# Uncomment these properties if you encounter weird redirections to the internal
+# service name when hitting https://.../datafeeder/" ; it will force spring
+# to build the "Location" http header using the 'X-Forwarded-*' ones.
+#server.forward-headers-strategy=FRAMEWORK
+#server.servlet.context-path=/datafeeder
+
 # Example for gmail:
 # make sure 2-step verification is turned off: https://support.google.com/accounts/answer/1064203?hl=en
 # and Allow Less Secure App turnes ON: https://myaccount.google.com/lesssecureapps
@@ -152,4 +164,3 @@ spring.mail.properties.mail.smtp.starttls.enable=${smtpTLS:false}
 #spring.mail.test-connection: true
 #spring.mail.properties.mail.smtp.auth: true
 #spring.mail.properties.mail.smtp.starttls.enable: true
-

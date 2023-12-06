@@ -44,7 +44,7 @@
 
 - import_tasks: cas-standalone.yml
   tags: cas
-  when: cas.enabled and tomcat_version == 10
+  when: cas is defined and cas.enabled and tomcat_version == 10
 
 - import_tasks: nativelibs.yml
   tags: nativelibs

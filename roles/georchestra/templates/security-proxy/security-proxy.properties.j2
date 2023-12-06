@@ -96,7 +96,7 @@
 # URL that the security system uses to validate the cas tickets
 # default: https://${domainName}/cas
 #casTicketValidation=https://${domainName}/cas
-casTicketValidation=http://localhost:{{ cas.port }}/cas
+casTicketValidation=http://localhost:{% if tomcat_version == 10 %}{{ cas.port }}{% else %}{{ tomcat_instances.proxycas.port }}{% endif %}/cas
 
 # After going to the cas login cas forwards to this URL where the authorities and permissions are checked
 # default: https://${domainName}/login/cas

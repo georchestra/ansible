@@ -19,18 +19,19 @@
   apt:
     pkg: "{{ item.value.pkg }}"
     update_cache: true
-    state: latest
+    state: latest # noqa: package-latest
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.key != 'cadastrapp' and item.value.pkg is defined
+  when: item.value.enabled and item.key != 'cadastrapp' and item.value.pkg is defined
 
 - name: install the wars defined by an url
   get_url:
     url: "{{ item.value.url }}"
     dest: /usr/share/lib/georchestra-{{ item.key }}.zip
+    mode: "0644"
     headers:
       Authorization: Bearer {{ github_action_token }}
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.value.url is defined
+  when: item.value.enabled and item.value.url is defined
 
 - name: unzips the war
   unarchive:
@@ -38,7 +39,7 @@
     dest: /usr/share/lib
     remote_src: true
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.value.url is defined
+  when: item.value.enabled and item.value.url is defined
 
 - name: creating symlinks for downloaded webapps
   file:
@@ -48,14 +49,14 @@
     state: link
     force: true
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.value.url is defined
+  when: item.value.enabled and item.value.url is defined
 
 - name: removes the downloaded archive
   file:
     path: /usr/share/lib/georchestra-{{ item.key }}.zip
     state: absent
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.value.url is defined
+  when: item.value.enabled and item.value.url is defined
 
 - name: symlink webapps in each tomcat instance
   file:
@@ -65,11 +66,11 @@
     state: link
     force: true
   with_dict: "{{ georchestra_wars }}"
-  when: item.value.enabled|bool == True and item.value.pkg is defined and (item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled))
+  when: item.value.enabled and item.value.pkg is defined and (item.key != 'cadastrapp' or (item.key == 'cadastrapp' and cadastrapp.enabled))
 
 # instances need to be started so that webapps are deployed
 - name: start instances
   service:
     name: tomcat@{{ item }}
     state: started
-  with_items: "{{ tomcat_instances|list }}"
+  with_items: "{{ tomcat_instances | list }}"

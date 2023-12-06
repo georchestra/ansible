@@ -7,4 +7,8 @@ JAVA_OPTS="-Djava.awt.headless=true \
 {% if "17" in java_version %}
 	--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED \
 {% endif %}
+{% if tomcat_version == 9 %}
+	-DCAS_BANNER_SKIP=true \
+	-Dcas.standalone.configurationDirectory=/etc/georchestra/cas/config  \
+{% endif %}
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

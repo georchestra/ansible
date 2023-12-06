@@ -1,38 +1,38 @@
-other_schemas: [ console, geofence, ogcstatistics, mapstore, datafeeder ]
+---
+other_schemas: [console, geofence, ogcstatistics, mapstore, datafeeder]
 other_schemas_urls:
   - https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/040-console.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/050-ogc-server-statistics.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/080-geofence.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/110-mapstore.sql
   - https://raw.github.com/georchestra/georchestra/master/postgresql/docker-entrypoint-initdb.d/120-datafeeder.sql
-cadastrappsql: {
-  tmpdir: /tmp/cadastrapp/sql,
-  views: [
-    { script: uf_parcelle, view: uf_parcelle },
-    { script: Commune, view: commune },
-    { script: HabitationDetails, view: deschabitation },
-    { script: Parcelle, view: parcelle },
-    { script: Proprietaire, view: proprietaire },
-    { script: ProprietaireParcelle, view: proprietaire_parcelle },
-    { script: CoProprieteParcelle, view: co_propriete_parcelle },
-    { script: ProprieteBatie, view: proprietebatie },
-    { script: ProprieteNonBatie, view: proprietenonbatie },
-    { script: ProprieteNonBatieSufExo, view: proprietenonbatiesufexo },
-    { script: Lot, view: lot },
-    { script: Section, view: section } ],
-  tables: [
-    { script: groupe_autorisation },
-    { script: request_information },
-    { script: prop_bati_detent },
-    { script: prop_ccodem },
-    { script: prop_ccodro },
-    { script: prop_ccoqua },
-    { script: prop_ccogrm },
-    { script: prop_dmatgm },
-    { script: prop_dmatto },
-    { script: prop_dnatpr },
-    { script: prop_type_filiation },
-    { script: prop_ccocac },
-    { script: prop_ccocac_simple } ],
-  indexes: [ { script: indexes_vues_materialisees, index: idxcommunelibcom } ]
-}
+cadastrappsql:
+  tmpdir: /tmp/cadastrapp/sql
+  views:
+    - { script: uf_parcelle, view: uf_parcelle }
+    - { script: Commune, view: commune }
+    - { script: HabitationDetails, view: deschabitation }
+    - { script: Parcelle, view: parcelle }
+    - { script: Proprietaire, view: proprietaire }
+    - { script: ProprietaireParcelle, view: proprietaire_parcelle }
+    - { script: CoProprieteParcelle, view: co_propriete_parcelle }
+    - { script: ProprieteBatie, view: proprietebatie }
+    - { script: ProprieteNonBatie, view: proprietenonbatie }
+    - { script: ProprieteNonBatieSufExo, view: proprietenonbatiesufexo }
+    - { script: Lot, view: lot }
+    - { script: Section, view: section }
+  tables:
+    - { script: groupe_autorisation }
+    - { script: request_information }
+    - { script: prop_bati_detent }
+    - { script: prop_ccodem }
+    - { script: prop_ccodro }
+    - { script: prop_ccoqua }
+    - { script: prop_ccogrm }
+    - { script: prop_dmatgm }
+    - { script: prop_dmatto }
+    - { script: prop_dnatpr }
+    - { script: prop_type_filiation }
+    - { script: prop_ccocac }
+    - { script: prop_ccocac_simple }
+  indexes: [{ script: indexes_vues_materialisees, index: idxcommunelibcom }]

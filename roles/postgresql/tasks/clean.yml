@@ -1,25 +1,26 @@
+---
 # instances need to be stopped so that the db can be removed
 - name: stop instances
   service:
-    name: "tomcat@{{ item }}"
-    enabled: no
+    name: tomcat@{{ item }}
+    enabled: false
     state: stopped
   with_items: "{{ tomcat_instances|list }}"
 
 - name: delete georchestra main database
-  become: yes
+  become: true
   become_user: postgres
   postgresql_db:
     name: "{{ item }}"
     state: absent
   with_items:
-  - "{{ georchestra.db.name }}"
+    - "{{ georchestra.db.name }}"
 
 - name: delete db users
-  become: yes
+  become: true
   become_user: postgres
   postgresql_user:
     name: "{{ item }}"
     state: absent
   with_items:
-  - "{{ georchestra.db.user }}"
+    - "{{ georchestra.db.user }}"

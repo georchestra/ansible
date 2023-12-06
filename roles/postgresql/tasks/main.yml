@@ -1,3 +1,4 @@
+---
 - name: setting locale
   locale_gen:
     name: "{{ system_locale }}"
@@ -10,9 +11,9 @@
 
 - name: installing dependencies
   apt:
-    pkg: 'postgis'
+    pkg: postgis
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: install python-psycopg2 for ansible psql modules
   apt:
@@ -20,15 +21,15 @@
     state: present
 
 - name: create georchestra user
-  become: yes
+  become: true
   become_user: postgres
   postgresql_user:
     name: "{{ georchestra.db.user }}"
     password: "{{ georchestra.db.pass }}"
-    encrypted: yes
+    encrypted: true
 
 - name: create georchestra main database
-  become: yes
+  become: true
   become_user: postgres
   postgresql_db:
     name: "{{ georchestra.db.name }}"
@@ -37,17 +38,17 @@
     encoding: UTF8
 
 - import_tasks: geonetwork.yml
-  become: yes
+  become: true
   become_user: postgres
   tags: postgresql_geonetwork
 
 - import_tasks: geofence.yml
-  become: yes
+  become: true
   become_user: postgres
   tags: postgresql_geofence
 
 - import_tasks: other_schemas.yml
-  become: yes
+  become: true
   become_user: postgres
   tags: postgresql_other_schemas
 

@@ -1,27 +1,28 @@
+---
 - name: check if plpgsql is already loaded
   command: psql -d {{ georchestra.db.name }} -t -c "\dx"
   register: loaded_extensions
 
 - name: createlang plpgsql
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "CREATE EXTENSION plpgsql;"
-  when: "loaded_extensions.stdout is defined and 'plpgsql' not in loaded_extensions.stdout"
+  when: loaded_extensions.stdout is defined and 'plpgsql' not in loaded_extensions.stdout
 
 - name: check if postgis is already loaded
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "\dT"
   register: loaded_types
 
 - name: create postgis extension
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ georchestra.db.name }} -t -c "CREATE EXTENSION postgis;"
-  when: "loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout"
+  when: loaded_types.stdout is defined and 'geometry' not in loaded_types.stdout
 
 - name: grant SELECT privilege to georchestra user on spatial_ref_sys table
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"
@@ -31,7 +32,7 @@
     objs: spatial_ref_sys
 
 - name: grant SELECT|INSERT|DELETE privileges to georchestra user on geometry_columns
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ georchestra.db.name }}"

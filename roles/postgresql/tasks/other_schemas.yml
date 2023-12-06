@@ -1,13 +1,14 @@
+---
 - name: create temporary directory
   shell: mktemp -d
-  check_mode: no
+  check_mode: false
   register: tempdir
 
 - name: fetch db structure
   get_url:
     dest: "{{ tempdir.stdout }}/{{ item.0 }}.sql"
     url: "{{ item.1 }}"
-    validate_certs: no
+    validate_certs: false
   with_together:
     - "{{ other_schemas }}"
     - "{{ other_schemas_urls }}"
@@ -19,11 +20,11 @@
 
 - name: create missing schemas
   command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/{{ item.item }}.sql
-  when: "item.stdout is defined and item.item not in item.stdout"
+  when: item.stdout is defined and item.item not in item.stdout
   with_items: "{{ schema_exists.results }}"
 
 - name: check if console.delegations exists
-  check_mode: no
+  check_mode: false
   command: psql -d {{ georchestra.db.name }} -t -c "\dt console.delegations"
   register: delegations_exist
 
@@ -31,21 +32,21 @@
   get_url:
     url: https://raw.github.com/georchestra/georchestra/master/postgresql/041-console-data.sql
     dest: "{{ tempdir.stdout }}/041-console-data.sql"
-  when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
+  when: delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout
 
 - name: remove docker-only lines
   lineinfile:
     dest: "{{ tempdir.stdout }}/041-console-data.sql"
-    regexp: ".*docker.*"
+    regexp: .*docker.*
     state: absent
-  when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
+  when: delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout
 
 - name: create console example data
   command: psql -d {{ georchestra.db.name }} -f {{ tempdir.stdout }}/041-console-data.sql
-  when: "delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout"
+  when: delegations_exist.stdout is defined and 'delegations' not in delegations_exist.stdout
 
 - name: recursively purge temp dir
-  check_mode: no
+  check_mode: false
   file:
     dest: "{{ tempdir.stdout }}"
     state: absent

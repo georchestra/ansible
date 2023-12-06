@@ -1,7 +1,8 @@
+---
 - name: check if geonetwork schema already exists
   command: psql -d {{ georchestra.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create geonetwork schema in georchestra db
   command: psql -d {{ georchestra.db.name }} -c 'CREATE SCHEMA {{ geonetwork.db.schema }} AUTHORIZATION {{ georchestra.db.user }}'
-  when: "loaded_schemas.stdout is defined and geonetwork.db.schema not in loaded_schemas.stdout"
+  when: loaded_schemas.stdout is defined and geonetwork.db.schema not in loaded_schemas.stdout

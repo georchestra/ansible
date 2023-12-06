@@ -1,12 +1,13 @@
+---
 - name: create cadastrapp user
-  become: yes
+  become: true
   become_user: postgres
   postgresql_user:
     name: "{{ cadastrapp.db.user }}"
     password: "{{ cadastrapp.db.pass }}"
 
 - name: create cadastrapp main database
-  become: yes
+  become: true
   become_user: postgres
   postgresql_db:
     name: "{{ cadastrapp.db.name }}"
@@ -15,19 +16,19 @@
     encoding: UTF8
 
 - name: check if cadastrapp schema already exists
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dn"
   register: loaded_schemas
 
 - name: create cadastrapp schema in cadastrapp db
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -c 'CREATE SCHEMA {{ cadastrapp.db.schema }}'
-  when: "loaded_schemas.stdout is defined and cadastrapp.db.schema not in loaded_schemas.stdout"
+  when: loaded_schemas.stdout is defined and cadastrapp.db.schema not in loaded_schemas.stdout
 
 - name: grant all privileges to cadastrapp user on its schema
-  become: yes
+  become: true
   become_user: postgres
   postgresql_privs:
     database: "{{ cadastrapp.db.name }}"
@@ -38,24 +39,24 @@
 
 - name: list tables
   tags: runsql
-  check_mode: no
-  become: yes
+  check_mode: false
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dt {{ cadastrapp.db.schema }}.* "
   register: tables
 
 - name: list views
   tags: runsql
-  check_mode: no
-  become: yes
+  check_mode: false
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\dm {{ cadastrapp.db.schema }}.*"
   register: views
 
 - name: list indexes
   tags: runsql
-  check_mode: no
-  become: yes
+  check_mode: false
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -t -c "\di {{ cadastrapp.db.schema }}.*"
   register: indexes
@@ -77,7 +78,7 @@
   get_url:
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/georchestra/cadastrapp/master/database/sql/vues/{{ item.script }}.sql
-#    validate_certs: no
+  #    validate_certs: no
   with_items: "{{ cadastrappsql.views }}"
 
 - name: get the sql scripts for tables
@@ -85,7 +86,7 @@
   get_url:
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.script }}.sql"
     url: https://raw.github.com/georchestra/cadastrapp/master/database/sql/tables/{{ item.script }}.sql
-#    validate_certs: no
+  #    validate_certs: no
   with_items: "{{ cadastrappsql.tables }}"
 
 - name: get the sql scripts for indexes
@@ -101,39 +102,39 @@
     dest: "{{ cadastrappsql.tmpdir }}/{{ item.1.script }}.sql"
     regexp: "{{ item.0.pat }}"
     replace: "{{ item.0.val }}"
-    backup: yes
+    backup: true
   with_nested:
-    - [{ pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" },
-    { pat: '#DBHost_qgis', val: "{{ cadastrapp.qgisdb.host }}" },
-    { pat: '#DBPort_qgis', val: "{{ cadastrapp.qgisdb.port }}" },
-    { pat: '#DBName_qgis', val: "{{ cadastrapp.qgisdb.name }}" },
-    { pat: '#DBUser_qgis', val: "{{ cadastrapp.qgisdb.user }}" },
-    { pat: '#DBpasswd_qgis', val: "{{ cadastrapp.qgisdb.pass }}" },
-    { pat: '#DBSchema_qgis', val: "{{ cadastrapp.qgisdb.schema }}" },
-    { pat: '#schema_cadastrapp', val: "{{ cadastrapp.db.schema }}" },
-    { pat: '#user_cadastrapp', val: "{{ cadastrapp.db.user }}" }]
+    -   - { pat: "'CREATE OR REPLACE VIEW'", val: "'CREATE MATERIALIZED VIEW'" }
+        - { pat: "#DBHost_qgis", val: "{{ cadastrapp.qgisdb.host }}" }
+        - { pat: "#DBPort_qgis", val: "{{ cadastrapp.qgisdb.port }}" }
+        - { pat: "#DBName_qgis", val: "{{ cadastrapp.qgisdb.name }}" }
+        - { pat: "#DBUser_qgis", val: "{{ cadastrapp.qgisdb.user }}" }
+        - { pat: "#DBpasswd_qgis", val: "{{ cadastrapp.qgisdb.pass }}" }
+        - { pat: "#DBSchema_qgis", val: "{{ cadastrapp.qgisdb.schema }}" }
+        - { pat: "#schema_cadastrapp", val: "{{ cadastrapp.db.schema }}" }
+        - { pat: "#user_cadastrapp", val: "{{ cadastrapp.db.user }}" }
     - "{{ cadastrappsql.views }} + {{ cadastrappsql.tables }} + {{ cadastrappsql.indexes }}"
 
 - name: create tables
   tags: runsql
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.tables }}"
-  when: "tables.stdout is defined and item.script not in tables.stdout"
+  when: tables.stdout is defined and item.script not in tables.stdout
 
 - name: create views
   tags: runsql
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.views }}"
-  when: "views.stdout is defined and item.view not in views.stdout"
+  when: views.stdout is defined and item.view not in views.stdout
 
 - name: create indexes
   tags: runsql
-  become: yes
+  become: true
   become_user: postgres
   command: psql -d {{ cadastrapp.db.name }} -v ON_ERROR_STOP=yes -f {{ cadastrappsql.tmpdir }}/{{ item.script }}.sql
   with_items: "{{ cadastrappsql.indexes }}"
-  when: "indexes.stdout is defined and item.index not in indexes.stdout"
+  when: indexes.stdout is defined and item.index not in indexes.stdout

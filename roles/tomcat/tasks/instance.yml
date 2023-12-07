@@ -24,12 +24,14 @@
     - [logs, temp, conf, work, webapps]
 
 - name: install instance config in /etc/default
+  tags: tomcat_config
   template:
     src: config-{{ item.key }}.j2
     dest: /etc/default/tomcat-{{ item.key }}
   with_dict: "{{ tomcat_instances }}"
 
 - name: install instance connector
+  #tags: tomcat_config
   template:
     src: server-{{ item.key }}.xml.j2
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/server.xml"

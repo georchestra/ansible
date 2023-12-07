@@ -8,6 +8,7 @@
 - name: add georchestra repository key
   tags: apt_repo
   apt_key:
+    keyring: /etc/apt/keyrings/packages.georchestra.org.gpg
     url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo

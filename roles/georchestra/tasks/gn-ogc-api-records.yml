@@ -10,12 +10,14 @@
     dest: /etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml
 
 - name: setup a systemd unit file
+  tags: systemd
   template:
     src: geonetwork/gn-ogc-api-records.service.j2
     dest: /etc/systemd/system/gn-ogc-api-records.service
   register: gn_ogc_api_records_unitfile
 
 - name: start/enable the gn-ogc-api-records service
+  tags: systemd
   systemd:
     state: restarted
     daemon_reload: true

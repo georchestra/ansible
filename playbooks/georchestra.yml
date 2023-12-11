@@ -11,7 +11,7 @@
     georchestra_versions:
       # master version
       datadir: master # or 23.0, see https://github.com/georchestra/datadir/branches
-      debian_repository_url: deb https://packages.georchestra.org/debian master main # or 23.0.x
+      debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 23.0.x
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.2.2 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches

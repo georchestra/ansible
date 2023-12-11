@@ -26,3 +26,21 @@
     src: datahub.conf.j2
     dest: /var/www/georchestra/conf/datahub.conf
   notify: reload apache2
+
+- name: copy custom assets from datadir
+  copy:
+    src: "{{ georchestra.datadir.path }}/datahub/assets/"
+    dest: "/var/www/georchestra/htdocs/datahub/assets/"
+    owner: root
+    group: root
+    mode: "0755"
+    remote_src: true
+
+- name: copy custom configuration from datadir
+  copy:
+    src: "{{ georchestra.datadir.path }}/datahub/conf/"
+    dest: "/var/www/georchestra/htdocs/datahub/assets/configuration/"
+    owner: root
+    group: root
+    mode: "0775"
+    remote_src: true

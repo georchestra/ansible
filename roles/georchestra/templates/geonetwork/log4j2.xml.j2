@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" dest="out">
+  <Properties>
+    <Property name="log_dir">/srv/log</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%date{ISO8601} %-5level [%logger] - %message%n"/>
+    </Console>
+    <RollingFile name="File">
+      <filename>${sys:log_dir:-log_dir}/geonetwork.log</filename>
+      <filePattern>${sys:log_dir:-log_dir}/geonetwork.log-%i.log</filePattern>
+      <PatternLayout pattern="%date{ISO8601} %-5level [%logger] - %message%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB" />
+      </Policies>
+      <DefaultRolloverStrategy max="3" fileIndex="min"/>
+    </RollingFile>
+    <Routing name="Harvester">
+      <Routes pattern="$${ctx:logfile}">
+        <!-- value dynamically determines the name of the log file. -->
+        <Route>
+          <File name="harvester-${ctx:harvester}" fileName="${sys:log_dir:-log_dir}/${ctx:logfile:-harvester_default.log}">
+            <PatternLayout>
+              <pattern>%date{ISO8601}{${ctx:timeZone}} %-5level [%logger] - %message%n</pattern>
+            </PatternLayout>
+          </File>
+        </Route>
+      </Routes>
+    </Routing>
+  </Appenders>
+  <Loggers>
+    <!-- Geonetwork module (and submodule) logging -->
+    <Logger name="geonetwork" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+      <AppenderRef ref="Harvester"/>
+    </Logger>
+    <Logger name="geonetwork.accessmanager" level="info"/>
+    <Logger name="geonetwork.atom" level="info"/>
+    <Logger name="geonetwork.backup" level="info"/>
+    <Logger name="geonetwork.camel-harvester" level="info"/>
+    <Logger name="geonetwork.cors" level="info"/>
+    <Logger name="geonetwork.csw" level="info"/>
+    <Logger name="geonetwork.csw.search" level="info"/>
+    <Logger name="geonetwork.data.directory" level="info"/>
+    <Logger name="geonetwork.database" level="info"/>
+    <Logger name="geonetwork.databasemigration" level="info"/>
+    <Logger name="geonetwork.datamanager" level="info"/>
+    <Logger name="geonetwork.domain" level="info"/>
+    <Logger name="geonetwork.editor" level="info"/>
+    <Logger name="geonetwork.editorexpandelement" level="info"/>
+    <Logger name="geonetwork.editorfillelement" level="info"/>
+    <Logger name="geonetwork.encryptor" level="info"/>
+    <Logger name="geonetwork.formatter" level="info"/>
+    <Logger name="geonetwork.geoserver.publisher" level="info"/>
+    <Logger name="geonetwork.geoserver.rest" level="info"/>
+    <Logger name="geonetwork.harvest.wfs.features" level="debug"/>
+    <Logger name="geonetwork.harvester" level="info"/>
+    <Logger name="geonetwork.harvester" level="info"/>
+    <Logger name="geonetwork.index" level="info"/>
+    <Logger name="geonetwork.ldap" level="info"/>
+    <Logger name="geonetwork.lucene" level="info"/>
+    <Logger name="geonetwork.mef" level="info"/>
+    <Logger name="geonetwork.resources" level="info"/>
+    <Logger name="geonetwork.schemamanager" level="info"/>
+    <Logger name="geonetwork.search" level="info"/>
+    <Logger name="geonetwork.security" level="info"/>
+    <Logger name="geonetwork.spatineo" level="info"/>
+    <Logger name="geonetwork.sru" level="info"/>
+    <Logger name="geonetwork.sru.search" level="info"/>
+    <Logger name="geonetwork.thesaurus" level="info"/>
+    <Logger name="geonetwork.thesaurus-man" level="info"/>
+    <Logger name="geonetwork.userwatchlist" level="info"/>
+    <Logger name="geonetwork.wro4j" level="info"/>
+
+    <!--  Jeeves module and submodule logger configuration -->
+    <Logger name="geonetwork.engine" level="info"/>
+    <Logger name="geonetwork.monitor" level="info"/>
+    <Logger name="geonetwork.resources" level="info"/>
+    <Logger name="geonetwork.security" level="info"/>
+    <Logger name="geonetwork.transformerFactory" level="info"/>
+    <Logger name="geonetwork.xlinkprocessor" level="info"/>
+    <Logger name="geonetwork.xmlresolver" level="info"/>
+
+    <!--  Spring logging configuration -->
+    <Logger name="org.springframework" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="org.springframework.beans" level="info"/>
+    <Logger name="org.springframework.security" level="info"/>
+    <Logger name="org.springframework.security.ldap" level="info"/>
+    <Logger name="org.springframework.aop.framework.CglibAopProxy" level="info"/>
+
+    <Logger name="com.k_int" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+
+    <!--  JZKIT logging configuration -->
+    <Logger name="org.jzkit" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="org.jzkit.a2j" level="info"/>
+    <Logger name="org.jzkit.search.impl.LRUCache" level="info"/>
+
+    <Logger name="ro.isdc.wro.http" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+
+    <!-- Check domain/src/main/resources/config-spring-geonetwork.xml show_sql properties. -->
+    <Logger name="org.hibernate.SQL" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="org.hibernate.type" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="org.hibernate.tool.hbm2ddl" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+    <Logger name="org.xhtmlrenderer" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+
+    <Logger name="org.apache.camel" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Logger>
+
+    <!-- Turn off logging except when explicitly declared above -->
+    <Root level="off">
+        <AppenderRef ref="File"/>
+    </Root>
+  </Loggers>
+</Configuration>

@@ -92,6 +92,8 @@
     - { src: common, dest: proxy }
     - { src: common, dest: _static }
     - { src: common, dest: cas }
+    - { src: common, dest: import }
+    - { src: common, dest: datafeeder }
     - { src: common, dest: analytics }
     - { src: common, dest: geonetwork }
     - { src: common, dest: geoserver }

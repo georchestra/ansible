@@ -1,0 +1,11 @@
+- name: Generate self-signed cert ## XXX will warn that it's a CA cert ?
+  command: >
+    openssl req -new -nodes -x509 -subj "/C=FR/L=Somewhere/O=IT/CN={{ georchestra.fqdn }}"
+      -days 3650 -keyout /var/www/georchestra/ssl/georchestra.key -out /var/www/georchestra/ssl/georchestra.crt -extensions v3_ca
+  args:
+    creates: /var/www/georchestra/ssl/georchestra.crt
+
+- name: fix perms on certificate
+  file:
+    path: /var/www/georchestra/ssl/georchestra.key
+    mode: "0400"

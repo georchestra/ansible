@@ -1,0 +1,104 @@
+upstream proxycas_backend {
+	server localhost:8180;
+}
+
+{% if force_https %}
+# redirect http to https
+server {
+	listen  80;
+	listen [::]:80;
+	server_name {{ georchestra.fqdn }};
+	return 301 https://$server_name$request_uri;
+}
+{% endif %}
+
+# main entrypoint
+server {
+{% if force_https %}
+	listen 443 ssl;
+	listen [::]:443 ssl;
+	add_header Strict-Transport-Security "max-age=31536000";
+	ssl_certificate /var/www/georchestra/ssl/georchestra.crt;
+	ssl_certificate_key /var/www/georchestra/ssl/georchestra.key;
+	ssl_prefer_server_ciphers on;
+	ssl_protocols TLSv1.2 TLSv1.3;
+	#ssl_dhparam /etc/ssl/dh_2048.pem;
+
+{% endif %}
+	server_name {{ georchestra.fqdn }};
+	access_log /var/log/nginx/georchestra_access.log;
+	error_log /var/log/nginx/georchestra_error.log;
+
+	root /var/www/georchestra/htdocs/;
+
+	location / {
+		try_files $uri $uri/ @proxycas;
+	}
+	location @proxycas {
+		proxy_pass http://proxycas_backend;
+		proxy_redirect off;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+	}
+
+	# make sure nobody external tries to use the internal proxy
+	location /proxy/ {
+		valid_referers server_names;
+		if ($invalid_referer) {
+			return 403;
+		}
+		proxy_pass	http://proxycas_backend;
+	}
+
+	# CORS geonetwork
+	location ~ ^/geonetwork/srv/.*/csw {
+		if ( $request_method = OPTIONS ) {
+			add_header "Access-Control-Allow-Origin" "*";
+			add_header "Access-Control-Allow-Method" "POST, GET, OPTIONS";
+			add_header "Access-Control-Allow-Headers" "Origin, X-Requested-With, Content-Type, Accept";
+			return 204;
+		}
+		proxy_pass	http://proxycas_backend;
+	}
+
+	# CORS geoserver
+	location ~ ^/geoserver/(|.*/)(wms|wfs|ows|wcs)$ {
+		add_header "Access-Control-Allow-Origin" "*";
+		add_header "Access-Control-Allow-Headers" "Origin, X-Requested-With, Content-Type, Accept";
+		proxy_pass	http://proxycas_backend;
+	}
+
+	# redirect default to datahub
+	rewrite ^/$	/datahub/home/search	redirect;
+
+{%if gn_cloud_searching.enabled %}
+	# rss
+	location ~ ^/geonetwork/srv/.../rss.search {
+		add_header Content-Type "application/rss+xml; charset=utf-8";
+		proxy_set_header Accept-Encoding "";
+		rewrite ^.*$ /portal/api/search/records/rss.search?f=rss? break;
+		proxy_pass http://localhost:{{ gn_cloud_searching.port }};
+	}
+{% endif %}
+
+	location /datahub {
+		try_files $uri $uri/ /datahub/index.html;
+		add_header Cache-Control 'max-age=86400'; # 24h
+		location ~ /index.html|.*\.toml|.*\.json$ {
+			expires -1;
+			add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+		}
+		location ~ .*\.css$|.*\.js$ {
+			add_header Cache-Control 'max-age=86400'; # 24h
+		}
+		location ~ /datahub/assets/img/(.*).(webp|png|svg) {
+			alias /etc/georchestra/datahub/assets/img/$1.$2;
+		}
+		location = /datahub/assets/favicon.ico {
+			alias /etc/georchestra/datahub/assets/favicon.ico;
+		}
+		location = /datahub/assets/configuration/default.toml {
+			alias /etc/georchestra/datahub/conf/default.toml;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+---
+- name: Install nginx
+  apt:
+    pkg: nginx
+    state: present
+
+- name: Template georchestra vhost
+  template:
+    src: vhost.j2
+    dest: /etc/nginx/sites-available/georchestra
+  notify: Test nginx and reload
+
+- name: Enable georchestra vhost
+  file:
+    dest: /etc/nginx/sites-enabled/georchestra
+    src: /etc/nginx/sites-available/georchestra
+    state: link
+    owner: root
+    group: root
+  notify: Test nginx and reload
+
+- name: Create web directories
+  file:
+    name: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/www/georchestra/
+    - /var/www/georchestra/ssl
+
+- name: Clone htdocs dir
+  git:
+    repo: https://github.com/georchestra/htdocs.git
+    dest: /var/www/georchestra/htdocs/
+    version: master
+    accept_hostkey: true
+
+- import_tasks: datahub.yml
+
+- import_tasks: generate_cert.yml
+  when: force_https

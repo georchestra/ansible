@@ -3,4 +3,4 @@ dependencies:
   - { role: openldap, tags: openldap }
   - { role: postgresql, tags: postgresql }
   - { role: tomcat, tags: tomcat }
-  - { role: apache, tags: apache }
+  - { role: nginx, tags: nginx }

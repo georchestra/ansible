@@ -17,18 +17,38 @@ instanceName=geOrchestra
 # Default language
 language=en
 
+# Header script for web component header
+# https://github.com/georchestra/header
+headerScript=https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js
+
 # Header height (size in px)
 # If different from default value "90", adapt analytics/js/GEOR_custom.js
 # accordingly
 headerHeight=90
 
-# Header URL (can be absolute or relative)
+# Variable use to keep the old iframe header.
+# Set headerUrl accordingly
+# Default false
+useLegacyHeader=false
+
+# Header URL (can be absolute or relative). It is used only if useLegacyHeader is set to true.
 # If different from default value "/header/", adapt
 # security-proxy/targets-mapping.properties accordingly
+# default /header/
 headerUrl=/header/
 
+# Stylesheet used to override default colors of header
+# More design can be set by overriding default classes & styles
+# Default empty string
+# georchestraStylesheet=http://my-domain-name/stylesheet.css
+
+# Logo URL
+# Used to set header's logo.
+logoUrl=https://www.georchestra.org/public/georchestra-logo.svg
+
+
 # Administrator email
-# Default email address used to send and receive mails in the console
+# Default email address used to send and receive mails in console
 # See the corresponding properties files to override this email
 # address for specific needs.
 administratorEmail={{ console_adminemail }}

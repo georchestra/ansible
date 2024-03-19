@@ -81,6 +81,13 @@ server {
 	}
 {% endif %}
 
+{% if gn_ogc_api_records.enabled %}
+	location /ogc-api-records {
+		proxy_set_header Host $host;
+		proxy_pass http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records;
+	}
+{% endif %}
+
 	location /datahub {
 		try_files $uri $uri/ /datahub/index.html;
 		add_header Cache-Control 'max-age=86400'; # 24h

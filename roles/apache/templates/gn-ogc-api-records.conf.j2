@@ -1,6 +1,0 @@
-<Proxy http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records/*>
-    Require all granted
-</Proxy>
-
-ProxyPass /ogc-api-records/ http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records/
-ProxyPassReverse /ogc-api-records/ http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records/

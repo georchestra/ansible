@@ -1,8 +1,0 @@
-<Location "/datahub/">
-  RewriteEngine on
-  RewriteBase "/datahub/"
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule "^(.*)$" "index.html"
-</Location>
-ProxyPassMatch ^/datahub/.*$ !

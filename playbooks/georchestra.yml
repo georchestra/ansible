@@ -139,6 +139,9 @@
     system_locale: en_US.UTF-8
     logs_basedir: /srv/log
     force_https: true # set to false if running behind a reverse proxy that does SSL
+    # if running behind a reverse proxy, uncomment/fill so that you get the real client ip in accesslogs
+    #reverse_proxy_real_ip: 10.0.0.1
+    #reverse_proxy_real_ip_header: X-Forwarded-For
     console_adminemail: admin@example.org
     console_captcha:
       privateKey: ""

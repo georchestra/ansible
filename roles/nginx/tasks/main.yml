@@ -4,6 +4,11 @@
     pkg: nginx
     state: present
 
+- name: Check if vhost exists
+  stat:
+    path: /etc/nginx/sites-available/georchestra
+  register: vhost_exists
+
 - name: Template georchestra vhost
   template:
     src: vhost.j2
@@ -18,6 +23,12 @@
     owner: root
     group: root
   notify: Test nginx and reload
+
+- name: Restart nginx if vhost was deployed and we now listen  on port 443
+  service:
+    name: nginx
+    state: restarted
+  when: force_https and not vhost_exists.stat.exists
 
 - name: Create web directories
   file:

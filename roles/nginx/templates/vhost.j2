@@ -51,6 +51,8 @@ server {
 		if ($invalid_referer) {
 			return 403;
 		}
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
 		proxy_pass	http://proxycas_backend;
 	}
 
@@ -62,6 +64,8 @@ server {
 			add_header "Access-Control-Allow-Headers" "Origin, X-Requested-With, Content-Type, Accept";
 			return 204;
 		}
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
 		proxy_pass	http://proxycas_backend;
 	}
 
@@ -69,6 +73,8 @@ server {
 	location ~ ^/geoserver/(|.*/)(wms|wfs|ows|wcs)$ {
 		add_header "Access-Control-Allow-Origin" "*";
 		add_header "Access-Control-Allow-Headers" "Origin, X-Requested-With, Content-Type, Accept";
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
 		proxy_pass	http://proxycas_backend;
 	}
 

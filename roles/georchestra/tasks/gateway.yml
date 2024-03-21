@@ -1,0 +1,29 @@
+---
+- name: install the georchestra-gateway package
+  apt:
+    pkg: georchestra-gateway
+    state: latest
+
+- name: template a configuration into the datadir
+  template:
+    src: gateway/datadir/{{ item }}.yaml.j2
+    dest: /etc/georchestra/gateway/{{ item }}.yaml
+  with_items:
+    - application
+    - gateway
+    - roles-mappings
+    - routes
+    - security
+
+- name: setup a systemd unit file
+  template:
+    src: gateway/gateway.service.j2
+    dest: /etc/systemd/system/gateway.service
+  register: gw_unitfile
+
+- name: start/enable the georchestra-gateway service
+  systemd:
+    state: restarted
+    daemon_reload: true
+    name: gateway
+  when: gw_unitfile.changed

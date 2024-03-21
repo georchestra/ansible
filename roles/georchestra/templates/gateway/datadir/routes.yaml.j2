@@ -1,0 +1,77 @@
+# File included by gateway.yaml to set up the spring-gateway's routes
+# target service URL's are defined in gateway.yaml (e.g. georchestra.gateway.services.<service>.target)
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: root
+        uri: ${georchestra.gateway.services.header.target}
+        predicates:
+        - Path=/
+        filters:
+        - RedirectTo=308, /header
+      - id: header
+        uri: ${georchestra.gateway.services.header.target}
+        predicates:
+        - Path=/header,/header/**
+      - id: analytics
+        uri: ${georchestra.gateway.services.analytics.target}
+        predicates:
+        - Path=/analytics/**
+      - id: console
+        uri: ${georchestra.gateway.services.console.target}
+        predicates:
+        - Path=/console/**
+      - id: geonetwork
+        uri: ${georchestra.gateway.services.geonetwork.target}
+        predicates:
+        - Path=/geonetwork/**
+        filters:
+        - name: CookieAffinity
+          args:
+            name: XSRF-TOKEN
+            from: /geonetwork
+            to: /datahub
+      - id: geoserver
+        uri: ${georchestra.gateway.services.geoserver.target}
+        predicates:
+        - Path=/geoserver/**
+      - id: geowebcache
+        uri: ${georchestra.gateway.services.geowebcache.target}
+        predicates:
+        - Path=/geowebcache/**
+      - id: mapstore
+        uri: ${georchestra.gateway.services.mapstore.target}
+        predicates:
+        - Path=/mapstore/**
+      - id: datafeeder
+        uri: ${georchestra.gateway.services.datafeeder.target}
+        predicates:
+        - Path=/datafeeder/**
+      - id: import
+        uri: ${georchestra.gateway.services.import.target}
+        predicates:
+        - Path=/import/**
+        filters:
+        - RewritePath=/import/(?<segment>.*),/$\{segment}
+      - id: datahub
+        uri: ${georchestra.gateway.services.datahub.target}
+        predicates:
+        - Path=/datahub/**
+      - id: ogc-api-records
+        uri: ${georchestra.gateway.services.ogc-api-records.target}
+        predicates:
+        - Path=/ogc-api-records/**
+
+georchestra.gateway.services:
+  analytics.target: http://localhost:8280/analytics/
+  console.target: http://localhost:8280/console/
+  datafeeder.target: http://localhost:8480/datafeeder/
+  datahub.target: http://localhost:8280/datahub/
+  geonetwork.target: http://localhost:8280/geonetwork/
+  geoserver.target: http://localhost:8380/geoserver/
+  header.target: http://localhost:8280/header/
+  import.target: http://localhost:8280/import/
+  mapstore.target: http://localhost:8280/mapstore/
+  ogc-api-records.target: http://localhost:8480/ogc-api-records/

@@ -1,0 +1,31 @@
+# Configuration file allowing to extend the list of security role names
+# assigned to a user, from the role names extracted by the authentication
+# provider (e.g. LDAP, Oauth2, OpenID Connect).
+#
+# Limited regular expression support: only the * character is allowed
+# as a wildcard on a source role name. For example, the following mapping
+# will add the `ROLE_USER` role to all authenticated users that already
+# have any role name starting with `ROLE_GP.GDI.`
+#
+# Note that for the key names (source roles) to include special characters,
+# you must use the format '[role.name.*]' for the literal string role.name.*
+# to be interpreted correctly.
+#
+#georchestra:
+#  gateway:
+#    role-mappings:
+#      '[ROLE_GP.GDI.*]'
+#        - ROLE_USER
+#
+# If an authentication provider role name matches multiple mappings,
+# all the matching additional roles will be appended. For example, the
+# following mappings will add both `ROLE_USER` and `ROLE_ADMINISTRATOR`
+# to a user with role `ROLE_GP.GDI.ADMINISTRATOR`, but only `ROLE_USER`
+# to any other with a role starting with `ROLE_GP.GDI.`:
+#georchestra:
+#  gateway:
+#    role-mappings:
+#      '[ROLE_GP.GDI.*]':
+#        - ROLE_USER
+#      '[ROLE_GP.GDI.ADMINISTRATOR]':
+#        - ROLE_ADMINISTRATOR

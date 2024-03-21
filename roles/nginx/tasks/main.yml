@@ -4,6 +4,26 @@
     pkg: nginx
     state: present
 
+- name: Create web directories
+  file:
+    name: "{{ item }}"
+    state: directory
+  with_items:
+    - /var/www/georchestra/
+    - /var/www/georchestra/ssl
+
+- name: Clone htdocs dir
+  git:
+    repo: https://github.com/georchestra/htdocs.git
+    dest: /var/www/georchestra/htdocs/
+    version: master
+    accept_hostkey: true
+
+- import_tasks: datahub.yml
+
+- import_tasks: generate_cert.yml
+  when: force_https
+
 - name: Check if vhost exists
   stat:
     path: /etc/nginx/sites-available/georchestra
@@ -29,23 +49,3 @@
     name: nginx
     state: restarted
   when: force_https and not vhost_exists.stat.exists
-
-- name: Create web directories
-  file:
-    name: "{{ item }}"
-    state: directory
-  with_items:
-    - /var/www/georchestra/
-    - /var/www/georchestra/ssl
-
-- name: Clone htdocs dir
-  git:
-    repo: https://github.com/georchestra/htdocs.git
-    dest: /var/www/georchestra/htdocs/
-    version: master
-    accept_hostkey: true
-
-- import_tasks: datahub.yml
-
-- import_tasks: generate_cert.yml
-  when: force_https

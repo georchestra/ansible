@@ -1,0 +1,91 @@
+# Default georchestra gateway specific configuration, always imported from application.yml
+# configure target base URL's, headers and role based access, per service name.
+# Replaces security-proxy's targets-mapping.properties, headers-mapping.properties, and security-mappings.xml
+#
+spring.config.import: application.yaml, security.yaml, routes.yaml, roles-mappings.yaml
+
+georchestra:
+  gateway:
+    # Redirection URL after a successful logout : Defaults to /?logout
+    # logoutUrl : "/?logout" 
+    default-headers:
+      # Default security headers to append to proxied requests
+      proxy: true
+      username: true
+      roles: true
+      org: true
+      orgname: true
+    global-access-rules:
+    - intercept-url: /testPage
+      anonymous: false
+      allowed-roles: USER
+    - intercept-url:
+      - "/**"
+      - "/proxy/?url=*"
+      anonymous: true
+    services:
+      header:
+        target: ${georchestra.gateway.services.header.target}
+        access-rules:
+        - intercept-url: /header/**
+          anonymous: true
+      analytics:
+        target: ${georchestra.gateway.services.analytics.target}
+        access-rules:
+        - intercept-url: /analytics/**
+          allowed-roles: SUPERUSER,ORGADMIN
+      datafeeder:
+        target: ${georchestra.gateway.services.datafeeder.target}
+        headers:
+          json-user: true
+          json-organization: true
+        access-rules:
+        - intercept-url: /datafeeder/**
+          anonymous: false
+          allowed-roles: SUPERUSER,IMPORT
+      import:
+        target: ${georchestra.gateway.services.import.target}
+        access-rules:
+        - intercept-url: /import/**
+          anonymous: false
+          allowed-roles: SUPERUSER,IMPORT
+      console:
+        target: ${georchestra.gateway.services.console.target}
+        access-rules:
+        - intercept-url:
+          - /console/public/**
+          - /console/manager/public/**
+          #/console/account resources are private except account/new and account/passwordRecovery
+          - /console/account/new
+          - /console/account/newPassword
+          - /console/account/passwordRecovery
+          - /console/account/js/**
+          - /console/account/css/**
+          - /console/account/fonts/**
+          - /console/testPage
+          anonymous: true
+        - intercept-url:
+          - /console/private/**
+          - /console/manager/**
+          - /console/*/emails
+          - /console/*/sendEmail # /console/sendEmail features are reserved to SUPERUSER & delegated admins
+          - /console/*/emailTemplates
+          - /console/attachments
+          allowed-roles: SUPERUSER,ORGADMIN
+        - intercept-url: /console/emailProxy #activated for members having the EMAILPROXY role
+          allowed-roles: EMAILPROXY
+        - intercept-url: /console/internal/**
+          allowed-roles: SUPERUSER
+        - intercept-url: /console/account/**
+          anonymous: false
+      geonetwork:
+        target: ${georchestra.gateway.services.geonetwork.target}
+        headers:
+          proxy: true
+          username: false
+          roles: false
+          org: false
+          orgname: true
+          json-user: true
+      geoserver:
+        target: ${georchestra.gateway.services.geoserver.target}

@@ -21,5 +21,6 @@
   systemd:
     state: restarted
     daemon_reload: true
+    enabled: true
     name: gn-ogc-api-records
   when: gn_ogc_api_records_unitfile.changed

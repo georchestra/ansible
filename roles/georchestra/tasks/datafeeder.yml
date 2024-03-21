@@ -14,5 +14,6 @@
   systemd:
     state: restarted
     daemon_reload: true
+    enabled: true
     name: datafeeder
   when: df_unitfile.changed

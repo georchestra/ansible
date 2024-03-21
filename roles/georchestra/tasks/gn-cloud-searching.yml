@@ -21,5 +21,6 @@
   systemd:
     state: restarted
     daemon_reload: true
+    enabled: true
     name: gn-cloud-searching
   when: gn_cloud_searching_unitfile.changed

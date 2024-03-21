@@ -1,7 +1,85 @@
 ---
-- name: Mviewerstudio accessible only if connected
+- name: Install mviewerstudio dependencies
+  apt:
+    pkg: 
+      - git
+      - libxslt1-dev
+      - libxml2-dev
+      - python3
+      - python3-pip
+      - python3-venv
+    state: present
+
+- name: Create a group georchestra
+  become: yes
+  group: 
+    name: georchestra
+    state: present
+
+- name: Create the user for mviewer and mviewerstudio
+  become: yes
+  user:
+    name: mviewer
+    state: present
+
+- name: Checkout mviewerstudio
+  git:
+    repo: "{{ mviewerstudio.gitrepo }}"
+    version: "{{ mviewerstudio.gitversion }}"
+    dest: /srv/apps/mviewerstudio/
+
+- name: Change ownership
+  file:
+    path: /srv/apps/mviewerstudio/
+    owner: mviewer
+    group: georchestra
+    state: directory
+    recurse: yes
+
+- name: Configurer Mviewerstudio access if connected
   lineinfile:
     insertbefore: '<intercept-url pattern=".*" '
     path: "{{ georchestra.datadir.path }}/security-proxy/security-mappings.xml"
     line: '  <intercept-url pattern="/mviewerstudio/.*" access="IS_AUTHENTICATED_FULLY" />'
     state: present
+
+- name: Copy static ressource 
+  copy:
+    src: "{{ item }}"
+    dest: /srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/apps/
+    force: no
+    owner: mviewer
+    group: georchestra
+    remote_src: true
+  with_items:
+    - css
+    - img
+    - js
+    - lib
+    - index.html
+    - mviewerstudio.i18n.json
+
+- name: Template config
+  template:
+    src: mviewerstudio/config.json.j2
+    dest: /srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/apps/config.json
+    force: no
+    owner: mviewer
+    group: georchestra
+
+- name: Install requirements
+  pip: 
+    requirements: /srv/apps/mviewerstudio/srv/python/requirements.txt
+    virtualenv: /srv/apps/mviewerstudio/srv/python/.venv
+
+- name: Template systemd unit
+  tags: systemd_unit
+  template:
+    src: mviewerstudio/mviewerstudio.service.j2
+    dest: /etc/systemd/system/mviewerstudio.service
+
+- name: Reload systemd so that it finds the new unit
+  tags: systemd_unit
+  systemd:
+    daemon-reload: true
+    name: mviewerstudio.service

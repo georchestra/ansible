@@ -1,0 +1,18 @@
+# vhost for Mviewer and Mviewer studio
+server {
+	listen  {{ mviewer.port }};
+	listen [::]:{{ mviewer.port }};
+
+	server_name {{ georchestra.fqdn }};
+	access_log /var/log/nginx/mviewer_access.log;
+	error_log /var/log/nginx/mviewer_error.log;
+
+	root /var/www/mviewer/;
+
+  	location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+    }
+
+}

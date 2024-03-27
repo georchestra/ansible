@@ -3,11 +3,11 @@
  After=network.target
 
  [Service]
- User=mviewerstudio
- Environment="EXPORT_CONF_FOLDER=/var/www/mviewer/apps/store/"
+ User=mviewer
+ Environment="EXPORT_CONF_FOLDER=/srv/data/mviewer/apps/store/"
  Environment="CONF_PUBLISH_PATH_FROM_MVIEWER=apps/prod"
  Environment="CONF_PATH_FROM_MVIEWER=apps/store"
- Environment="MVIEWERSTUDIO_PUBLISH_PATH=/var/www/mviewer/apps/prod"
+ Environment="MVIEWERSTUDIO_PUBLISH_PATH=/srv/data/mviewer/apps/prod"
  Environment="DEFAULT_ORG=public"
  Environment="LOG_LEVEL=INFO"
  WorkingDirectory=/srv/apps/mviewerstudio/srv/python

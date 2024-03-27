@@ -49,3 +49,7 @@
     name: nginx
     state: restarted
   when: force_https and not vhost_exists.stat.exists
+
+- import_tasks: mviewer.yml
+  when: mviewer.enabled
+  tags: mviewer

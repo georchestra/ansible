@@ -78,13 +78,12 @@
     src: mviewerstudio/config.json.j2
     dest: /srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/apps/config.json
 
-# Add access to all other user from group georchestra
-- name: Update common logdir
+- name: Create logdir for mviewerstudio
   file:
-    path: "{{ logs_basedir }}"
+    path: "{{ logs_basedir }}/mviewer"
     state: directory
+    owner: mviewer
     group: georchestra
-    mode: '0775'
 
 - name: Install MviewerStudio service requirements
   pip: 
@@ -100,5 +99,11 @@
 - name: Reload systemd 
   tags: systemd_unit
   systemd:
+    enabled: true
     daemon-reload: true
     name: mviewerstudio.service
+
+- name: Start mviewerstudio
+  service:
+    name: mviewerstudio
+    state: started

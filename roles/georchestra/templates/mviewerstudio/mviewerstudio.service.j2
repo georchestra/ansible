@@ -13,9 +13,9 @@
  WorkingDirectory=/srv/apps/mviewerstudio/srv/python
  ExecStart=/srv/apps/mviewerstudio/srv/python/.venv/bin/gunicorn \
      -b 127.0.0.1:{{ mviewerstudio.port}} \
-     --access-logfile /{{ logs_basedir }}/mviewerstudio-access.log \
+     --access-logfile /{{ logs_basedir }}/mviewer/mviewerstudio-access.log \
      --log-level info \
-     --error-logfile {{ logs_basedir }}/mviewerstudio-error.log \
+     --error-logfile {{ logs_basedir }}/mviewer/mviewerstudio-error.log \
      mviewerstudio_backend.app:app
 
  [Install]

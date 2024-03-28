@@ -3,7 +3,7 @@ server {
 	listen  {{ mviewer.port }};
 	listen [::]:{{ mviewer.port }};
 
-	server_name {{ georchestra.fqdn }};
+	server_name localhost_mviewer;
 	access_log /var/log/nginx/mviewer_access.log;
 	error_log /var/log/nginx/mviewer_error.log;
 

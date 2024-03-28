@@ -39,3 +39,11 @@
     - { file: cadastrapp.properties, war: cadastrapp, destdir: "" }
     - { file: logback.xml, war: cadastrapp, destdir: "" }
   notify: restart all tomcats
+
+- name: Mviewer accessible only if connected
+  lineinfile:
+    insertbefore: '<intercept-url pattern=".*" '
+    path: "{{ georchestra.datadir.path }}/security-proxy/security-mappings.xml"
+    line: '  <intercept-url pattern="/mviewer/.*" access="IS_AUTHENTICATED_FULLY" />'
+    state: present
+  when: mviewer.enabled

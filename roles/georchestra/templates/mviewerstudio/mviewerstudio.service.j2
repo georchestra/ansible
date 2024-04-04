@@ -1,0 +1,22 @@
+[Unit]
+ Description=mviewerstudio
+ After=network.target
+
+ [Service]
+ User=mviewer
+ Environment="EXPORT_CONF_FOLDER=/srv/data/mviewer/apps/store/"
+ Environment="CONF_PUBLISH_PATH_FROM_MVIEWER=apps/prod"
+ Environment="CONF_PATH_FROM_MVIEWER=apps/store"
+ Environment="MVIEWERSTUDIO_PUBLISH_PATH=/srv/data/mviewer/apps/prod"
+ Environment="DEFAULT_ORG=public"
+ Environment="LOG_LEVEL=INFO"
+ WorkingDirectory=/srv/apps/mviewerstudio/srv/python
+ ExecStart=/srv/apps/mviewerstudio/srv/python/.venv/bin/gunicorn \
+     -b 127.0.0.1:{{ mviewerstudio.port}} \
+     --access-logfile {{ logs_basedir }}/mviewer/mviewerstudio-access.log \
+     --log-level info \
+     --error-logfile {{ logs_basedir }}/mviewer/mviewerstudio-error.log \
+     mviewerstudio_backend.app:app
+
+ [Install]
+ WantedBy=multi-user.target

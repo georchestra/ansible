@@ -1,0 +1,24 @@
+---
+- name: Checkout mviewer
+  git:
+    repo: "{{ mviewer.gitrepo }}"
+    version: "{{ mviewer.gitversion }}"
+    dest: /var/www/mviewer
+  when: mviewer.enabled
+
+- name: Template mviewer vhost
+  template:
+    src: vhost-mviewer.j2
+    dest: /etc/nginx/sites-available/mviewer
+  notify: Test nginx and reload
+  when: mviewer.enabled
+
+- name: Enable mviewer vhost
+  file:
+    dest: /etc/nginx/sites-enabled/mviewer
+    src: /etc/nginx/sites-available/mviewer
+    state: link
+    owner: root
+    group: root
+  notify: Test nginx and reload
+  when: mviewer.enabled

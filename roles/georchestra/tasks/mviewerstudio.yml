@@ -1,7 +1,109 @@
 ---
-- name: Mviewerstudio accessible only if connected
+- name: Install MviewerStudio dependencies
+  apt:
+    pkg: 
+      - git
+      - libxslt1-dev
+      - libxml2-dev
+      - python3
+      - python3-pip
+      - python3-virtualenv
+    state: present
+
+- name: Create a georchestra group
+  become: yes
+  group: 
+    name: georchestra
+    state: present
+
+- name: Create user for mviewer and mviewerstudio
+  become: yes
+  user:
+    name: mviewer
+    group: georchestra
+    state: present
+
+- name: Checkout MviewerStudio
+  git:
+    repo: "{{ mviewerstudio.gitrepo }}"
+    version: "{{ mviewerstudio.gitversion }}"
+    dest: /srv/apps/mviewerstudio/
+
+- name: Create folder for generated Mviewer conf create by MviewerStudio
+  file:
+    path: "/srv/data/mviewer/apps/{{ item }}"
+    state: directory
+    owner: mviewer
+    group: georchestra
+  with_items:
+    - store
+    - prod
+
+- name: Create a symbolic link for Mviewer
+  file:
+    src: "/srv/data/mviewer/apps/{{ item }}"
+    dest: "/var/www/mviewer/apps/{{ item }}"
+    state: link
+  with_items:
+    - store
+    - prod
+
+- name: Configure Mviewerstudio access only if connected
   lineinfile:
     insertbefore: '<intercept-url pattern=".*" '
     path: "{{ georchestra.datadir.path }}/security-proxy/security-mappings.xml"
     line: '  <intercept-url pattern="/mviewerstudio/.*" access="IS_AUTHENTICATED_FULLY" />'
     state: present
+
+- name: Copy MviewerStudio static ressource 
+  copy:
+    src: "/srv/apps/mviewerstudio/{{ item }}"
+    dest: /srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/
+    remote_src: true
+  with_items:
+    - css
+    - img
+    - js
+    - lib
+    - index.html
+    - mviewerstudio.i18n.json
+
+- name: Create folder for mviewerstudio frontend configuration
+  file:
+    path: "/srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/apps/"
+    state: directory
+
+- name: Template MviewerStudio config
+  template:
+    src: mviewerstudio/config.json.j2
+    dest: /srv/apps/mviewerstudio/srv/python/mviewerstudio_backend/static/apps/config.json
+
+- name: Create logdir for mviewerstudio
+  file:
+    path: "{{ logs_basedir }}/mviewer"
+    state: directory
+    owner: mviewer
+    group: georchestra
+
+- name: Install MviewerStudio service requirements
+  pip: 
+    requirements: /srv/apps/mviewerstudio/srv/python/requirements.txt
+    virtualenv: /srv/apps/mviewerstudio/srv/python/.venv
+
+- name: Template MviewerStudio systemd unit
+  tags: systemd_unit
+  template:
+    src: mviewerstudio/mviewerstudio.service.j2
+    dest: /etc/systemd/system/mviewerstudio.service
+
+- name: Reload systemd 
+  tags: systemd_unit
+  systemd:
+    enabled: true
+    daemon-reload: true
+    name: mviewerstudio.service
+
+- name: Start mviewerstudio
+  service:
+    name: mviewerstudio
+    state: started

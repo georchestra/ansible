@@ -243,7 +243,7 @@
       gitrepo: https://github.com/mviewer/mviewerstudio
       gitversion: master
     gateway:
-      enabled: true
+      enabled: false
       port: 8980
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana

@@ -1,5 +1,9 @@
 upstream proxycas_backend {
-	server localhost:8180;
+{% if gateway.enabled %}
+  server localhost:{{ gateway.port }};
+{% else %}
+	server localhost:{{ tomcat_instances.proxycas.port }};
+{% endif %}
 }
 
 {% if force_https %}

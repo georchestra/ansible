@@ -82,6 +82,7 @@
 
     georchestra:
       fqdn: georchestra.example.org
+      max_body_size: 100M
       ign_api_key: luvs4p9c4yq5ewfwqcqgm83f # invalid key only used in sviewer
       db:
         name: georchestra

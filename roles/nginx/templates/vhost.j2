@@ -39,7 +39,7 @@ server {
 
 	root /var/www/georchestra/htdocs/;
 
-	client_max_body_size 100M;
+	client_max_body_size {{ georchestra.max_body_size }};
 
 	location / {
 		try_files $uri $uri/ @proxycas;

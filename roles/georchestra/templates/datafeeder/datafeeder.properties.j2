@@ -96,6 +96,10 @@ datafeeder.publishing.backend.geoserver.dbtype=postgis
 datafeeder.publishing.backend.geoserver.preparedStatements=true
 #<schema> is a placeholder to be replaced by the actual schema computed from the "sec-org" request header
 datafeeder.publishing.backend.geoserver.schema=<schema>
+#<workspacename> is a placeholder to be replaced by the lowercase "sec-org" request header
+datafeeder.publishing.backend.geoserver.workspacename=<workspacename>
+#<storename> is a placeholder to be replaced by the lowercase "sec-org" request header prefixed by 'datafeeder_'
+datafeeder.publishing.backend.geoserver.storename=<storename>
 #datafeeder.publishing.backend.geoserver.jndiReferenceName=jdbc/datafeeder
 #if a JNDI data source is configured in geoserver, uncomment the above line and comment out the following ones
 datafeeder.publishing.backend.geoserver.host=${pgsqlHost}

@@ -9,6 +9,7 @@
   template:
     src: geonetwork/gn-ogc-api-records-config.yml.j2
     dest: /etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml
+  notify: restart gn-ogc-api-records
 
 - name: setup a systemd unit file
   tags: systemd

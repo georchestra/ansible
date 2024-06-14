@@ -5,6 +5,7 @@
     dest: /usr/share/lib/searching.jar
 
 - name: templating a configuration file
+  tags: config
   template:
     src: geonetwork/gn-cloud-searching-application.yml.j2
     dest: /etc/georchestra/geonetwork/microservices/searching/config.yml

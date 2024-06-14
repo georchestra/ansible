@@ -5,6 +5,7 @@
     dest: /usr/share/lib/gn-ogc-api-records.jar
 
 - name: template the configuration file
+  tags: config
   template:
     src: geonetwork/gn-ogc-api-records-config.yml.j2
     dest: /etc/georchestra/geonetwork/microservices/ogc-api-records/config.yml

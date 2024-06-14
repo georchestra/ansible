@@ -4,3 +4,8 @@
     name: tomcat@{{ item }}
     state: restarted
   with_items: "{{ tomcat_instances | list }}"
+
+- name: restart gn-ogc-api-records
+  service:
+    name: gn-ogc-api-records
+    state: restarted

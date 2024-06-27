@@ -10,17 +10,17 @@
   vars:
     georchestra_versions:
       # master version
-      datadir: master # or 23.0, see https://github.com/georchestra/datadir/branches
-      debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 23.0.x
+      datadir: master # or 24.0, see https://github.com/georchestra/datadir/branches
+      debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 24.0.x
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
-      geonetwork_datadir: gn4.2.2 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
+      geonetwork_datadir: gn4.2.7 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
-      # 23.0.x
-      # datadir: 23.0
-      # debian_repository_url: "deb https://packages.georchestra.org/debian 23.0.x main"
-      # georchestra_repository: 23.0.x
-      # geonetwork_datadir: gn4.2.2
-      # geoserver_datadir: 23.0
+      # 24.0.x
+      # datadir: 24.0
+      # debian_repository_url: "deb https://packages.georchestra.org/debian 24.0.x main"
+      # georchestra_repository: 24.0.x
+      # geonetwork_datadir: gn4.2.7
+      # geoserver_datadir: 2.25.0
 
     java_version: java-17-openjdk-amd64
     tomcat_version: 9

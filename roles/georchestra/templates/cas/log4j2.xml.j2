@@ -20,7 +20,7 @@
             <PatternLayout pattern="%highlight{{ '{%d' }} %p [%c] - &lt;%m&gt;}%n"/>
         </Console>
         <RollingFile name="file" fileName="${baseDir}/cas.log" append="true"
-                     filePattern="${baseDir}/cas-%d{yyyy-MM-dd-HH}-%i.log">
+                     filePattern="${baseDir}/cas-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="%d %p [%c] - &lt;%m&gt;%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy />
@@ -29,7 +29,7 @@
             </Policies>
         </RollingFile>
         <RollingFile name="auditlogfile" fileName="${baseDir}/cas_audit.log" append="true"
-                     filePattern="${baseDir}/cas_audit-%d{yyyy-MM-dd-HH}-%i.log">
+                     filePattern="${baseDir}/cas_audit-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout pattern="%d %p [%c] - %m%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy />

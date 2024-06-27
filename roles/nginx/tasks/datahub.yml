@@ -20,3 +20,9 @@
     path: /var/www/georchestra/htdocs/datahub/index.html
     regexp: <base href="/">
     replace: <base href="/datahub/">
+
+- name: add geor-header webcomponent in index.html
+  lineinfile:
+    path: /var/www/georchestra/htdocs/datahub/index.html
+    insertafter: <body>
+    line: "<script src='https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js'></script><geor-header active-app='datahub' legacy-header='false' legacy-url='/header/' style='height:90px'></geor-header>"

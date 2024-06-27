@@ -30,6 +30,7 @@
   register: vhost_exists
 
 - name: Template georchestra vhost
+  tags: vhost
   template:
     src: vhost.j2
     dest: /etc/nginx/sites-available/georchestra

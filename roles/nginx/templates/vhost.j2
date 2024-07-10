@@ -107,6 +107,10 @@ server {
 	location /datahub {
 		try_files $uri $uri/ /datahub/index.html;
 		add_header Cache-Control 'max-age=86400'; # 24h
+		# catch login requests that don't reach the sec-proxy, and redirect to CAS
+		if ( $args ~ '\blogin[=&]?' ) {
+			return 301 /cas/login?service=https%3A%2F%2F{{ georchestra.fqdn }}%2Flogin%2Fcas;
+		}
 		location ~ /index.html|.*\.toml|.*\.json$ {
 			expires -1;
 			add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';

@@ -39,6 +39,7 @@
     - { file: cadastrapp.properties, war: cadastrapp, destdir: "" }
     - { file: logback.xml, war: cadastrapp, destdir: "" }
   notify: restart all tomcats
+  when: georchestra.datadir.gitrepo == 'https://github.com/georchestra/datadir'
 
 - name: Mviewer accessible only if connected
   lineinfile:

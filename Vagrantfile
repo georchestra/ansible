@@ -33,8 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ansible.groups = {
       "mygeorchestra" => ["georchestra"]
     }
-    # If needed to test a part of the playbook by limiting to a specific tag
-    #ansible.raw_arguments = ["-t", "datahub"]
+    # If needed to pass arguments to ansible, then you can use the ANSIBLE_ARGS environment variables, e.g.:
+    # ANSIBLE_ARGS="-t datahub" vagrant provision
+    ansible.raw_arguments = Shellwords.shellsplit(ENV['ANSIBLE_ARGS']) if ENV['ANSIBLE_ARGS']
   end
 
   config.vm.post_up_message = "geOrchestra SDI installed, congrats! See https://www.georchestra.org/community.html for help and bug reports"

@@ -35,6 +35,7 @@
     #  - { file: geofence-geoserver.properties, war: geoserver, destdir: 'WEB-INF/classes' }
     - { file: localConfig.json, war: mapstore, destdir: configs }
     - { file: log4j2.properties, war: mapstore, destdir: "" }
+    - { file: proxy.properties, war: mapstore, destdir: "" }
     - { file: log4j.properties, war: analytics, destdir: log4j }
     - { file: cadastrapp.properties, war: cadastrapp, destdir: "" }
     - { file: logback.xml, war: cadastrapp, destdir: "" }

@@ -18,6 +18,7 @@
       "enabled": true,
       "contextOnly": true
     },
+    "stylesheetUri": "",
     "header": {
       "height": 90,
       "url": "/header/",
@@ -107,14 +108,6 @@
     }],
     "initialState": {
       "defaultState": {
-        "annotations": {
-          "config": {
-            "multiGeometry": true,
-            "validationErrors": {}
-          },
-          "format": "decimal",
-          "defaultTextAnnotation": "New"
-        },
         "catalog": {
           "default": {
             "newService": {
@@ -237,7 +230,8 @@
                     "group": "background",
                     "title": "Empty Background",
                     "fixed": true,
-                    "type": "empty"
+                    "type": "empty",
+                    "visibility": false
                 }]
               }
             }
@@ -265,7 +259,7 @@
       "homePath": "/home"
     },
     "plugins": {
-        "mobile": ["Header", {
+        "mobile": ["Header", "Easytheming", {
                 "name": "Map",
                 "cfg": {
                     "mapOptions": {
@@ -314,11 +308,8 @@
             }, {
                 "name": "TOC",
                 "cfg": {
-                    "activateMetedataTool": false,
                     "activateMapTitle": false,
-                    "activateSortLayer": false,
-                    "activateLayerFilterTool": false,
-                    "activateQueryTool": false
+                    "activateSortLayer": false
                 }
             }, "AddGroup", {
                 "name": "TOCItemsSettings",
@@ -374,13 +365,28 @@
               }
             },
             "Permalink",
-            "MetadataExplorer",
+            {
+              "name": "MetadataExplorer",
+              "cfg": {
+                  "serviceTypes": [
+                    { "name": "csw", "label": "CSW" },
+                    { "name": "wms", "label": "WMS" },
+                    { "name": "wmts", "label": "WMTS" },
+                    { "name": "tms", "label": "TMS", "allowedProviders": ["OpenStreetMap", "OpenSeaMap", "Stamen"] },
+                    { "name": "wfs", "label": "WFS" },
+                    { "name": "3dtiles", "label": "3D Tiles" },
+                    { "name": "cog", "label": "COG" },
+                    { "name": "model", "label": "IFC Model" },
+                    { "name": "arcgis", "label": "ArcGIS" }
+                  ]
+              }
+          },
             "MapImport",
             "MapExport",
             "GlobeViewSwitcher"
         ],
         "desktop": [
-          "Header",
+          "Header", "Easytheming",
           "Details",
           {
             "name": "Map",
@@ -415,7 +421,9 @@
             }, "AutoMapUpdate", "DrawerMenu", "Version", "Notifications", "BackgroundSelector", {
               "name": "Annotations",
               "cfg": {
-                "symbolsPath": "assets/symbols/"
+                "symbolsPath": "assets/symbols/",
+                "format": "decimal",
+                "defaultTextAnnotation": "New"
               }
             },
             {
@@ -472,52 +480,55 @@
                   ]
               }
             }, {
-                "name": "TOC",
-                "cfg": {
-                    "activateMetedataTool": true,
-                    "metadataOptions": {
-                        "xmlNamespaces": {
-                            "gmd": "http://www.isotc211.org/2005/gmd",
-                            "srv": "http://www.isotc211.org/2005/srv",
-                            "gco": "http://www.isotc211.org/2005/gco",
-                            "gmx": "http://www.isotc211.org/2005/gmx",
-                            "gfc": "http://www.isotc211.org/2005/gfc",
-                            "gts": "http://www.isotc211.org/2005/gts",
-                            "gml": "http://www.opengis.net/gml"
-                        },
-                        "extractors": [{
+            "name": "MetadataInfo",
+            "cfg": {
+              "metadataOptions": {
+                "xmlNamespaces": {
+                  "gmd": "http://www.isotc211.org/2005/gmd",
+                  "srv": "http://www.isotc211.org/2005/srv",
+                  "gco": "http://www.isotc211.org/2005/gco",
+                  "gmx": "http://www.isotc211.org/2005/gmx",
+                  "gfc": "http://www.isotc211.org/2005/gfc",
+                  "gts": "http://www.isotc211.org/2005/gts",
+                  "gml": "http://www.opengis.net/gml"
+                },
+                "extractors": [
+                  {
+                    "properties": {
+                      "title": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
+                      "abstract": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString",
+                      "purpose": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:purpose/gco:CharacterString",
+                      "source": "/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement/gco:CharacterString",
+                      "createdDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='creation']]",
+                      "lastRevisionDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='revision']]",
+                      "pointsOfContact": {
+                        "xpath": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
+                        "properties": {
+                          "individualName": "gmd:individualName/gco:CharacterString",
+                          "organisationName": "gmd:organisationName/gco:CharacterString",
+                          "contactInfo": {
+                            "xpath": "gmd:contactInfo/gmd:CI_Contact",
                             "properties": {
-                                "title": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:title/gco:CharacterString",
-                                "abstract": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:abstract/gco:CharacterString",
-                                "purpose": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:purpose/gco:CharacterString",
-                                "source": "/gmd:MD_Metadata/gmd:dataQualityInfo/gmd:DQ_DataQuality/gmd:lineage/gmd:LI_Lineage/gmd:statement/gco:CharacterString",
-                                "createdDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='creation']]",
-                                "lastRevisionDate": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date[../../gmd:dateType/gmd:CI_DateTypeCode[@codeListValue='revision']]",
-                                "pointsOfContact": {
-                                    "xpath": "/gmd:MD_Metadata/gmd:identificationInfo/gmd:MD_DataIdentification/gmd:pointOfContact/gmd:CI_ResponsibleParty",
-                                    "properties": {
-                                        "individualName": "gmd:individualName/gco:CharacterString",
-                                        "organisationName": "gmd:organisationName/gco:CharacterString",
-                                        "contactInfo": {
-                                            "xpath": "gmd:contactInfo/gmd:CI_Contact",
-                                            "properties": {
-                                                "phone": "gmd:phone/gmd:CI_Telephone/gmd:voice/gco:CharacterString",
-                                                "deliveryPoints": "gmd:address/gmd:CI_Address/gmd:deliveryPoint/gco:CharacterString",
-                                                "city": "gmd:address/gmd:CI_Address/gmd:city/gco:CharacterString",
-                                                "postalCode": "gmd:address/gmd:CI_Address/gmd:postalCode/gco:CharacterString",
-                                                "country": "gmd:address/gmd:CI_Address/gmd:country/gco:CharacterString",
-                                                "electronicMailAddress": "gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString",
-                                                "URL": "gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage/gmd:URL",
-                                                "hoursOfService": "gmd:hoursOfService/gco:CharacterString"
-                                            }
-                                        },
-                                        "role": "gmd:role/gmd:CI_RoleCode/@codeListValue"
-                                    }
-                                }
+                              "phone": "gmd:phone/gmd:CI_Telephone/gmd:voice/gco:CharacterString",
+                              "deliveryPoints": "gmd:address/gmd:CI_Address/gmd:deliveryPoint/gco:CharacterString",
+                              "city": "gmd:address/gmd:CI_Address/gmd:city/gco:CharacterString",
+                              "postalCode": "gmd:address/gmd:CI_Address/gmd:postalCode/gco:CharacterString",
+                              "country": "gmd:address/gmd:CI_Address/gmd:country/gco:CharacterString",
+                              "electronicMailAddress": "gmd:address/gmd:CI_Address/gmd:electronicMailAddress/gco:CharacterString",
+                              "URL": "gmd:onlineResource/gmd:CI_OnlineResource/gmd:linkage/gmd:URL",
+                              "hoursOfService": "gmd:hoursOfService/gco:CharacterString"
                             }
-                        }]
+                          },
+                          "role": "gmd:role/gmd:CI_RoleCode/@codeListValue"
+                        }
+                      }
                     }
-                }
+                  }
+                ]
+              }
+            }
+          }, {
+                "name": "TOC"
             },
             "FilterLayer",
             "AddGroup",
@@ -556,7 +567,18 @@
                 "name": "MetadataExplorer",
                 "cfg": {
                     "zoomToLayer": false,
-                    "wrap": true
+                    "wrap": true,
+                    "serviceTypes": [
+                      { "name": "csw", "label": "CSW" },
+                      { "name": "wms", "label": "WMS" },
+                      { "name": "wmts", "label": "WMTS" },
+                      { "name": "tms", "label": "TMS", "allowedProviders": ["OpenStreetMap", "OpenSeaMap", "Stamen"] },
+                      { "name": "wfs", "label": "WFS" },
+                      { "name": "3dtiles", "label": "3D Tiles" },
+                      { "name": "cog", "label": "COG" },
+                      { "name": "model", "label": "IFC Model" },
+                      { "name": "arcgis", "label": "ArcGIS" }
+                    ]
                 }
             }, {
               "name": "MousePosition",
@@ -722,8 +744,6 @@
             "name": "TOC",
             "cfg": {
               "activateMapTitle": false,
-              "activateSettingsTool": false,
-              "activateMetedataTool": false,
               "activateRemoveLayer": false
             }
           },
@@ -824,17 +844,44 @@
             "fluid": true
           }
         }],
-      "dashboard": [{
-        "name": "OmniBar",
-        "cfg": {
-          "containerPosition": "header",
-          "className": "navbar shadow navbar-home"
-        }
-      }, "Login", "Language", "NavMenu",
+      "dashboard": [
+        {
+          "name": "OmniBar",
+          "cfg": {
+            "containerPosition": "header",
+            "className": "navbar shadow navbar-home"
+          }
+        },
+        "Details",
+        "AddWidgetDashboard",
+        "MapConnectionDashboard",
+        {
+          "name": "SidebarMenu",
+          "cfg": {
+            "containerPosition": "columns"
+          }
+        },
+        {
+          "name": "Home",
+          "override": {
+            "OmniBar": {
+              "priority": 5
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "override": {
+            "OmniBar": {
+              "priority": 5
+            }
+          }
+        },
+        "Language", "NavMenu",
         "DashboardSave", "DashboardSaveAs",
         "DashboardExport", "DashboardImport",
         "DeleteDashboard",
-        "Attribution", "Home", {
+        "Attribution", {
         "name": "Share",
         "cfg": {
           "showAPI": false,
@@ -879,7 +926,7 @@
             },
             "containerPosition": "columns"
           }
-        }, "BurgerMenu", "Dashboard", "Notifications", {
+        }, "Dashboard", "Notifications", {
           "name": "Tutorial",
           "cfg": {
             "allowClicksThruHole": false,
@@ -1057,7 +1104,7 @@
           "ContextExport"
         ],
         "context": [
-          "Header"
+          "Header", "Easytheming"
         ]
     }
 }

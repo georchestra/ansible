@@ -23,6 +23,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/georchestra?currentSchema=geonetwork
     username: georchestra
     password: georchestra
+    hikari:
+      pool-name: ogc-api-records
+      minimum-idle: 1
+      maximum-pool-size: 10
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     jpa.generate-ddl: false

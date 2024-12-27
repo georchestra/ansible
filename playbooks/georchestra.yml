@@ -6,6 +6,7 @@
   roles:
     - { role: georchestra, tags: georchestra }
     - { role: ansible-role-elasticsearch, tags: es }
+    - { role: superset, tags: superset, when: superset.enabled }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
     georchestra_versions:
@@ -250,6 +251,10 @@
     gateway:
       enabled: false
       port: 8980
+    superset:
+      enabled: true
+      secretkey: CHANGEME
+      port: 9080
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

@@ -1,0 +1,23 @@
+[Unit]
+Description=superset
+After=network.target
+
+[Service]
+User=superset
+Environment="LOG_LEVEL=INFO"
+WorkingDirectory=/srv/apps/superset/
+ExecStart=/srv/apps/superset/venv/bin/gunicorn \
+      -w 10 \
+      -k gevent \
+      --worker-connections 1000 \
+      --timeout 120 \
+      --limit-request-line 0 \
+      --limit-request-field_size 0 \
+      -b 127.0.0.1:{{ georchestra_wars.superset.port}} \
+      --access-logfile {{ logs_basedir }}/superset/access.log \
+      --log-level info \
+      --error-logfile {{ logs_basedir }}/superset/error.log \
+      "superset.app:create_app()"
+
+ [Install]
+ WantedBy=multi-user.target

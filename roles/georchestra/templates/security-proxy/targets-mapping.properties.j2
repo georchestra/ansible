@@ -12,3 +12,6 @@ mviewer=http://localhost:{{ mviewer.port }}/
 {% if mviewerstudio.enabled %}
 mviewerstudio=http://localhost:{{ mviewerstudio.port }}/
 {% endif %}
+{% if superset.enabled %}
+superset=http://localhost:{{ superset.port }}/
+{% endif %}

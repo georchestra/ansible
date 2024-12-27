@@ -1,0 +1,99 @@
+---
+- name: Install debian dependencies
+  tags: superset/apt
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - libsasl2-dev
+      - libldap2-dev
+      - python3-dev
+      - python3-pip
+      - python3-psycopg2
+      - python3-virtualenv
+
+- name: Install superset via pip
+  tags: superset/pip
+  ansible.builtin.pip:
+    name: apache-superset
+    virtualenv: /srv/apps/superset/venv
+    virtualenv_site_packages: true
+
+- name: Create a georchestra group
+  ansible.builtin.group:
+    name: georchestra
+
+- name: Create user for superset
+  ansible.builtin.user:
+    name: superset
+    group: georchestra
+
+- name: Create superset-owned subdirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: superset
+    group: georchestra
+  with_items:
+    - "{{ logs_basedir }}/superset"
+    - /srv/data/superset
+
+- name: Deploy superset config
+  ansible.builtin.template:
+    owner: root
+    group: georchestra
+    mode: "0640"
+    src: superset_config.py.j2
+    dest: /srv/apps/superset/superset_config.py
+
+- name: Create database schema
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_schema:
+    name: superset
+    owner: "{{ georchestra.db.user }}"
+    database: "{{ georchestra.db.name }}"
+
+- name: List existing database tables
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='superset';"
+  register: sset_table_exists
+
+- name: Initialize superset database schema
+  command: /srv/apps/superset/venv/bin/superset db upgrade
+  environment:
+    FLASK_APP: superset
+    SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_config.py
+  when: item.stdout is defined and 'ab_user' not in item.stdout
+  with_items: "{{ sset_table_exists.results }}"
+
+- name: List existing superset roles
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from superset.ab_role;"
+  register: sset_role_exists
+
+- name: Initialize superset database content
+  command: /srv/apps/superset/venv/bin/superset init
+  environment:
+    FLASK_APP: superset
+    SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_config.py
+  when: item.stdout is defined and 'Alpha' not in item.stdout
+  with_items: "{{ sset_role_exists.results }}"
+
+- name: Template superset systemd unit
+  tags: systemd_unit
+  ansible.builtin.template:
+    src: superset.service.j2
+    dest: /etc/systemd/system/superset.service
+
+- name: Reload systemd
+  tags: systemd_unit
+  ansible.builtin.systemd:
+    enabled: true
+    daemon-reload: true
+    name: superset.service
+
+- name: Start superset
+  ansible.builtin.service:
+    name: superset
+    enabled: yes
+    state: started

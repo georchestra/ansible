@@ -1,0 +1,27 @@
+- name: Create database schema
+  community.postgresql.postgresql_schema:
+    name: superset
+    owner: "{{ georchestra.db.user }}"
+    database: "{{ georchestra.db.name }}"
+
+- name: List existing database tables
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='superset';"
+  register: sset_table_exists
+
+- name: Initialize superset database schema
+  command: /srv/apps/superset/venv/bin/superset db upgrade
+  environment:
+    FLASK_APP: superset
+    SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_config.py
+  when: sset_table_exists.stdout is defined and 'ab_user' not in sset_table_exists.stdout
+
+- name: List existing superset roles
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from superset.ab_role;"
+  register: sset_role_exists
+
+- name: Initialize superset database content
+  command: /srv/apps/superset/venv/bin/superset init
+  environment:
+    FLASK_APP: superset
+    SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_config.py
+  when: sset_role_exists.stdout is defined and 'Alpha' not in sset_role_exists.stdout

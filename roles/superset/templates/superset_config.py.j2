@@ -6,3 +6,9 @@ SCARF_ANALYTICS=False
 # upload folders, owned by superset user
 UPLOAD_FOLDER = "/srv/data/superset/uploads/"
 IMG_UPLOAD_FOLDER = "/srv/data/superset/uploads/"
+
+BASE_PATH = "{{ superset.urlprefix }}"
+STATIC_ASSETS_PREFIX = BASE_PATH
+APP_ICON = BASE_PATH + "/static/assets/images/superset-logo-horiz.png"
+ENABLE_PROXY_FIX = True
+PROXY_FIX_CONFIG = {"x_for": 1, "x_proto": 1, "x_host": 1, "x_port": 0, "x_prefix": 1}

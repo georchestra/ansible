@@ -45,9 +45,9 @@
 - name: Deploy superset config
   tags: superset/config
   ansible.builtin.template:
-    owner: root
-    group: georchestra
-    mode: "0640"
+    owner: superset
+    group: postgres
+    mode: "0440"
     src: superset_config.py.j2
     dest: /srv/apps/superset/superset_config.py
 

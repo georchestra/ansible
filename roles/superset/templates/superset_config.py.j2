@@ -1,6 +1,6 @@
 # create superset-specific tables in the superset schema
 SQLALCHEMY_DATABASE_URI='postgresql://{{ georchestra.db.user }}:{{ georchestra.db.pass }}@localhost/{{ georchestra.db.name }}?options=-c%20search_path=superset'
-SECRET_KEY={{ superset.secretkey }}
+SECRET_KEY="{{ superset.secretkey }}"
 # https://superset.apache.org/docs/faq#does-superset-collect-any-telemetry-data
 SCARF_ANALYTICS=False
 # upload folders, owned by superset user

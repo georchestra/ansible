@@ -17,7 +17,7 @@
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
-    name: apache-superset
+    name: git+https://github.com/martyngigg/superset@9b77478#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 

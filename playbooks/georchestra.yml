@@ -254,7 +254,9 @@
     superset:
       enabled: true
       secretkey: CHANGEME
-      port: 9080
+      urlprefix: dashboards # XXX rebuild superset-frontend assets if changed
+      port: 9080 # gunicorn port
+      vhostport: 9180 # required for extra vhost doing the X-Forwarded-Prefix dance
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

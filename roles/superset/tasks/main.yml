@@ -21,15 +21,18 @@
     virtualenv_site_packages: true
 
 - name: Create a georchestra group
+  tags: superset/user
   ansible.builtin.group:
     name: georchestra
 
 - name: Create user for superset
+  tags: superset/user
   ansible.builtin.user:
     name: superset
     group: georchestra
 
 - name: Create superset-owned subdirs
+  tags: superset/dirs
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
@@ -40,6 +43,7 @@
     - /srv/data/superset
 
 - name: Deploy superset config
+  tags: superset/config
   ansible.builtin.template:
     owner: root
     group: georchestra
@@ -80,19 +84,20 @@
   with_items: "{{ sset_role_exists.results }}"
 
 - name: Template superset systemd unit
-  tags: systemd_unit
+  tags: superset/systemd
   ansible.builtin.template:
     src: superset.service.j2
     dest: /etc/systemd/system/superset.service
 
 - name: Reload systemd
-  tags: systemd_unit
+  tags: superset/systemd
   ansible.builtin.systemd:
     enabled: true
     daemon-reload: true
     name: superset.service
 
 - name: Start superset
+  tags: superset/systemd
   ansible.builtin.service:
     name: superset
     enabled: yes

@@ -1,8 +1,15 @@
 ---
-- name: install the gn-ogc-api-records microservice
+- name: fetch the gn-ogc-api-records microservice
   get_url:
     url: "{{ gn_ogc_api_records.url }}"
+    dest: "/usr/share/lib/gn-cloud-ogc-api-records-service-{{ geonetwork.microservice_version }}.jar"
+
+- name: symlink the microservice to the path used by the systemd service
+  file:
+    src: "gn-cloud-ogc-api-records-service-{{ geonetwork.microservice_version }}.jar"
     dest: /usr/share/lib/gn-ogc-api-records.jar
+    state: link
+    force: yes
 
 - name: template the configuration file
   tags: config

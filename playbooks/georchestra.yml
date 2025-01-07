@@ -96,6 +96,7 @@
         repo: "{{ georchestra_versions.debian_repository_url }}"
         key: https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey
     geonetwork:
+      microservice_version: 4.4.6-1
       db:
         schema: geonetwork
       datadir:
@@ -228,7 +229,7 @@
     gn_ogc_api_records:
       enabled: true
       port: 8880
-      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-ogc-api-records.jar
+      url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-cloud-ogc-api-records-service-{{ geonetwork.microservice_version }}.jar
     datahub:
       enabled: true
       url: https://packages.georchestra.org/bot/datahub/datahub.zip

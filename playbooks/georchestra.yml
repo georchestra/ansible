@@ -204,12 +204,12 @@
     mviewer:
       enabled: true
       port: 8680
-      gitrepo: https://github.com/geobretagne/mviewer
+      gitrepo: https://github.com/mviewer/mviewer
       gitversion: master
     mviewerstudio:
       enabled: true
       port: 8780
-      gitrepo: https://github.com/geobretagne/mviewerstudio
+      gitrepo: https://github.com/mviewer/mviewerstudio
       gitversion: master
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana

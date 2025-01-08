@@ -30,9 +30,9 @@
     #es_data_dirs:
     #  - /srv/elasticsearch/data
     #es_log_dir: /srv/elasticsearch/logs
-    #es_config:
-    #  cluster.name: "{{ georchestra.fqdn }}"
-    #  bootstrap.memory_lock: true
+    elasticsearch_extra_options: |  # Dont forget the pipe!
+      cluster.name: "{{ georchestra.fqdn }}"
+      bootstrap.memory_lock: true
     elasticsearch_heap_size_min: 1g
     elasticsearch_heap_size_max: 2g
     cadastrapp:

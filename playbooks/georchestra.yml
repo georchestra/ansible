@@ -5,6 +5,7 @@
   become: true
   roles:
     - { role: georchestra, tags: georchestra }
+    - { role: superset, tags: superset, when: superset.enabled }
     - { role: elastic.elasticsearch, tags: es }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
@@ -247,6 +248,12 @@
     gateway:
       enabled: false
       port: 8980
+    superset:
+      enabled: true
+      secretkey: CHANGEME
+      urlprefix: dashboards # XXX rebuild superset-frontend assets if changed
+      port: 9080 # gunicorn port
+      vhostport: 9180 # required for extra vhost doing the X-Forwarded-Prefix dance
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

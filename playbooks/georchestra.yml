@@ -5,7 +5,7 @@
   become: true
   roles:
     - { role: georchestra, tags: georchestra }
-    - { role: elastic.elasticsearch, tags: es }
+    - { role: ansible-role-elasticsearch, tags: es }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
     georchestra_versions:
@@ -25,14 +25,14 @@
     java_version: java-17-openjdk-amd64
     tomcat_version: 9
     kibana_server_host: 127.0.0.1
-    es_version: 7.17.22
-    es_data_dirs:
-      - /srv/elasticsearch/data
-    es_log_dir: /srv/elasticsearch/logs
-    es_config:
+    elasticsearch_version: '7.x'
+    elasticsearch_log: /srv/elasticsearch/logs
+    elasticsearch_data: /srv/elasticsearch/data
+    elasticsearch_extra_options: |  
       cluster.name: "{{ georchestra.fqdn }}"
       bootstrap.memory_lock: true
-    es_heap_size: 1g
+    elasticsearch_heap_size_min: 1g
+    elasticsearch_heap_size_max: 2g
     cadastrapp:
       enabled: false
       db:

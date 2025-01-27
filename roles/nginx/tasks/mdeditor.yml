@@ -1,0 +1,24 @@
+---
+- name: Fetch/unzip the mdeditor archive
+  unarchive:
+    src: "{{ mdeditor.url }}"
+    dest: /var/www/georchestra/htdocs/
+    remote_src: true
+
+- name: Symlink to subdir
+  file:
+    src: dist/apps/metadata-editor
+    dest: /var/www/georchestra/htdocs/metadata-editor
+    state: link
+
+- name: set base url in index.html
+  replace:
+    path: /var/www/georchestra/htdocs/metadata-editor/index.html
+    regexp: <base href="/">
+    replace: <base href="/metadata-editor/">
+
+- name: add geor-header webcomponent in index.html
+  lineinfile:
+    path: /var/www/georchestra/htdocs/metadata-editor/index.html
+    insertafter: <body>
+    line: "<script src='https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js'></script><geor-header></geor-header>"

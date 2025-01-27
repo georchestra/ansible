@@ -23,6 +23,10 @@
   when: datahub.enabled
   tags: datahub
 
+- import_tasks: mdeditor.yml
+  when: mdeditor.enabled
+  tags: mdeditor
+
 - import_tasks: generate_cert.yml
   when: force_https
 

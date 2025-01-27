@@ -20,6 +20,8 @@
     accept_hostkey: true
 
 - import_tasks: datahub.yml
+  when: datahub.enabled
+  tags: datahub
 
 - import_tasks: generate_cert.yml
   when: force_https

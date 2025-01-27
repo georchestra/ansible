@@ -84,8 +84,10 @@ server {
 		proxy_pass	http://proxycas_backend;
 	}
 
+{% if datahub.enabled %}
 	# redirect default to datahub
 	rewrite ^/$	/datahub/home/search	redirect;
+{% endif %}
 
 {%if gn_cloud_searching.enabled %}
 	# rss
@@ -104,6 +106,7 @@ server {
 	}
 {% endif %}
 
+{% if datahub.enabled %}
 	location /datahub {
 		try_files $uri $uri/ /datahub/index.html;
 		add_header Cache-Control 'max-age=86400'; # 24h
@@ -128,4 +131,5 @@ server {
 			alias /etc/georchestra/datahub/conf/default.toml;
 		}
 	}
+{% endif %}
 }

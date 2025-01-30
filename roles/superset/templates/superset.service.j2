@@ -17,7 +17,7 @@ ExecStart=/srv/apps/superset/venv/bin/gunicorn \
       --access-logfile {{ logs_basedir }}/superset/access.log \
       --log-level info \
       --error-logfile {{ logs_basedir }}/superset/error.log \
-      "superset.app:create_app()"
+      "superset.app:create_app(superset_app_root='/{{ superset.urlprefix }}')"
 
  [Install]
  WantedBy=multi-user.target

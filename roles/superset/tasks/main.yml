@@ -22,16 +22,10 @@
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
-- name: Fetch compiled assets
-  tags: superset/assets
-  ansible.builtin.get_url:
-    url: https://packages.georchestra.org/bot/wars/superset/superset-assets-dashboard-9b77478.tgz
-    dest: /tmp/superset-assets-dashboard-9b77478.tgz
-
-- name: Unarchive assets
+- name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:
-    src: /tmp/superset-assets-dashboard-9b77478.tgz
+    url: https://packages.georchestra.org/bot/wars/superset/superset-assets-d700b044.tgz
     dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/static/
     remote_src: true
 

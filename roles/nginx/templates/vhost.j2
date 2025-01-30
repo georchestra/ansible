@@ -145,25 +145,3 @@ server {
 {% endif %}
 }
 }
-{% if superset.enabled %}
-
-server {
-	listen 127.0.0.1:{{ superset.vhostport }};
-	server_name localhost_superset;
-	# superset with prefix..
-	location /{{ superset.urlprefix }}/ {
-		# The trailing '/' is key both in the location argument
-		# argument on the line above and the proxy_pass line below so that nginx strips
-		# the prefix before forwarding it to the application server.
-		proxy_pass	http://localhost:{{ superset.port }}/;
-		proxy_set_header Host $http_host; # {{ georchestra.fqdn }}; ?
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header X-Forwarded-Proto $scheme;
-		proxy_set_header X-Forwarded-Prefix  "/{{ superset.urlprefix }}";
-		proxy_http_version 1.1;
-		port_in_redirect off;
-		proxy_connect_timeout 300;
-	}
-}
-{% endif %}

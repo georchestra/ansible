@@ -14,6 +14,11 @@
     pkg: temurin-21-jre
     state: latest
 
+- name: alternatives - back to java 17 as default jvm
+  community.general.alternatives:
+    name: java
+    path: /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+
 - name: install the georchestra-gateway package
   apt:
     pkg: georchestra-gateway

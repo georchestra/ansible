@@ -4,7 +4,7 @@ After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/bin/java -Dserver.port={{ gateway.port }} -Dgeorchestra.datadir=/etc/georchestra -jar /usr/share/lib/georchestra-gateway/georchestra-gateway.jar
+ExecStart=/usr/lib/jvm/temurin-21-jre-amd64/bin/java -Dserver.port={{ gateway.port }} -Dgeorchestra.datadir=/etc/georchestra -jar /usr/share/lib/georchestra-gateway/georchestra-gateway.jar
 SuccessExitStatus=143
 StandardOutput=append:{{ logs_basedir }}/gateway.log
 StandardError=append:{{ logs_basedir }}/gateway.log

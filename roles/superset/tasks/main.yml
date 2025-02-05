@@ -15,6 +15,11 @@
       - python3-psycopg2
       - python3-virtualenv
 
+- name: Install redis
+  tags: superset/apt
+  ansible.builtin.apt:
+    name: redis-server
+
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:

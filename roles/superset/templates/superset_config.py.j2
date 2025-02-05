@@ -1,14 +1,11 @@
 # create superset-specific tables in the superset schema
 SQLALCHEMY_DATABASE_URI='postgresql://{{ georchestra.db.user }}:{{ georchestra.db.pass }}@localhost/{{ georchestra.db.name }}?options=-c%20search_path=superset'
 SECRET_KEY="{{ superset.secretkey }}"
-# https://superset.apache.org/docs/faq#does-superset-collect-any-telemetry-data
-SCARF_ANALYTICS=False
 # upload folders, owned by superset user
 UPLOAD_FOLDER = "/srv/data/superset/uploads/"
 IMG_UPLOAD_FOLDER = "/srv/data/superset/uploads/"
 
-BASE_PATH = "/{{ superset.urlprefix }}"
-STATIC_ASSETS_PREFIX = BASE_PATH
-APP_ICON = BASE_PATH + "/static/assets/images/superset-logo-horiz.png"
-ENABLE_PROXY_FIX = True
-PROXY_FIX_CONFIG = {"x_for": 1, "x_proto": 1, "x_host": 1, "x_port": 0, "x_prefix": 1}
+FAVICONS=[{"href": "https://{{ georchestra.fqdn  }}/favicon.ico"}]
+
+#overrides the one in superset_georchestra_config.py
+SUPERSET_WEBSERVER_PORT = {{ superset.port }}

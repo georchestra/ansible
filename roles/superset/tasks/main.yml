@@ -51,14 +51,27 @@
     - "{{ logs_basedir }}/superset"
     - /srv/data/superset
 
-- name: Deploy superset config
+- name: Deploy config files from georchestra/superset
+  tags: superset/config
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/georchestra/superset/75e9f9d99efa4b3cb75873888da6e7e690b13ceb/config/superset/{{ item }}.py
+    dest: /srv/apps/superset/{{ item }}.py
+  with_items:
+    - GeorchestraCustomizations
+    - LocalizationFr
+    - superset_georchestra_config
+
+- name: Deploy our configfiles
   tags: superset/config
   ansible.builtin.template:
     owner: superset
     group: postgres
     mode: "0440"
-    src: superset_config.py.j2
-    dest: /srv/apps/superset/superset_config.py
+    src: "{{ item }}.py.j2"
+    dest: /srv/apps/superset/{{ item }}.py
+  with_items:
+    - Preconfig
+    - Overrides
 
 - name: Initialize database
   tags: superset/db

@@ -9,3 +9,6 @@ FAVICONS=[{"href": "https://{{ georchestra.fqdn  }}/favicon.ico"}]
 
 #overrides the one in superset_georchestra_config.py
 SUPERSET_WEBSERVER_PORT = {{ superset.port }}
+
+# for cas
+LOGIN_REDIRECT_URL="/cas/login?service="

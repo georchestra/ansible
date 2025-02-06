@@ -21,4 +21,4 @@
   lineinfile:
     path: /var/www/georchestra/htdocs/metadata-editor/index.html
     insertafter: <body>
-    line: "<script src='https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js'></script><geor-header></geor-header>"
+    line: "<style>body {display: flex;flex-direction: column} body md-editor-root,.h-screen {height: calc(100vh - 80px);}</style><script src='https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js'></script><geor-header></geor-header>"

@@ -102,6 +102,10 @@ server {
 {% if gn_ogc_api_records.enabled %}
 	location /ogc-api-records {
 		proxy_set_header Host $host;
+{% if gn_ogc_api_records.timeout is defined %}
+		proxy_read_timeout {{ gn_ogc_api_records.timeout }};
+		proxy_send_timeout {{ gn_ogc_api_records.timeout }};
+{% endif %}
 		proxy_pass http://localhost:{{ gn_ogc_api_records.port }}/ogc-api-records;
 	}
 {% endif %}

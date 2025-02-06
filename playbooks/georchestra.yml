@@ -230,6 +230,7 @@
     gn_ogc_api_records:
       enabled: true
       port: 8880
+      #timeout: 300
       url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-cloud-ogc-api-records-service-{{ geonetwork.microservice_version }}.jar
     datahub:
       enabled: true

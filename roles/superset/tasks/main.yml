@@ -30,7 +30,7 @@
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:
-    url: https://packages.georchestra.org/bot/wars/superset/superset-assets-d700b044.tgz
+    src: https://packages.georchestra.org/bot/wars/superset/superset-assets-d700b044.tgz
     dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/static/
     remote_src: true
 

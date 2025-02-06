@@ -1,0 +1,14 @@
+# create superset-specific tables in the superset schema
+SQLALCHEMY_DATABASE_URI='postgresql://{{ georchestra.db.user }}:{{ georchestra.db.pass }}@localhost/{{ georchestra.db.name }}?options=-c%20search_path=superset'
+SECRET_KEY="{{ superset.secretkey }}"
+# upload folders, owned by superset user
+UPLOAD_FOLDER = "/srv/data/superset/uploads/"
+IMG_UPLOAD_FOLDER = "/srv/data/superset/uploads/"
+
+FAVICONS=[{"href": "https://{{ georchestra.fqdn  }}/favicon.ico"}]
+
+#overrides the one in superset_georchestra_config.py
+SUPERSET_WEBSERVER_PORT = {{ superset.port }}
+
+# for cas
+LOGIN_REDIRECT_URL="/cas/login?service="

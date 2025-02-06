@@ -1,0 +1,105 @@
+---
+- name: Install debian dependencies
+  tags: superset/apt
+  ansible.builtin.apt:
+    name:
+      - build-essential
+      - libssl-dev
+      - libffi-dev
+      - libsasl2-dev
+      - libldap2-dev
+      - python3-dev
+      - python3-pip
+      - python3-pil
+      - python3-gevent
+      - python3-psycopg2
+      - python3-virtualenv
+
+- name: Install redis
+  tags: superset/apt
+  ansible.builtin.apt:
+    name: redis-server
+
+- name: Install superset via pip
+  tags: superset/pip
+  ansible.builtin.pip:
+    name: git+https://github.com/georchestra/superset-core@a22ff93#egg=apache-superset
+    virtualenv: /srv/apps/superset/venv
+    virtualenv_site_packages: true
+
+- name: Fetch/Unarchive precompiled assets
+  tags: superset/assets
+  ansible.builtin.unarchive:
+    src: https://packages.georchestra.org/bot/wars/superset/superset-assets-d700b044.tgz
+    dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/static/
+    remote_src: true
+
+- name: Create a georchestra group
+  tags: superset/user
+  ansible.builtin.group:
+    name: georchestra
+
+- name: Create user for superset
+  tags: superset/user
+  ansible.builtin.user:
+    name: superset
+    group: georchestra
+
+- name: Create superset-owned subdirs
+  tags: superset/dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: superset
+    group: georchestra
+  with_items:
+    - "{{ logs_basedir }}/superset"
+    - /srv/data/superset
+
+- name: Deploy config files from georchestra/superset
+  tags: superset/config
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/georchestra/superset/6fe0baf/config/superset/{{ item }}.py
+    dest: /srv/apps/superset/{{ item }}.py
+  with_items:
+    - GeorchestraCustomizations
+    - LocalizationFr
+    - superset_georchestra_config
+
+- name: Deploy our configfiles
+  tags: superset/config
+  ansible.builtin.template:
+    owner: superset
+    group: postgres
+    mode: "0440"
+    src: "{{ item }}.py.j2"
+    dest: /srv/apps/superset/{{ item }}.py
+  with_items:
+    - Preconfig
+    - Overrides
+
+- name: Initialize database
+  tags: superset/db
+  become: true
+  become_user: postgres
+  ansible.builtin.import_tasks: database.yml
+
+- name: Template superset systemd unit
+  tags: superset/systemd
+  ansible.builtin.template:
+    src: superset.service.j2
+    dest: /etc/systemd/system/superset.service
+
+- name: Reload systemd
+  tags: superset/systemd
+  ansible.builtin.systemd:
+    enabled: true
+    daemon-reload: true
+    name: superset.service
+
+- name: Start superset
+  tags: superset/systemd
+  ansible.builtin.service:
+    name: superset
+    enabled: yes
+    state: started

@@ -9,6 +9,7 @@
     src: /var/www/georchestra/htdocs/datahub.zip
     dest: /var/www/georchestra/htdocs/
     remote_src: true
+  when: not ansible_check_mode
 
 - name: Remove the downloaded archive
   file:

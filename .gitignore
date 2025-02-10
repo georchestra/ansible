@@ -3,3 +3,4 @@
 ansible.log
 roles/elastic.elasticsearch
 roles/geerlingguy.kibana
+roles/ansible-role-elasticsearch

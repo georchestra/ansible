@@ -19,38 +19,44 @@ language=en
 
 # Header script for web component header
 # https://github.com/georchestra/header
-headerScript=https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js
+headerScript={{ georchestra.header.script | default('https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js') }}
 
 # Header height (size in px)
 # If different from default value "90", adapt analytics/js/GEOR_custom.js
 # accordingly
-headerHeight=90
+headerHeight={{ georchestra.header.height | default('80') }}
 
 # Variable use to keep the old iframe header.
 # Set headerUrl accordingly
 # Default false
-useLegacyHeader=false
+useLegacyHeader={{ georchestra.header.legacy | default ('false') }}
 
 # Header URL (can be absolute or relative). It is used only if useLegacyHeader is set to true.
 # If different from default value "/header/", adapt
 # security-proxy/targets-mapping.properties accordingly
 # default /header/
-headerUrl=/header/
+headerUrl={{ georchestra.header.legacyurl | default ('/header/') }}
 
 # Stylesheet used to override default colors of header
 # More design can be set by overriding default classes & styles
 # Default empty string
 # georchestraStylesheet=/public/stylesheet.css
+{% if georchestra.header.stylesheet is defined %}
+georchestraStylesheet={{ georchestra.header.stylesheet }}
+{% endif %}
 
 # Config file for the header webcomponent
 # You can use this file to change the menu design, add new items, etc.
 # Full configuration can be found here: https://github.com/georchestra/header/
 # Default empty string
 # headerConfigFile=/public/config.json
+{% if georchestra.header.configfile is defined %}
+headerConfigFile={{ georchestra.header.configfile }}
+{% endif %}
 
 # Logo URL
 # Used to set header's logo.
-logoUrl=https://www.georchestra.org/public/georchestra-logo.svg
+logoUrl={{ georchestra.header.logourl | default('https://www.georchestra.org/public/georchestra-logo.svg') }}
 
 
 # Administrator email

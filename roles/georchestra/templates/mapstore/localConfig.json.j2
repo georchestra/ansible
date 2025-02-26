@@ -20,13 +20,13 @@
     },
     "stylesheetUri": "",
     "header": {
-      "height": 80,
-      "url": "/header/",
-      "script": "https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js",
-      "legacy": false,
-      "logoUrl": "https://www.georchestra.org/public/georchestra-logo.svg",
-      "stylesheet": "",
-      "configFile": ""
+      "height": {{ georchestra.header.height | default (80) }},
+      "url": "{{ georchestra.header.legacyurl | default('/header/') }}",
+      "script": "{{ georchestra.header.script | default ('https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js') }}",
+      "legacy": {{ georchestra.header.legacy | default('false') }},
+      "logoUrl": "{{ georchestra.header.logourl | default('https://www.georchestra.org/public/georchestra-logo.svg') }}",
+      "stylesheet": "{{ georchestra.header.stylesheet | default('') }}",
+      "configFile": "{{ georchestra.header.configfile | default('') }}"
     },
     "defaultMapOptions": {
       "cesium": {

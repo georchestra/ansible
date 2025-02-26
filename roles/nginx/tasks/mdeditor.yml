@@ -18,7 +18,20 @@
     replace: <base href="/metadata-editor/">
 
 - name: add geor-header webcomponent in index.html
-  lineinfile:
+  blockinfile:
     path: /var/www/georchestra/htdocs/metadata-editor/index.html
+    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
     insertafter: <body>
-    line: "<style>body {display: flex;flex-direction: column} body md-editor-root,.h-screen {height: calc(100vh - 80px);}</style><script src='https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js'></script><geor-header></geor-header>"
+    block: |
+      <style>body {display: flex;flex-direction: column} body md-editor-root,.h-screen {height: calc(100vh - {{ georchestra.header.height | default(80) }}px);}</style>
+      <script src='{{ georchestra.header.script | default('https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js') }}'></script>
+      <geor-header
+        active-app='metadata-editor'
+        {% if georchestra.header.height is defined %}height='{{ georchestra.header.height }}'{% endif %}
+        {% if georchestra.header.logourl is defined %}logo-url='{{ georchestra.header.logourl }}'{% endif %}
+        {% if georchestra.header.legacy is defined %}legacy-header='{{ georchestra.header.legacy }}'{% endif %}
+        {% if georchestra.header.legacyurl is defined %}legacy-url='{{ georchestra.header.legacyurl }}'{% endif %}
+        {% if georchestra.header.stylesheet is defined %}stylesheet='{{ georchestra.header.stylesheet }}'{% endif %}
+        {% if georchestra.header.configfile is defined %}config-file='{{ georchestra.header.configfile }}'{% endif %}
+      >
+      </geor-header>

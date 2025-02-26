@@ -96,6 +96,14 @@
       debian:
         repo: "{{ georchestra_versions.debian_repository_url }}"
         key: https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey
+      header:
+        height: 80
+        script: https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js
+        logourl: https://www.georchestra.org/public/georchestra-logo.svg
+        legacy: "false"
+        legacyurl: /header/
+#        stylesheet: /public/stylesheet.css
+#        configfile: /public/config.json
     geonetwork:
       microservice_version: 4.4.6-1
       db:

@@ -9,6 +9,7 @@ spring:
       enabled: false
 management:
   health.ldap.enabled: false
+  server.port: {{ gn_cloud_searching.port +1 }}
 eureka:
   client:
     enabled: false

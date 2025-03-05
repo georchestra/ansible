@@ -9,6 +9,7 @@ server:
       force-response: true
 management:
   health.ldap.enabled: false
+  server.port: {{ gn_ogc_api_records.port +1 }}
 eureka:
   client:
     enabled: false

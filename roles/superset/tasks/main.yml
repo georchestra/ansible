@@ -21,6 +21,11 @@
   ansible.builtin.apt:
     name: redis-server
 
+- name: Install celery
+  tags: superset/apt
+  ansible.builtin.apt:
+    name: celery
+
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
@@ -97,6 +102,12 @@
   become_user: postgres
   ansible.builtin.import_tasks: database.yml
 
+- name: Template celery systemd unit
+  tags: superset/systemd
+  ansible.builtin.template:
+    src: celery-worker.service.j2
+    dest: /etc/systemd/system/superset-celery-worker.service
+
 - name: Template superset systemd unit
   tags: superset/systemd
   ansible.builtin.template:
@@ -109,6 +120,13 @@
     enabled: true
     daemon-reload: true
     name: superset.service
+
+- name: Start celery worker
+  tags: superset/systemd
+  ansible.builtin.service:
+    name: superset-celery-worker
+    enabled: yes
+    state: started
 
 - name: Start superset
   tags: superset/systemd

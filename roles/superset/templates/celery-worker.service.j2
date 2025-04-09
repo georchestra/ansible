@@ -1,0 +1,14 @@
+[Unit]
+Description=celery worker for superset
+After=network.target
+
+[Service]
+User=superset
+Environment="LOG_LEVEL=INFO"
+Environment="SUPERSET_CONFIG_PATH=superset_georchestra_config.py"
+Environment="PYTHONPATH=/srv/apps/superset/venv/lib/python3.11/site-packages/"
+WorkingDirectory=/srv/apps/superset/
+ExecStart=celery --app=superset.tasks.celery_app:app worker -O fair -c 1 -B -s /srv/data/superset/celery-beat-scheduler
+
+ [Install]
+ WantedBy=multi-user.target

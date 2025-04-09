@@ -15,3 +15,27 @@ SUPERSET_WEBSERVER_PORT = {{ superset.port }}
 
 # for cas
 LOGIN_REDIRECT_URL="/cas/login?service="
+
+# celery worker config
+class CeleryConfig(object):
+    broker_url = "redis://localhost:6379/0"
+    imports = (
+        "superset.sql_lab",
+        "superset.tasks.scheduler",
+        "superset.tasks.thumbnails",
+        "superset.tasks.cache",
+    )
+    result_backend = "redis://localhost:6379/0"
+    worker_prefetch_multiplier = 10
+    task_acks_late = True
+    task_annotations = {
+        "sql_lab.get_sql_results": {
+            "rate_limit": "100/s",
+        },
+    }
+
+CELERY_CONFIG = CeleryConfig
+# results stored in Redis
+from flask_caching.backends.rediscache import RedisCache
+RESULTS_BACKEND = RedisCache(
+    host='localhost', port=6379, key_prefix='superset_results')

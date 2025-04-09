@@ -7,6 +7,9 @@ IMG_UPLOAD_FOLDER = "/srv/data/superset/uploads/"
 
 FAVICONS=[{"href": "https://{{ georchestra.fqdn  }}/favicon.ico"}]
 
+# take the header config from the datadir defaults
+GEORCHESTRA_PROPERTIES_FILE_PATH="/etc/georchestra/default.properties"
+
 #overrides the one in superset_georchestra_config.py
 SUPERSET_WEBSERVER_PORT = {{ superset.port }}
 

@@ -61,7 +61,7 @@
 - name: Deploy config files from georchestra/superset
   tags: superset/config
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/georchestra/superset/6fe0baf/config/superset/{{ item }}.py
+    url: https://raw.githubusercontent.com/georchestra/superset/5e5dad53a/config/superset/{{ item }}.py
     dest: /srv/apps/superset/{{ item }}.py
   with_items:
     - GeorchestraCustomizations

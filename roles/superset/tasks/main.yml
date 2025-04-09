@@ -37,6 +37,7 @@
   tags: superset/pip
   ansible.builtin.file:
     path: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/commands/logs/
+    state: directory
 
 - name: Fetch missing prune.py so that the worker starts
   tags: superset/pip

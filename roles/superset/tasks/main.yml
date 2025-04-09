@@ -28,6 +28,17 @@
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
+- name: Create missing dir
+  tags: superset/pip
+  ansible.builtin.file:
+    path: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/commands/logs/
+
+- name: Fetch missing prune.py so that the worker starts
+  tags: superset/pip
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/apache/superset/6b7394e78998c04dee64ce6b6c8306ec24c126a5/superset/commands/logs/prune.py
+    dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/commands/logs/prune.py
+
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:

@@ -24,16 +24,17 @@
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
-    name: git+https://github.com/georchestra/superset-core@a22ff93#egg=apache-superset
+    name: git+https://github.com/georchestra/superset-core@cd5c16ca5b#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:
-    src: https://packages.georchestra.org/bot/wars/superset/superset-assets-d700b044.tgz
-    dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/static/
+    src: https://packages.georchestra.org/bot/wars/superset/superset-{{ item }}-f814b5f677.tgz
+    dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/
     remote_src: true
+  with_items: [translations, assets]
 
 - name: Create a georchestra group
   tags: superset/user

@@ -52,6 +52,9 @@
     dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/
     remote_src: true
   with_items: [translations, assets]
+  notify:
+    - Restart superset
+    - Restart superset celery worker
 
 - name: Create a georchestra group
   tags: superset/user
@@ -84,6 +87,9 @@
     - GeorchestraCustomizations
     - LocalizationFr
     - superset_georchestra_config
+  notify:
+    - Restart superset
+    - Restart superset celery worker
 
 - name: Deploy our configfiles
   tags: superset/config
@@ -96,6 +102,9 @@
   with_items:
     - Preconfig
     - Overrides
+  notify:
+    - Restart superset
+    - Restart superset celery worker
 
 - name: Initialize database
   tags: superset/db
@@ -108,12 +117,16 @@
   ansible.builtin.template:
     src: celery-worker.service.j2
     dest: /etc/systemd/system/superset-celery-worker.service
+  notify:
+    - Restart superset celery worker
 
 - name: Template superset systemd unit
   tags: superset/systemd
   ansible.builtin.template:
     src: superset.service.j2
     dest: /etc/systemd/system/superset.service
+  notify:
+    - Restart superset
 
 - name: Reload systemd
   tags: superset/systemd

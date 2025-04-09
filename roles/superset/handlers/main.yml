@@ -1,0 +1,10 @@
+---
+- name: Restart superset
+  ansible.builtin.service:
+    name: superset
+    state: restarted
+
+- name: Restart superset celery worker
+  ansible.builtin.service:
+    name: superset-celery-worker
+    state: restarted

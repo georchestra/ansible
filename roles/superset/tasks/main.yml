@@ -29,26 +29,14 @@
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
-    name: git+https://github.com/georchestra/superset-core@cd5c16ca5b#egg=apache-superset
+    name: git+https://github.com/georchestra/superset-core@72e0aadc50#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
-
-- name: Create missing dir
-  tags: superset/pip
-  ansible.builtin.file:
-    path: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/commands/logs/
-    state: directory
-
-- name: Fetch missing prune.py so that the worker starts
-  tags: superset/pip
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/apache/superset/6b7394e78998c04dee64ce6b6c8306ec24c126a5/superset/commands/logs/prune.py
-    dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/commands/logs/prune.py
 
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:
-    src: https://packages.georchestra.org/bot/wars/superset/superset-{{ item }}-f814b5f677.tgz
+    src: https://packages.georchestra.org/bot/wars/superset/superset-{{ item }}-72e0aadc50.tgz
     dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/
     remote_src: true
   with_items: [translations, assets]

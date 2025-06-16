@@ -77,6 +77,10 @@ datafeeder.publishing.geonetwork.template-transform: file:${georchestra.datadir}
 # defaults to dataset
 #datafeeder.publishing.geonetwork.defaultResourceType=dataset
 
+# Indicates the GeoNetwork group synchronization mode, defaults to orgs. Should be set to
+# 'roles' in accordance with the GeoNetwork configuration, see
+# https://github.com/georchestra/datadir/blob/master/geonetwork/geonetwork.properties#L25-L32
+# datafeeder.publishing.geonetwork.syncMode=orgs
 
 # GeoTools DataStore connection params used inside datafeeder when importing
 # uploaded datasets to the target store
@@ -112,6 +116,8 @@ datafeeder.publishing.backend.geoserver.passwd=${pgsqlPassword}
 datafeeder.publishing.backend.geoserver.[Loose\ bbox]=false
 datafeeder.publishing.backend.geoserver.[Estimated\ extends]=true
 
+# OGC Features API public URL - Enable link at the end of the process.
+# datafeeder.publishing.ogcfeatures.public-url=https://${domainName}/data/ogcapi
 
 #datafeeder.email.send=true #not used yet
 datafeeder.email.ackTemplate=file:${georchestra.datadir}/datafeeder/templates/analysis-started-email-template.txt

@@ -246,7 +246,7 @@
       default_api_url: /geonetwork/srv/api # could be set to any other GeoNetwork catalogue, even remote if CORS allows it
     mdeditor:
       enabled: false
-      url: https://github.com/geonetwork/geonetwork-ui/releases/download/v2.4.0-alpha.2/metadata-editor-2.4.0-alpha.2.zip
+      url: https://github.com/geonetwork/geonetwork-ui/releases/download/v2.5.0/metadata-editor-2.5.0.zip
     mviewer:
       enabled: true
       port: 8680

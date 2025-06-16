@@ -14,7 +14,7 @@
       datadir: master # or 24.0, see https://github.com/georchestra/datadir/branches
       debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 24.0.x
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
-      geonetwork_datadir: gn4.4.5 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
+      geonetwork_datadir: gn4.4.7 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
       # 25.0.x
       # datadir: 25.0

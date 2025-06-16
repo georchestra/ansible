@@ -26,11 +26,13 @@
     java_version: java-17-openjdk-amd64
     tomcat_version: 9
     kibana_server_host: 127.0.0.1
-    elasticsearch_version: '7.x'
+    elasticsearch_version: '8.x'
     elasticsearch_log: /srv/elasticsearch/logs
     elasticsearch_data: /srv/elasticsearch/data
     elasticsearch_extra_options: |  
       cluster.name: "{{ georchestra.fqdn }}"
+      xpack.security.enabled: false
+      xpack.security.enrollment.enabled: false
       bootstrap.memory_lock: true
     elasticsearch_heap_size_min: 1g
     elasticsearch_heap_size_max: 2g

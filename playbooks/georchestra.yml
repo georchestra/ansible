@@ -16,12 +16,12 @@
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.4.5 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
-      # 24.0.x
-      # datadir: 24.0
-      # debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian 24.0.x main
-      # georchestra_repository: 24.0.x
-      # geonetwork_datadir: gn4.2.7
-      # geoserver_datadir: 2.25.0
+      # 25.0.x
+      # datadir: 25.0
+      # debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian 25.0.x main
+      # georchestra_repository: 25.0.x
+      # geonetwork_datadir: gn4.4.7
+      # geoserver_datadir: 2.27.0
 
     java_version: java-17-openjdk-amd64
     tomcat_version: 9

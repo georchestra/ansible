@@ -15,3 +15,6 @@ mviewerstudio=http://localhost:{{ mviewerstudio.port }}/
 {% if superset.enabled %}
 {{ superset.urlprefix }}=http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/
 {% endif %}
+{% if gaia.enabled %}
+{{ gaia.urlprefix }}=http://localhost:{{ gaia.port }}/{{ gaia.urlprefix }}/
+{% endif %}

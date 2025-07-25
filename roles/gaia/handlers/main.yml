@@ -1,0 +1,27 @@
+---
+- name: Restart gaia-gunicorn
+  ansible.builtin.systemd:
+    name: gaia-gunicorn
+    state: restarted
+
+- name: Restart gaia-celery
+  ansible.builtin.systemd:
+    name: gaia-celery
+    state: restarted
+
+- name: Restart gaia services
+  ansible.builtin.systemd:
+    name: "gaia-{{ item }}"
+    state: restarted
+  with_items:
+    - celery
+    - gunicorn
+
+- name: Reload systemd & restart gaia services
+  ansible.builtin.systemd:
+    name: "gaia-{{ item }}"
+    state: restarted
+    daemon_reload: true
+  with_items:
+    - celery
+    - gunicorn

@@ -71,7 +71,6 @@ end
   'georchestra-datafeeder-ui',
   'georchestra-geoserver',
   'georchestra-geowebcache',
-  'georchestra-header',
   'georchestra-security-proxy',
 ].each do |pkg|
   describe package(pkg) do

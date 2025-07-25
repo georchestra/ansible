@@ -210,10 +210,6 @@
         pkg: georchestra-datafeeder-ui
         tomcat: georchestra
         enabled: true
-      header:
-        pkg: georchestra-header
-        tomcat: georchestra
-        enabled: true
       console:
         pkg: georchestra-console
         tomcat: georchestra

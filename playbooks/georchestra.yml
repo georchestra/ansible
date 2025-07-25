@@ -7,6 +7,7 @@
     - { role: georchestra, tags: georchestra }
     - { role: ansible-role-elasticsearch, tags: es }
     - { role: superset, tags: superset, when: superset.enabled }
+    - { role: gaia, tags: gaia, when: gaia.enabled }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
     georchestra_versions:
@@ -267,6 +268,10 @@
       secretkey: CHANGEME
       urlprefix: superset
       port: 9080 # gunicorn port
+    gaia:
+      enabled: true
+      urlprefix: gaia
+      port: 9180 # gunicorn port
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

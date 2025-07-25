@@ -1,0 +1,117 @@
+---
+- name: Install debian dependencies
+  tags: gaia/apt
+  ansible.builtin.apt:
+    name:
+      - python3-flask-bootstrap
+      - python3-flask
+      - python3-celery
+      - python3-sqlalchemy
+      - python3-psycopg2
+      - python3-owslib
+      - python3-jsonpickle
+      - python3-redis
+      - gunicorn
+      - celery
+
+- name: Install redis
+  tags: gaia/apt
+  ansible.builtin.apt:
+    name: redis-server
+
+- name: Hotpatch owslib for geopython/OWSLib#958 (remove in debian 13)
+  tags: gaia/apt
+  ansible.builtin.replace:
+    path: /usr/lib/python3/dist-packages/owslib/util.py
+    regexp: '(.*)400, 401\](.*)$'
+    replace: '\g<1>400, 401, 403]\g<2>'
+    backup: true
+
+- name: Create gaia group
+  tags: gaia/users
+  ansible.builtin.group:
+    name: gaia
+    gid: 210
+
+- name: Create users
+  tags: gaia/users
+  ansible.builtin.user:
+    name: "gaia-{{ item.name }}"
+    shell: /bin/false
+    create_home: false
+    system: true
+    home: "{{ gaia_basedir }}"
+    group: gaia
+    uid: "{{ item.uid }}"
+  with_items:
+    - name: celery
+      uid: 210
+    - name: gunicorn
+      uid: 211
+
+- name: Deploy gaia source code
+  tags: gaia/git
+  ansible.builtin.git:
+    repo: https://github.com/georchestra/gaia
+    dest: "{{ gaia_basedir }}"
+    version: master
+  notify: Restart gaia services
+
+- name: Create celery beat db subdir
+  tags: gaia/workdir
+  ansible.builtin.file:
+    name: "{{ gaia_basedir }}/workdir"
+    state: directory
+    owner: gaia-celery
+    group: gaia
+    mode: "0750"
+
+- name: Template gunicorn-only configs
+  tags: gaia/config
+  ansible.builtin.template:
+    src: "gunicorn.conf.py.j2"
+    dest: "{{ gaia_basedir }}/gunicorn.conf.py"
+    mode: "0644"
+  notify: Restart gaia-gunicorn
+
+- name: Template celery-only configs
+  tags: gaia/config
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ gaia_basedir }}/{{ item }}"
+    mode: "0644"
+  notify: Restart gaia-celery
+  with_items:
+    - geordash/celeryconfig.py
+    - env
+
+- name: Template config.py
+  tags: gaia/config
+  ansible.builtin.copy:
+    content: >
+      url='redis://localhost:6379/{{ gaia_redis_db }}'
+    dest: "{{ gaia_basedir }}/config.py"
+    group: gaia
+    mode: "0640"
+  notify: Restart gaia services
+
+- name: Template systemd units
+  tags: gaia/systemd
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/gaia-{{ item }}.service"
+    mode: "0644"
+  notify: Reload systemd & restart gaia services
+  with_items:
+    - celery
+    - gunicorn
+
+- name: Enable gaia systemd services
+  tags: gaia/systemd
+  ansible.builtin.systemd:
+    enabled: true
+    state: started
+    name: "gaia-{{ item }}"
+  with_items:
+    - celery
+    - gunicorn

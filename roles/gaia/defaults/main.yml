@@ -1,0 +1,3 @@
+---
+gaia_basedir: /srv/apps/gaia
+gaia_redis_db: 5 # after superset dbs 3 & 4

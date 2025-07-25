@@ -1,0 +1,15 @@
+[Unit]
+Description=Gaia Web Interface Service
+After=network.target
+
+[Service]
+Type=simple
+User=gaia-gunicorn
+Group=gaia
+EnvironmentFile={{ gaia_basedir }}/env
+WorkingDirectory={{ gaia_basedir }}
+ExecStart=gunicorn
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

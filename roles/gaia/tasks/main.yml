@@ -50,6 +50,13 @@
     - name: gunicorn
       uid: 211
 
+- name: Put gaia-celery user in tomcat group
+  tags: gaia/users
+  ansible.builtin.user:
+    name: "gaia-celery"
+    append: yes
+    groups: tomcat
+
 - name: Deploy gaia source code
   tags: gaia/git
   ansible.builtin.git:

@@ -11,7 +11,7 @@
       - python3-owslib
       - python3-jsonpickle
       - python3-redis
-      - python3-psutils
+      - python3-psutil
       - gunicorn
       - celery
 

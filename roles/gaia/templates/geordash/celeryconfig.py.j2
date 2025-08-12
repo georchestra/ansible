@@ -11,6 +11,7 @@ imports = (
     "geordash.checks.ows",
     "geordash.checks.csw",
     "geordash.checks.mviewer",
+    "geordash.checks.gsd",
 )
 # worker_pool = solo
 worker_log_format = (
@@ -56,6 +57,11 @@ beat_schedule = {
         "task": "geordash.checks.csw.check_catalog",
         "args": ["/geonetwork/srv/fre/csw"],
         "schedule": crontab(minute=30, hour=2, day_of_week="mon,tue,wed,thu,fri"),
+    },
+    "check-gs-datadir-every-night": {
+        "task": "geordash.checks.gsd.gsdatadir",
+        "args": [],
+        "schedule": crontab(minute=50, hour=2, day_of_week="mon,tue,wed,thu,fri"),
     },
 }
 # otherwise scheduled hours is taken as UTC

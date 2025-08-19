@@ -29,14 +29,14 @@
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
-    name: git+https://github.com/georchestra/superset-core@72e0aadc50#egg=apache-superset
+    name: git+https://github.com/georchestra/superset-core@0d6298c29f#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:
-    src: https://packages.georchestra.org/bot/wars/superset/superset-{{ item }}-72e0aadc50.tgz
+    src: https://packages.georchestra.org/bot/wars/superset/superset-{{ item }}-0d6298c29f.tgz
     dest: /srv/apps/superset/venv/lib/python3.11/site-packages/superset/
     remote_src: true
   with_items: [translations, assets]

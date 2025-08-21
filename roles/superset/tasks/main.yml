@@ -29,7 +29,7 @@
 - name: Install superset via pip
   tags: superset/pip
   ansible.builtin.pip:
-    name: git+https://github.com/georchestra/superset-core@0d6298c29f#egg=apache-superset
+    name: git+https://github.com/georchestra/superset-core@12af563#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
@@ -69,7 +69,7 @@
 - name: Deploy config files from georchestra/superset
   tags: superset/config
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/georchestra/superset/d981dd76ed/config/superset/{{ item }}.py
+    url: https://raw.githubusercontent.com/georchestra/superset/0f90215b13/config/superset/{{ item }}.py
     dest: /srv/apps/superset/{{ item }}.py
   with_items:
     - GeorchestraCustomizations

@@ -33,6 +33,13 @@
     virtualenv: /srv/apps/superset/venv
     virtualenv_site_packages: true
 
+- name: Install python-graphql-client via pip (apache/superset#34839)
+  tags: superset/pip
+  ansible.builtin.pip:
+    name: python-graphql-client
+    virtualenv: /srv/apps/superset/venv
+    virtualenv_site_packages: true
+
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets
   ansible.builtin.unarchive:

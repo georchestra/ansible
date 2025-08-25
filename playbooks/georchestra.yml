@@ -263,6 +263,10 @@
       enabled: true
       secretkey: CHANGEME
       urlprefix: superset
+      commit:
+        code: 12af563
+        config: 0f90215b13
+        assets: 0d6298c29f
       port: 9080 # gunicorn port
     gaia:
       enabled: true

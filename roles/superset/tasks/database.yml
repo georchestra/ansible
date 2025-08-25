@@ -46,6 +46,31 @@
   command: psql -d {{ georchestra.db.name }} -t -c "select * from superset.ab_role;"
   register: sset_role_exists
 
+- name: Import Guest_template definition
+  vars:
+    rolesrc: georchestra_custom_roles.json
+  when: sset_role_exists.stdout is defined and 'Guest_template' not in sset_role_exists.stdout
+  block:
+    - name: Fetch Guest_template role definition
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/georchestra/superset/{{ superset.commit.config }}/config/superset/{{ rolesrc }}
+        dest: /tmp/{{ rolesrc }}
+        mode: "0644"
+
+    - name: Import Guest_template definition
+      ansible.builtin.command: /srv/apps/superset/venv/bin/superset fab import-roles -p /tmp/{{ rolesrc }}
+      environment:
+        PYTHONPATH: /srv/apps/superset
+        FLASK_APP: superset
+        SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_georchestra_config.py
+      register: import_roles_ran
+      changed_when: import_roles_ran.stdout is defined # nothing in stdout allows to know what was imported
+
+    - name: Drop Guest_template definition file
+      ansible.builtin.file:
+        path: /tmp/{{ rolesrc }}
+        state: absent
+
 - name: Initialize superset database content
   command: /srv/apps/superset/venv/bin/superset init
   environment:

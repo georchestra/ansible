@@ -16,6 +16,32 @@
     SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_georchestra_config.py
   when: sset_table_exists.stdout is defined and 'ab_user' not in sset_table_exists.stdout
 
+- name: List existing superset users
+  command: psql -d {{ georchestra.db.name }} -t -c "select * from superset.ab_user where id=1;"
+  register: sset_admin_user_exists
+
+- name: Initialize superset admin user
+  ansible.builtin.command:
+    argv:
+      - /srv/apps/superset/venv/bin/superset
+      - fab
+      - create-admin
+      - --email
+      - "{{ console_adminemail }}"
+      - --lastname
+      - testadmin
+      - --firstname
+      - testadmin
+      - --username
+      - admin
+      - --password
+      - testadmin
+  environment:
+    PYTHONPATH: /srv/apps/superset
+    FLASK_APP: superset
+    SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_georchestra_config.py
+  when: sset_admin_user_exists.stdout is defined and console_adminemail not in sset_admin_user_exists.stdout
+
 - name: List existing superset roles
   command: psql -d {{ georchestra.db.name }} -t -c "select * from superset.ab_role;"
   register: sset_role_exists

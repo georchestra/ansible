@@ -8,7 +8,7 @@ Environment="LOG_LEVEL=INFO"
 Environment="SUPERSET_CONFIG_PATH=superset_georchestra_config.py"
 WorkingDirectory=/srv/apps/superset/
 ExecStart=/srv/apps/superset/venv/bin/gunicorn \
-      -w 10 \
+      -w 2 \
       -k gevent \
       --worker-connections 1000 \
       --timeout 120 \

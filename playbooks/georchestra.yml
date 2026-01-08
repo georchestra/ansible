@@ -24,7 +24,7 @@
       # geonetwork_datadir: gn4.4.8
       # geoserver_datadir: 2.27.0
 
-    java_version: java-17-openjdk-amd64
+    java_version: temurin-17-jdk-amd64
     tomcat_version: 9
     kibana_server_host: 127.0.0.1
     elasticsearch_version: '8.x'

@@ -31,14 +31,19 @@
   ansible.builtin.pip:
     name: git+https://github.com/georchestra/superset-core@{{ superset.commit.code }}#egg=apache-superset
     virtualenv: /srv/apps/superset/venv
-    virtualenv_site_packages: true
+    virtualenv_python: python3.11
+    virtualenv_site_packages: false
 
 - name: Install python-graphql-client via pip (apache/superset#34839)
   tags: superset/pip
   ansible.builtin.pip:
-    name: python-graphql-client
+    name:
+    - python-graphql-client
+    - psycopg2-binary==2.9.6
+    - gevent==24.2.1
     virtualenv: /srv/apps/superset/venv
-    virtualenv_site_packages: true
+    virtualenv_python: python3.11
+    virtualenv_site_packages: false
 
 - name: Fetch/Unarchive precompiled assets
   tags: superset/assets

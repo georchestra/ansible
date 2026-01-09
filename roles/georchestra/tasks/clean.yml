@@ -17,9 +17,3 @@
     - "{{ geoserver.datadir.path }}"
     - "{{ geowebcache_datadir }}"
     - "{{ georchestra.datadir.path }}"
-
-- name: remove non-free and contrib for dependencies (bullseye)
-  apt_repository:
-    repo: deb http://ftp.fr.debian.org/debian/ bullseye main non-free contrib
-    state: absent
-  when: ansible_distribution_release == "bullseye"

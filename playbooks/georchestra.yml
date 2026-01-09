@@ -13,13 +13,13 @@
     georchestra_versions:
       # master version
       datadir: master # or 24.0, see https://github.com/georchestra/datadir/branches
-      debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 24.0.x
+      debian_repository_url: deb [signed-by=/etc/apt/keyrings/psc@georchestra.org.asc] https://packages.georchestra.org/debian master main # or 24.0.x
       georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.4.8 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
       # 25.0.x
       # datadir: 25.0
-      # debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian 25.0.x main
+      # debian_repository_url: deb [signed-by=/etc/apt/keyrings/psc@georchestra.org.asc] https://packages.georchestra.org/debian 25.0.x main
       # georchestra_repository: 25.0.x
       # geonetwork_datadir: gn4.4.8
       # geoserver_datadir: 2.27.0
@@ -98,7 +98,7 @@
         gitversion: "{{ georchestra_versions.datadir }}"
       debian:
         repo: "{{ georchestra_versions.debian_repository_url }}"
-        key: https://packages.georchestra.org/debian/landry%40georchestra.org.gpg.pubkey
+        key: https://packages.georchestra.org/debian/psc%40georchestra.org.gpg.pubkey
       header:
         height: 80
         script: https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js

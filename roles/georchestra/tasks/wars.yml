@@ -5,10 +5,10 @@
     pkg: apt-transport-https
     state: present
 
-- name: add georchestra repository key
+- name: fetch georchestra repository key
   tags: apt_repo
-  apt_key:
-    keyring: /etc/apt/keyrings/packages.georchestra.org.gpg
+  get_url:
+    keyring: /etc/apt/keyrings/psc@georchestra.org.asc
     url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo

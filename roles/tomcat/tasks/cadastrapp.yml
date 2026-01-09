@@ -5,9 +5,3 @@
     insertbefore: </Context>
     line: <ResourceLink name="jdbc/cadastrapp" global="jdbc/cadastrapp" type="javax.sql.DataSource"/>
     state: present
-
-- name: symlink postgresql.jar for jdbc/cadastrapp
-  file:
-    src: "{{ tomcat_basedir }}/georchestra/webapps/cadastrapp/WEB-INF/lib/postgresql-42.3.3.jar"
-    dest: /usr/share/tomcat{{ tomcat_version }}/lib/postgresql-42.3.3.jar
-    state: link

@@ -14,7 +14,7 @@
       # master version
       datadir: master # or 24.0, see https://github.com/georchestra/datadir/branches
       debian_repository_url: deb [signed-by=/etc/apt/keyrings/packages.georchestra.org.gpg] https://packages.georchestra.org/debian master main # or 24.0.x
-      georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
+      georchestra_repository: 7e7543d0fa5011c66c33040584073335361d6bb4 # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.4.8 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
       geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
       # 25.0.x
@@ -72,14 +72,13 @@
       basedn: dc=georchestra,dc=org # has to be in the form dc={{ topdc }},dc=xx
       rootdn: cn=admin,dc=georchestra,dc=org
       rootpw: secret
-      gitrepo: https://raw.github.com/georchestra/georchestra
+      gitrepo: https://raw.github.com/landryb/georchestra
       ldifs:
         - bootstrap
         - docker-root/georchestraSchema
         - docker-root/etc/ldap.dist/modules/groupofmembers
         - docker-root/etc/ldap.dist/modules/openssh
         - docker-root/memberof
-        - docker-root/lastbind
         - root
         - docker-root/georchestra
       gitversion: "{{ georchestra_versions.georchestra_repository }}"

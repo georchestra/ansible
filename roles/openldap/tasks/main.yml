@@ -65,12 +65,6 @@
   args:
     creates: /etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
 
-- name: import lastbind
-  command: >
-    ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/lastbind.ldif"
-  args:
-    creates: /etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={1}lastbind.ldif
-
 - name: temporarly store cleartext admin rootpw
   copy:
     dest: "{{ tempdir.stdout }}/admin-georchestra.pass"

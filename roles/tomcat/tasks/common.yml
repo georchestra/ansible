@@ -14,17 +14,13 @@
 - name: fetch adoptium.net repository key
   tags: adoptium
   get_url:
-    dest: /tmp/packages.adoptium.net.asc
+    dest: /etc/apt/keyrings/packages.adoptium.net.asc
     url: https://packages.adoptium.net/artifactory/api/gpg/key/public
-
-- name: dearmor the gpg key
-  tags: adoptium
-  command: gpg --dearmor --output /etc/apt/trusted.gpg.d/adoptium.gpg /tmp/packages.adoptium.net.asc
 
 - name: add adoptium.net debian repo
   tags: adoptium
   apt_repository:
-    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/adoptium.gpg] https://packages.adoptium.net/artifactory/deb/ {{ ansible_distribution_release }} main"
+    repo: "deb [signed-by=/etc/apt/keyrings/packages.adoptium.net.asc] https://packages.adoptium.net/artifactory/deb/ {{ ansible_distribution_release }} main"
 
 - name: install java runtimes from adoptium
   tags: adoptium

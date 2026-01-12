@@ -8,7 +8,7 @@
 - name: fetch georchestra repository key
   tags: apt_repo
   get_url:
-    keyring: /etc/apt/keyrings/psc@georchestra.org.asc
+    dest: /etc/apt/keyrings/psc@georchestra.org.asc
     url: "{{ georchestra.debian.key }}"
 
 - name: add georchestra debian repo

@@ -33,6 +33,8 @@
     elasticsearch_extra_options: |  
       cluster.name: "{{ georchestra.fqdn }}"
       xpack.security.enabled: false
+      xpack.security.transport.ssl.enabled: false
+      xpack.security.http.ssl.enabled: false
       xpack.security.enrollment.enabled: false
       bootstrap.memory_lock: true
     elasticsearch_heap_size_min: 1g

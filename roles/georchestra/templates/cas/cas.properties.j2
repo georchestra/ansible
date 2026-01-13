@@ -49,5 +49,5 @@ cas.authn.ldap[0].type=DIRECT
 cas.authn.ldap[0].dn-format=uid=%s,ou=users,{{ openldap.basedn }}
 cas.authn.oidc.jwks.file-system.jwks-file=file:///tmp/keystore.jwksdown
 
-cas.authn.saml-idp.core.entity-id=https://${FQDN}/idp
+cas.authn.saml-idp.core.entity-id=https://{{ georchestra.fqdn }}/idp
 cas.authn.saml-idp.metadata.file-system.location=file:///tmp/

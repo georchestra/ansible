@@ -7,8 +7,8 @@
 - name: setup wtf lts repokey for tomcat9 (deb822 only available in ansible 2.15)
   tags: tomcat_apt_repo
   get_url:
-    url: http://www.mirbsd.org/~tg/Debs/sources.txt/wtflts-bookworm.sources
-    dest: /etc/apt/sources.list.d/wtflts-bookworm.sources
+    url: http://www.mirbsd.org/~tg/Debs/sources.txt/wtflts-trixie.sources
+    dest: /etc/apt/sources.list.d/wtflts-trixie.sources
   when: tomcat_version == 9
 
 - name: fetch adoptium.net repository key

@@ -17,10 +17,21 @@
     dest: /etc/apt/keyrings/packages.adoptium.net.asc
     url: https://packages.adoptium.net/artifactory/api/gpg/key/public
 
+- name: Drop previous .list repo
+  tags: adoptium
+  file:
+    path: /etc/apt/sources.list.d/packages_adoptium_net_artifactory_deb.list
+    state: absent
+
 - name: add adoptium.net debian repo
   tags: adoptium
-  apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/packages.adoptium.net.asc] https://packages.adoptium.net/artifactory/deb/ {{ ansible_distribution_release }} main"
+  deb822_repository:
+    name: adoptium
+    uris: https://packages.adoptium.net/artifactory/deb/
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: /etc/apt/keyrings/packages.adoptium.net.asc
+    components:
+      - main
 
 - name: install java runtimes from adoptium
   tags: adoptium

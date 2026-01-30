@@ -1,23 +1,13 @@
 ---
-- name: Add the adoptium signing key
-  apt_key:
-    url: https://packages.adoptium.net/artifactory/api/gpg/key/public
-    state: present
-
-- name: Set up the adoptium debian repository
-  apt_repository:
-    repo: deb https://packages.adoptium.net/artifactory/deb/ bookworm main
-    state: present
-
-- name: Install temurin-21-jre
+- name: Install default-jre-headless
   apt:
-    pkg: temurin-21-jre
+    pkg: default-jre-headless
     state: latest
 
 - name: alternatives - back to java 17 as default jvm
   community.general.alternatives:
     name: java
-    path: /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+    path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
 
 - name: install the georchestra-gateway package
   apt:

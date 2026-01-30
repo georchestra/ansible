@@ -11,10 +11,21 @@
     dest: /etc/apt/keyrings/psc@georchestra.org.asc
     url: "{{ georchestra.debian.key }}"
 
+- name: Drop previous .list repo
+  tags: apt_repo
+  file:
+    path: /etc/apt/sources.list.d/packages_georchestra_org_debian.list
+    state: absent
+
 - name: add georchestra debian repo
   tags: apt_repo
-  apt_repository:
-    repo: "{{ georchestra.debian.repo }}"
+  deb822_repository:
+    name: georchestra
+    uris: https://packages.georchestra.org/debian
+    suites: "{{ georchestra_versions.debian_repository }}"
+    signed_by: /etc/apt/keyrings/psc@georchestra.org.asc
+    components:
+      - main
 
 - name: install debian packages
   apt:

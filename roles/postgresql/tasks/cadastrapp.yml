@@ -31,7 +31,7 @@
   become: true
   become_user: postgres
   postgresql_privs:
-    database: "{{ cadastrapp.db.name }}"
+    login_db: "{{ cadastrapp.db.name }}"
     privs: ALL
     type: schema
     roles: "{{ cadastrapp.db.user }}"

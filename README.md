@@ -6,6 +6,7 @@ Right now, this will deploy a working geOrchestra from the **master** branch wit
 
 ## Prerequisite
 
+* Ansible-core 2.15
 * Debian Bookworm (12.x) VM
 * JAVA11 (could use [AdoptOpenJDK](https://adoptopenjdk.net/) project)
 * Token access to allow connection from VM to GitHub and allow to get MapStore2 artifact (see playbook.yml)

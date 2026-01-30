@@ -25,7 +25,7 @@
   become: true
   become_user: postgres
   postgresql_privs:
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
     privs: SELECT
     type: table
     roles: "{{ georchestra.db.user }}"
@@ -35,7 +35,7 @@
   become: true
   become_user: postgres
   postgresql_privs:
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
     privs: SELECT,INSERT,DELETE
     type: table
     roles: "{{ georchestra.db.user }}"

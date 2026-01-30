@@ -53,7 +53,7 @@
 
 - name: grant all privileges to georchestra user on schema
   postgresql_privs:
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
     privs: ALL
     type: schema
     roles: "{{ georchestra.db.user }}"
@@ -61,7 +61,7 @@
 
 - name: grant all privileges to georchestra user on sequences in schema
   postgresql_privs:
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
     privs: ALL
     type: sequence
     schema: "{{ item }}"
@@ -71,7 +71,7 @@
 
 - name: grant all privileges to georchestra user on tables in schema
   postgresql_privs:
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
     privs: ALL
     type: table
     schema: "{{ item }}"

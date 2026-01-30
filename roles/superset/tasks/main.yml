@@ -18,8 +18,13 @@
 
 - name: Add bookworm repo for python 3.11
   tags: superset/apt
-  ansible.builtin.apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/debian-archive-keyring.gpg] http://deb.debian.org/debian bookworm main
+  ansible.builtin.deb822_repository:
+    name: bookworm-python
+    uris: http://deb.debian.org/debian
+    suites: bookworm
+    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
+    components:
+      - main
 
 - name: Install python3.11 from bookworm
   tags: superset/apt

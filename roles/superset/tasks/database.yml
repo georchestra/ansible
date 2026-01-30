@@ -2,7 +2,7 @@
   community.postgresql.postgresql_schema:
     name: superset
     owner: "{{ georchestra.db.user }}"
-    database: "{{ georchestra.db.name }}"
+    login_db: "{{ georchestra.db.name }}"
 
 - name: List existing database tables
   command: psql -d {{ georchestra.db.name }} -t -c "select * from pg_tables where schemaname='superset';"

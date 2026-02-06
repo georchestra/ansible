@@ -1,10 +1,4 @@
 ---
-- name: install apt-transport-https
-  tags: apt_repo
-  apt:
-    pkg: apt-transport-https
-    state: present
-
 - name: add georchestra repository key
   tags: apt_repo
   apt_key:

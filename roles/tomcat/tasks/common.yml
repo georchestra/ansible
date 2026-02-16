@@ -46,29 +46,13 @@
     name: java
     path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
 
-- name: Add bookworm repo for libeclipse-jdt-core-java
-  tags: jspfix
-  ansible.builtin.deb822_repository:
-    name: bookworm
-    uris: http://deb.debian.org/debian
-    suites: bookworm
-    signed_by: /usr/share/keyrings/debian-archive-keyring.gpg
-    components:
-      - main
-
-- name: Install older version of libeclipse-jdt-core-java to fix console jsp
-  tags: jspfix
-  ansible.builtin.apt:
-    name: libeclipse-jdt-core-java=3.32.0*
-    allow_downgrade: true
-    update_cache: true
-
 - name: installing dependencies
   apt:
     pkg:
       - tomcat{{ tomcat_version }}
       - tomcat{{ tomcat_version }}-user # needed for create-instance script
       - tomcat-jakartaee-migration
+      - libecj-java
       - libtcnative-1 # APR native libs
       - unzip # for unzipping artifacts from github actions
     state: present
@@ -86,6 +70,13 @@
     dest: /usr/share/tomcat10/lib/jakartaee-migration-1.0.6-shaded.jar
     state: link
   when: tomcat_version == 10
+
+- name: link ecj jar for JSP pages compilation
+  tags: jspfix
+  file:
+    src: ../../java/ecj.jar
+    dest: /usr/share/tomcat9/lib/ecj.jar
+    state: link
 
 - name: template tmpfiles.d for pidfile
   tags: systemd_unit

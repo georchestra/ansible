@@ -59,7 +59,7 @@
     name:
     - python-graphql-client
     - psycopg2-binary==2.9.6
-    - gevent==24.2.1
+    - gevent==24.10.1
     virtualenv: /srv/apps/superset/venv
     virtualenv_python: python3.11
     virtualenv_site_packages: false

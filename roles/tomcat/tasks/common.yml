@@ -1,7 +1,7 @@
 ---
-- name: ensure GPG is installed
+- name: Ensure python3-debian is installed for deb822 ansible module
   apt:
-    name: gpg
+    name: python3-debian
     state: present
 
 - name: setup wtf lts repokey for tomcat9 (deb822 only available in ansible 2.15)

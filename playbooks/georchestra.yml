@@ -12,17 +12,12 @@
   vars:
     georchestra_versions:
       # master version
-      datadir: master # or 24.0, see https://github.com/georchestra/datadir/branches
-      debian_repository: master # or 24.0.x
-      georchestra_repository: master # see https://github.com/georchestra/georchestra/branches
+      datadir: 25.0 # see https://github.com/georchestra/datadir/branches
+      debian_repository: 25.0.x # or 24.0.x
+      georchestra_repository: 25.0.x # see https://github.com/georchestra/georchestra/branches
       geonetwork_datadir: gn4.4.8 # see https://github.com/georchestra/geonetwork_minimal_datadir/branches
-      geoserver_datadir: master # https://github.com/georchestra/geoserver_minimal_datadir/branches
-      # 25.0.x
-      # datadir: 25.0
-      # debian_repository: 25.0.x
-      # georchestra_repository: 25.0.x
-      # geonetwork_datadir: gn4.4.8
-      # geoserver_datadir: 2.27.0
+      geoserver_datadir: 2.28.x # https://github.com/georchestra/geoserver_minimal_datadir/branches
+
 
     java_version: temurin-17-jdk-amd64
     tomcat_version: 9

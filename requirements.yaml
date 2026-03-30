@@ -1,4 +1,4 @@
 # ansible roles from galaxy
 - src: https://github.com/jdev-org/ansible-role-elasticsearch
-  version: 5.1.3
+  version: 5.1.4
 - geerlingguy.kibana,4.0.2

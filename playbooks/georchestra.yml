@@ -8,7 +8,7 @@
     - { role: ansible-role-elasticsearch, tags: es }
     - { role: superset, tags: superset, when: superset.enabled }
     - { role: gaia, tags: gaia, when: gaia.enabled }
-    - { role: geerlingguy.kibana, tags: kibana }
+    - { role: geerlingguy.kibana, tags: kibana, when: kibana.enabled | bool }
   vars:
     georchestra_versions:
       # master version
@@ -21,6 +21,8 @@
 
     java_version: temurin-17-jdk-amd64
     tomcat_version: 9
+    kibana:
+      enabled: "{{ (ansible_distribution_release | lower) != 'trixie' }}"
     kibana_server_host: 127.0.0.1
     elasticsearch_version: '8.x'
     elasticsearch_log: /srv/elasticsearch/logs
@@ -185,11 +187,6 @@
         pkg: georchestra-geonetwork
         tomcat: georchestra
         enabled: true
-      # mapstore: # using a github action artifact
-      #   url: https://api.github.com/repos/{{ mapstore.repo }}/actions/artifacts/{{ mapstore.artifact_id }}/zip
-      #   tomcat: georchestra
-      #   artifact_sha256: "{{ mapstore.artifact_sha256 }}"
-      #   enabled: "{{ mapstore.enabled }}"
       mapstore: # using the package from packages.georchestra.org
         pkg: georchestra-mapstore
         tomcat: georchestra
@@ -202,10 +199,10 @@
         pkg: georchestra-geowebcache
         tomcat: georchestra
         enabled: true
-      import:
+      import: # not available in 25
         pkg: georchestra-datafeeder-ui
         tomcat: georchestra
-        enabled: true
+        enabled: false
       console:
         pkg: georchestra-console
         tomcat: georchestra
@@ -218,20 +215,15 @@
         pkg: georchestra-security-proxy
         tomcat: proxycas
         enabled: true
-    datafeeder:
-      enabled: true
+    datafeeder: # not available in 25
+      enabled: false
       port: 8480
-    # not yet, doesnt work standalone ?
-    #    cas:
-    #      pkg: georchestra-cas
-    #      enabled: true
-    #      port: 8980
-    gn_cloud_searching:
-      enabled: true
+    gn_cloud_searching: # not needed by default
+      enabled: false
       port: 8580
       url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/searching.jar
-    gn_ogc_api_records:
-      enabled: true
+    gn_ogc_api_records: # not needed by default
+      enabled: false
       port: 8880
       #timeout: 300
       url: https://packages.georchestra.org/bot/wars/geonetwork-microservices/gn-cloud-ogc-api-records-service-{{ geonetwork.microservice_version }}.jar
@@ -255,8 +247,8 @@
     gateway:
       enabled: false
       port: 8980
-    superset:
-      enabled: true
+    superset: # not compatible trixie yet ( dependance python 3.11 )
+      enabled: false
       secretkey: CHANGEME
       urlprefix: superset
       commit:
@@ -276,8 +268,10 @@
         owner: root
         group: root
         mode: "0644"
+      when: kibana.enabled | bool
       notify: restart kibana
 
   handlers:
     - name: restart kibana
+      when: kibana.enabled | bool
       service: name=kibana state=restarted

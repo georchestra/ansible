@@ -57,12 +57,36 @@
     append: yes
     groups: tomcat
 
+- name: Check if gaia directory already exists
+  tags: gaia/git
+  ansible.builtin.stat:
+    path: "{{ gaia_basedir }}"
+  register: gaia_basedir_stat
+
+- name: Check if gaia directory is a git repository
+  tags: gaia/git
+  ansible.builtin.stat:
+    path: "{{ gaia_basedir }}/.git"
+  register: gaia_gitdir_stat
+  when: gaia_basedir_stat.stat.exists
+
+- name: Remove stale gaia directory when it is not a git repository
+  tags: gaia/git
+  ansible.builtin.file:
+    path: "{{ gaia_basedir }}"
+    state: absent
+  when:
+    - gaia_basedir_stat.stat.exists
+    - not gaia_gitdir_stat.stat.exists
+
 - name: Deploy gaia source code
   tags: gaia/git
   ansible.builtin.git:
     repo: https://github.com/georchestra/gaia
     dest: "{{ gaia_basedir }}"
     version: master
+    update: true
+    force: true
   notify: Restart gaia services
 
 - name: Create celery beat db subdir

@@ -5,6 +5,15 @@
     state: present
     update_cache: true
 
+- name: gather package facts
+  package_facts:
+    manager: auto
+
+- name: store installed slapd version
+  set_fact:
+    openldap_slapd_version: "{{ ansible_facts.packages['slapd'][0].version | default('') }}"
+  when: "'slapd' in ansible_facts.packages"
+
 - name: create temporary directory
   check_mode: false
   shell: mktemp -d
@@ -65,11 +74,43 @@
   args:
     creates: /etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={0}memberof.ldif
 
+- name: adapt lastbind ldif for OpenLDAP 2.6+
+  lineinfile:
+    path: "{{ tempdir.stdout }}/lastbind.ldif"
+    regexp: '^olcLastBindPrecision:'
+    state: absent
+  when:
+    - openldap_slapd_version is defined
+    - openldap_slapd_version is version('2.6', '>=')
+
 - name: import lastbind
   command: >
     ldapadd -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/lastbind.ldif"
+  register: import_lastbind
   args:
     creates: /etc/ldap/slapd.d/cn=config/olcDatabase={2}mdb/olcOverlay={1}lastbind.ldif
+
+- name: set lastbind precision on backend for OpenLDAP 2.6+
+  copy:
+    dest: "{{ tempdir.stdout }}/lastbind-backend.ldif"
+    content: |
+      dn: olcDatabase={2}mdb,cn=config
+      changetype: modify
+      replace: olcLastBindPrecision
+      olcLastBindPrecision: 14400
+    mode: "0600"
+  when:
+    - openldap_slapd_version is defined
+    - openldap_slapd_version is version('2.6', '>=')
+    - import_lastbind is changed
+
+- name: apply lastbind precision on backend for OpenLDAP 2.6+
+  command: >
+    ldapmodify -Y EXTERNAL -H ldapi:/// -f "{{ tempdir.stdout }}/lastbind-backend.ldif"
+  when:
+    - openldap_slapd_version is defined
+    - openldap_slapd_version is version('2.6', '>=')
+    - import_lastbind is changed
 
 - name: temporarly store cleartext admin rootpw
   copy:

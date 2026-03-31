@@ -7,6 +7,7 @@
     - { role: georchestra, tags: georchestra }
     - { role: ansible-role-elasticsearch, tags: es }
     - { role: superset, tags: superset, when: superset.enabled }
+    - { role: analytics, tags: analytics, when: analytics.enabled }
     - { role: gaia, tags: gaia, when: gaia.enabled }
     - { role: geerlingguy.kibana, tags: kibana }
   vars:
@@ -273,6 +274,22 @@
       enabled: true
       urlprefix: gaia
       port: 9180 # gunicorn port
+    analytics:
+      enabled: true
+      commit: 96b05282766c080b4c9471d5972c3ffd6c3b3400 # git sha for pip or version
+      otel_agent:
+        version: v2.26.1 # https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/tag/v2.26.1
+        sha256: cc4af5966ab72109cacc962ba3b9f99b3e88caf064c3144a451bcfe0f4950f19
+      vector:
+        port: 4137
+        version: 0.54.0
+        sha256: f3dcb1393b03d2a0697f61faeb486f8692b76dc97acc253bebec36d83bbb20a0
+        ip: 127.0.0.1 # not hostname, vector.yml wants an ip
+      db:
+        host: localhost
+        user: analytics
+        pass: analytics
+        name: analytics
   tasks:
     - name: reconfigure Kibana after geerlingguy.kibana
       copy:

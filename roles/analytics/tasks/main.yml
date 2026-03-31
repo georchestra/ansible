@@ -1,0 +1,124 @@
+- name: install timescaledb extension
+  tags: analytics/db
+  apt:
+    pkg: postgresql-17-timescaledb
+    state: present
+    update_cache: true
+
+- name: preload timescaledb library
+  tags: analytics/db
+  ansible.builtin.copy:
+    dest: /etc/postgresql/17/main/conf.d/timescaledb.conf
+    content: "shared_preload_libraries = 'timescaledb'"
+    mode: "0644"
+    group: postgres
+    owner: postgres
+  register: preloadlibs
+
+- name: restart postgresql
+  tags: analytics/db
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted
+  when: preloadlibs.changed
+
+- name: install module dependencies (psql, pip..)
+  ansible.builtin.apt:
+    name:
+      - python3-psycopg2
+      - python3-pip
+      - python3-virtualenv
+    state: present
+
+- name: Initialize database
+  tags: analytics/db
+  become: true
+  become_user: postgres
+  ansible.builtin.import_tasks: database.yml
+
+- name: fetch opentelemetry java agent for security-proxy
+  tags: analytics/otel
+  ansible.builtin.get_url:
+    url: https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/{{ analytics.otel_agent.version }}/opentelemetry-javaagent.jar
+    dest: /usr/share/lib/opentelemetry-javaagent-{{ analytics.otel_agent.version }}.jar
+    checksum: sha256:{{ analytics.otel_agent.sha256 }}
+    mode: "0644"
+  when: georchestra_wars.ROOT.enabled
+
+- name: link otel agent to static path
+  tags: analytics/otel
+  ansible.builtin.file:
+    src: /usr/share/lib/opentelemetry-javaagent-{{ analytics.otel_agent.version }}.jar
+    dest: /usr/share/lib/opentelemetry-javaagent.jar
+    force: true
+    state: link
+  when: georchestra_wars.ROOT.enabled
+
+- name: list packages
+  tags: analytics/vector
+  ansible.builtin.package_facts:
+    manager: apt
+
+- name: fetch vector deb
+  tags: analytics/vector
+  ansible.builtin.get_url:
+    url: https://packages.timber.io/vector/{{ analytics.vector.version }}/vector_{{ analytics.vector.version }}-1_amd64.deb
+    dest: /tmp/vector_{{ analytics.vector.version }}-1_amd64.deb
+    mode: "0644"
+  register: vectordeb
+  when: "'vector' not in ansible_facts.packages"
+
+- name: install vector
+  tags: analytics/vector
+  ansible.builtin.apt:
+    deb: /tmp/vector_{{ analytics.vector.version }}-1_amd64.deb
+  when:
+    - vectordeb.changed
+    - not ansible_check_mode
+
+- name: template vector vars
+  tags: analytics/vector
+  ansible.builtin.template:
+    owner: root
+    group: root
+    mode: "0400"
+    src: vector_env.j2
+    dest: /etc/default/vector
+  notify:
+    - Restart vector
+
+- name: deploy vector configuration
+  tags: analytics/vector
+  ansible.builtin.template:
+    owner: root
+    group: root
+    mode: "0644"
+    src: vector.yml.j2
+    dest: /etc/georchestra/analytics/vector.yml
+# validation doesnt really work with vars in the env
+#    validate: vector validate --disable-env-var-interpolation %s
+  notify:
+    - Restart vector
+
+- name: Reload systemd
+  tags: analytics/systemd
+  ansible.builtin.systemd:
+    daemon-reload: true
+
+- name: enable vector service
+  tags: analytics/systemd
+  ansible.builtin.service:
+    name: vector
+    enabled: true
+    state: started
+
+- name: install analytics-cli via pip
+  tags: analytics/cli
+  ansible.builtin.pip:
+    name: git+https://github.com/georchestra/analytics@{{ analytics.commit }}#egg=georchestra_analytics-cli&subdirectory=analytics-cli
+    virtualenv: /srv/apps/analytics/venv
+    virtualenv_site_packages: true
+
+# - name: configure cronjob to process logs
+
+# - name: create superset dashboard

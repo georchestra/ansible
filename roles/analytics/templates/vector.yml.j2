@@ -1,0 +1,54 @@
+api:
+  enabled: true
+  address: 0.0.0.0:8686
+sources:
+  opentelemetry:
+    type: opentelemetry
+    grpc:
+      address: 0.0.0.0:4317
+    http:
+      address: 0.0.0.0:4318
+      headers: []
+      keepalive:
+        max_connection_age_jitter_factor: 0.1
+        max_connection_age_secs: 300
+transforms:
+  sp_access_logs_filter:
+    # Accept only access logs from Security proxy
+    type: filter
+    inputs:
+      - opentelemetry.logs
+    condition:
+      type: "vrl"
+      source: '.scope.name == "org.georchestra.security-proxy.accesslog"'
+      # source: match!(.scope.name, r'org.georchestra.*.accesslog') 
+
+  gw_access_logs_filter:
+    # Accept only access logs from Gateway
+    type: filter
+    inputs:
+      - opentelemetry.logs
+    condition:
+      type: "vrl"
+      source: '.scope.name == "org.georchestra.gateway.accesslog" '
+      # source: match!(.scope.name, r'org.georchestra.*.accesslog')
+
+sinks:
+  console:
+    type: console
+    # https://vector.dev/docs/reference/configuration/sinks/console/
+    inputs:
+      - gw_access_logs_filter
+      # - sp_access_logs_filter
+      # - opentelemetry.logs
+    target: stdout
+    encoding:
+      codec: json
+  tsdb:
+    type: postgres
+    # https://vector.dev/docs/reference/configuration/sinks/postgres/
+    inputs:
+      - gw_access_logs_filter
+    endpoint: "postgres://${TSDB_USER}:${TSDB_PASSWORD}@${TSDB_HOST}:${TSDB_PORT}/${TSDB_NAME}"
+    table: "${TSDB_OTEL_TABLE:-analytics.opentelemetry_buffer}"
+    pool_size: 5

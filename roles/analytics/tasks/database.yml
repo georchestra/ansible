@@ -1,0 +1,74 @@
+---
+
+# runs as postgres user via become
+- name: create analytics user
+  community.postgresql.postgresql_user:
+    name: "{{ analytics.db.user }}"
+    password: "{{ analytics.db.pass }}"
+    encrypted: true
+
+- name: create analytics database
+  community.postgresql.postgresql_db:
+    name: "{{ analytics.db.name }}"
+    owner: "{{ analytics.db.user }}"
+    template: template0
+    encoding: UTF8
+
+- name: enable timescaledb extension
+  community.postgresql.postgresql_ext:
+    login_db: "{{ analytics.db.name }}"
+    name: timescaledb
+
+- name: set .pgpass to access analytics db
+  lineinfile:
+    path: /var/lib/postgresql/.pgpass
+    line: '{{ analytics.db.host }}:*:{{ analytics.db.name }}:{{ analytics.db.user }}:{{ analytics.db.pass }}'
+    create: true
+    owner: postgres
+    group: postgres
+    mode: "0600"
+
+- name: list existing schemas
+  command: psql -d {{ analytics.db.name }} -t -c "\dn"
+  register: loaded_schemas
+
+- name: populate database
+  when:
+    - loaded_schemas.stdout is defined
+    - '"analytics" not in loaded_schemas.stdout'
+  block:
+    - name: Create temporary dir
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: sql_analytics
+      register: tempdir
+      check_mode: false
+
+    - name: fetch sql scripts
+      get_url:
+        url: https://raw.github.com/georchestra/analytics/{{ analytics.commit }}/config/analytics/db.entrypoints.d/{{ item }}
+        mode: "0644"
+        dest: "{{ tempdir.path }}"
+      with_items:
+        - 100_analytics_init.sql
+        - 101_analytics_ogc_views.sql
+
+    - name: create schema in analytics db
+      command: psql -h {{ analytics.db.host }} -d {{ analytics.db.name }} -U {{ analytics.db.user }} -f {{ tempdir.path }}/100_analytics_init.sql
+
+    - name: list existing MV
+      command: psql -d {{ analytics.db.name }} -t -c "\dmv analytics.*"
+      register: materialized_views
+
+    - name: create MV in analytics db
+      command: psql -h {{ analytics.db.host }} -d {{ analytics.db.name }} -U {{ analytics.db.user }} -f {{ tempdir.path }}/101_analytics_ogc_views.sql
+      when:
+        - materialized_views.stdout is defined
+        - '"ogc_summary_hourly" not in materialized_views.stdout'
+
+    - name: Drop tempdir
+      ansible.builtin.file:
+        path: "{{ tempdir.path }}"
+        state: absent
+      when: tempdir.path is defined
+      check_mode: false

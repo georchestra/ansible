@@ -39,8 +39,8 @@ sinks:
     # https://vector.dev/docs/reference/configuration/sinks/console/
     inputs:
       - gw_access_logs_filter
-      # - sp_access_logs_filter
-      # - opentelemetry.logs
+      - sp_access_logs_filter
+      - opentelemetry.logs
     target: stdout
     encoding:
       codec: json
@@ -49,6 +49,7 @@ sinks:
     # https://vector.dev/docs/reference/configuration/sinks/postgres/
     inputs:
       - gw_access_logs_filter
+      - sp_access_logs_filter
     endpoint: "postgres://${TSDB_USER}:${TSDB_PASSWORD}@${TSDB_HOST}:${TSDB_PORT}/${TSDB_NAME}"
     table: "${TSDB_OTEL_TABLE:-analytics.opentelemetry_buffer}"
     pool_size: 5

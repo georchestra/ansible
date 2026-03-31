@@ -11,4 +11,14 @@ JAVA_OPTS="-Djava.awt.headless=true \
 	-DCAS_BANNER_SKIP=true \
 	-Dcas.standalone.configurationDirectory=/etc/georchestra/cas/config  \
 {% endif %}
+{% if analytics.enabled %}
+	-javaagent:/usr/share/lib/opentelemetry-javaagent.jar \
+	-Dotel.javaagent.enabled=true \
+	-Dotel.exporter.otlp.protocol=grpc \
+	-Dotel.exporter.otlp.endpoint=http://{{ analytics.vector.ip }}:{{ analytics.vector.port }} \
+	-Dotel.instrumentation.log4j-appender.experimental.capture-mdc-attributes=* \
+	-Dotel.traces.exporter=none \
+	-Dotel.metrics.exporter=none \
+	-Dotel.logs.exporter=otlp \
+{% endif %}
 	-Dgeorchestra.datadir={{ georchestra.datadir.path }}"

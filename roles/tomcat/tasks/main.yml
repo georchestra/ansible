@@ -1,4 +1,34 @@
 ---
+- name: Get needed tomcat instances from enabled wars
+  set_fact:
+    tomcat_active_instance_names: >-
+      {{
+        georchestra_wars
+        | dict2items
+        | selectattr('value.enabled')
+        | map(attribute='value.tomcat')
+        | unique
+        | list
+      }}
+
+- name: Build active/inactive Tomcat instance maps
+  set_fact:
+    tomcat_active_instances: >-
+      {{
+        tomcat_instances
+        | dict2items
+        | selectattr('key', 'in', tomcat_active_instance_names)
+        | items2dict
+      }}
+    tomcat_inactive_instance_names: >-
+      {{
+        tomcat_instances
+        | dict2items
+        | rejectattr('key', 'in', tomcat_active_instance_names)
+        | map(attribute='key')
+        | list
+      }}
+
 - import_tasks: common.yml
 - import_tasks: instance.yml
 - import_tasks: cadastrapp.yml

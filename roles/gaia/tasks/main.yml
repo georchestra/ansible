@@ -54,6 +54,7 @@
   tags: gaia/users
   ansible.builtin.user:
     name: "gaia-celery"
+    create_home: false
     append: yes
     groups: tomcat
 

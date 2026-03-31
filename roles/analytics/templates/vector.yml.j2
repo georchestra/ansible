@@ -1,11 +1,11 @@
 api:
   enabled: true
-  address: 0.0.0.0:8686
+  address: 127.0.0.1:8686
 sources:
   opentelemetry:
     type: opentelemetry
     grpc:
-      address: 0.0.0.0:4317
+      address: {{ analytics.vector.ip }}:{{ analytics.vector.port }}
     http:
       address: 0.0.0.0:4318
       headers: []

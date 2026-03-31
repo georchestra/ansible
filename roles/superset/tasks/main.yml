@@ -26,13 +26,17 @@
     components:
       - main
 
+- name: Update apt cache with bookworm repo in a distinct task
+  tags: superset/apt
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Install python3.11 from bookworm
   tags: superset/apt
   ansible.builtin.apt:
     name:
     - python3.11
     - python3.11-dev
-    update_cache: true
     default_release: bookworm
 
 - name: Install redis

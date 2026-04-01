@@ -137,6 +137,15 @@
     virtualenv: /srv/apps/analytics/venv
     virtualenv_site_packages: true
 
+- name: template cli configuration file
+  tags: analytics/cli
+  ansible.builtin.template:
+    owner: root
+    group: root
+    mode: "0400"
+    src: analytics_cli.yml.j2
+    dest: /etc/georchestra/analytics/cli.yaml
+
 # - name: configure cronjob to process logs
 
 # - name: create superset dashboard

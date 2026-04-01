@@ -6,6 +6,16 @@ spring.config.import: application.yaml, security.yaml, routes.yaml, roles-mappin
 
 georchestra:
   gateway:
+    # This allows to use /login?=redirect=... to redirect to a specific URL after a successful login
+    # (if the URL is in the allow list below)
+    # Disabled by default for security reasons (open redirect vulnerability)
+    # loginRedirectAllowList: >
+    #   https://localhost/datahub/,
+    #   https://localhost/geoserver/,
+    #   https://localhost/console/,
+    #   https://localhost/mapstore/,
+    #   https://localhost/import/,
+    #   https://localhost/geonetwork/
     # Redirection URL after a successful logout : Defaults to /?logout
     # logoutUrl : "/?logout" 
     default-headers:

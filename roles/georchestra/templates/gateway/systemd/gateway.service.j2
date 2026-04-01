@@ -4,7 +4,20 @@ After=syslog.target
 
 [Service]
 User=www-data
-ExecStart=/usr/lib/jvm/java-21-openjdk-amd64/bin/java -Dserver.port={{ gateway.port }} -Dgeorchestra.datadir=/etc/georchestra -jar /usr/share/lib/georchestra-gateway/georchestra-gateway.jar
+ExecStart=/usr/lib/jvm/java-21-openjdk-amd64/bin/java \
+{% if analytics.enabled %}
+	-javaagent:/usr/share/lib/opentelemetry-javaagent.jar \
+	-Dotel.javaagent.enabled=true \
+	-Dotel.exporter.otlp.protocol=grpc \
+	-Dotel.exporter.otlp.endpoint=http://{{ analytics.vector.ip }}:{{ analytics.vector.port }} \
+	-Dotel.instrumentation.logback-appender.experimental.capture-mdc-attributes=* \
+	-Dotel.traces.exporter=none \
+	-Dotel.metrics.exporter=none \
+	-Dotel.logs.exporter=otlp \
+{% endif %}
+	-Dserver.port={{ gateway.port }} \
+	-Dgeorchestra.datadir=/etc/georchestra \
+	-jar /usr/share/lib/georchestra-gateway/georchestra-gateway.jar
 SuccessExitStatus=143
 StandardOutput=append:{{ logs_basedir }}/gateway.log
 StandardError=append:{{ logs_basedir }}/gateway.log

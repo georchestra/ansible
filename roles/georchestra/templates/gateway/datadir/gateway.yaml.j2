@@ -99,3 +99,14 @@ georchestra:
           json-user: true
       geoserver:
         target: ${georchestra.gateway.services.geoserver.target}
+{% if superset.enabled %}
+      superset:
+        target: ${georchestra.gateway.services.superset.target}
+        headers:
+          proxy: true
+          username: true
+          roles: true
+          email: true
+          firstname: true
+          lastname: true
+{% endif %}

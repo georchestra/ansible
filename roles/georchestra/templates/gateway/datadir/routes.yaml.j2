@@ -73,6 +73,12 @@ spring:
         uri: ${georchestra.gateway.services.datahub.target}
         predicates:
         - Path=/datahub/**
+{% if superset.enabled %}
+      - id: superset
+        uri: ${georchestra.gateway.services.superset.target}
+        predicates:
+        - Path=/{{ superset.urlprefix }}/**
+{% endif %}
       - id: ogc-api-records
         uri: ${georchestra.gateway.services.ogc-api-records.target}
         predicates:
@@ -92,6 +98,9 @@ georchestra.gateway.services:
   geowebcache.target: http://localhost:8280/geowebcache/
   header.target: http://localhost:8280/header/
   import.target: http://localhost:8280/import/
+{% if superset.enabled %}
+  superset.target: http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/
+{% endif %}
   mapstore.target: http://localhost:8280/mapstore/
   ogc-api-records.target: http://localhost:8480/ogc-api-records/
   data-api.target: http://localhost:8080/data/

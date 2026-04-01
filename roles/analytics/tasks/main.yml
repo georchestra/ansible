@@ -1,9 +1,27 @@
+- name: install timescaledb debian repository
+  tags: analytics/db
+  deb822_repository:
+    name: georchestra
+    uris: https://packagecloud.io/timescale/timescaledb/debian/
+    suites: "{{ ansible_distribution_release }}"
+    signed_by: https://packagecloud.io/timescale/timescaledb/gpgkey
+    components:
+      - main
+  register: repo_added
+
+- name: Update apt cache
+  tags: analytics/db
+  apt:
+    update_cache: true
+  when: repo_added.changed
+
 - name: install timescaledb extension
   tags: analytics/db
   apt:
-    pkg: postgresql-17-timescaledb
+    pkg:
+      - timescaledb-toolkit-postgresql-17
+      - timescaledb-2-postgresql-17
     state: present
-    update_cache: true
 
 - name: preload timescaledb library
   tags: analytics/db

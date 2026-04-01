@@ -19,6 +19,11 @@
     login_db: "{{ analytics.db.name }}"
     name: timescaledb
 
+- name: enable timescaledb_toolkit extension
+  community.postgresql.postgresql_ext:
+    login_db: "{{ analytics.db.name }}"
+    name: timescaledb_toolkit
+
 - name: set .pgpass to access analytics db
   lineinfile:
     path: /var/lib/postgresql/.pgpass

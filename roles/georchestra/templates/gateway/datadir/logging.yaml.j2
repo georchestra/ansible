@@ -28,10 +28,10 @@ logging:
     include:
       user:
         id: true
-        roles: false
+        roles: true
         org: true
         extras: false
-        auth-method: false
+        auth-method: true
       application:
         name: true
         version: true
@@ -41,10 +41,10 @@ logging:
         id: true
         method: true
         path: true
-        query-string: false
-        parameters: false
-        headers: false
-        headers-pattern: ".*"
+        query-string: true
+        parameters: true
+        headers: true
+        headers-pattern: "(?i)user-agent"
         cookies: false
         remote-addr: false
         remote-host: false

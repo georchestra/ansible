@@ -6,11 +6,11 @@ spring:
     gateway:
       routes:
       - id: root
-        uri: ${georchestra.gateway.services.header.target}
+        uri: ${georchestra.gateway.services.datahub.target}
         predicates:
         - Path=/
         filters:
-        - RedirectTo=308, /header
+        - RedirectTo=308, /datahub/
       - id: header
         uri: ${georchestra.gateway.services.header.target}
         predicates:

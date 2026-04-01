@@ -1,0 +1,119 @@
+title: "Analytics CLI config file"
+
+performance:
+  # Publish in DB by batches
+  batch_size: 10000
+
+# It is best to set this to your local timezone so that any time-related handling have the best chance to be handled  with proper time offsets.
+timezone: "Europe/Paris"
+
+# apps_mapping is a dict of app_path:app_name, used to determine which *software* is running for a given path.
+# Apps which path match the app name don't have to be listed, unless using multiple DN support, see below.
+# App names have to match the name used in this project's app_processors subpackage.
+#
+# e.g. let's suppose that we have a geonetwork instance running on /catalog. It can't be automatically inferred
+# that this is a geonetwork instance. We'll have an apps_mapping entry like this:
+#
+# apps_mapping:
+#   "/catalog/": "geonetwork"
+#
+# But we're not declaring the geoserver path, because it already corresponds to the geoserver app name.
+#
+apps_mapping: { }
+
+# Set this to true if you want to collect logs from multiple DNs. Beware that this will affect the apps_mapping above:
+# the keys will include the DN, in order to distinguish possibly conflicting paths. So, the default keys won't be
+# recognized at all, you will have to be explicit there
+support_multiple_dn: false
+
+data_privacy:
+  # Some data privacy policies will require the platform admins to follow some strict rules regarding the personal data.
+  # In Europe for instance, this will be the case with GDPR. While it doesn't per-se forbid the collection of some
+  # personal data if its used is justified and declared, this requires specific processes (declare the collection in
+  # a GDPR registry for one). This is why sensitive data will be excluded *by default*. You can comment them if you
+  # are aware of the implications and taking care of your obligations in that regard.
+  keys_blacklist:
+    - "user_id"
+    - "user_name"
+    - "client_ip"
+
+# Database connection parameters. You most likely will want to use a timescaledb-enabled postgresql DB here
+# but since the cli relies on SQLAlchemy, any other DB should work fine (not tested though).
+database:
+  drivername: "postgresql"
+  host: "localhost"
+  port: "5432"
+  database: "analytics"
+  #  schema: analytics
+  username: "analytics"
+  password: "analytics"
+
+# Logs parsers config. If running over opentelemetry logs, this is the one you will want to have properly configured.
+# If running on CLF-like log files, you will rely on the text_message parser below.
+parsers:
+  # This is the config for the OpenTelemetry workflow (Vector -> TimescaleDB -> Analytics CLI -> TimescaleDB)
+  opentelemetry:
+    text_message_parser:
+      # enabling this, the parser will also try to extract information from the textual log message included in the opentelemetry data.
+      # This is mostly useful if you are merging data from different sources and the textual log message might contain additional information.
+      # For instance, see https://docs.georchestra.org/analytics/en/latest/technical_guides/installation/advanced_configurations/gateway_reconcile_netty_logs/
+      # If enabled, the regex used for the text parser will be the one provided here.
+      enable: false
+      regex: r"^(?P<ip>[0-9a-fA-F:\.]+) (?P<user_identifier>[-_\w]+) (?P<user>[-_\|, \w]+) \[(?P<timestamp>.*)\] \"(?P<method>GET|POST|HEAD|OPTION|PUT|PATCH|DELETE|TRACE|CONNECT) (https?:\/\/[_:a-zA-Z0-9\.-]+)?(?P<path>\/(?P<app_path>[_a-zA-Z0-9-]+)(\/.*)) HTTP\/[\.0-9]{3}\" (?P<status_code>[0-9]{3}) (?P<response_size>[-0-9]*)"
+
+  # This is the config for the CLF-like logs workflow (log files -> Analytics CLI -> TimescaleDB)
+  text_message:
+    regex: r"^(?P<ip>[0-9a-fA-F:\.]+) (?P<user_identifier>[-_\w]+) (?P<user>[-_\|, \w]+) \[(?P<timestamp>.*)\] \"(?P<method>GET|POST|HEAD|OPTION|PUT|PATCH|DELETE|TRACE|CONNECT) (https?:\/\/[_:a-zA-Z0-9\.-]+)?(?P<path>\/(?P<app_path>[_a-zA-Z0-9-]+)(\/.*)) HTTP\/[\.0-9]{3}\" (?P<status_code>[0-9]{3}) (?P<response_size>[-0-9]*)"
+    # Default response time unit is ms. If using seconds, uncomment this line
+    # response_time_unit: "s"
+
+# App-specific processors configuration. This is configuration that will be passed on to each corresponding app
+# processor on runtime. The config keys will depend on the app processors' implementation
+app_processors:
+  # generic processor is not implemented yet, keep it to false
+  fallback_on_generic: false
+  geoserver:
+    infer_is_tiled: true
+    infer_is_download: true
+    download_formats:
+      vector:
+        # List of formats with a human-friendly label. Keys (format name) should match the WFS Getfeature supported
+        # outputFormats but *in lowercase*
+        shape-zip: "Shapefile"
+        "application/json": "JSON"
+        csv: "CSV"
+        excel: "Excel"
+        excel2007: "Excel"
+  datapi:
+    download_formats:
+      vector:
+        # List of formats with a human-friendly label. Keys (format name) should match the WFS Getfeature supported
+        # outputFormats but *in lowercase*
+        shapefile: "Shapefile"
+        json: "JSON"
+        geojson: "GeoJSON"
+        csv: "CSV"
+        ooxml: "Excel"
+
+# If enabled, the CLI will publish metrics to a Prometheus pushgateway.
+metrics:
+  enabled: false
+
+logging:
+  version: 1
+  root:
+    handlers: [ console ]
+    level: DEBUG
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: default
+  formatters:
+    default:
+      format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+  loggers:
+    georchestra_analytics_cli:
+      level: DEBUG
+    __main__:
+      level: DEBUG

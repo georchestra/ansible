@@ -19,11 +19,9 @@
     src: gateway/datadir/{{ item }}.yaml.j2
     dest: /etc/georchestra/gateway/{{ item }}.yaml
   with_items:
-    - application
     - gateway
-    - roles-mappings
     - routes
-    - security
+    - logging
 
 - name: setup a systemd unit file
   template:

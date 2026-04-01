@@ -1,0 +1,72 @@
+# Logging profiles
+
+# default profile:
+logging:
+  # Control behavior of the access logging. When enabled, the request logs will include the URI's that match
+  # the following regular expressions at the specified level.
+  # Additionally, if the json-logs spring profile is enabled, the log entries will include MDC attributes configured in the logging.mdc.include.* properties below
+  accesslog:
+    enabled: true
+    # A list of java regular expressions applied to the request URL for logging at info level
+    # Includes OGC service requests which are proxied to GeoServer
+    info:
+      - .*/(?:ows|ogc|wms|wfs|wcs|wps)(?:/.*|\?.*)?$
+    # A list of java regular expressions applied to the request URL for logging at debug level
+    debug:
+    - ".*/console/.*"
+    # A list of java regular expressions applied to the request URL for logging at trace level
+    # The default behavior is to EXCLUDE known static resources and image files
+    trace:
+    - ^(?!.*/web/wicket/resource/)(?!.*\.(png|jpg|jpeg|gif|svg|webp|ico)(\?.*)?$).*$
+
+  # Configuration to inject auth, application, and http request attributes to the logging MDC.
+  # The following are default values. The MDC attributes will be automatically
+  # included when using the json-logs profile. For the regular console output you could tweak the logback-spring.xml
+  # config file to include the required MDC properties
+  # In any case, the activated MDC will be visible when using the OpenTelemetry protocol
+  mdc:
+    include:
+      user:
+        id: true
+        roles: false
+        org: true
+        extras: false
+        auth-method: false
+      application:
+        name: true
+        version: true
+        instance-id: true
+        active-profiles: false
+      http:
+        id: true
+        method: true
+        path: true
+        query-string: false
+        parameters: false
+        headers: false
+        headers-pattern: ".*"
+        cookies: false
+        remote-addr: false
+        remote-host: false
+        session-id: false
+  level:
+    root: warn
+    org.springframework: warn
+    org.georchestra.gateway: info
+    org.georchestra.gateway.accesslog: info
+---
+spring.config.activate.on-profile: logging_debug
+logging:
+  level:
+    root: info
+    org.springframework: info
+    org.georchestra.gateway: info
+    org.georchestra.gateway.accesslog: info
+    org.georchestra.gateway.logging: info
+
+---
+spring.config.activate.on-profile: logging_debug_security
+logging:
+  level:
+    org.springframework.security: info
+    org.georchestra.gateway.security: info

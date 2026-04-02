@@ -41,12 +41,12 @@ data_privacy:
 # but since the cli relies on SQLAlchemy, any other DB should work fine (not tested though).
 database:
   drivername: "postgresql"
-  host: "localhost"
+  host: "{{ analytics.db.host }}"
   port: "5432"
-  database: "analytics"
+  database: "{{ analytics.db.name }}"
   #  schema: analytics
-  username: "analytics"
-  password: "analytics"
+  username: "{{ analytics.db.user }}"
+  password: "{{ analytics.db.pass }}"
 
 # Logs parsers config. If running over opentelemetry logs, this is the one you will want to have properly configured.
 # If running on CLF-like log files, you will rely on the text_message parser below.

@@ -1,0 +1,97 @@
+# XXX doesn't work even when logged in to check admin-owned dashboards ?
+- name: Fetch dashboard list
+  ansible.builtin.uri:
+    url: http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/api/v1/dashboard/
+  register: dashlist
+
+- name: Fetch dashboard
+  when:
+    - dashlist.json.ids is defined
+    - '"analytics" not in dashlist.json.ids'
+  block:
+    - name: Create temporary dir
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: dash
+      register: tempdir
+      check_mode: false
+
+    - name: Fetch dashboard archive
+      ansible.builtin.unarchive:
+        src: https://raw.github.com/georchestra/analytics/{{ analytics.commit }}/dashboards/superset/Usage_Statistics_dashboard_20260114T152136.zip
+        dest: "{{ tempdir.path }}"
+        remote_src: true
+
+    - name: Fix database url
+      ansible.builtin.replace:
+        dest: "{{ tempdir.path }}/dashboard_export_20260114T152136/databases/analytics.yaml"
+        regexp: "^sqlalchemy_uri.*"
+        #replace: "sqlalchemy_uri: postgresql://{{ analytics.db.user }}:XXXXXXXXXX@{{ analytics.db.host }}:5432/{{ analytics.db.name }}"
+        replace: "sqlalchemy_uri: postgresql://{{ analytics.db.user }}:{{ analytics.db.pass }}@{{ analytics.db.host }}:5432/{{ analytics.db.name }}"
+
+    - name: Rearchive zip export
+      community.general.archive:
+        path: "{{ tempdir.path }}/dashboard_export_20260114T152136"
+        dest: "{{ tempdir.path }}/dashboard_export_20260114T152136.zip"
+        format: zip
+
+    - name: Import dashboard via cli
+      ansible.builtin.command: >
+       /srv/apps/superset/venv/bin/superset import-dashboards -p {{ tempdir.path }}/dashboard_export_20260114T152136.zip -u admin
+      environment:
+        PYTHONPATH: /srv/apps/superset
+        FLASK_APP: superset
+        SUPERSET_CONFIG_PATH: /srv/apps/superset/superset_georchestra_config.py
+
+# XXX importing the dashboard via the API fails
+
+#    - name: Get JWT Token
+#      ansible.builtin.uri:
+#        url: http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/api/v1/security/login
+#        method: POST
+#        body_format: json
+##        headers:
+##          Accept: application/json
+#        # default internal admin user
+#        body: '{"username": "admin", "password": "testadmin", "provider": "db"}'
+#      register: token
+#
+#    - name: Get CSRF Token
+#      ansible.builtin.uri:
+#        url: http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/api/v1/security/csrf_token/
+#        headers:
+#          Accept: application/json
+#          Authorization: "Bearer {{ token.json.access_token }}"
+#      register: csrftoken
+#
+#    - name: Dump
+#      tags: analytics/dashboard
+#      debug:
+#        var: csrftoken
+#
+#    - name: Import dashboard
+#      ansible.builtin.uri:
+#        url: http://localhost:{{ superset.port }}/{{ superset.urlprefix }}/api/v1/dashboard/import/
+#        method: POST
+#        body_format: form-multipart
+#        remote_src: true # file is on the target node
+#        headers:
+#          Accept: application/json
+#          Authorization: "Bearer {{ token.json.access_token }}"
+#          X-CSRFToken: "{{ csrftoken.json.result }}"
+#        body:
+#          formData:
+#            filename: "{{ tempdir.path }}/dashboard_export_20260114T152136.zip"
+#          passwords: '{"databases/analytics.yaml": "{{ analytics.db.pass }}"}'
+#      register: posted
+#
+#    - name: Dump
+#      debug:
+#        var: posted
+
+    - name: Drop tempdir
+      ansible.builtin.file:
+        path: "{{ tempdir.path }}"
+        state: absent
+      when: tempdir.path is defined
+      check_mode: false

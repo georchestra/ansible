@@ -148,4 +148,6 @@
 
 # - name: configure cronjob to process logs
 
-# - name: create superset dashboard
+- name: Initialize dashboard
+  tags: analytics/dashboard
+  ansible.builtin.import_tasks: dashboard.yml

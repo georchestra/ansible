@@ -276,7 +276,7 @@
       port: 9180 # gunicorn port
     analytics:
       enabled: true
-      commit: 96b05282766c080b4c9471d5972c3ffd6c3b3400 # git sha for pip or version
+      commit: 7c043cdf058269915c3b855e68446fb8e9121294 # git sha for pip or version
       otel_agent:
         version: v2.26.1 # https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/tag/v2.26.1
         sha256: cc4af5966ab72109cacc962ba3b9f99b3e88caf064c3144a451bcfe0f4950f19

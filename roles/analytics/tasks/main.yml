@@ -54,14 +54,13 @@
   become_user: postgres
   ansible.builtin.import_tasks: database.yml
 
-- name: fetch opentelemetry java agent for security-proxy
+- name: fetch opentelemetry java agent
   tags: analytics/otel
   ansible.builtin.get_url:
     url: https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/{{ analytics.otel_agent.version }}/opentelemetry-javaagent.jar
     dest: /usr/share/lib/opentelemetry-javaagent-{{ analytics.otel_agent.version }}.jar
     checksum: sha256:{{ analytics.otel_agent.sha256 }}
     mode: "0644"
-  when: georchestra_wars.ROOT.enabled
 
 - name: link otel agent to static path
   tags: analytics/otel
@@ -70,7 +69,6 @@
     dest: /usr/share/lib/opentelemetry-javaagent.jar
     force: true
     state: link
-  when: georchestra_wars.ROOT.enabled
 
 - name: list packages
   tags: analytics/vector

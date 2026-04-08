@@ -27,7 +27,9 @@ transforms:
       - empty_resources
     condition:
       type: "vrl"
-      source: '.scope.name == "org.georchestra.security-proxy.accesslog"'
+      # filter on url here, gateway does it in its logging config
+      # XXX beware, .attributes."http.request.path" not .attributes.http.request.path
+      source: .scope.name == "org.georchestra.security.accesslog" && match!(.attributes."http.request.path", r'.*/(ows|ogc|wms|wfs|wcs|wps)(/.*|\?.*)?$')
       # source: match!(.scope.name, r'org.georchestra.*.accesslog') 
 
   gw_access_logs_filter:

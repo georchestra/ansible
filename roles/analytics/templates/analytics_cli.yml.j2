@@ -63,7 +63,7 @@ parsers:
 
   # This is the config for the CLF-like logs workflow (log files -> Analytics CLI -> TimescaleDB)
   text_message:
-    regex: r"^(?P<ip>[0-9a-fA-F:\.]+) (?P<user_identifier>[-_\w]+) (?P<user>[-_\|, \w]+) \[(?P<timestamp>.*)\] \"(?P<method>GET|POST|HEAD|OPTION|PUT|PATCH|DELETE|TRACE|CONNECT) (https?:\/\/[_:a-zA-Z0-9\.-]+)?(?P<path>\/(?P<app_path>[_a-zA-Z0-9-]+)(\/.*)) HTTP\/[\.0-9]{3}\" (?P<status_code>[0-9]{3}) (?P<response_size>[-0-9]*)"
+    regex: '^(?P<ip>[0-9a-fA-F:\.]+) (?P<user_identifier>[-_\w]+) (?P<user>[-_\|,@\. \w]+) \[(?P<timestamp>.*)\] \"(?P<method>GET|POST|HEAD|OPTIONS|PUT|PATCH|DELETE|TRACE|CONNECT) (https?:\/\/[_:a-zA-Z0-9\.-]+)?(?P<path>\/(?P<app_path>[_a-zA-Z0-9-]+)(\/.*)) HTTP\/[\.0-9]{3}\" (?P<status_code>[0-9]{3}) (?P<response_size>[-0-9]*)"
     # Default response time unit is ms. If using seconds, uncomment this line
     # response_time_unit: "s"
 

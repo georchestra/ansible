@@ -13,11 +13,18 @@ sources:
         max_connection_age_jitter_factor: 0.1
         max_connection_age_secs: 300
 transforms:
+  empty_resources:
+    # Drop heavy resources field
+    type: remap
+    inputs:
+      - opentelemetry.logs
+    source: del(.resources)
+
   sp_access_logs_filter:
     # Accept only access logs from Security proxy
     type: filter
     inputs:
-      - opentelemetry.logs
+      - empty_resources
     condition:
       type: "vrl"
       source: '.scope.name == "org.georchestra.security-proxy.accesslog"'

@@ -1,7 +1,7 @@
 - name: install timescaledb debian repository
   tags: analytics/db
   deb822_repository:
-    name: georchestra
+    name: timescaledb
     uris: https://packagecloud.io/timescale/timescaledb/debian/
     suites: "{{ ansible_distribution_release }}"
     signed_by: https://packagecloud.io/timescale/timescaledb/gpgkey

@@ -43,6 +43,7 @@
 - name: install module dependencies (psql, pip..)
   ansible.builtin.apt:
     name:
+      - cron
       - python3-psycopg2
       - python3-pip
       - python3-virtualenv
@@ -144,7 +145,12 @@
     src: analytics_cli.yml.j2
     dest: /etc/georchestra/analytics/cli.yaml
 
-# - name: configure cronjob to process logs
+- name: configure cronjob to process logs
+  tags: analytics/cli
+  ansible.builtin.cron:
+    name: "analytics-cli buffer2db"
+    job: /srv/apps/analytics/venv/bin/analytics-cli --config-file /etc/georchestra/analytics/cli.yaml buffer2db
+    minute: "0"
 
 - name: Initialize dashboard
   tags: analytics/dashboard

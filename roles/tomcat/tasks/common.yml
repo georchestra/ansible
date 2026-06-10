@@ -51,6 +51,7 @@
     pkg:
       - tomcat{{ tomcat_version }}
       - tomcat{{ tomcat_version }}-user # needed for create-instance script
+      - tomcat11-user
       - tomcat-jakartaee-migration
       - libecj-java
       - libtcnative-1 # APR native libs

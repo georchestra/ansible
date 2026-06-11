@@ -100,13 +100,20 @@
   tags: systemd_unit
   template:
     src: tomcat.service.j2
-    dest: /etc/systemd/system/tomcat@.service
+    dest: /etc/systemd/system/tomcat{{ tomcat_version }}@.service
+
+- name: template systemd unit for tomcat11
+  tags: systemd_unit
+  template:
+    src: tomcat.service.j2
+    dest: /etc/systemd/system/tomcat{{ tomcat_version }}@.service
+  vars:
+    tomcat_version: 11
 
 - name: reload systemd so that it finds the new unit
   tags: systemd_unit
   systemd:
     daemon-reload: true
-    name: tomcat@.service
 
 - name: disable assistive_technologies (requires non-headless jdk)
   lineinfile:

@@ -1,9 +1,9 @@
 ---
 - name: restart all tomcats
   service:
-    name: tomcat@{{ item }}
+    name: tomcat{{ item.value.version | default (tomcat_version) }}@{{ item.key }}
     state: restarted
-  with_items: "{{ tomcat_instances | list }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: restart gn-ogc-api-records
   service:

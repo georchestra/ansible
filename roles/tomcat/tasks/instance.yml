@@ -1,25 +1,26 @@
 ---
 - name: Create tomcat instance
   command: >
-    tomcat{{ item.version | default (tomcat_version) }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }}
+    tomcat{{ item.value.version | default (tomcat_version) }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }}
   args:
     creates: "{{ tomcat_basedir }}/{{ item.key }}"
   with_dict: "{{ tomcat_instances }}"
 
 - name: Disable default instance
   service:
-    name: tomcat{{ item.version }}
+    name: tomcat{{ item.value.version }}
     state: stopped
     enabled: false
-  when: item.version is defined
+  when: item.value.version is defined
   with_dict: "{{ tomcat_instances }}"
 
 - name: symlink policy.d dir
   file:
-    src: /etc/tomcat{{ item.version | default(tomcat_version) }}/policy.d/
+    src: /etc/tomcat{{ tomcat_version }}/policy.d/
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
   with_dict: "{{ tomcat_instances }}"
+  when: item.value.version is not defined
 
 - name: recursively fix dirs ownership
   file:
@@ -55,7 +56,8 @@
   when: tomcat_version == 10
 
 - name: enable instance
+  tags: enable_tomcat
   systemd:
-    name: tomcat{{ item.version | default (tomcat_version) }}@{{ item.key }}
+    name: tomcat{{ item.value.version | default (tomcat_version) }}@{{ item.key }}
     enabled: true
   with_dict: "{{ tomcat_instances }}"

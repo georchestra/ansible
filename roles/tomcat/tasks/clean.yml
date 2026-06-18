@@ -1,10 +1,10 @@
 ---
 - name: stop instances
   service:
-    name: tomcat@{{ item }}
+    name: tomcat{{ item.value.version | default(tomcat_version) }}@{{ item.key }}
     enabled: false
     state: stopped
-  with_items: "{{ tomcat_instances | list }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: remove tomcat directories/config
   file:

@@ -175,6 +175,7 @@
         xmx: 2G
       geoserver:
         port: 8380
+        version: 11
         control_port: 8305
         xms: 1G
         xmx: 1G

@@ -2,10 +2,10 @@
 # instances need to be stopped so that the db can be removed
 - name: stop instances
   service:
-    name: tomcat@{{ item }}
+    name: tomcat{{ item.value.version | default(tomcat_version) }}@{{ item.key }}
     enabled: false
     state: stopped
-  with_items: "{{ tomcat_instances | list }}"
+  with_dict: "{{ tomcat_instances }}"
 
 - name: delete georchestra main database
   become: true

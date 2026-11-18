@@ -47,6 +47,7 @@
     path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
 
 - name: installing dependencies
+  tags: tomcat/pkg
   apt:
     pkg:
       - tomcat{{ tomcat_version }}
@@ -60,6 +61,7 @@
     update_cache: true
 
 - name: disable default instance
+  tags: tomcat/disable_default
   service:
     name: tomcat{{ tomcat_version }}
     state: stopped

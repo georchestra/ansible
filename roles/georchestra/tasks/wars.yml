@@ -76,6 +76,7 @@
 
 # instances need to be started so that webapps are deployed
 - name: start instances
+  tags: tomcat/start
   service:
     name: tomcat{{ item.value.version | default(tomcat_version) }}@{{ item.key }}
     state: started

@@ -52,6 +52,9 @@
     pkg:
       - tomcat{{ tomcat_version }}
       - tomcat{{ tomcat_version }}-user # needed for create-instance script
+      - tomcat9
+      - tomcat9-user
+      - tomcat11
       - tomcat11-user
       - tomcat-jakartaee-migration
       - libecj-java

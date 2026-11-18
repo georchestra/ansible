@@ -33,18 +33,18 @@
     components:
       - main
 
-- name: install java runtimes from adoptium
+- name: install java runtimes from adoptium (only used by proxycas)
   tags: adoptium
   apt:
     pkg: temurin-17-jdk
     update_cache: yes
     state: latest
 
-- name: default to temurin-17-jdk
+- name: set default java
   tags: adoptium
   alternatives:
     name: java
-    path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
+    path: /usr/lib/jvm/{{ java_version }}/bin/java
 
 - name: installing dependencies
   tags: tomcat/pkg

@@ -65,7 +65,9 @@
     update_cache: true
 
 - name: list existing services
-  tags: tomcat/disable_old_tomcat
+  tags:
+    - tomcat/disable_old_tomcat
+    - tomcat/disable_default
   ansible.builtin.service_facts:
 
 - name: disable default instance
@@ -124,6 +126,12 @@
   tags: systemd_unit
   command: systemd-tmpfiles  --prefix=/run/tomcat --create
   when: tomcat_piddir.changed
+
+- name: remove old systemd unit
+  tags: systemd_unit
+  file:
+    state: absent
+    path: /etc/systemd/system/tomcat@.service
 
 - name: template systemd unit for tomcat
   tags: systemd_unit

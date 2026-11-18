@@ -1,5 +1,6 @@
 ---
 - name: Ensure python3-debian is installed for deb822 ansible module
+  tags: adoptium
   apt:
     name: python3-debian
     state: present

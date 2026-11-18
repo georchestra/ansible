@@ -1,5 +1,5 @@
-JAVA_HOME=/usr/lib/jvm/{{ java_version }}
-JRE_HOME=/usr/lib/jvm/{{ java_version }}
+JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
+JRE_HOME=/usr/lib/jvm/temurin-17-jdk-amd64
 
 JAVA_OPTS="-Djava.awt.headless=true \
 	-Xms{{ tomcat_instances.proxycas.xms }} \

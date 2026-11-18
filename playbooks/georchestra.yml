@@ -166,6 +166,7 @@
       proxycas:
         port: 8180
         control_port: 8105
+        version: 9
         xms: 256m
         xmx: 512m
       georchestra:
@@ -175,6 +176,7 @@
         xmx: 2G
       geoserver:
         port: 8380
+        version: 11
         control_port: 8305
         xms: 1G
         xmx: 1G

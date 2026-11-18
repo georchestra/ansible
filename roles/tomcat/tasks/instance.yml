@@ -1,7 +1,7 @@
 ---
 - name: Create tomcat instance
   command: >
-    tomcat{{ tomcat_version }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }}
+    tomcat{{ item.value.version | default (tomcat_version) }}-instance-create -p {{ item.value.port }} -c {{ item.value.control_port }} {{ tomcat_basedir }}/{{ item.key }}
   args:
     creates: "{{ tomcat_basedir }}/{{ item.key }}"
   with_dict: "{{ tomcat_instances }}"
@@ -12,6 +12,7 @@
     dest: "{{ tomcat_basedir }}/{{ item.key }}/conf/policy.d"
     state: link
   with_dict: "{{ tomcat_instances }}"
+  when: item.value.version is not defined
 
 - name: recursively fix dirs ownership
   file:
@@ -44,10 +45,11 @@
     line: <Loader jakartaConverter="TOMCAT"/>
     state: present
   with_dict: "{{ tomcat_instances }}"
-  when: tomcat_version == 10
+  when: item.value.version | default(tomcat_version) == 10
 
 - name: enable instance
+  tags: enable_tomcat
   systemd:
-    name: tomcat@{{ item.key }}
+    name: tomcat{{ item.value.version | default (tomcat_version) }}@{{ item.key }}
     enabled: true
   with_dict: "{{ tomcat_instances }}"

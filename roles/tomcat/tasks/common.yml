@@ -47,10 +47,15 @@
     path: /usr/lib/jvm/temurin-17-jdk-amd64/bin/java
 
 - name: installing dependencies
+  tags: tomcat/pkg
   apt:
     pkg:
       - tomcat{{ tomcat_version }}
       - tomcat{{ tomcat_version }}-user # needed for create-instance script
+      - tomcat9
+      - tomcat9-user
+      - tomcat11
+      - tomcat11-user
       - tomcat-jakartaee-migration
       - libecj-java
       - libtcnative-1 # APR native libs
@@ -59,15 +64,37 @@
     update_cache: true
 
 - name: disable default instance
+  tags: tomcat/disable_default
   service:
     name: tomcat{{ tomcat_version }}
     state: stopped
     enabled: false
+  vars:
+    tomcat_version: "{{ item }}"
+  with_items:
+    - 9
+    - 10
+    - 11
+
+- name: list existing services
+  tags: tomcat/disable_old_tomcat
+  ansible.builtin.service_facts:
+
+- name: ensure previous non-versioned tomcat service arent enabled/running
+  tags: tomcat/disable_old_tomcat
+  ansible.builtin.service:
+    enabled: false
+    state: stopped
+    name: tomcat@{{ item.key }}
+  when: ansible_facts['services'][service_name]['status'] | default('not-found') != 'not-found'
+  vars:
+    service_name: 'tomcat@{{ item.key }}.service'
+  with_dict: "{{ tomcat_instances }}"
 
 - name: link tomcat9 to 10 migration jar
   file:
-    src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-1.0.6-shaded.jar
-    dest: /usr/share/tomcat10/lib/jakartaee-migration-1.0.6-shaded.jar
+    src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-shaded.jar
+    dest: /usr/share/tomcat10/lib/jakartaee-migration-shaded.jar
     state: link
   when: tomcat_version == 10
 
@@ -95,23 +122,22 @@
   command: systemd-tmpfiles  --prefix=/run/tomcat --create
   when: tomcat_piddir.changed
 
-- name: template systemd unit
+- name: template systemd unit for tomcat
   tags: systemd_unit
   template:
     src: tomcat.service.j2
-    dest: /etc/systemd/system/tomcat@.service
+    dest: /etc/systemd/system/tomcat{{ tomcat_version }}@.service
+  vars:
+    tomcat_version: "{{ item }}"
+  with_items:
+    - 9
+    - 10
+    - 11
 
-- name: reload systemd so that it finds the new unit
+- name: reload systemd so that it finds the new units
   tags: systemd_unit
   systemd:
     daemon-reload: true
-    name: tomcat@.service
-
-- name: disable assistive_technologies (requires non-headless jdk)
-  lineinfile:
-    dest: /etc/java-8-openjdk/accessibility.properties
-    line: assistive_technologies=org.GNOME.Accessibility.AtkWrapper
-    state: absent
 
 - name: create tomcat_basedir
   file:

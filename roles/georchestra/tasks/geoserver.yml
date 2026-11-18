@@ -1,5 +1,6 @@
 ---
 - name: set useRelativeRedirects for tomcat geoserver
+  tags: tomcat_config
   replace:
     dest: "{{ tomcat_basedir }}/geoserver/conf/context.xml"
     regexp: <Context>

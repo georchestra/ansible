@@ -6,14 +6,6 @@
     creates: "{{ tomcat_basedir }}/{{ item.key }}"
   with_dict: "{{ tomcat_instances }}"
 
-- name: Disable default instance
-  service:
-    name: tomcat{{ item.value.version }}
-    state: stopped
-    enabled: false
-  when: item.value.version is defined
-  with_dict: "{{ tomcat_instances }}"
-
 - name: symlink policy.d dir
   file:
     src: /etc/tomcat{{ tomcat_version }}/policy.d/

@@ -66,6 +66,12 @@
     name: tomcat{{ tomcat_version }}
     state: stopped
     enabled: false
+  vars:
+    tomcat_version: "{{ item }}"
+  with_items:
+    - 9
+    - 10
+    - 11
 
 - name: link tomcat9 to 10 migration jar
   file:

@@ -64,22 +64,24 @@
     state: present
     update_cache: true
 
+- name: list existing services
+  tags: tomcat/disable_old_tomcat
+  ansible.builtin.service_facts:
+
 - name: disable default instance
   tags: tomcat/disable_default
   service:
     name: tomcat{{ tomcat_version }}
     state: stopped
     enabled: false
+  when: ansible_facts['services'][service_name]['status'] | default('not-found') != 'not-found'
   vars:
     tomcat_version: "{{ item }}"
+    service_name: 'tomcat{{ tomcat_version }}.service'
   with_items:
     - 9
     - 10
     - 11
-
-- name: list existing services
-  tags: tomcat/disable_old_tomcat
-  ansible.builtin.service_facts:
 
 - name: ensure previous non-versioned tomcat service arent enabled/running
   tags: tomcat/disable_old_tomcat

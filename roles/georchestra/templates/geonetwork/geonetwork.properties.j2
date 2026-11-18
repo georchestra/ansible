@@ -24,11 +24,11 @@ georchestra.console.url=http://localhost:{{ tomcat_instances.georchestra.port }}
 
 # Group synchronization mode.
 # Defines whether to synchronize GeoNetwork Groups with Georchestra Organizations or Roles.
-# Allowed values are 'orgs' and 'roles'. Defaults to 'orgs', meaning each synchronized
-# User will be matched to one GeoNetwork Group, which in turn matches the user's organization.
-# A value of 'roles' means GeoNetwork Groups will be synchronized with Georchestra roles instead
-# of organizations, and Users will be synchronized so that they belong to all the Groups that match
-# its roles
+# Allowed values are 'orgs', 'role_per_org' and 'roles'. 
+# - Defaults to 'orgs', meaning each synchronized User will be matched to one GeoNetwork Group, which in turn matches the user's organization.
+# - 'role_per_org' is an 'extension' of 'orgs', allowing more granular role-based synchronization with roles like <org_shortname>:<gn_role>.
+# - DEPRECATED: A value of 'roles' means GeoNetwork Groups will be synchronized with Georchestra roles instead
+# of organizations, and Users will be synchronized so that they belong to all the Groups that match its roles
 geonetwork.syncMode=orgs
 
 # If using 'roles' sync mode, a Java regular expression can be used to filter
@@ -100,4 +100,10 @@ es.port=9200
 es.host=localhost
 es.url=${es.protocol}://${es.host}:${es.port}
 kb.url=http://localhost:5601
+#es.username=elastic
+#es.password=changeme
 jms.url=tcp://localhost:61616
+
+# Disable GeoNetwork's bot detection so search engine crawlers aren't served 403s (SEO)
+# https://github.com/georchestra/geonetwork/blob/100aa790ff37df6550432617c3bdedaa43e1cf68/services/src/main/java/org/fao/geonet/api/AllRequestsInterceptor.java#L53-L54
+bot.regexpFilter=$^

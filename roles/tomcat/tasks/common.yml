@@ -73,6 +73,21 @@
     - 10
     - 11
 
+- name: list existing services
+  tags: tomcat/disable_old_tomcat
+  ansible.builtin.service_facts:
+
+- name: ensure previous non-versioned tomcat service arent enabled/running
+  tags: tomcat/disable_old_tomcat
+  ansible.builtin.service:
+    enabled: false
+    state: stopped
+    name: tomcat@{{ item.key }}
+  when: ansible_facts['services'][service_name]['status'] | default('not-found') != 'not-found'
+  vars:
+    service_name: 'tomcat@{{ item.key }}.service'
+  with_dict: "{{ tomcat_instances }}"
+
 - name: link tomcat9 to 10 migration jar
   file:
     src: /usr/share/tomcat-jakartaee-migration/lib/jakartaee-migration-1.0.6-shaded.jar

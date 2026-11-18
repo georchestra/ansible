@@ -121,12 +121,6 @@
   systemd:
     daemon-reload: true
 
-- name: disable assistive_technologies (requires non-headless jdk)
-  lineinfile:
-    dest: /etc/java-8-openjdk/accessibility.properties
-    line: assistive_technologies=org.GNOME.Accessibility.AtkWrapper
-    state: absent
-
 - name: create tomcat_basedir
   file:
     name: "{{ tomcat_basedir }}"

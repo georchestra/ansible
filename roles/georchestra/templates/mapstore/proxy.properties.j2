@@ -21,6 +21,21 @@ defaultStreamByteSize=1024
 # The list should be set to the hosts whose CORS headers do not allow direct access
 hostnameWhitelist = {{ georchestra.fqdn }}
 
+# Non-public destinations (private networks, loopback, link-local) are refused, even when
+# their host is in hostnameWhitelist. Add only trusted internal services, e.g. a GeoServer
+# reached through the internal network. Changes to these settings need a restart.
+#allowedPrivateHosts = geoserver,geoserver.intranet.local
+#allowedPrivateNetworks = 10.0.5.0/24
+
+# With a JVM outbound proxy (http.proxyHost / https.proxyHost), requests to hosts outside
+# http.nonProxyHosts are refused unless this is set to true.
+#allowForwardProxy = false
+
+# The browser cookies are not sent to the remote hosts, and the Set-Cookie headers of the
+# remote hosts are not passed back to the browser. Defaults:
+#requestHeaderBlacklist = Cookie
+#responseHeaderBlacklist = Set-Cookie,Set-Cookie2,Clear-Site-Data,Strict-Transport-Security
+
 # mimetype whitelist limit the accepted values for the contentype header in response from the proxied host
 mimetypeWhitelist = application/force-download,text/html,text/plain,application/xml,text/xml,application/vnd.ogc.sld+xml,application/vnd.ogc.gml,application/json,application/vnd.ogc.wms_xml,application/x-www-form-urlencoded,image/png,application/pdf,text/csv,application/zip,text/csv;charset=UTF-8
 
@@ -35,7 +50,7 @@ methodsWhitelist = GET,POST,PUT
 # only urls matching one of the whitelist will be forwarded
 #reqtypeWhitelist.capabilities = (([&]?([Rr][Ee][Qq][Uu][Ee][Ss][Tt]=[Gg]et[Cc]apabilities))|([&]?(version=1\\.1\\.1)))+
 reqtypeWhitelist.capabilities = .*[Gg]et[Cc]apabilities.*
-reqtypeWhitelist.featureinfo = .*[Gg]et[Ff]eature[Ii]nfo.*
+reqtypeWhitelist.featureinfo = .*[Gg]et[Ff]eature.*
 reqtypeWhitelist.csw = .*csw.*
 reqtypeWhitelist.geostore = .*geostore.*
-reqtypeWhitelist.generic = (.*exist.*)|(.*pdf.*)|(.*map.*)|(.*wms.*)|(.*wmts.*)|(.*wfs.*)|(.*ows.*)
+reqtypeWhitelist.generic = (.*exist.*)|(.*pdf.*)|(.*map.*)|(.*wms.*)|(.*wmts.*)|(.*wfs.*)|(.*ows.*)|(.*geojson.*)|(.*csw.*)|(.*ogcapi.*)|(.*csv.*)

@@ -13,7 +13,6 @@
     "mapquestApiKey": "__API_KEY_MAPQUEST__",
     "initialMapFilter": "",
     "ignoreMobileCss": false,
-    "useAuthenticationRules": true,
     "loadAfterTheme": true,
     "userSessions": {
       "enabled": true,
@@ -23,11 +22,11 @@
     "header": {
       "height": {{ georchestra.header.height | default (80) }},
       "url": "{{ georchestra.header.legacyurl | default('/header/') }}",
-      "script": "{{ georchestra.header.script | default ('https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js') }}",
       "legacy": {{ georchestra.header.legacy | default('false') }},
       "logoUrl": "{{ georchestra.header.logourl | default('https://www.georchestra.org/public/georchestra-logo.svg') }}",
-      "stylesheet": "{{ georchestra.header.stylesheet | default('') }}",
-      "configFile": "{{ georchestra.header.configfile | default('') }}"
+      "configFile": "{{ georchestra.header.configfile | default('') }}",
+      "script": "{{ georchestra.header.script | default ('https://cdn.jsdelivr.net/gh/georchestra/header@dist/header.js') }}",
+      "stylesheet": "{{ georchestra.header.stylesheet | default('') }}"
     },
     "defaultMapOptions": {
       "cesium": {
@@ -43,23 +42,7 @@
       },
       "floatingIdentifyDelay": 1000
     },
-    "authenticationRules": [{
-        "urlPattern": ".*rest/geostore.*",
-        "method": "bearer"
-    }, {
-        "urlPattern": ".*rest/config.*",
-        "method": "bearer"
-    }],
-    "monitorState": [
-      {"name": "router", "path": "router.location.pathname"},
-      {"name": "userrole", "path": "security.user.role"},
-      {"name": "browser", "path": "browser"},
-      {"name": "geostorymode", "path": "geostory.mode"},
-      {"name": "featuregridmode", "path": "featuregrid.mode"},
-      {"name": "printEnabled","path": "print.capabilities"},
-      { "name": "resourceCanEdit", "path": "resources.initialSelectedResource.canEdit" },
-      { "name": "resourceDetails", "path": "resources.initialSelectedResource.attributes.details" }
-    ],
+    "monitorState": [],
     "projectionDefs": [{
       "code": "EPSG:2154",
       "def": "+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs",
@@ -274,7 +257,8 @@
                           "altShiftDragRotate": false
                         }
                       }
-                    }
+                    },
+                    "containerPosition": "background"
                 }
             }, "Version", "DrawerMenu",
             {
@@ -371,7 +355,7 @@
             },
             "Permalink",
             {
-              "name": "MetadataExplorer",
+              "name": "Catalog",
               "cfg": {
                   "serviceTypes": [
                     { "name": "csw", "label": "CSW" },
@@ -382,7 +366,8 @@
                     { "name": "3dtiles", "label": "3D Tiles" },
                     { "name": "cog", "label": "COG" },
                     { "name": "model", "label": "IFC Model" },
-                    { "name": "arcgis", "label": "ArcGIS" }
+                    { "name": "arcgis", "label": "ArcGIS" },
+                    { "name": "flatgeobuf", "label": "FlatGeobuf" }
                   ]
               }
           },
@@ -421,7 +406,8 @@
                 "scalebar": {
                   "container" : "#footer-scalebar-container"
                 }
-              }
+            },
+            "containerPosition": "background"
             }
           }, {
               "name": "HelpLink",
@@ -470,7 +456,12 @@
                     }
                 }
             },
-            "FeatureEditor",
+            {
+                "name": "FeatureEditor",
+                "cfg": {
+                    "containerPosition": "bottom"
+                }
+            },
             "UserSession",
             "LayerDownload",
             {
@@ -580,10 +571,9 @@
                     "wrap": true
                 }
             }, {
-                "name": "MetadataExplorer",
+                "name": "Catalog",
                 "cfg": {
                     "zoomToLayer": false,
-                    "wrap": true,
                     "serviceTypes": [
                       { "name": "csw", "label": "CSW" },
                       { "name": "wms", "label": "WMS" },
@@ -593,7 +583,8 @@
                       { "name": "3dtiles", "label": "3D Tiles" },
                       { "name": "cog", "label": "COG" },
                       { "name": "model", "label": "IFC Model" },
-                      { "name": "arcgis", "label": "ArcGIS" }
+                      { "name": "arcgis", "label": "ArcGIS" },
+                      { "name": "flatgeobuf", "label": "FlatGeobuf" }
                     ]
                 }
             }, {
@@ -602,32 +593,48 @@
                 "editCRS": true,
                 "showLabels": true,
                 "showToggle": true,
-                "filterAllowedCRS": ["EPSG:4326", "EPSG:3857"],
-                "additionalCRS": {}
+                "availableProjections": [
+                    {
+                        "value": "EPSG:4326",
+                        "label": "EPSG:4326"
+                    },
+                    {
+                        "value": "EPSG:3857",
+                        "label": "EPSG:3857"
+                    }
+                ]
               }
             }, {
               "name": "CRSSelector",
-              "cfg": {
-                "additionalCRS": {
-                  "EPSG:2154": {
-                    "label": "EPSG:2154"
-                  },
-                  "EPSG:3945": {
-                    "label": "EPSG:3945"
-                  },
-                  "EPSG:3946": {
-                    "label": "EPSG:3946"
-                  },
-                  "EPSG:3948": {
-                    "label": "EPSG:3948"
-                  }
-                },
-                "filterAllowedCRS": [
-                  "EPSG:4326",
-                  "EPSG:3857"
-                ],
+            "cfg": {
                 "allowedRoles": [
                   "ADMIN"
+                ],
+                "availableProjections": [
+                    {
+                        "value": "EPSG:4326",
+                        "label": "EPSG:4326"
+                    },
+                    {
+                        "value": "EPSG:3857",
+                        "label": "EPSG:3857"
+                    },
+                    {
+                        "value": "EPSG:2154",
+                        "label": "EPSG:2154"
+                    },
+                    {
+                        "value": "EPSG:3945",
+                        "label": "EPSG:3945"
+                    },
+                    {
+                        "value": "EPSG:3946",
+                        "label": "EPSG:3946"
+                    },
+                    {
+                        "value": "EPSG:3948",
+                        "label": "EPSG:3948"
+                    }
                 ]
               }
             }, {
@@ -679,7 +686,12 @@
               }
             },
             "WidgetsTray",
-            "Timeline",
+            {
+              "name": "Timeline",
+              "cfg": {
+                "containerPosition": "bottom"
+              }
+            },
             "Playback",
             "FeedbackMask",
             "StyleEditor",
@@ -744,7 +756,8 @@
                 "scalebar": {
                   "container": "#footer-scalebar-container"
                 }
-              }
+            },
+            "containerPosition": "background"
             }
           },
           {
@@ -904,22 +917,26 @@
               {
                 "labelId": "resourcesCatalog.createMap",
                 "type": "link",
-                "href": "#/viewer/new"
+                "href": "#/viewer/new",
+                "resourceType": "MAP"
               },
               {
                 "labelId": "resourcesCatalog.createDashboard",
                 "type": "link",
-                "href": "#/dashboard/"
+                "href": "#/dashboard/",
+                "resourceType": "DASHBOARD"
               },
               {
                 "labelId": "resourcesCatalog.createGeoStory",
                 "type": "link",
-                "href": "#/geostory/newgeostory/"
+                "href": "#/geostory/newgeostory/",
+                "resourceType": "GEOSTORY"
               },
               {
                 "labelId": "resourcesCatalog.createContext",
                 "type": "link",
-                "href": "#/context-creator/new"
+                "href": "#/context-creator/new",
+                "resourceType": "CONTEXT"
               }
             ]
           }]
@@ -1096,9 +1113,31 @@
           "cfg": {
             "toolsOptions": {
               "hideCrossLayer": true,
-              "hideSpatialFilter": true
+              "useEmbeddedMap": true
             },
+            "spatialPanelExpanded": false,
+            "spatialOperations": [
+              {"id": "INTERSECTS", "name": "queryform.spatialfilter.operations.intersects"},
+              {"id": "CONTAINS", "name": "queryform.spatialfilter.operations.contains"},
+              {"id": "WITHIN", "name": "queryform.spatialfilter.operations.within"}
+            ],
+            "spatialMethodOptions": [
+              {"id": "BBOX", "name": "queryform.spatialfilter.methods.box"},
+              {"id": "Circle", "name": "queryform.spatialfilter.methods.circle"},
+              {"id": "Polygon", "name": "queryform.spatialfilter.methods.poly"}
+            ],
             "containerPosition": "columns"
+          }
+        }, {
+          "name": "MapEditor",
+          "cfg": {
+            "titleMsgId": "widgets.mapWidget.mapEditorTitle",
+            "overrideDefaultPlugins": [{
+              "name": "FeatureEditor",
+              "cfg": {
+                "containerPosition": "bottom"
+              }
+            }]
           }
         }, "Dashboard", "Notifications", {
           "name": "Tutorial",
@@ -1311,5 +1350,19 @@
           "Footer",
           { "name": "About" }
         ]
-    }
+    },
+    "requestsConfigurationRules": [
+        {
+            "urlPattern": ".*rest/geostore.*",
+            "headers": {
+                "Authorization": "Bearer ${securityToken}"
+            }
+        },
+        {
+            "urlPattern": ".*rest/config.*",
+            "headers": {
+                "Authorization": "Bearer ${securityToken}"
+            }
+        }
+    ]
 }

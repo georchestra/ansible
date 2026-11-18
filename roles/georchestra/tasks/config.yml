@@ -6,11 +6,17 @@
     version: "{{ georchestra.datadir.gitversion }}"
     force: true
 
-- name: create cadastrapp subdir
+- name: create cadastrapp, cas & sec-proxy subdirs
   check_mode: false
   file:
-    path: "{{ georchestra.datadir.path }}/cadastrapp"
+    path: "{{ georchestra.datadir.path }}/{{ item }}"
     state: directory
+  with_items:
+    - cadastrapp
+    - cas
+    - cas/config
+    - cas/services
+    - security-proxy
 
 - name: template config files
   template:
@@ -21,10 +27,15 @@
   with_items:
     - { file: default.properties, war: ., destdir: "" }
     - { file: targets-mapping.properties, war: security-proxy, destdir: "" }
+    - { file: headers-mapping.properties, war: security-proxy, destdir: "" }
+    - { file: cookie-mappings.json, war: security-proxy, destdir: "" }
+    - { file: proxy-permissions.xml, war: security-proxy, destdir: "" }
+    - { file: security-mappings.xml, war: security-proxy, destdir: "" }
     - { file: security-proxy.properties, war: security-proxy, destdir: "" }
     - { file: log4j.properties, war: security-proxy, destdir: log4j }
     - { file: log4j2.xml, war: cas, destdir: config }
     - { file: cas.properties, war: cas, destdir: config }
+    - { file: georchestra-1001.json, war: cas, destdir: services }
     - { file: console.properties, war: console, destdir: "" }
     - { file: log4j.properties, war: console, destdir: log4j }
     - { file: log4j2.xml, war: geonetwork, destdir: log4j }

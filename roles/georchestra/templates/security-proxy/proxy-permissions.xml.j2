@@ -1,0 +1,107 @@
+<!-- This file handles security settings for the internal proxy that we use
+     to workaround browser's same-origin policy.
+     The proxy can be reached at the /proxy/?url= endpoint.
+     These settings are important to prevent exploration of internal services
+     from the outside world !
+
+     Here are the settings:
+
+     allowByDefault: if set to true, the 'allowed' list of rules will be checked
+                     before the 'denied' list.
+                       * If an URL simultaneously matches an urimatcher from the
+                     allowed list and an urimatcher from the denied list, then
+                     this URL will be allowed.
+                       * If an URL does not match any urimatcher, then it
+                     will be allowed.
+
+                     If set to false, rules from the 'denied' list will be
+                     examined before the rules from the 'allowed' list.
+                     If no rule matches the requested URL, access will be denied.
+
+     denied: list of 'urimatcher' rules (evaluated with a logical *OR*).
+             If one 'urimatcher' matches the requested URL, proxying is denied.
+
+     allowed: list of 'urimatcher' rules (evaluated with a logical *OR*).
+             If one 'urimatcher' matches the requested URL, proxying is allowed.
+
+     urimatcher: list of conditions evaluated with a *AND* logical operator.
+
+     host: this rule will match all IP addresses of the specified host. This means
+           that the IP address of the requested URL will be compared to all IP
+           addresses of the specified host.
+
+     domain: case insensitive regexp to match the domain part of the requested URL.
+
+     port: matches port of the requested URL.
+
+     path: case insensitive regexp to match the 'path' part of the requested URL.
+
+     network: IP address with a network mask to specify a range of IP addresses.
+            Both IPv4 and IPv6 are supported.
+
+
+     Example making use of all tags:
+     <permissions>
+         <allowByDefault>true</allowByDefault>
+         <allowed>
+             <urimatcher>
+                 <domain>.*\.georchestra\.org</domain>
+             </urimatcher>
+         </allowed>
+         <denied>
+             <urimatcher>
+                 <host>localhost</host>
+             </urimatcher>
+             <urimatcher>
+                 <domain>sdi.example.org</domain>
+                 <port>443</port>
+                 <path>/geonetwork/</path>
+             </urimatcher>
+             <urimatcher>
+                 <network>10.42.0.0/16</network>
+             </urimatcher>
+         </denied>
+     </permissions>
+
+     The first urimatcher allows proxing of requests to all georchestra.org
+     subdomains.
+
+     The second urimatcher denies access to all IP addresses for the local host.
+
+     The third urimatcher denies access to https://sdi.example.org/geonetwork/*
+
+     The last urimatcher denies access to all IPv4 addresses which start with 10.42
+
+     By default, the configuration will deny access to the XHR proxy. If you need
+     to activate it, make sure it cannot reach the internal network. An example
+     of "Allowing requests to the outside world but denying local/internal access"
+     could be the following:
+
+     <permissions>
+        <allowByDefault>true</allowByDefault>
+        <denied>
+            <urimatcher>
+                <network>127.0.0.0/8</network>
+            </urimatcher>
+            <urimatcher>
+                <network>10.0.0.0/8</network>
+            </urimatcher>
+            <urimatcher>
+                <network>172.16.0.0/12</network>
+            </urimatcher>
+            <urimatcher>
+                <network>192.168.0.0/16</network>
+            </urimatcher>
+        </denied>
+    </permissions>
+
+
+-->
+<permissions>
+    <allowByDefault>false</allowByDefault>
+    <denied>
+        <urimatcher>
+            <host>.*</host>
+        </urimatcher>
+    </denied>
+</permissions>

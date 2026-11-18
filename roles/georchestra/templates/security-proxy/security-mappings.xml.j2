@@ -1,0 +1,35 @@
+<http>
+  <intercept-url pattern="/cas/login.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/proxy/\?url=.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern=".*(\?|&amp;)login.*" access="ROLE_USER,ROLE_GN_EDITOR,ROLE_GN_REVIEWER,ROLE_GN_ADMIN,ROLE_ADMINISTRATOR,ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <intercept-url pattern="/geofence/.*" access="ROLE_ADMINISTRATOR" />
+  <intercept-url pattern="/analytics/.*" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <intercept-url pattern="/console/private/.*" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <!-- this path is used by ws that return configuration for map that allow selection of areas (/console/public/orgs/areaConfig.json) -->
+  <intercept-url pattern="/console/public/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/manager/public/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/manager/.*" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <!-- /console/account ressources are private except account/new and account/passwordRecovery -->
+  <intercept-url pattern="/console/account/new" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/newPassword.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/passwordRecovery" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/areaofcompetence" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/js/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/css/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/fonts/.*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+  <intercept-url pattern="/console/account/.*" access="IS_AUTHENTICATED_FULLY" />
+  <!-- /console/sendEmail features are reserved to SUPERUSER & delegated admins -->
+  <intercept-url pattern="/console/.*/emails" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <intercept-url pattern="/console/.*/sendEmail" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <intercept-url pattern="/console/attachments" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <intercept-url pattern="/console/emailTemplates" access="ROLE_SUPERUSER,ROLE_ORGADMIN" />
+  <!-- /console/emailProxy is activated for members having the EMAILPROXY role -->
+  <intercept-url pattern="/console/emailProxy" access="ROLE_EMAILPROXY" />
+  <!-- /console/internal is meant to be accessed only by other services behind the proxy -->
+  <intercept-url pattern="/console/internal/.*" access="ROLE_SUPERUSER" />
+  <intercept-url pattern="/testPage" access="IS_AUTHENTICATED_FULLY" />
+  <intercept-url pattern=".*/ogcproxy/.*" access="ROLE_NO_ONE" />
+  <intercept-url pattern="/datafeeder/.*" access="ROLE_SUPERUSER,ROLE_IMPORT" />
+  <intercept-url pattern="/import/.*" access="ROLE_SUPERUSER,ROLE_IMPORT" />
+  <intercept-url pattern=".*" access="IS_AUTHENTICATED_ANONYMOUSLY,ROLE_USER,ROLE_GN_EDITOR,ROLE_GN_REVIEWER,ROLE_GN_ADMIN,ROLE_ADMINISTRATOR,ROLE_SUPERUSER,ROLE_ORGADMIN" />
+</http>

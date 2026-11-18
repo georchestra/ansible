@@ -1,0 +1,82 @@
+# Keys are additional headers sent by the security-proxy, mapped onto user's LDAP attributes:
+# Additionally, LDAP objects related to the authenticated user are accessible through
+# prefixed attribute names `manager.`, `org.`, and `org.seeAlso.`
+# 
+# Header names with no prefix (default headers) apply to all proxified services (e.g. sec-email=mail).
+# Header names prefixed with a service name as defined in targets-mapping.properties
+# complement the default headers when hitting a specific proxified service. for example:
+# analytics.sec-org-address=org.seeAlso.postalAddress
+# will also add the `sec-org-address` with the user organization's postal address as value
+# to requests hitting the analytics service.
+# 
+# Base64 header value encoding:
+# ============================
+# Due to HTTP headers being ISO-8859-1 encoded by spec, header values that can potentially have
+# characters outside that encoding can be configured to be base64-encoded. If so, the target service
+# must know how to decode them. For example:
+# sec-orgname=base64:org.o
+# will override the default sec-orgname header with a base64 encoded value.
+#
+# Embedded headers:
+# =================
+# The following header mappings apply to all requests with no need of being configured in this file:
+# sec-username=uid
+# sec-roles (no specific mapping, contains the list of roles separated by `;`)
+# sec-org=org.cn
+# sec-orgname=org.o
+#
+# Authenticated user attributes:
+# ==============================
+#uid
+#givenName
+#sn
+#cn
+#telephoneNumber
+#mail
+#postalAddress
+#description
+#title
+#objectClass
+#knowledgeInformation
+#
+# Authenticated user's manager attributes
+# =======================================
+#manager.uid
+#manager.mail
+#manager.givenName
+#manager.description
+#manager.sn
+#manager.cn
+#manager.objectClass
+#
+# Authenticated user's organization attributes
+# ============================================
+#org.cn
+#org.ou
+#org.o
+#org.member
+#org.description
+#org.objectClass
+#
+# Authenticated user's organization extended attributes
+# =====================================================
+#org.seeAlso.o
+#org.seeAlso.labeledURI
+#org.seeAlso.businessCategory
+#org.seeAlso.postalAddress
+#org.seeAlso.description
+#org.seeAlso.knowledgeInformation
+#org.seeAlso.objectClass
+
+sec-email=mail
+sec-firstname=givenName
+sec-lastname=sn
+sec-tel=telephoneNumber
+
+# datafeeder service specific headers:
+datafeeder.send-json-sec-user=true
+datafeeder.send-json-sec-organization=true
+
+# geonetwork service specific headers:
+#send-json-sec-user tells the proxy to send the full user representation as Base64 encoded JSON in a `sec-user` request header
+geonetwork.send-json-sec-user=true

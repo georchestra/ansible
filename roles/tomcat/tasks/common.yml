@@ -104,21 +104,19 @@
   command: systemd-tmpfiles  --prefix=/run/tomcat --create
   when: tomcat_piddir.changed
 
-- name: template systemd unit
-  tags: systemd_unit
-  template:
-    src: tomcat.service.j2
-    dest: /etc/systemd/system/tomcat{{ tomcat_version }}@.service
-
-- name: template systemd unit for tomcat11
+- name: template systemd unit for tomcat
   tags: systemd_unit
   template:
     src: tomcat.service.j2
     dest: /etc/systemd/system/tomcat{{ tomcat_version }}@.service
   vars:
-    tomcat_version: 11
+    tomcat_version: "{{ item }}"
+  with_items:
+    - 9
+    - 10
+    - 11
 
-- name: reload systemd so that it finds the new unit
+- name: reload systemd so that it finds the new units
   tags: systemd_unit
   systemd:
     daemon-reload: true

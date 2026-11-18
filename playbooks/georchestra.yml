@@ -26,7 +26,7 @@
       # geoserver_datadir: 2.27.0
 
     java_version: java-21-openjdk-amd64
-    tomcat_version: 9
+    tomcat_version: 10
     kibana_server_host: 127.0.0.1
     elasticsearch_version: '8.x'
     elasticsearch_log: /srv/elasticsearch/logs

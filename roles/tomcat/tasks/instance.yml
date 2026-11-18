@@ -45,7 +45,7 @@
     line: <Loader jakartaConverter="TOMCAT"/>
     state: present
   with_dict: "{{ tomcat_instances }}"
-  when: tomcat_version == 10
+  when: item.value.version | default(tomcat_version) == 10
 
 - name: enable instance
   tags: enable_tomcat
